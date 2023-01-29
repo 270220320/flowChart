@@ -1,8 +1,8 @@
 import loadsh from "lodash";
 
 interface Thing {
-  iu: string;
-  ic: string;
+  iu: string; // instanceUuid
+  ic: string; // instanceCode
   img: string;
   name: string;
 }
