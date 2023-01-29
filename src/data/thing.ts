@@ -1,6 +1,6 @@
 import loadsh from "lodash";
 
-interface Thing {
+export interface Thing {
   iu: string;
   ic: string;
   img: string;

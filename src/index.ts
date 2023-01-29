@@ -17,15 +17,15 @@ class INLEDITOR {
     this.opt = opt;
     this.init();
   }
-  init() {
+  init(json?: string) {
     const { id } = this.opt;
-    const { stage, container } = initStage(id);
+    const { stage, container } = initStage(id, json);
     this.stage = stage;
     this.container = container;
 
     this.event();
 
-    test(this);
+    // test(this);
   }
   event = event.bind(this);
 
@@ -37,9 +37,7 @@ class INLEDITOR {
   }
   // 反序列化
   loadJson(json: string) {
-    this.stage = Konva.Node.create(json, this.opt.id);
-    this.event();
-    test(this);
+    this.init(json);
   }
 }
 
