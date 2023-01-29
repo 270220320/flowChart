@@ -1,8 +1,8 @@
 import loadsh from "lodash";
 
-export interface Thing {
-  iu: string;
-  ic: string;
+interface Thing {
+  iu: string; // instanceUuid
+  ic: string; // instanceCode
   img: string;
   name: string;
 }
