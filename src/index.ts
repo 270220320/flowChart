@@ -29,7 +29,7 @@ class INLEDITOR {
   }
   event = event.bind(this);
 
-  drawState: "line" | "rect" | "selection" = "rect";
+  drawState: "line" | "rect" | "selection" = "line";
 
   // 序列化
   toJson() {

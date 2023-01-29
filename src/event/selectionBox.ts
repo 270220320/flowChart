@@ -8,6 +8,7 @@ import {
   defaultRect,
   removeSelectionBox,
 } from "../config/rect.config";
+import { createTemporaryLine } from "../util/line/createLine";
 
 const offSelection = (ie: INLEDITOR) => {
   // 删除 layer
@@ -38,7 +39,26 @@ const onSelection = (
 };
 
 // 线
-const onLine = () => {};
+const onLine = (ie: INLEDITOR, point: { x: number; y: number }) => {
+  const lay = layer(ie, "line");
+  const line = createTemporaryLine(lay, point);
+  ie.stage.on("mousemove", (e) => {
+    const { x, y } = computedXYByEvent(ie.stage, e.evt);
+    if (line) {
+      lineMove(line!, { x, y });
+    }
+  });
+  return line;
+};
+
+const lineMove = (line: Konva.Arrow, point: { x: number; y: number }) => {
+  line.attrs.points[2] = point.x;
+  line.attrs.points[3] = point.y;
+  line.points(line.attrs.points);
+  console.log(JSON.parse(JSON.stringify(line.attrs.points)));
+};
+
+const finishLine = (line: Konva.Arrow, point: { x: number; y: number }) => {};
 
 // 矩形
 const onRect = (ie: INLEDITOR, rect: Konva.Rect | null) => {
@@ -51,12 +71,14 @@ const onRect = (ie: INLEDITOR, rect: Konva.Rect | null) => {
 
 export default (ie: INLEDITOR) => {
   let rect: Konva.Rect | null;
+  let line: Konva.Arrow | undefined;
   ie.stage.on("mousedown", (e) => {
     if (e.target !== ie.stage) return;
     const { y, x } = computedXYByEvent(ie.stage, e.evt);
     switch (ie.drawState) {
       case "line":
-        onLine();
+        line = onLine(ie, { x, y });
+        break;
       default:
         onSelection(ie, { y, x }, (rc) => {
           rect = rc;
@@ -65,14 +87,17 @@ export default (ie: INLEDITOR) => {
   });
 
   ie.stage.on("mouseup", (e) => {
+    const { x, y } = computedXYByEvent(ie.stage, e.evt);
     offSelection(ie);
     switch (ie.drawState) {
       case "rect":
         onRect(ie, rect);
+        break;
       case "line":
-        onLine();
+        finishLine(line!, { x, y });
+      // onLine();
     }
-    ie.drawState = "selection";
+    // ie.drawState = "selection";
     rect = null;
   });
 };
