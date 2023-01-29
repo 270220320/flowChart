@@ -1,15 +1,16 @@
 import konva from "konva";
 import watchElement from "./watchElement";
 
-export default (id: string) => {
+export default (id: string, json?: string) => {
   const dom = document.getElementById(id)!;
   const { offsetWidth, offsetHeight } = dom;
-  const stage = new konva.Stage({
+  let stage: konva.Stage, container: HTMLDivElement;
+  stage = new konva.Stage({
     container: id,
     width: offsetWidth,
     height: offsetHeight,
   });
-  const container = stage.container();
+  container = stage.container();
   container.tabIndex = 1;
 
   // watchElement(id, (dm) => {

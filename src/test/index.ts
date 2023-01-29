@@ -10,7 +10,20 @@ export default (inlEditor: INLEDITOR) => {
     height: 50,
     fill: "green",
     stroke: "black",
+    draggable: true,
   });
+  var arrow = new Konva.Arrow({
+    x: 4,
+    y: 4,
+    points: [0, 0, 200, 0, 150, 300],
+    pointerLength: 20,
+    pointerWidth: 20,
+    fill: "black",
+    stroke: "black",
+    strokeWidth: 4,
+    data: {},
+  });
+
   const layerBox = layer(inlEditor, "test");
-  layerBox.add(Rect);
+  layerBox.add(Rect, arrow);
 };

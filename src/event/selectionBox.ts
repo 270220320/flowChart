@@ -1,24 +1,13 @@
 import Konva from "konva";
-import { KonvaEventObject } from "konva/lib/Node";
 import _ from "lodash";
 import { computedPoint, computedXYByEvent } from "src/util/computedXY";
+import layer from "src/util/layer";
 import INLEDITOR from "..";
-import { selectionBox, removeSelectionBox } from "../config/rect.config";
-
-const renderSelection = (
-  start: { x: number; y: number },
-  ie: INLEDITOR,
-  e: KonvaEventObject<MouseEvent>,
-  rect: Konva.Rect
-) => {
-  const { y, x } = computedXYByEvent(ie.stage, e.evt);
-  const rectAttrs = computedPoint(start, { x, y });
-  rect.setAttrs(rectAttrs);
-  // 根据绘制状态做其他事情
-
-  // 绘制图形
-  // 框选元素
-};
+import {
+  createSelectionBox,
+  defaultRect,
+  removeSelectionBox,
+} from "../config/rect.config";
 
 const offSelection = (ie: INLEDITOR) => {
   // 删除 layer
@@ -27,25 +16,63 @@ const offSelection = (ie: INLEDITOR) => {
   ie.stage.off("mousemove");
 };
 
+// 默认框选
+const onSelection = (
+  ie: INLEDITOR,
+  startPoint: { x: number; y: number },
+  cb: (rect: Konva.Rect) => void
+) => {
+  const rect = createSelectionBox(ie.stage) as Konva.Rect;
+  rect.setAttrs(startPoint);
+  let flag: number;
+  ie.stage.on("mousemove", (e) => {
+    if (flag) clearTimeout(flag);
+    flag = setTimeout(() => {
+      // 默认框选
+      const { y, x } = computedXYByEvent(ie.stage, e.evt);
+      const rectAttrs = computedPoint(startPoint, { x, y });
+      rect.setAttrs(rectAttrs);
+      cb(rect);
+    }, 2);
+  });
+};
+
+// 线
+const onLine = () => {};
+
+// 矩形
+const onRect = (ie: INLEDITOR, rect: Konva.Rect | null) => {
+  if (!rect) return;
+  const { width, height, x, y } = _.cloneDeep(rect.attrs);
+  const shapeLayer = layer(ie, "shape");
+  const createDefaultRect = defaultRect({ width, height, x, y });
+  shapeLayer.add(createDefaultRect);
+};
+
 export default (ie: INLEDITOR) => {
-  let flag: number | undefined;
-  let rect: Konva.Rect;
+  let rect: Konva.Rect | null;
   ie.stage.on("mousedown", (e) => {
-    rect = selectionBox(ie.stage) as Konva.Rect;
+    if (e.target !== ie.stage) return;
     const { y, x } = computedXYByEvent(ie.stage, e.evt);
-    rect.setAttrs({ x, y });
-    ie.stage.on("mousemove", (e) => {
-      if (flag) clearTimeout(flag);
-      flag = setTimeout(() => {
-        // 默认框选
-        renderSelection({ y, x }, ie, e, rect);
-      }, 2);
-    });
+    switch (ie.drawState) {
+      case "line":
+        onLine();
+      default:
+        onSelection(ie, { y, x }, (rc) => {
+          rect = rc;
+        });
+    }
   });
 
   ie.stage.on("mouseup", (e) => {
     offSelection(ie);
-    const attrs = _.cloneDeep(rect.attrs);
-    console.log(rect);
+    switch (ie.drawState) {
+      case "rect":
+        onRect(ie, rect);
+      case "line":
+        onLine();
+    }
+    ie.drawState = "selection";
+    rect = null;
   });
 };

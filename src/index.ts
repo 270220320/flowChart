@@ -1,4 +1,4 @@
-import type Konva from "konva";
+import Konva from "konva";
 import event from "./event";
 import test from "./test";
 import initStage from "./util/initStage";
@@ -30,6 +30,17 @@ class INLEDITOR {
   event = event.bind(this);
 
   drawState: "line" | "rect" | "selection" = "rect";
+
+  // 序列化
+  toJson() {
+    return this.stage.toJSON();
+  }
+  // 反序列化
+  loadJson(json: string) {
+    this.stage = Konva.Node.create(json, this.opt.id);
+    this.event();
+    test(this);
+  }
 }
 
 export default INLEDITOR;

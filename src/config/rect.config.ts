@@ -1,6 +1,6 @@
 import Konva from "konva";
 
-export const selectionBox = (stage: Konva.Stage) => {
+export const createSelectionBox = (stage: Konva.Stage) => {
   const layer = stage.findOne(`.selection`);
   if (layer) return layer;
   const rect1 = new Konva.Rect({
@@ -19,5 +19,20 @@ export const selectionBox = (stage: Konva.Stage) => {
 
 export const removeSelectionBox = (stage: Konva.Stage) => {
   const layer = stage.findOne(`.selectionBox`);
-  layer.remove();
+  layer?.remove();
+};
+
+export const defaultRect = (position: {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}) => {
+  return new Konva.Rect({
+    ...position,
+    fill: "#D8D8D8",
+    stroke: "#979797",
+    strokeWidth: 1,
+    draggable: true,
+  });
 };
