@@ -22,7 +22,7 @@ const onSelection = (
   startPoint: { x: number; y: number },
   cb: (rect: Konva.Rect) => void
 ) => {
-  const rect = createSelectionBox(ie.stage) as Konva.Rect;
+  const rect = createSelectionBox(ie.stage, ie.theme) as Konva.Rect;
   rect.setAttrs(startPoint);
   let flag: number;
   ie.stage.on("mousemove", (e) => {
@@ -53,6 +53,7 @@ export default (ie: INLEDITOR) => {
   let rect: Konva.Rect | null;
   ie.stage.on("mousedown", (e) => {
     if (e.target !== ie.stage) return;
+
     const { y, x } = computedXYByEvent(ie.stage, e.evt);
     switch (ie.drawState) {
       case "line":

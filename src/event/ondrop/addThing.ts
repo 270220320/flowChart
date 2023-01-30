@@ -15,6 +15,7 @@ export default (
       thihg: useThing,
     },
     draggable: true,
+    id: useThing?.iu,
     className: "thingGroup",
   });
   Konva.Image.fromURL(useThing?.img, (darthNode: Konva.Image) => {
@@ -26,11 +27,7 @@ export default (
       myHeight: height,
       src: useThing?.img,
     });
-    const text = createText({
-      text: useThing?.name,
-      draggable: true,
-    });
-    group.add(darthNode, text);
+    group.add(darthNode);
 
     const layerThing = layer(ie, "thing");
     layerThing.add(group);

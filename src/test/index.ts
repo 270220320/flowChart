@@ -13,8 +13,6 @@ export default (inlEditor: INLEDITOR) => {
     draggable: true,
   });
   var arrow = new Konva.Arrow({
-    x: 4,
-    y: 4,
     points: [0, 0, 200, 0, 150, 300],
     pointerLength: 20,
     pointerWidth: 20,

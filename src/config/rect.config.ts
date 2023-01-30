@@ -1,13 +1,16 @@
 import Konva from "konva";
+import { RectConfig } from "konva/lib/shapes/Rect";
+import theme, { Theme } from "./theme";
 
-export const createSelectionBox = (stage: Konva.Stage) => {
+export const createSelectionBox = (stage: Konva.Stage, themeType?: Theme) => {
   const layer = stage.findOne(`.selection`);
   if (layer) return layer;
-  const rect1 = new Konva.Rect({
+  const t = theme[themeType || "light"];
+  const rect1 = defaultRect({
     name: "selection",
-    fill: "transparent",
-    stroke: "black",
     strokeWidth: 1,
+    strokeScaleEnabled: false,
+    ...t.selection,
   });
   const layer1 = new Konva.Layer({
     name: "selectionBox",
@@ -22,17 +25,10 @@ export const removeSelectionBox = (stage: Konva.Stage) => {
   layer?.remove();
 };
 
-export const defaultRect = (position: {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}) => {
+export const defaultRect = (position: RectConfig, themeType?: Theme) => {
+  const t = theme[themeType || "light"];
   return new Konva.Rect({
+    ...t.rect,
     ...position,
-    fill: "#D8D8D8",
-    stroke: "#979797",
-    strokeWidth: 1,
-    draggable: true,
   });
 };
