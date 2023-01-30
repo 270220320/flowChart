@@ -1,7 +1,15 @@
 import Konva from "konva";
 import INLEDITOR from "src";
 import theme, { Theme } from "src/config/theme";
-import { createThingDefaultText, createThingText } from "src/config/thing.text";
+import {
+  cloneThingTextGroup,
+  getThingGroups,
+  getThingTextGroup,
+} from "src/config/thing.group";
+import {
+  cloneThingDefaultText,
+  getThingDefaultText,
+} from "src/config/thing.text";
 
 export default function (
   this: INLEDITOR,
@@ -9,21 +17,12 @@ export default function (
   callBack?: (stage: Konva.Stage) => {}
 ) {
   this.theme = themeType;
-  this.stage.find(".thingGroup").forEach((e: any) => {
-    e.find(".thingTextGroup").forEach((ea: any) => {
-      const { labelv, unitval, val, x, y } = ea.attrs;
-      const parent = ea.getParent();
-      ea.remove();
-      parent.add(
-        createThingText(themeType, { x, y, labelv, value: val, unitval })
-      );
+  getThingGroups(this.stage).forEach((e: any) => {
+    getThingTextGroup(e).forEach((ea: any) => {
+      cloneThingTextGroup(ea, this.theme);
     });
-    e.find(".createThingDefaultText").forEach((ea: any) => {
-      const { text, x, y } = ea.attrs;
-      const parent = ea.getParent();
-      ea.remove();
-      parent.add(createThingDefaultText(themeType, { text, x, y }));
-      parent.draw();
+    getThingDefaultText(e).forEach((ea: any) => {
+      cloneThingDefaultText(ea, this.theme);
     });
   });
 

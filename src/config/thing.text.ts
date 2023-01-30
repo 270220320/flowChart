@@ -1,8 +1,20 @@
-import Konva from "konva";
 import { defaultRect } from "./rect.config";
 import { createText } from "./text.config";
 import theme, { Theme } from "./theme";
+import { createThingTextGroup } from "./thing.group";
 
+/**
+ *
+ * @param ea createThingDefaultText
+ * @param themeType
+ */
+export const cloneThingDefaultText = (ea: any, themeType: Theme) => {
+  const { text, x, y } = ea.attrs;
+  const parent = ea.getParent();
+  ea.remove();
+  parent.add(createThingDefaultText(themeType, { text, x, y }));
+  parent.draw();
+};
 export const createThingDefaultText = (
   themeType: Theme,
   data: { text: string; x?: number; y?: number }
@@ -20,7 +32,13 @@ export const createThingDefaultText = (
     name: "createThingDefaultText",
   });
 };
+export const getThingDefaultText = (e: any) => {
+  return e.find(".createThingDefaultText");
+};
 
+/**
+ * createThingText
+ */
 export const createThingText = (
   themeType: Theme,
   data: {
@@ -31,16 +49,9 @@ export const createThingText = (
     y?: number;
   }
 ) => {
-  const { x, y, labelv, value, unitval } = data;
-  const group = new Konva.Group({
-    name: "thingTextGroup",
-    draggable: true,
-    x: x || 0,
-    y: y || 0,
-    labelv,
-    val: value,
-    unitval,
-  });
+  const { labelv, value, unitval } = data;
+  console.log(data);
+  const group = createThingTextGroup(data);
   const t = theme[themeType];
   const label = createText({
     fill: t.showVal.label.fill,
