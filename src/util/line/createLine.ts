@@ -1,10 +1,11 @@
 import Konva from "konva";
 
-export const createTemporaryLine = (stage, layer, point) => {
+export const createTemporaryLine = (
+  layer: Konva.Layer,
+  point: { x: number; y: number }
+) => {
   var arrow = new Konva.Arrow({
-    x: stage.width() / 4,
-    y: stage.height() / 4,
-    points: [0, 0, point.x, point.y],
+    points: [point.x, point.y, point.x, point.y],
     pointerLength: 20,
     pointerWidth: 20,
     fill: "black",
@@ -12,6 +13,6 @@ export const createTemporaryLine = (stage, layer, point) => {
     strokeWidth: 4,
   });
 
-  // add the shape to the layer
   layer.add(arrow);
+  return arrow;
 };

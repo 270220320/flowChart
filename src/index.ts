@@ -35,7 +35,7 @@ class INLEDITOR {
 
   event = event.bind(this);
 
-  drawState: "line" | "rect" | "selection" = "rect";
+  drawState: "line" | "rect" | "selection" = "line";
 
   createThingText(iu: string, labelv: string, value: string, unitval: string) {
     const thingGroup = this.stage.findOne(`#${iu}`) as Konva.Group;
