@@ -98,7 +98,7 @@ export default (ie: INLEDITOR) => {
         finishLine(line!, { x, y });
       // onLine();
     }
-    // ie.drawState = "selection";
+    ie.drawState = "selection";
     rect = null;
   });
 };

@@ -29,7 +29,5 @@ export default (
     const { x, y } = computedXYByEvent(ie.stage, e);
     // 上传thing
     if (useThing) addThing(ie, x, y, useThing);
-
-    console.log(e.dataTransfer?.files);
   };
 };

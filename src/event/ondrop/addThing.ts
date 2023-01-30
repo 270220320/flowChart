@@ -16,7 +16,7 @@ export default (
     },
     draggable: true,
     id: useThing?.iu,
-    className: "thingGroup",
+    name: "thingGroup",
   });
   Konva.Image.fromURL(useThing?.img, (darthNode: Konva.Image) => {
     const { width, height } = darthNode.attrs.image;

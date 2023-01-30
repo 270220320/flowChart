@@ -5,7 +5,6 @@ import watchElement from "../watchElement";
 import resetImg from "./resetImg";
 
 export default function (this: INLEDITOR, id: string, json?: string) {
-  console.log(id);
   const dom = document.getElementById(id)!;
   const { offsetWidth, offsetHeight } = dom;
   let stage: konva.Stage, container: HTMLDivElement;
@@ -15,6 +14,7 @@ export default function (this: INLEDITOR, id: string, json?: string) {
         container: id,
         width: offsetWidth,
         height: offsetHeight,
+        draggable: true,
       });
   container = stage.container();
   container.tabIndex = 1;
