@@ -15,6 +15,7 @@ const theme = {
     thingTitle: {
       val: {
         fill: "#354052",
+        size: 14,
       },
     },
     showVal: {
@@ -53,6 +54,7 @@ const theme = {
     thingTitle: {
       val: {
         fill: "#9CA9C7",
+        size: 14,
       },
     },
     showVal: {

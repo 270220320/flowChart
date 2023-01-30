@@ -3,23 +3,40 @@ import { defaultRect } from "./rect.config";
 import { createText } from "./text.config";
 import theme, { Theme } from "./theme";
 
+export const createThingDefaultText = (
+  themeType: Theme,
+  data: { text: string; x?: number; y?: number }
+) => {
+  const t = theme[themeType];
+  const { x, y, text } = data;
+  return createText({
+    x: x || 0,
+    y: y || 0,
+    fill: t.thingTitle.val.fill,
+    fontSize: t.thingTitle.val.size,
+    text: text,
+    align: "center",
+    height: t.showVal.val.rectHeight,
+    name: "createThingDefaultText",
+  });
+};
+
 export const createThingText = (
   themeType: Theme,
-  labelv: string,
-  value: string,
-  unitval: string,
-  po?: {
-    x: number;
-    y: number;
+  data: {
+    labelv: string;
+    value: string;
+    unitval: string;
+    x?: number;
+    y?: number;
   }
 ) => {
-  const x = po ? po.x : 0;
-  const y = po ? po.y : 0;
+  const { x, y, labelv, value, unitval } = data;
   const group = new Konva.Group({
     name: "thingTextGroup",
     draggable: true,
-    x,
-    y,
+    x: x || 0,
+    y: y || 0,
     labelv,
     val: value,
     unitval,
@@ -41,6 +58,7 @@ export const createThingText = (
     width: t.showVal.val.rectWidth,
     draggable: false,
     x: label.width(),
+    cornerRadius: 3,
   });
   const val = createText({
     fill: t.showVal.val.fill,
