@@ -1,26 +1,24 @@
 import Konva from "konva";
 
-const computedZoom = (n: number, magnify: number) => {
-  const steep = 30 * magnify;
-  let zoom = n * 0.999 ** steep;
-  zoom = zoom >= 20 ? 20 : zoom;
-  zoom = zoom < 0.1 ? 0.1 : zoom;
-  return zoom;
-};
-
 export default (canvas: Konva.Stage) => {
+  const scaleBy = 1.02;
   canvas.on("wheel", (e) => {
-    const magnify = e.evt.deltaY > 0 ? 1 : -1;
-    let zoom = canvas.scale() || { x: 1, y: 1 };
-    zoom = {
-      x: computedZoom(zoom.x, magnify),
-      y: computedZoom(zoom.y, magnify),
+    e.evt.preventDefault();
+    const oldScale = canvas.scaleX();
+    const position = canvas.getPointerPosition()!;
+    const mousePointTo = {
+      x: position.x / oldScale - canvas.x() / oldScale,
+      y: position.y / oldScale - canvas.y() / oldScale,
     };
-    canvas.scale(zoom);
-    // 后期优化 错位问题
-    canvas.setAttrs({
-      x: e.evt.layerX * (1 - zoom.x),
-      y: e.evt.layerY * (1 - zoom.y),
-    });
+
+    const newScale = e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+    canvas.scale({ x: newScale, y: newScale });
+
+    const newPos = {
+      x: -(mousePointTo.x - position.x / newScale) * newScale,
+      y: -(mousePointTo.y - position.y / newScale) * newScale,
+    };
+    canvas.position(newPos);
+    canvas.batchDraw();
   });
 };

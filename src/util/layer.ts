@@ -7,6 +7,7 @@ enum LAYER {
   line,
   shape,
   text,
+  subline,
 }
 
 export default (inl: INLEDITOR, type: keyof typeof LAYER) => {

@@ -1,14 +1,26 @@
-import Konva from "konva";
 import { defaultRect } from "./rect.config";
 import { createText } from "./text.config";
 import theme, { Theme } from "./theme";
+import { createThingTextGroup, createThingTextGroupData } from "./thing.group";
 
+/**
+ *
+ * @param ea createThingDefaultText
+ * @param themeType
+ */
+export const cloneThingDefaultText = (ea: any, themeType: Theme) => {
+  const { text, x, y, code } = ea.attrs;
+  const parent = ea.getParent();
+  ea.remove();
+  parent.add(createThingDefaultText(themeType, { code, text, x, y }));
+  parent.draw();
+};
 export const createThingDefaultText = (
   themeType: Theme,
-  data: { text: string; x?: number; y?: number }
+  data: { text: string; code: string; x?: number; y?: number }
 ) => {
   const t = theme[themeType];
-  const { x, y, text } = data;
+  const { x, y, text, code } = data;
   return createText({
     x: x || 0,
     y: y || 0,
@@ -16,31 +28,24 @@ export const createThingDefaultText = (
     fontSize: t.thingTitle.val.size,
     text: text,
     align: "center",
+    code,
     height: t.showVal.val.rectHeight,
     name: "createThingDefaultText",
   });
 };
+export const getThingDefaultText = (e: any) => {
+  return e.find(".createThingDefaultText");
+};
 
+/**
+ * createThingText
+ */
 export const createThingText = (
   themeType: Theme,
-  data: {
-    labelv: string;
-    value: string;
-    unitval: string;
-    x?: number;
-    y?: number;
-  }
+  data: createThingTextGroupData
 ) => {
-  const { x, y, labelv, value, unitval } = data;
-  const group = new Konva.Group({
-    name: "thingTextGroup",
-    draggable: true,
-    x: x || 0,
-    y: y || 0,
-    labelv,
-    val: value,
-    unitval,
-  });
+  const { labelv, value, unitval } = data;
+  const group = createThingTextGroup(data);
   const t = theme[themeType];
   const label = createText({
     fill: t.showVal.label.fill,
@@ -48,6 +53,7 @@ export const createThingText = (
     text: labelv,
     draggable: false,
     height: t.showVal.val.rectHeight,
+    name: "label",
   });
 
   const valRect = defaultRect({
@@ -59,6 +65,7 @@ export const createThingText = (
     draggable: false,
     x: label.width(),
     cornerRadius: 3,
+    name: "rect",
   });
   const val = createText({
     fill: t.showVal.val.fill,
@@ -69,15 +76,17 @@ export const createThingText = (
     width: valRect.width(),
     align: "center",
     height: t.showVal.val.rectHeight,
+    name: "val",
   });
   const unit = createText({
     fill: t.showVal.unit.fill,
     fontSize: t.showVal.unit.size,
     opacity: t.showVal.unit.opacity,
     text: unitval,
-    x: valRect.attrs.x + valRect.width() + 3,
+    x: valRect.attrs.x + valRect.width() + 5,
     draggable: false,
     height: t.showVal.val.rectHeight,
+    name: "unit",
   });
 
   group.add(valRect, label, val, unit);
