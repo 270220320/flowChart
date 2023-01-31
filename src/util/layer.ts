@@ -8,6 +8,7 @@ enum LAYER {
   shape,
   text,
   subline,
+  scale,
 }
 
 export default (inl: INLEDITOR, type: keyof typeof LAYER) => {

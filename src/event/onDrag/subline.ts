@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { Node, NodeConfig } from "konva/lib/Node";
+import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
 import { Stage } from "konva/lib/Stage";
 import INLEDITOR from "src";
@@ -200,75 +200,77 @@ const drawGuides = (
   });
 };
 
-export default function (this: INLEDITOR) {
-  const { stage } = this;
-  const layerSubLine = layer(this, "subline");
-  // 按下移动
-  stage.on("dragmove", (e) => {
-    getSubLine(layerSubLine, this.theme).forEach((item) => {
-      item.destroy();
-    });
-    if (e.target === stage) return;
-    const useLayer = getLayerBySubLine(this);
-    const lineGuideStops = getLineGuideStops(stage, e.target, useLayer);
-    const itemBounds = getObjectSnappingEdges(e.target);
-    const guides = getGuides(lineGuideStops, itemBounds);
+export const initSubLine = function (
+  this: INLEDITOR,
+  stage: Konva.Stage,
+  layerSubLine: Konva.Layer,
+  e: KonvaEventObject<any>
+) {
+  getSubLine(layerSubLine, this.theme).forEach((item) => {
+    item.destroy();
+  });
+  if (e.target === stage) return;
+  const useLayer = getLayerBySubLine(this);
+  const lineGuideStops = getLineGuideStops(stage, e.target, useLayer);
+  const itemBounds = getObjectSnappingEdges(e.target);
+  const guides = getGuides(lineGuideStops, itemBounds);
 
-    if (!guides.length) {
-      return;
-    }
-    drawGuides(this, guides, layerSubLine, this.theme);
+  if (!guides.length) {
+    return;
+  }
+  drawGuides(this, guides, layerSubLine, this.theme);
 
-    guides.forEach((lg) => {
-      switch (lg.snap) {
-        case "start": {
-          switch (lg.orientation) {
-            case "V": {
-              e.target.x(lg.lineGuide + lg.offset);
-              break;
-            }
-            case "H": {
-              e.target.y(lg.lineGuide + lg.offset);
-              break;
-            }
+  guides.forEach((lg) => {
+    switch (lg.snap) {
+      case "start": {
+        switch (lg.orientation) {
+          case "V": {
+            e.target.x(lg.lineGuide + lg.offset);
+            break;
           }
-          break;
-        }
-        case "center": {
-          switch (lg.orientation) {
-            case "V": {
-              e.target.x(lg.lineGuide + lg.offset);
-              break;
-            }
-            case "H": {
-              e.target.y(lg.lineGuide + lg.offset);
-              break;
-            }
+          case "H": {
+            e.target.y(lg.lineGuide + lg.offset);
+            break;
           }
-          break;
         }
-        case "end": {
-          switch (lg.orientation) {
-            case "V": {
-              e.target.x(lg.lineGuide + lg.offset);
-              break;
-            }
-            case "H": {
-              e.target.y(lg.lineGuide + lg.offset);
-              break;
-            }
-          }
-          break;
-        }
+        break;
       }
-    });
+      case "center": {
+        switch (lg.orientation) {
+          case "V": {
+            e.target.x(lg.lineGuide + lg.offset);
+            break;
+          }
+          case "H": {
+            e.target.y(lg.lineGuide + lg.offset);
+            break;
+          }
+        }
+        break;
+      }
+      case "end": {
+        switch (lg.orientation) {
+          case "V": {
+            e.target.x(lg.lineGuide + lg.offset);
+            break;
+          }
+          case "H": {
+            e.target.y(lg.lineGuide + lg.offset);
+            break;
+          }
+        }
+        break;
+      }
+    }
   });
+};
 
-  // 结束拖动
-  stage.on("dragend", () => {
-    getSubLine(layerSubLine, this.theme).forEach((item) => {
-      item.destroy();
-    });
-    layerSubLine.batchDraw();
+export const closeSubLine = function (
+  this: INLEDITOR,
+  layerSubLine: Konva.Layer
+) {
+  getSubLine(layerSubLine, this.theme).forEach((item) => {
+    item.destroy();
   });
-}
+  layerSubLine.batchDraw();
+};

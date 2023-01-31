@@ -7,6 +7,13 @@ const theme = {
       name: "guid-line",
       dash: [4, 6],
     },
+    scale: {
+      background: "#fff",
+      thickness: 20,
+      lineFill: "#F2F3F8",
+      fontColor: "#354052",
+      fontOpacity: 0.5,
+    },
     rect: {
       fill: "#D8D8D8",
       stroke: "#979797",
@@ -51,6 +58,13 @@ const theme = {
       strokeWidth: 1,
       name: "guid-line",
       dash: [4, 6],
+    },
+    scale: {
+      background: "#fff",
+      thickness: 20,
+      lineFill: "#F2F3F8",
+      fontColor: "#354052",
+      fontOpacity: 0.5,
     },
     rect: {
       fill: "#2A6BDB",

@@ -11,7 +11,7 @@ export default (canvas: Konva.Stage) => {
       y: position.y / oldScale - canvas.y() / oldScale,
     };
 
-    const newScale = e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+    const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
     canvas.scale({ x: newScale, y: newScale });
 
     const newPos = {
