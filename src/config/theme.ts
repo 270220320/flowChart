@@ -1,6 +1,12 @@
 const theme = {
   light: {
     background: "#F0F3FA",
+    subLine: {
+      stroke: "rgb(0, 161, 255)",
+      strokeWidth: 1,
+      name: "guid-line",
+      dash: [4, 6],
+    },
     rect: {
       fill: "#D8D8D8",
       stroke: "#979797",
@@ -40,8 +46,14 @@ const theme = {
   },
   dark: {
     background: "#08163B",
+    subLine: {
+      stroke: "rgb(0, 161, 255)",
+      strokeWidth: 1,
+      name: "guid-line",
+      dash: [4, 6],
+    },
     rect: {
-      fill: "#D8D8D8",
+      fill: "#2A6BDB",
       stroke: "#979797",
       strokeWidth: 1,
       draggable: true,
@@ -79,4 +91,5 @@ const theme = {
   },
 };
 export type Theme = keyof typeof theme;
+export const defaultTheme: Theme = "dark";
 export default theme;

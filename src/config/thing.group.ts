@@ -26,14 +26,16 @@ export interface createThingTextGroupData {
   labelv: string;
   value: string;
   unitval: string;
+  code: string;
   x?: number;
   y?: number;
 }
 export const createThingTextGroup = (data: createThingTextGroupData) => {
-  const { x, y, labelv, value, unitval } = data;
+  const { x, y, labelv, value, unitval, code } = data;
   return new Konva.Group({
     name: "thingTextGroup",
     draggable: true,
+    code,
     x: x || 0,
     y: y || 0,
     cdata: {

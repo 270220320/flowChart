@@ -21,6 +21,5 @@ export default (ie: INLEDITOR, x: number, y: number, useThing: Thing) => {
     const layerThing = layer(ie, "thing");
     layerThing.add(group);
     layerThing.draw();
-    console.log(group.getAttrs());
   });
 };
