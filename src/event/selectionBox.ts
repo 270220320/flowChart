@@ -8,7 +8,7 @@ import {
   defaultRect,
   removeSelectionBox,
 } from "../config/rect.config";
-import { createTemporaryLine } from "../util/line/createLine";
+import { beginCreateLine, finishLine } from "../util/line/createLine";
 
 const offSelection = (ie: INLEDITOR) => {
   // 删除 layer
@@ -38,28 +38,6 @@ const onSelection = (
   });
 };
 
-// 线
-const onLine = (ie: INLEDITOR, point: { x: number; y: number }) => {
-  const lay = layer(ie, "line");
-  const line = createTemporaryLine(lay, point);
-  ie.stage.on("mousemove", (e) => {
-    const { x, y } = computedXYByEvent(ie.stage, e.evt);
-    if (line) {
-      lineMove(line!, { x, y });
-    }
-  });
-  return line;
-};
-
-const lineMove = (line: Konva.Arrow, point: { x: number; y: number }) => {
-  line.attrs.points[2] = point.x;
-  line.attrs.points[3] = point.y;
-  line.points(line.attrs.points);
-  console.log(JSON.parse(JSON.stringify(line.attrs.points)));
-};
-
-const finishLine = (line: Konva.Arrow, point: { x: number; y: number }) => {};
-
 // 矩形
 const onRect = (ie: INLEDITOR, rect: Konva.Rect | null) => {
   if (!rect) return;
@@ -72,13 +50,16 @@ const onRect = (ie: INLEDITOR, rect: Konva.Rect | null) => {
 export default (ie: INLEDITOR) => {
   let rect: Konva.Rect | null;
   let line: Konva.Arrow | undefined;
+  let begin: Konva.Rect | Konva.Group | null;
   ie.stage.on("mousedown", (e) => {
-    if (e.target !== ie.stage) return;
-
     const { y, x } = computedXYByEvent(ie.stage, e.evt);
     switch (ie.drawState) {
       case "line":
-        line = onLine(ie, { x, y });
+        if (e.target.className === "Rect") {
+          begin = e.target as Konva.Rect;
+          line = beginCreateLine(ie, { x, y }, e);
+        }
+
         break;
       default:
         onSelection(ie, { y, x }, (rc) => {
@@ -95,8 +76,10 @@ export default (ie: INLEDITOR) => {
         onRect(ie, rect);
         break;
       case "line":
-        finishLine(line!, { x, y });
-      // onLine();
+        if (line) {
+          finishLine(ie, begin, line!, { x, y }, e);
+          line = undefined;
+        }
     }
     ie.drawState = "selection";
     rect = null;
