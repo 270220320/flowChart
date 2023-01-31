@@ -1,5 +1,6 @@
 import Konva from "konva";
-import { Group } from "konva/lib/Group";
+import { useComponent } from "./component";
+import Scale from "./component/scale";
 import theme, { Theme } from "./config/theme";
 import { getThingTextGroup } from "./config/thing.group";
 import event from "./event";
@@ -28,8 +29,10 @@ class INLEDITOR {
     const { stage, container } = initStage.bind(this)(id, json);
     this.stage = stage;
     this.container = container;
-
     this.event();
+    new Scale({
+      ie: this,
+    });
   }
 
   theme: Theme = "dark";
@@ -56,6 +59,8 @@ class INLEDITOR {
       }
     });
   }
+
+  use = useComponent.bind(this);
 
   // 序列化
   toJson() {

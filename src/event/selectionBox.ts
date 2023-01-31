@@ -53,13 +53,16 @@ export default (ie: INLEDITOR) => {
   let begin: Konva.Rect | Konva.Group | null;
   ie.stage.on("mousedown", (e) => {
     const { y, x } = computedXYByEvent(ie.stage, e.evt);
+    if (ie.drawState === "selection") return;
+    ie.stage.setAttrs({
+      draggable: false,
+    });
     switch (ie.drawState) {
       case "line":
         if (e.target.className === "Rect") {
           begin = e.target as Konva.Rect;
           line = beginCreateLine(ie, { x, y }, e);
         }
-
         break;
       default:
         onSelection(ie, { y, x }, (rc) => {
@@ -82,6 +85,9 @@ export default (ie: INLEDITOR) => {
         }
     }
     ie.drawState = "selection";
+    ie.stage.setAttrs({
+      draggable: true,
+    });
     rect = null;
   });
 };
