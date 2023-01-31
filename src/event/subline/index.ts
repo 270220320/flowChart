@@ -3,7 +3,7 @@ import { Node, NodeConfig } from "konva/lib/Node";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
 import { Stage } from "konva/lib/Stage";
 import INLEDITOR from "src";
-import { createSubLine } from "src/config/line.config";
+import { createSubLine, getSubLine } from "src/config/line.config";
 import { Theme } from "src/config/theme";
 import computedXY from "src/util/computedXY";
 import layer from "src/util/layer";
@@ -205,7 +205,7 @@ export default function (this: INLEDITOR) {
   const layerSubLine = layer(this, "subline");
   // 按下移动
   stage.on("dragmove", (e) => {
-    layerSubLine.find(".guid-line").forEach((item) => {
+    getSubLine(layerSubLine, this.theme).forEach((item) => {
       item.destroy();
     });
     if (e.target === stage) return;
@@ -266,7 +266,7 @@ export default function (this: INLEDITOR) {
 
   // 结束拖动
   stage.on("dragend", () => {
-    layerSubLine.find(".guid-line").forEach((item) => {
+    getSubLine(layerSubLine, this.theme).forEach((item) => {
       item.destroy();
     });
     layerSubLine.batchDraw();

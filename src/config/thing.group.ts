@@ -46,8 +46,8 @@ export const createThingTextGroup = (data: createThingTextGroupData) => {
   });
 };
 
-export const getThingTextGroup = (stage: Konva.Stage) => {
-  return stage.find(".thingTextGroup");
+export const getThingTextGroup = (stage: Konva.Stage | Konva.Group) => {
+  return stage.find<Konva.Group>(".thingTextGroup");
 };
 
 export const cloneThingTextGroup = (ea: Konva.Stage, themeType: Theme) => {
