@@ -51,9 +51,11 @@ export const getThingTextGroup = (stage: Konva.Stage) => {
 };
 
 export const cloneThingTextGroup = (ea: Konva.Stage, themeType: Theme) => {
-  const { labelv, unitval, val } = ea.attrs.cdata;
+  const { labelv, unitval, val, code } = ea.attrs.cdata;
   const { x, y } = ea.attrs;
   const parent = ea.getParent();
   ea.remove();
-  parent.add(createThingText(themeType, { x, y, labelv, value: val, unitval }));
+  parent.add(
+    createThingText(themeType, { x, y, labelv, value: val, unitval, code })
+  );
 };
