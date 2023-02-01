@@ -1,3 +1,4 @@
+import Konva from "konva";
 import { defaultRect } from "./rect.config";
 import { createText } from "./text.config";
 import theme, { Theme } from "./theme";
@@ -8,12 +9,11 @@ import { createThingTextGroup, createThingTextGroupData } from "./thing.group";
  * @param ea createThingDefaultText
  * @param themeType
  */
-export const cloneThingDefaultText = (ea: any, themeType: Theme) => {
-  const { text, x, y, code } = ea.attrs;
-  const parent = ea.getParent();
-  ea.remove();
-  parent.add(createThingDefaultText(themeType, { code, text, x, y }));
-  parent.draw();
+export const setThingDefaultTextTheme = (ea: Konva.Text, themeType: Theme) => {
+  const t = theme[themeType];
+  ea.setAttrs({
+    fill: t.thingTitle.val.fill,
+  });
 };
 export const createThingDefaultText = (
   themeType: Theme,

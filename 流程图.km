@@ -1,0 +1,324 @@
+{
+    "root": {
+        "data": {
+            "id": "cq3j5kjzxwg0",
+            "created": 1674879283072,
+            "text": "设备流程图",
+            "expandState": "expand"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "cq3j5tq3jkw0",
+                    "created": 1674879303032,
+                    "text": "工具条",
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cq3j6wrplxc0",
+                            "created": 1674879388024,
+                            "text": "矩形"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j70o7qi80",
+                            "created": 1674879396520,
+                            "text": "多边形"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j72ct2eo0",
+                            "created": 1674879400184,
+                            "text": "对齐"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j73tgug00",
+                            "created": 1674879403368,
+                            "text": "连线"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cq3j7hj4kj40",
+                                    "created": 1674879433218,
+                                    "text": "管道"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cq3j7j3cezc0",
+                                    "created": 1674879436617,
+                                    "text": "连线"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cq3j7kmdphc0",
+                                    "created": 1674879439945,
+                                    "text": "折线"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j7541k3s0",
+                            "created": 1674879406184,
+                            "text": "文字"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j768siuo0",
+                            "created": 1674879408648,
+                            "text": "钢笔"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j77fxl880",
+                            "created": 1674879411257,
+                            "text": "网格"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j78vsgps0",
+                            "created": 1674879414392,
+                            "text": "适应画布"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j7alpf140",
+                            "created": 1674879418136,
+                            "text": "保存"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j7c7e8680",
+                            "created": 1674879421624,
+                            "text": "全屏"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cq3j6138oq80",
+                    "created": 1674879319064,
+                    "text": "刻度尺",
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cq3j7nqtk4g0",
+                            "created": 1674879446744,
+                            "text": "X、Y轴刻度尺"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j7uzr5ew0",
+                            "created": 1674879462521,
+                            "text": "辅助线"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cq3j65xcu0o0",
+                    "created": 1674879329592,
+                    "text": "事件",
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cq3j7xsyehk0",
+                            "created": 1674879468640,
+                            "text": "删除"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j7z9gwjs0",
+                            "created": 1674879471816,
+                            "text": "点击事件"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j81jrpmo0",
+                            "created": 1674879476792,
+                            "text": "前进-后退"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j84biqe80",
+                            "created": 1674879482824,
+                            "text": "复制黏贴"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j86mn11s0",
+                            "created": 1674879487850,
+                            "text": "锁定坐标轴移动"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cq3j6gc1im00",
+                    "created": 1674879352248,
+                    "text": "动画",
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cq3j8bfu5u00",
+                            "created": 1674879498322,
+                            "text": "皮带机"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j8etxemo0",
+                            "created": 1674879505704,
+                            "text": "连线动画"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cq3j6ah4w6w0",
+                    "created": 1674879339496,
+                    "text": "物模型",
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cq3j8iuk8c80",
+                            "created": 1674879514450,
+                            "text": "样式"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cq3j8vvf2v40",
+                                    "created": 1674879542800,
+                                    "text": "旋转"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cq3j8wyz6fc0",
+                                    "created": 1674879545192,
+                                    "text": "透明"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cq3j8y9tfz40",
+                                    "created": 1674879548024,
+                                    "text": "层级"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cq3j8zgopy80",
+                                    "created": 1674879550616,
+                                    "text": "镜像"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j8jzevzs0",
+                            "created": 1674879516920,
+                            "text": "属性"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cq3j8lcnx5c0",
+                            "created": 1674879519898,
+                            "text": "组件"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cq3j8okhon40",
+                                    "created": 1674879526902,
+                                    "text": "皮带机"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cq3j8r3tru80",
+                                    "created": 1674879532424,
+                                    "text": "液位"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cq3j8s8ass00",
+                                    "created": 1674879534872,
+                                    "text": "属性值组件"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "filetree",
+    "theme": "fresh-soil-compat",
+    "version": "1.4.43"
+}

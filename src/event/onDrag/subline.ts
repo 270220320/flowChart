@@ -10,14 +10,8 @@ import layer from "src/util/layer";
 
 // 查询出需要辅助线计算的layer
 const getLayerBySubLine = (ie: INLEDITOR) => {
-  const shape = layer(ie, "shape");
-  const text = layer(ie, "text");
   const thing = layer(ie, "thing");
-  const arr: Array<Node<NodeConfig>> = [
-    ...thing.children!,
-    ...text.children!,
-    ...shape.children!,
-  ];
+  const arr: Array<Node<NodeConfig>> = [...thing.children!];
   return arr;
 };
 

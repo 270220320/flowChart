@@ -8,8 +8,8 @@ export default function (this: INLEDITOR, iu: string) {
   if (!thingGroup) return;
   const thing = thingGroup.findOne("Image") as Konva.Image;
   return {
-    def: (text: string) => {
-      const textShape = createThingDefaultText(this.theme, { text });
+    def: (text: string, code: string) => {
+      const textShape = createThingDefaultText(this.theme, { text, code });
       thingGroup.add(textShape);
       textShape.setAttrs({
         x: thing.attrs.x,
