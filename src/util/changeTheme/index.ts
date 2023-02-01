@@ -2,12 +2,12 @@ import Konva from "konva";
 import INLEDITOR from "src";
 import theme, { Theme } from "src/config/theme";
 import {
-  cloneThingTextGroup,
+  setThingTextGroupTheme,
   getThingGroups,
   getThingTextGroup,
 } from "src/config/thing.group";
 import {
-  cloneThingDefaultText,
+  setThingDefaultTextTheme,
   getThingDefaultText,
 } from "src/config/thing.text";
 
@@ -18,11 +18,12 @@ export default function (
 ) {
   this.theme = themeType;
   getThingGroups(this.stage).forEach((e: any) => {
+    // 修改组thing文字组的样式
     getThingTextGroup(e).forEach((ea: any) => {
-      cloneThingTextGroup(ea, this.theme);
+      setThingTextGroupTheme(ea, this.theme);
     });
     getThingDefaultText(e).forEach((ea: any) => {
-      cloneThingDefaultText(ea, this.theme);
+      setThingDefaultTextTheme(ea, this.theme);
     });
   });
 

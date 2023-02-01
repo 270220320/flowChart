@@ -1,6 +1,6 @@
 import Konva from "konva";
 import { Thing } from "src/data/thing";
-import { Theme } from "./theme";
+import theme, { Theme } from "./theme";
 import { createThingText } from "./thing.text";
 
 export const createThingGroup = (useThing: Thing) => {
@@ -50,12 +50,28 @@ export const getThingTextGroup = (stage: Konva.Stage | Konva.Group) => {
   return stage.find<Konva.Group>(".thingTextGroup");
 };
 
-export const cloneThingTextGroup = (ea: Konva.Stage, themeType: Theme) => {
-  const { labelv, unitval, val, code } = ea.attrs.cdata;
-  const { x, y } = ea.attrs;
-  const parent = ea.getParent();
-  ea.remove();
-  parent.add(
-    createThingText(themeType, { x, y, labelv, value: val, unitval, code })
-  );
+export const setThingTextGroupTheme = (ea: Konva.Stage, themeType: Theme) => {
+  const t = theme[themeType];
+  const label = ea.findOne(".label");
+  const rect = ea.findOne(".rect");
+  const val = ea.findOne(".val");
+  const unit = ea.findOne(".unit");
+
+  label.setAttrs({
+    fill: t.showVal.label.fill,
+  });
+
+  rect.setAttrs({
+    fill: t.showVal.val.rectFill,
+    stroke: t.showVal.val.rectStroke,
+  });
+
+  val.setAttrs({
+    fill: t.showVal.val.fill,
+  });
+
+  unit.setAttrs({
+    fill: t.showVal.unit.fill,
+    opacity: t.showVal.unit.opacity,
+  });
 };

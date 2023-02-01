@@ -30,9 +30,6 @@ class INLEDITOR {
     this.stage = stage;
     this.container = container;
     this.event();
-    new Scale({
-      ie: this,
-    });
   }
 
   theme: Theme = "dark";
@@ -55,6 +52,7 @@ class INLEDITOR {
       if (e.attrs.code && e.attrs.code === code) {
         setCustomAttrs(e, { val });
         const valNode = e.findOne(".val");
+
         valNode.setAttr("text", val);
       }
     });

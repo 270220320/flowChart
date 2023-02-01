@@ -1,10 +1,10 @@
 import Konva from "konva";
 import INLEDITOR from "src";
 import layer from "src/util/layer";
-import theme from "./theme";
+import theme from "../../config/theme";
 
 export const createScaleGroup = (ie: INLEDITOR) => {
-  const layerScale = layer(ie, "scale");
+  const layerScale = layer(ie, "util");
   layerScale.clear();
   const scaleGrop = new Konva.Group({
     name: "scaleGroup",
@@ -40,5 +40,5 @@ const createScaleY = (ie: INLEDITOR, group: Konva.Group) => {
   return groupY;
 };
 export const getScaleGroup = (ie: INLEDITOR) => {
-  return layer(ie, "scale").findOne(".scaleGroup");
+  return layer(ie, "util").findOne(".scaleGroup");
 };

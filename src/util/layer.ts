@@ -3,20 +3,18 @@ import INLEDITOR from "..";
 
 enum LAYER {
   test,
-  thing,
+  thing, // text、thing、 shape
   line,
-  shape,
-  text,
-  subline,
-  scale,
+  util,
 }
 
 export default (inl: INLEDITOR, type: keyof typeof LAYER) => {
-  const layer = inl.stage.find(`.${type}`)[0] as Konva.Layer;
-  if (layer) return layer;
-  const layer1 = new Konva.Layer({
-    name: type,
-  });
-  inl.stage.add(layer1);
-  return layer1;
+  let layer = inl.stage.find(`.${type}`)[0] as Konva.Layer;
+  if (!layer) {
+    layer = new Konva.Layer({
+      name: type,
+    });
+    inl.stage.add(layer);
+  }
+  return layer;
 };

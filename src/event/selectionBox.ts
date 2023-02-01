@@ -42,7 +42,7 @@ const onSelection = (
 const onRect = (ie: INLEDITOR, rect: Konva.Rect | null) => {
   if (!rect) return;
   const { width, height, x, y } = _.cloneDeep(rect.attrs);
-  const shapeLayer = layer(ie, "shape");
+  const shapeLayer = layer(ie, "thing");
   const createDefaultRect = defaultRect({ width, height, x, y });
   shapeLayer.add(createDefaultRect);
 };
