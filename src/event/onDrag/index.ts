@@ -2,6 +2,7 @@ import INLEDITOR from "src";
 import { getScaleGroup } from "src/config/scale";
 import layer from "src/util/layer";
 import { closeSubLine, initSubLine } from "./subline";
+import { dealRelation } from "../../util/element/relation";
 
 export default function (this: INLEDITOR) {
   const { stage } = this;
@@ -16,6 +17,8 @@ export default function (this: INLEDITOR) {
     });
     // 启动辅助线
     initSubLine.bind(this)(stage, layerSubLine, e);
+    // 线随动
+    dealRelation(e, stage);
   });
   // 结束拖动
   stage.on("dragend", () => {

@@ -1,6 +1,8 @@
 import Konva from "konva";
 import { RectConfig } from "konva/lib/shapes/Rect";
+import { setCustomAttrs } from "src/util/customAttr";
 import theme, { Theme } from "./theme";
+import { UUID } from "src/util/uuid";
 
 export const createSelectionBox = (stage: Konva.Stage, themeType?: Theme) => {
   const layer = stage.findOne(`.selection`);
@@ -27,8 +29,16 @@ export const removeSelectionBox = (stage: Konva.Stage) => {
 
 export const defaultRect = (position: RectConfig, themeType?: Theme) => {
   const t = theme[themeType || "light"];
-  return new Konva.Rect({
+  const rect = new Konva.Rect({
+    id: UUID(),
     ...t.rect,
     ...position,
   });
+  setCustomAttrs(rect, {
+    lineInfo: {
+      outLineIds: [],
+      inLineIds: [],
+    },
+  });
+  return rect;
 };
