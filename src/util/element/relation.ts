@@ -3,6 +3,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 import { getCustomAttrs } from "../customAttr";
 
 export const dealRelation = (e: KonvaEventObject<any>, stage: Konva.Stage) => {
+  debugger;
   if (e.target.className === "Rect") {
     const { lineInfo } = getCustomAttrs(e.target);
     lineInfo.outLineIds?.forEach((lineId: string) => {
@@ -16,6 +17,7 @@ export const dealRelation = (e: KonvaEventObject<any>, stage: Konva.Stage) => {
       // } else {
       line.attrs.points[0] = x;
       line.attrs.points[1] = y;
+      line.setAttrs({ points: line.attrs.points });
       // }
     });
     lineInfo.inLineIds?.forEach((lineId: string) => {
@@ -29,6 +31,7 @@ export const dealRelation = (e: KonvaEventObject<any>, stage: Konva.Stage) => {
       // } else {
       line.attrs.points[line.attrs.points.length - 2] = x;
       line.attrs.points[line.attrs.points.length - 1] = y;
+      line.setAttrs({ points: line.attrs.points });
       // }
     });
   }
