@@ -80,7 +80,7 @@ export default (ie: INLEDITOR) => {
         break;
       case "line":
         if (line) {
-          finishLine(ie, begin, line!, { x, y }, e);
+          finishLine(ie, begin!, line!, { x, y }, e);
           line = undefined;
         }
     }
