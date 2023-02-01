@@ -8,13 +8,13 @@ import onDrag from "./onDrag";
 import Scale from "src/component/scale";
 
 export default function (this: INLEDITOR) {
+  const scaleComponent = new Scale({
+    ie: this,
+  });
   selectionBox(this);
   ondrop(this, this.container, () => {});
   selectItem(this.stage);
   onwheel(this.stage);
   keyDown(this);
   onDrag.bind(this)();
-  new Scale({
-    ie: this,
-  });
 }
