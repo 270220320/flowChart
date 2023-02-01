@@ -37,7 +37,7 @@ export const finishLine = (
     setCustomAttrs(line, {
       lineInfo: data,
     });
-    debugger;
+    // debugger;
     beginInfo.outLineIds.push(line.id());
     endInfo.inLineIds.push(line.id());
   } else {

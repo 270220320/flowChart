@@ -3,7 +3,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 import { getCustomAttrs } from "../customAttr";
 
 export const dealRelation = (e: KonvaEventObject<any>, stage: Konva.Stage) => {
-  debugger;
+  // debugger;
   if (e.target.className === "Rect") {
     const { lineInfo } = getCustomAttrs(e.target);
     lineInfo.outLineIds?.forEach((lineId: string) => {
