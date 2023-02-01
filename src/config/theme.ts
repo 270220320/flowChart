@@ -10,7 +10,7 @@ const theme = {
     scale: {
       background: "#fff",
       thickness: 20,
-      lineFill: "#e2e2e2",
+      lineFill: "#000",
       fontColor: "#354052",
       fontOpacity: 0.5,
     },
@@ -62,7 +62,7 @@ const theme = {
     scale: {
       background: "#fff",
       thickness: 20,
-      lineFill: "#e2e2e2",
+      lineFill: "#000",
       fontColor: "#354052",
       fontOpacity: 0.5,
     },
