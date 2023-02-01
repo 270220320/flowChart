@@ -36,8 +36,8 @@ class Scale {
     const zoom = this.opt.ie.stage.scaleX();
     const { x, y } = this.opt.ie.stage.position();
     const scaleTheme = theme[this.opt.ie.theme].scale; // 主题
-    const fiveScale = 5 * zoom;
-    const maxw = 50 * zoom;
+    const fiveScale = 5;
+    const maxw = 50;
     this.scaleLayerX.removeChildren();
     this.scaleLayerY.removeChildren();
     const { linesx, linesy } = this.computedSXY(
@@ -49,9 +49,34 @@ class Scale {
       maxw,
       scaleTheme
     );
-
-    this.scaleLayerX.add(...linesx);
-    this.scaleLayerY.add(...linesy);
+    // const cloneLine = new Konva.Line({
+    //   points: [x, 2, x, thickness],
+    //   stroke: scaleTheme.lineFill, //scale.lineFill,
+    //   strokeWidth: 1,
+    //   name: "line",
+    // });
+    // const cloneText = new Konva.Text({
+    //   text: `${i}`,
+    //   fontSize: 10,
+    //   x: x + 2,
+    //   y: 2,
+    // });
+    const cloneLine = new Konva.Line({
+      stroke: scaleTheme.lineFill, //scale.lineFill,
+      strokeWidth: 0.5,
+      name: "line",
+    });
+    this.scaleLayerX.add(cloneLine);
+    cloneLine.cache();
+    for (let i of linesx) {
+      const { points } = i;
+      const cl = cloneLine.clone({
+        points,
+      });
+      this.scaleLayerX.add(cl);
+    }
+    // this.scaleLayerX.add(...linesx);
+    // this.scaleLayerY.add(...linesy);
   }
 
   computedSXY(
@@ -64,48 +89,72 @@ class Scale {
     scaleTheme: any
   ) {
     const linesx = [];
-    for (let i = 0; i < width / fiveScale; i++) {
-      if ((i * fiveScale) % maxw == 0) {
-        linesx.push(
-          new Konva.Line({
-            points: [i * fiveScale, 0, i * fiveScale, scaleTheme.thickness - 2],
-            stroke: scaleTheme.lineFill, //scale.lineFill,
-            strokeWidth: 1,
-          })
-        );
+    const { thickness } = scaleTheme;
+    const xwww = width * 2;
+    for (let i = -xwww; i < xwww; i++) {
+      const x = i * fiveScale;
+      if (x % maxw == 0) {
+        linesx.push({
+          points: [x, 2, x, thickness],
+          text: {
+            x: x + 2,
+            y: 2,
+          },
+        });
       } else {
-        linesx.push(
-          new Konva.Line({
-            points: [i * fiveScale, 0, i * fiveScale, scaleTheme.thickness / 2],
-            stroke: scaleTheme.lineFill, // scale.lineFill,
-            strokeWidth: 0.5,
-          })
-        );
+        linesx.push({
+          points: [x, thickness / 1.5, x, thickness],
+          text: null,
+        });
+        // linesx.push(
+        //   new Konva.Line({
+        //     points: [x, thickness / 1.5, x, thickness],
+        //     stroke: scaleTheme.lineFill, // scale.lineFill,
+        //     strokeWidth: 0.5,
+        //     name: "line",
+        //   })
+        // );
       }
     }
 
     const linesy = [];
-    for (let i = 0; i < height / fiveScale; i++) {
-      if ((i * fiveScale) % maxw == 0) {
-        linesy.push(
-          new Konva.Line({
-            points: [0, i * fiveScale, scaleTheme.thickness - 2, i * fiveScale],
-            stroke: scaleTheme.lineFill, //scale.lineFill,
-            strokeWidth: 1,
-          })
-        );
-      } else {
-        linesy.push(
-          new Konva.Line({
-            points: [0, i * fiveScale, scaleTheme.thickness / 2, i * fiveScale],
-            stroke: scaleTheme.lineFill, // scale.lineFill,
-            strokeWidth: 0.5,
-          })
-        );
-      }
-    }
+    const ywww = height * 2;
+    // for (let i = -ywww; i < ywww; i++) {
+    //   const y = i * fiveScale;
+    //   if (y % maxw == 0) {
+    //     const text = new Konva.Text({
+    //       text: `${i}`,
+    //       fontSize: 10,
+    //       x: 2,
+    //       y,
+    //     });
+    //     text.setAttrs({
+    //       y: y + text.width() + 2,
+    //       rotation: -90,
+    //     });
 
-    return { linesx, linesy };
+    //     linesy.push(
+    //       new Konva.Line({
+    //         points: [2, y, thickness, y],
+    //         stroke: scaleTheme.lineFill, //scale.lineFill,
+    //         strokeWidth: 1,
+    //         name: "line",
+    //       }),
+    //       text
+    //     );
+    //   } else {
+    //     linesy.push(
+    //       new Konva.Line({
+    //         points: [thickness / 1.5, y, thickness, y],
+    //         stroke: scaleTheme.lineFill, // scale.lineFill,
+    //         strokeWidth: 0.5,
+    //         name: "line",
+    //       })
+    //     );
+    //   }
+    // }
+
+    return { linesx };
   }
 
   moveStageByCanvasOffset() {
@@ -116,12 +165,11 @@ class Scale {
 
   onChange() {
     let n: number;
-    this.opt.ie.stage.on("dragmove", () => {
-      n ? clearTimeout(n) : null;
-      n = setTimeout(() => {
-        // 性能有点低, 可以优化.
+    this.opt.ie.stage.on("dragmove", (e) => {
+      // 性能有点低, 可以优化.
+      if (e.target === this.opt.ie.stage) {
         this.moveStageByCanvasOffset();
-      }, 1);
+      }
     });
   }
 
