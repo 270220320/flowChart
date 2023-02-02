@@ -58,7 +58,8 @@ export default (ie: INLEDITOR) => {
       draggable: false,
     });
     switch (ie.drawState) {
-      case "line":
+      case "rightAngleLine":
+      case "Line":
         if (e.target.className === "Rect") {
           begin = e.target as Konva.Rect;
           line = beginCreateLine(ie, { x, y }, e);
@@ -75,10 +76,11 @@ export default (ie: INLEDITOR) => {
     const { x, y } = computedXYByEvent(ie.stage, e.evt);
     offSelection(ie);
     switch (ie.drawState) {
-      case "rect":
+      case "Rect":
         onRect(ie, rect);
         break;
-      case "line":
+      case "rightAngleLine":
+      case "Line":
         if (line) {
           finishLine(ie, begin!, line!, { x, y }, e);
           line = undefined;
