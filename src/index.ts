@@ -50,11 +50,10 @@ class INLEDITOR {
       `#${iu}`
     ) as Konva.Group;
     // 筛选code
-    getThingTextGroup(thignGroup, "thingGroup").forEach((e) => {
+    getThingTextGroup(thignGroup).forEach((e) => {
       if (e.attrs.code && e.attrs.code === code) {
         setCustomAttrs(e, { val });
         const valNode = e.findOne(".val");
-
         valNode.setAttr("text", val);
       }
     });
