@@ -1,5 +1,4 @@
 import Konva from "konva";
-import INLEDITOR from "..";
 
 enum LAYER {
   test,
@@ -8,13 +7,13 @@ enum LAYER {
   util,
 }
 
-export default (inl: INLEDITOR, type: keyof typeof LAYER) => {
-  let layer = inl.stage.find(`.${type}`)[0] as Konva.Layer;
+export default (stage: Konva.Stage, type: keyof typeof LAYER) => {
+  let layer = stage.find(`.${type}`)[0] as Konva.Layer;
   if (!layer) {
     layer = new Konva.Layer({
       name: type,
     });
-    inl.stage.add(layer);
+    stage.add(layer);
   }
   return layer;
 };

@@ -1,7 +1,10 @@
 import Konva from "konva";
 import INLEDITOR from "src";
-import { createThingTextGroupData } from "src/config/thing.group";
-import { createThingText, createThingDefaultText } from "src/config/thing.text";
+import { createThingTextGroupData } from "src/element/group";
+import {
+  createThingAdvancedText,
+  createThingDefaultText,
+} from "src/element/text";
 
 export default function (this: INLEDITOR, iu: string) {
   const thingGroup = this.stage.findOne(`#${iu}`) as Konva.Group;
@@ -19,7 +22,7 @@ export default function (this: INLEDITOR, iu: string) {
     },
     advanced: (data: createThingTextGroupData) => {
       const { labelv, value, unitval, code } = data;
-      const group = createThingText(this.theme, {
+      const group = createThingAdvancedText(this.theme, {
         labelv,
         value,
         unitval,

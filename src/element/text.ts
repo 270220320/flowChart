@@ -1,24 +1,31 @@
 import Konva from "konva";
-import { defaultRect } from "./rect.config";
-import { createText } from "./text.config";
-import theme, { Theme } from "./theme";
-import { createThingTextGroup, createThingTextGroupData } from "./thing.group";
+import { TextConfig } from "konva/lib/shapes/Text";
+import { defaultRect } from "src/config/rect.config";
+import theme, { Theme } from "src/config/theme";
+import {
+  Child,
+  Parent,
+  createThingTextGroup,
+  createThingTextGroupData,
+} from "./group";
 
-/**
- *
- * @param ea createThingDefaultText
- * @param themeType
- */
-export const setThingDefaultTextTheme = (ea: Konva.Text, themeType: Theme) => {
-  const t = theme[themeType];
-  ea.setAttrs({
-    fill: t.thingTitle.val.fill,
+export const createText = (config: TextConfig) =>
+  new Konva.Text({
+    fontFamily: "Calibri",
+    fill: "black",
+    fontSize: 14,
+    verticalAlign: "middle",
+    ...config,
   });
-};
-export const createThingDefaultText = (
-  themeType: Theme,
-  data: { text: string; code: string; x?: number; y?: number }
-) => {
+
+// c创建默认的thing文字
+interface DefaultText {
+  text: string;
+  code: string;
+  x?: number;
+  y?: number;
+}
+export const createThingDefaultText = (themeType: Theme, data: DefaultText) => {
   const t = theme[themeType];
   const { x, y, text, code } = data;
   return createText({
@@ -33,19 +40,33 @@ export const createThingDefaultText = (
     name: "createThingDefaultText",
   });
 };
-export const getThingDefaultText = (e: any) => {
+// 设置默认 thing 文字的主题色
+export const setThingDefaultTextTheme = (ea: Konva.Text, themeType: Theme) => {
+  const t = theme[themeType];
+  ea.setAttrs({
+    fill: t.thingTitle.val.fill,
+  });
+};
+
+// 修改默认 thing 文字的val
+export const setThingDefaultTextVal = (e: Konva.Text, val: string) => {
+  e.setAttrs({
+    text: val,
+  });
+};
+
+// 查询默认 thing文字
+export const getThingDefaultTexts: (parent: Parent) => Array<Child> = (e) => {
   return e.find(".createThingDefaultText");
 };
 
-/**
- * createThingText
- */
-export const createThingText = (
+// 创建复杂的thing文字
+export const createThingAdvancedText = (
   themeType: Theme,
   data: createThingTextGroupData
 ) => {
   const { labelv, value, unitval } = data;
-  const group = createThingTextGroup(data);
+  const group = createThingTextGroup(data, "thingTextGroup");
   const t = theme[themeType];
   const label = createText({
     fill: t.showVal.label.fill,
@@ -92,3 +113,9 @@ export const createThingText = (
   group.add(valRect, label, val, unit);
   return group;
 };
+
+// 查询复杂的thing文字
+export const getThingAdvancedText = (parent: Parent) => {};
+
+// 修改thing 文字的主题
+export const changeThingTextTheme = (themeType: Theme) => {};

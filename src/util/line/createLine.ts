@@ -61,7 +61,7 @@ export const beginCreateLine = (
   e.target.setAttrs({ draggable: false });
   // e.target.parent?.setAttrs({ draggable: false });
 
-  const lay = layer(ie, "line");
+  const lay = layer(ie.stage, "line");
   lay.moveToTop();
   const line = createTemporaryLine(lay, point);
   ie.stage.on("mousemove", (e) => {

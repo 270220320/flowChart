@@ -5,7 +5,7 @@ import { dealRelation } from "../../util/element/relation";
 
 export default function (this: INLEDITOR) {
   const { stage } = this;
-  const layerSubLine = layer(this, "util");
+  const layerSubLine = layer(this.stage, "util");
   // 按下移动
   stage.on("dragmove", (e) => {
     // 启动辅助线

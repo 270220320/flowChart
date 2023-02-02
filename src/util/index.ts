@@ -5,5 +5,5 @@ export const getMouseOver = (
   point: { x: number; y: number },
   ie: INLEDITOR
 ) => {
-  return layer(ie, "thing").getIntersection(point);
+  return layer(ie.stage, "thing").getIntersection(point);
 };

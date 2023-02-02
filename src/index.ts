@@ -2,7 +2,7 @@ import Konva from "konva";
 import { useComponent } from "./component";
 import Scale from "./component/scale";
 import theme, { Theme } from "./config/theme";
-import { getThingTextGroup } from "./config/thing.group";
+import { getThingTextGroup } from "./element/group";
 import event from "./event";
 import changeTheme from "./util/changeTheme";
 import createThingText from "./util/createThingText";
@@ -46,9 +46,11 @@ class INLEDITOR {
   // 动态修改物模型的值
   setVal(iu: string, code: string, val: string) {
     // 查找物模型
-    const thignGroup = layer(this, "thing").findOne(`#${iu}`) as Konva.Group;
+    const thignGroup = layer(this.stage, "thing").findOne(
+      `#${iu}`
+    ) as Konva.Group;
     // 筛选code
-    getThingTextGroup(thignGroup).forEach((e) => {
+    getThingTextGroup(thignGroup, "thingGroup").forEach((e) => {
       if (e.attrs.code && e.attrs.code === code) {
         setCustomAttrs(e, { val });
         const valNode = e.findOne(".val");
@@ -67,6 +69,41 @@ class INLEDITOR {
   // 反序列化
   loadJson(json: string) {
     this.init(json);
+  }
+
+  // 当画布元素被选中
+  onselect(
+    cb: (
+      type: "thing" | "shape" | "thingText",
+      data?: { iu?: string; code?: string; attrs?: Konva.NodeConfig }
+    ) => void
+  ) {
+    this.stage.on("click", (e) => {
+      if (e.target !== this.stage) {
+        // 如果是图形或者是文字，那么父级别肯定是layer
+        let parent = e.target.getParent() as Konva.Layer | Konva.Group;
+        // 如果是父级不是layer那就有可能是thing或者是thingText
+
+        if (parent.getClassName() === "Layer") {
+          cb("shape", {
+            attrs: e.target.getAttrs(),
+          });
+        } else {
+          const name = parent.name();
+          switch (name) {
+            case "thingGroup":
+              const data1 = getCustomAttrs(parent);
+
+              cb("thing", { iu: data1.thing!.iu });
+              break;
+            case "thingTextGroup":
+              parent = parent.getParent() as any;
+              const data = getCustomAttrs(parent);
+              cb("thingText", { iu: data.thing!.iu, code: data.thing!.ic });
+          }
+        }
+      }
+    });
   }
 }
 
