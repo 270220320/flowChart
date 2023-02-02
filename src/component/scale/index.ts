@@ -1,27 +1,25 @@
 import Konva from "konva";
 import INLEDITOR from "src";
-import { createScaleGroup } from "src/component/scale/config";
-import layer from "src/util/layer";
-import theme, { Theme } from "../../config/theme";
+import { Component } from "..";
+import theme from "../../config/theme";
 
-interface ScaleOpt {
-  ie: INLEDITOR;
-}
+interface ScaleOpt {}
 
 interface Scale {
   opt: ScaleOpt;
 }
 
-class Scale {
+class Scale extends Component {
   constructor(opt: ScaleOpt) {
-    this.opt = opt;
-    this.init();
+    super();
   }
+  name = "scale";
   init() {
     this.createDom();
     this.createStage();
     this.onChange();
   }
+  visible = true;
 
   syd!: HTMLDivElement;
   sxd!: HTMLDivElement;
@@ -30,12 +28,33 @@ class Scale {
   scaleLayerX!: Konva.Layer;
   scaleLayerY!: Konva.Layer;
 
+  hide() {
+    this.scaleX.visible(false);
+    this.scaleY.visible(false);
+    this.sxd.style.display = "none";
+    this.syd.style.display = "none";
+    this.visible = false;
+  }
+  show() {
+    this.scaleX.visible(true);
+    this.scaleY.visible(true);
+    this.sxd.style.display = "block";
+    this.syd.style.display = "block";
+    this.visible = true;
+  }
+  changeVisable() {
+    if (this.visible) {
+      this.hide();
+    } else {
+      this.show();
+    }
+  }
   createScaleLine() {
-    const width = this.opt.ie.stage.width();
-    const height = this.opt.ie.stage.height();
-    const zoom = this.opt.ie.stage.scaleX();
-    const { x, y } = this.opt.ie.stage.position();
-    const scaleTheme = theme[this.opt.ie.theme].scale; // 主题
+    const width = this.that.stage.width();
+    const height = this.that.stage.height();
+    const zoom = this.that.stage.scaleX();
+    const { x, y } = this.that.stage.position();
+    const scaleTheme = theme[this.that.theme].scale; // 主题
     const fiveScale = 5;
     const maxw = 50;
     this.scaleLayerX.removeChildren();
@@ -135,7 +154,7 @@ class Scale {
   }
 
   moveStageByCanvasOffset() {
-    const { x, y } = this.opt.ie.stage.position();
+    const { x, y } = this.that.stage.position();
     // this.scaleX.setAttrs({ x });
     var tween = new Konva.Tween({
       node: this.scaleX,
@@ -154,9 +173,9 @@ class Scale {
 
   onChange() {
     let n: number;
-    this.opt.ie.stage.on("dragmove", (e) => {
+    this.that.stage.on("dragmove", (e) => {
       // 性能有点低, 可以优化.
-      if (e.target === this.opt.ie.stage) {
+      if (e.target === this.that.stage) {
         n ? clearTimeout(n) : null;
         n = setTimeout(() => {
           this.moveStageByCanvasOffset();
@@ -166,8 +185,8 @@ class Scale {
   }
 
   createDom() {
-    const dom = document.getElementById(this.opt.ie.opt.id);
-    const { scale } = theme[this.opt.ie.theme];
+    const dom = document.getElementById(this.that.opt.id);
+    const { scale } = theme[this.that.theme];
     const scaleX = document.createElement("div");
     const scaleY = document.createElement("div");
     scaleX.id = "scalex";
@@ -186,9 +205,9 @@ class Scale {
     this.syd = scaleY;
   }
   createStage() {
-    const width = this.opt.ie.stage.width();
-    const height = this.opt.ie.stage.height();
-    const scaleTheme = theme[this.opt.ie.theme].scale;
+    const width = this.that.stage.width();
+    const height = this.that.stage.height();
+    const scaleTheme = theme[this.that.theme].scale;
     this.scaleX = new Konva.Stage({
       width,
       height: scaleTheme.thickness,

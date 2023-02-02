@@ -1,7 +1,7 @@
 import Konva from "konva";
-import { useComponent } from "./component";
+import { Component, useComponent } from "./component";
 import Scale from "./component/scale";
-import theme, { Theme } from "./config/theme";
+import { Theme } from "./config/theme";
 import { getThingTextGroup } from "./element/group";
 import event from "./event";
 import changeTheme from "./util/changeTheme";
@@ -11,9 +11,11 @@ import initStage from "./util/initStage";
 import layer from "./util/layer";
 
 interface INLEDITOR {
+  [ket: string]: any;
   stage: Konva.Stage;
   container: HTMLDivElement;
   opt: OPT;
+  scale: Scale;
 }
 
 interface OPT {
@@ -30,6 +32,7 @@ class INLEDITOR {
     this.stage = stage;
     this.container = container;
     this.event();
+    this.use(new Scale({}));
   }
 
   theme: Theme = "dark";
@@ -95,7 +98,7 @@ class INLEDITOR {
 
               cb("thing", { iu: data1.thing!.iu });
               break;
-            case "thingTextGroup":
+            default:
               parent = parent.getParent() as any;
               const data = getCustomAttrs(parent);
               cb("thingText", { iu: data.thing!.iu, code: data.thing!.ic });
