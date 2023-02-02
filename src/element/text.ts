@@ -1,6 +1,6 @@
 import Konva from "konva";
 import { TextConfig } from "konva/lib/shapes/Text";
-import { defaultRect } from "src/config/rect.config";
+import { defaultRect } from "src/element/rect";
 import theme, { Theme } from "src/config/theme";
 import {
   Child,
@@ -18,33 +18,32 @@ export const createText = (config: TextConfig) =>
     ...config,
   });
 
-// c创建默认的thing文字
-interface DefaultText {
-  text: string;
-  code: string;
-  x?: number;
-  y?: number;
-}
-export const createThingDefaultText = (themeType: Theme, data: DefaultText) => {
+export const createThingDefaultText = (
+  themeType: Theme,
+  data: createThingTextGroupData
+) => {
   const t = theme[themeType];
-  const { x, y, text, code } = data;
-  return createText({
+  const { x, y, value, code } = data;
+  const group = createThingTextGroup(data, "thingDefTextGroup");
+  const textEl = createText({
     x: x || 0,
     y: y || 0,
-    fill: t.thingTitle.val.fill,
-    fontSize: t.thingTitle.val.size,
-    text: text,
+    fill: t.thingText.def.val.fill,
+    fontSize: t.thingText.def.val.size,
+    text: value,
     align: "center",
     code,
-    height: t.showVal.val.rectHeight,
-    name: "createThingDefaultText",
+    height: t.thingText.advanced.val.rectHeight,
+    name: "val",
   });
+  group.add(textEl);
+  return group;
 };
 // 设置默认 thing 文字的主题色
 export const setThingDefaultTextTheme = (ea: Konva.Text, themeType: Theme) => {
   const t = theme[themeType];
   ea.setAttrs({
-    fill: t.thingTitle.val.fill,
+    fill: t.thingText.def.val.fill,
   });
 };
 
@@ -69,44 +68,44 @@ export const createThingAdvancedText = (
   const group = createThingTextGroup(data, "thingTextGroup");
   const t = theme[themeType];
   const label = createText({
-    fill: t.showVal.label.fill,
-    fontSize: t.showVal.label.size,
+    fill: t.thingText.advanced.label.fill,
+    fontSize: t.thingText.advanced.label.size,
     text: labelv,
     draggable: false,
-    height: t.showVal.val.rectHeight,
+    height: t.thingText.advanced.val.rectHeight,
     name: "label",
   });
 
   const valRect = defaultRect({
-    fill: t.showVal.val.rectFill,
-    stroke: t.showVal.val.rectStroke,
+    fill: t.thingText.advanced.val.rectFill,
+    stroke: t.thingText.advanced.val.rectStroke,
     strokeWidth: 1,
-    height: t.showVal.val.rectHeight,
-    width: t.showVal.val.rectWidth,
+    height: t.thingText.advanced.val.rectHeight,
+    width: t.thingText.advanced.val.rectWidth,
     draggable: false,
     x: label.width(),
     cornerRadius: 3,
     name: "rect",
   });
   const val = createText({
-    fill: t.showVal.val.fill,
-    fontSize: t.showVal.val.size,
+    fill: t.thingText.advanced.val.fill,
+    fontSize: t.thingText.advanced.val.size,
     text: value,
     draggable: false,
     x: label.width(),
     width: valRect.width(),
     align: "center",
-    height: t.showVal.val.rectHeight,
+    height: t.thingText.advanced.val.rectHeight,
     name: "val",
   });
   const unit = createText({
-    fill: t.showVal.unit.fill,
-    fontSize: t.showVal.unit.size,
-    opacity: t.showVal.unit.opacity,
+    fill: t.thingText.advanced.unit.fill,
+    fontSize: t.thingText.advanced.unit.size,
+    opacity: t.thingText.advanced.unit.opacity,
     text: unitval,
     x: valRect.attrs.x + valRect.width() + 5,
     draggable: false,
-    height: t.showVal.val.rectHeight,
+    height: t.thingText.advanced.val.rectHeight,
     name: "unit",
   });
 

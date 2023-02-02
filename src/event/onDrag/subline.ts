@@ -3,7 +3,7 @@ import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
 import { Stage } from "konva/lib/Stage";
 import INLEDITOR from "src";
-import { createSubLine, getSubLine } from "src/config/line.config";
+import { createSubLine, getSubLine } from "src/element/line";
 import { Theme } from "src/config/theme";
 import computedXY from "src/util/computedXY";
 import layer from "src/util/layer";

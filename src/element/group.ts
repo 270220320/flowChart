@@ -36,9 +36,9 @@ export const getThingGroups: (parent: Parent) => Array<Konva.Group> = (
 };
 
 export interface createThingTextGroupData {
-  labelv: string;
+  labelv?: string;
   value: string;
-  unitval: string;
+  unitval?: string;
   code: string;
   x?: number;
   y?: number;
@@ -69,9 +69,13 @@ export const createThingTextGroup = (
 // 查询 thingText的租
 export const getThingTextGroup = (
   stage: Konva.Stage | Konva.Group,
-  name: keyof typeof groupNames
+  name?: keyof typeof groupNames
 ) => {
-  return stage.find<Konva.Group>(`.${name}`);
+  if (name) return stage.find<Konva.Group>(`.${name}`);
+  return [
+    ...stage.find<Konva.Group>(`.${groupNames.thingDefTextGroup}`),
+    ...stage.find<Konva.Group>(`.${groupNames.thingTextGroup}`),
+  ];
 };
 
 // 设置复杂thing text 的组主题
@@ -83,33 +87,31 @@ export const setThingTextGroupTheme = (ea: Konva.Group, themeType: Theme) => {
   const unit = ea.findOne(".unit");
 
   label.setAttrs({
-    fill: t.showVal.label.fill,
+    fill: t.thingText.advanced.label.fill,
   });
 
   rect.setAttrs({
-    fill: t.showVal.val.rectFill,
-    stroke: t.showVal.val.rectStroke,
+    fill: t.thingText.advanced.val.rectFill,
+    stroke: t.thingText.advanced.val.rectStroke,
   });
 
   val.setAttrs({
-    fill: t.showVal.val.fill,
+    fill: t.thingText.advanced.val.fill,
   });
 
   unit.setAttrs({
-    fill: t.showVal.unit.fill,
-    opacity: t.showVal.unit.opacity,
+    fill: t.thingText.advanced.unit.fill,
+    opacity: t.thingText.advanced.unit.opacity,
   });
 };
 
 // 设置 Thing 组的样式
 export const setThingGroupTheme = (stage: Konva.Stage, themeType: Theme) => {
   const thingLayer = layer(stage, "thing");
-
   getThingGroups(thingLayer).forEach((item) => {
     getThingTextGroup(item, "thingTextGroup").forEach((ea) => {
       setThingTextGroupTheme(ea, themeType);
     });
-
     // 还需要处理其他样式主题
   });
 };
