@@ -6,6 +6,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 import { getMouseOver } from "../";
 import { getCustomAttrs, setCustomAttrs } from "../customAttr";
 import { UUID } from "../uuid";
+import { getLinePoints } from "./rightAngleLine";
 
 export const finishLine = (
   ie: INLEDITOR,
@@ -37,7 +38,6 @@ export const finishLine = (
     setCustomAttrs(line, {
       lineInfo: data,
     });
-    // debugger;
     beginInfo.outLineIds.push(line.id());
     endInfo.inLineIds.push(line.id());
   } else {
@@ -45,10 +45,22 @@ export const finishLine = (
   }
 };
 
-const createLineMove = (line: Konva.Arrow, point: { x: number; y: number }) => {
-  line.attrs.points[2] = point.x;
-  line.attrs.points[3] = point.y;
-  line.points(line.attrs.points);
+const createLineMove = (
+  line: Konva.Arrow,
+  point: { x: number; y: number },
+  ie: INLEDITOR
+) => {
+  if (ie.drawState === "Line") {
+    line.attrs.points[2] = point.x;
+    line.attrs.points[3] = point.y;
+    line.points(line.attrs.points);
+  } else {
+    const res = getLinePoints(
+      { x: line.attrs.points[0], y: line.attrs.points[1] },
+      { x: point.x, y: point.y }
+    );
+    line.points(getUsePointUn(res));
+  }
 };
 
 // 线
@@ -67,7 +79,7 @@ export const beginCreateLine = (
   ie.stage.on("mousemove", (e) => {
     const { x, y } = computedXYByEvent(ie.stage, e.evt);
     if (line) {
-      createLineMove(line!, { x, y });
+      createLineMove(line!, { x, y }, ie);
     }
   });
   return line;
@@ -89,4 +101,45 @@ export const createTemporaryLine = (
 
   layer.add(arrow);
   return arrow;
+};
+
+// 根据konva原始点转换使用点
+export const getUsePoint: (
+  p: Array<number>,
+  i?: number
+) => Array<{
+  x: number;
+  y: number;
+}> = (p, i) => {
+  const l = p.length;
+  if (l % 2 !== 0) {
+    console.warn("非原始点");
+    return [];
+  }
+  const usePoint: Array<{
+    x: number;
+    y: number;
+  }> = [];
+  for (let i = 0; i < l / 2; i++) {
+    const p1 = { x: p[i * 2], y: p[i * 2 + 1], i };
+    usePoint.push(p1);
+  }
+  if (i === 0 || i) {
+    return [usePoint[i]];
+  }
+  return usePoint;
+};
+
+// 根据konva原始点转换使用点 翻转
+export const getUsePointUn: (
+  p: Array<{
+    x: number;
+    y: number;
+  }>
+) => Array<number> = (p) => {
+  const arr: Array<number> = [];
+  for (let i of p) {
+    arr.push(i.x, i.y);
+  }
+  return arr;
 };
