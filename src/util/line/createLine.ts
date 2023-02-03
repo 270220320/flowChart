@@ -7,7 +7,9 @@ import { getMouseOver } from "../";
 import { getCustomAttrs, setCustomAttrs } from "../customAttr";
 import { UUID } from "../uuid";
 import { getLinePoints } from "./rightAngleLine";
+import { getUsePointUn } from "./line";
 
+// 创建线完成
 export const finishLine = (
   ie: INLEDITOR,
   begin: Konva.Rect | Konva.Group,
@@ -34,17 +36,22 @@ export const finishLine = (
         line.attrs.points[line.attrs.points.length - 2] - end.attrs.x,
       toExcursionY:
         line.attrs.points[line.attrs.points.length - 1] - end.attrs.y,
+      type: ie.drawState,
     };
     setCustomAttrs(line, {
       lineInfo: data,
     });
     beginInfo.outLineIds.push(line.id());
     endInfo.inLineIds.push(line.id());
+    line.on("dblclick", () => {
+      console.log("111");
+    });
   } else {
     line.remove();
   }
 };
 
+// 创建线过程中移动
 const createLineMove = (
   line: Konva.Arrow,
   point: { x: number; y: number },
@@ -63,7 +70,7 @@ const createLineMove = (
   }
 };
 
-// 线
+// 开始创建线
 export const beginCreateLine = (
   ie: INLEDITOR,
   point: { x: number; y: number },
@@ -85,6 +92,7 @@ export const beginCreateLine = (
   return line;
 };
 
+// 画出预览线
 export const createTemporaryLine = (
   layer: Konva.Layer,
   point: { x: number; y: number }
@@ -101,45 +109,4 @@ export const createTemporaryLine = (
 
   layer.add(arrow);
   return arrow;
-};
-
-// 根据konva原始点转换使用点
-export const getUsePoint: (
-  p: Array<number>,
-  i?: number
-) => Array<{
-  x: number;
-  y: number;
-}> = (p, i) => {
-  const l = p.length;
-  if (l % 2 !== 0) {
-    console.warn("非原始点");
-    return [];
-  }
-  const usePoint: Array<{
-    x: number;
-    y: number;
-  }> = [];
-  for (let i = 0; i < l / 2; i++) {
-    const p1 = { x: p[i * 2], y: p[i * 2 + 1], i };
-    usePoint.push(p1);
-  }
-  if (i === 0 || i) {
-    return [usePoint[i]];
-  }
-  return usePoint;
-};
-
-// 根据konva原始点转换使用点 翻转
-export const getUsePointUn: (
-  p: Array<{
-    x: number;
-    y: number;
-  }>
-) => Array<number> = (p) => {
-  const arr: Array<number> = [];
-  for (let i of p) {
-    arr.push(i.x, i.y);
-  }
-  return arr;
 };

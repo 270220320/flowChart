@@ -1,3 +1,46 @@
+import Konva from "konva";
+import { KonvaEventObject } from "konva/lib/Node";
+
+export const moveLine = (
+  e: KonvaEventObject<MouseEvent>,
+  stage: Konva.Stage
+) => {};
+
+// 直线首末点赋值并修改相邻点坐标保持直角
+export const setRightAngleLineBeginOrEnd = (
+  points: { x: number; y: number }[],
+  index: number,
+  target: { x: number; y: number }
+) => {
+  let now;
+  if (index === 0) {
+    now = points[0];
+    const next = points[1];
+    // 横线
+    if (now.y === next.y) {
+      next.y = target.y;
+      // 竖线
+    } else if (now.x === next.x) {
+      next.x = target.x;
+    }
+    now.x = target.x;
+    now.y = target.y;
+  } else if (index === points.length - 1) {
+    now = points[index];
+    const prev = points[index - 1];
+    // 横线
+    if (now.y === prev.y) {
+      prev.y = target.y;
+      // 竖线
+    } else if (now.x === prev.x) {
+      prev.x = target.x;
+    }
+    now.x = target.x;
+    now.y = target.y;
+  }
+  return points;
+};
+
 export const getLinePoints = (
   pointA: { x: number; y: number },
   pointB: { x: number; y: number }
