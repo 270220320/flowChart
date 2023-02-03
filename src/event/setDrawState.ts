@@ -53,7 +53,7 @@ export default (ie: INLEDITOR) => {
   let begin: Konva.Rect | Konva.Group | null;
   ie.stage.on("mousedown", (e) => {
     const { y, x } = computedXYByEvent(ie.stage, e.evt);
-    if (ie.drawState === "selection") return;
+    if (ie.drawState === "default") return;
     ie.stage.setAttrs({
       draggable: false,
     });
@@ -86,7 +86,7 @@ export default (ie: INLEDITOR) => {
           line = undefined;
         }
     }
-    ie.drawState = "selection";
+    ie.drawState = "default";
     ie.stage.setAttrs({
       draggable: true,
     });

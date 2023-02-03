@@ -43,7 +43,7 @@ export default (
 
   const fua = () => {
     setTimeout(() => {
-      const n = () => Math.floor(Math.random() * (data.length - 0 + 1)) + 0;
+      const n = () => Math.floor(Math.random() * (data.length - 0 + 1)) + 1;
       const layer1 = layer(ie.stage, "thing");
       const group = getThingGroup(layer1, data[n()].iu);
       const group1 = getThingGroup(layer1, data[n()].iu);
