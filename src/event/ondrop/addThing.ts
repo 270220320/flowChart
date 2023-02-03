@@ -4,8 +4,13 @@ import { createThingGroup } from "src/element/group";
 import { Thing } from "src/data/thing";
 import layer from "src/util/layer";
 
+// 根据thingCode 缓存文件
+const cacheList = {};
+
 export default (ie: INLEDITOR, x: number, y: number, useThing: Thing) => {
   const group = createThingGroup(useThing);
+  const layerThing = layer(ie.stage, "thing");
+
   Konva.Image.fromURL(useThing?.img, (darthNode: Konva.Image) => {
     const { width, height } = darthNode.attrs.image;
     darthNode.setAttrs({
@@ -16,8 +21,6 @@ export default (ie: INLEDITOR, x: number, y: number, useThing: Thing) => {
       src: useThing?.img,
     });
     group.add(darthNode);
-
-    const layerThing = layer(ie.stage, "thing");
     layerThing.add(group);
     layerThing.draw();
   });

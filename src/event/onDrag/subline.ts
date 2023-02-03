@@ -197,16 +197,21 @@ const drawGuides = (
 export const initSubLine = function (
   this: INLEDITOR,
   stage: Konva.Stage,
-  layerSubLine: Konva.Layer,
   e: KonvaEventObject<any>
 ) {
+  const layerSubLine = layer(this.stage, "util");
+  let target = e.target as Shape<ShapeConfig> | Stage | Konva.Transformer;
+
   getSubLine(layerSubLine, this.theme).forEach((item) => {
     item.destroy();
   });
-  if (e.target === stage) return;
+  if (target === stage) return;
+
+  target = (stage.findOne("Transformer") as Konva.Transformer) || target;
+
   const useLayer = getLayerBySubLine(this);
-  const lineGuideStops = getLineGuideStops(stage, e.target, useLayer);
-  const itemBounds = getObjectSnappingEdges(e.target);
+  const lineGuideStops = getLineGuideStops(stage, target, useLayer);
+  const itemBounds = getObjectSnappingEdges(target as any);
   const guides = getGuides(lineGuideStops, itemBounds);
 
   if (!guides.length) {
@@ -219,11 +224,11 @@ export const initSubLine = function (
       case "start": {
         switch (lg.orientation) {
           case "V": {
-            e.target.x(lg.lineGuide + lg.offset);
+            target.x(lg.lineGuide + lg.offset);
             break;
           }
           case "H": {
-            e.target.y(lg.lineGuide + lg.offset);
+            target.y(lg.lineGuide + lg.offset);
             break;
           }
         }
@@ -232,11 +237,11 @@ export const initSubLine = function (
       case "center": {
         switch (lg.orientation) {
           case "V": {
-            e.target.x(lg.lineGuide + lg.offset);
+            target.x(lg.lineGuide + lg.offset);
             break;
           }
           case "H": {
-            e.target.y(lg.lineGuide + lg.offset);
+            target.y(lg.lineGuide + lg.offset);
             break;
           }
         }
@@ -245,11 +250,11 @@ export const initSubLine = function (
       case "end": {
         switch (lg.orientation) {
           case "V": {
-            e.target.x(lg.lineGuide + lg.offset);
+            target.x(lg.lineGuide + lg.offset);
             break;
           }
           case "H": {
-            e.target.y(lg.lineGuide + lg.offset);
+            target.y(lg.lineGuide + lg.offset);
             break;
           }
         }
@@ -259,10 +264,8 @@ export const initSubLine = function (
   });
 };
 
-export const closeSubLine = function (
-  this: INLEDITOR,
-  layerSubLine: Konva.Layer
-) {
+export const closeSubLine = function (this: INLEDITOR) {
+  const layerSubLine = layer(this.stage, "util");
   getSubLine(layerSubLine, this.theme).forEach((item) => {
     item.destroy();
   });

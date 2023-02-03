@@ -34,6 +34,12 @@ export const getThingGroups: (parent: Parent) => Array<Konva.Group> = (
 ) => {
   return parent.find(`.${groupNames.thingGroup}`);
 };
+export const getThingGroup: (parent: Parent, iu: string) => Konva.Group = (
+  parent,
+  iu
+) => {
+  return parent.findOne(`#${iu}`);
+};
 
 export interface createThingTextGroupData {
   labelv?: string;

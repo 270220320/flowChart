@@ -2,13 +2,13 @@ import loadsh from "lodash";
 
 export interface Thing {
   iu: string; // instanceUuid
-  ic: string; // instanceCode
+  tc: string; // instanceCode
   img: string;
   name: string;
 }
 
 const thing: Thing = {
-  ic: "",
+  tc: "",
   iu: "",
   img: "",
   name: "",

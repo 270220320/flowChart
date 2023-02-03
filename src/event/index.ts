@@ -9,12 +9,9 @@ import Scale from "src/component/scale";
 import layer from "src/util/layer";
 
 export default function (this: INLEDITOR) {
-  const scaleComponent = new Scale({
-    ie: this,
-  });
   selectionBox(this);
   ondrop(this, this.container, () => {});
-  selectItem(this.stage);
+  selectItem(this);
   onwheel(this.stage);
   keyDown(this);
   onDrag.bind(this)();

@@ -1,7 +1,8 @@
 import Konva from "konva";
-import { useComponent } from "./component";
+import { Shape, ShapeConfig } from "konva/lib/Shape";
+import { Component, useComponent } from "./component";
 import Scale from "./component/scale";
-import theme, { Theme } from "./config/theme";
+import { Theme } from "./config/theme";
 import { getThingTextGroup } from "./element/group";
 import event from "./event";
 import changeTheme from "./util/changeTheme";
@@ -11,9 +12,11 @@ import initStage from "./util/initStage";
 import layer from "./util/layer";
 
 interface INLEDITOR {
+  [ket: string]: any;
   stage: Konva.Stage;
   container: HTMLDivElement;
   opt: OPT;
+  scale: Scale;
 }
 
 interface OPT {
@@ -30,6 +33,7 @@ class INLEDITOR {
     this.stage = stage;
     this.container = container;
     this.event();
+    this.use(new Scale({}));
   }
 
   theme: Theme = "dark";
@@ -74,6 +78,7 @@ class INLEDITOR {
   onselect(
     cb: (
       type: "thing" | "shape" | "thingText",
+      e: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage,
       data?: { iu?: string; code?: string; attrs?: Konva.NodeConfig }
     ) => void
   ) {
@@ -84,7 +89,7 @@ class INLEDITOR {
         // 如果是父级不是layer那就有可能是thing或者是thingText
 
         if (parent.getClassName() === "Layer") {
-          cb("shape", {
+          cb("shape", e.target, {
             attrs: e.target.getAttrs(),
           });
         } else {
@@ -93,12 +98,15 @@ class INLEDITOR {
             case "thingGroup":
               const data1 = getCustomAttrs(parent);
 
-              cb("thing", { iu: data1.thing!.iu });
+              cb("thing", parent, { iu: data1.thing!.iu });
               break;
-            case "thingTextGroup":
+            default:
               parent = parent.getParent() as any;
               const data = getCustomAttrs(parent);
-              cb("thingText", { iu: data.thing!.iu, code: data.thing!.ic });
+              cb("thingText", parent, {
+                iu: data.thing!.iu,
+                code: data.thing!.tc,
+              });
           }
         }
       }

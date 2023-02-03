@@ -7,7 +7,7 @@ import {
   createSelectionBox,
   defaultRect,
   removeSelectionBox,
-} from "../config/rect.config";
+} from "../element/rect";
 import { beginCreateLine, finishLine } from "../util/line/createLine";
 
 const offSelection = (ie: INLEDITOR) => {

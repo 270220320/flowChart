@@ -1,5 +1,4 @@
 import Konva from "konva";
-import { values } from "lodash";
 import INLEDITOR from "src";
 import { createThingTextGroupData } from "src/element/group";
 import {
