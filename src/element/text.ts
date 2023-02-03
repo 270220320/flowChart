@@ -67,49 +67,49 @@ export const createThingAdvancedText = (
   const { labelv, value, unitval } = data;
   const group = createThingTextGroup(data, "thingTextGroup");
   const t = theme[themeType];
-  const label = createText({
-    fill: t.thingText.advanced.label.fill,
-    fontSize: t.thingText.advanced.label.size,
+  const { val, unit, label } = t.thingText.advanced;
+  const labelText = createText({
+    fill: label.fill,
+    fontSize: label.size,
     text: labelv,
     draggable: false,
-    height: t.thingText.advanced.val.rectHeight,
+    height: val.rectHeight,
     name: "label",
   });
-
-  const valRect = defaultRect({
-    fill: t.thingText.advanced.val.rectFill,
-    stroke: t.thingText.advanced.val.rectStroke,
-    strokeWidth: 1,
-    height: t.thingText.advanced.val.rectHeight,
-    width: t.thingText.advanced.val.rectWidth,
+  const valtext = createText({
+    fill: val.fill,
+    fontSize: val.size,
+    text: value,
     draggable: false,
-    x: label.width(),
+    x: labelText.width() + 5,
+    align: "center",
+    height: val.rectHeight,
+    name: "val",
+  });
+  const valRect = defaultRect({
+    fill: val.rectFill,
+    stroke: val.rectStroke,
+    strokeWidth: 1,
+    height: val.rectHeight,
+    width: valtext.width() + 10,
+    draggable: false,
+    x: labelText.width(),
     cornerRadius: 3,
     name: "rect",
   });
-  const val = createText({
-    fill: t.thingText.advanced.val.fill,
-    fontSize: t.thingText.advanced.val.size,
-    text: value,
-    draggable: false,
-    x: label.width(),
-    width: valRect.width(),
-    align: "center",
-    height: t.thingText.advanced.val.rectHeight,
-    name: "val",
-  });
-  const unit = createText({
-    fill: t.thingText.advanced.unit.fill,
-    fontSize: t.thingText.advanced.unit.size,
-    opacity: t.thingText.advanced.unit.opacity,
+
+  const unitText = createText({
+    fill: unit.fill,
+    fontSize: unit.size,
+    opacity: unit.opacity,
     text: unitval,
     x: valRect.attrs.x + valRect.width() + 5,
     draggable: false,
-    height: t.thingText.advanced.val.rectHeight,
+    height: val.rectHeight,
     name: "unit",
   });
 
-  group.add(valRect, label, val, unit);
+  group.add(valRect, labelText, valtext, unitText);
   return group;
 };
 

@@ -20,18 +20,20 @@ export default (
     let sy = 0;
     let line = 0;
     let index = 0;
+    const img = data[0].img;
     for (let i of data) {
       if (sx >= w * 2) {
         sx = 0;
         line += mx;
       }
       index++;
+      // i.img = img;
       addThing(ie, (sx += mx), line, i);
       setTimeout(() => {
         const ct = createThingText.bind(ie)(i.iu);
         ct?.advanced({
-          labelv: "string",
-          value: "string",
+          labelv: "string：",
+          value: "stringaaaaaa",
           unitval: "string",
           code: "123123",
         });

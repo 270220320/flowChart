@@ -1,7 +1,7 @@
 import Konva from "konva";
 
 export default (canvas: Konva.Stage) => {
-  const scaleBy = 1.02;
+  const scaleBy = 1.1;
   canvas.on("wheel", (e) => {
     e.evt.preventDefault();
     const oldScale = canvas.scaleX();
