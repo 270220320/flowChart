@@ -40,7 +40,8 @@ class INLEDITOR {
 
   event = event.bind(this);
 
-  drawState: "Line" | "rightAngleLine" | "Rect" | "selection" = "selection";
+  drawState: "Line" | "rightAngleLine" | "editLine" | "Rect" | "selection" =
+    "selection";
 
   createThingText = createThingText.bind(this);
 

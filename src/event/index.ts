@@ -5,7 +5,7 @@ import keyDown from "./keyDown";
 import selectionBox from "./selectionBox";
 import selectItem from "./selectItem";
 import onDrag from "./onDrag";
-import Scale from "src/component/scale";
+import onDbclick from "./dbclick";
 import layer from "src/util/layer";
 
 export default function (this: INLEDITOR) {
@@ -15,4 +15,5 @@ export default function (this: INLEDITOR) {
   onwheel(this.stage);
   keyDown(this);
   onDrag.bind(this)();
+  onDbclick(this);
 }

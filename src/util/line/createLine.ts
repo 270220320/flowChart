@@ -8,6 +8,7 @@ import { getCustomAttrs, setCustomAttrs } from "../customAttr";
 import { UUID } from "../uuid";
 import { getLinePoints } from "./rightAngleLine";
 import { getUsePointUn } from "./line";
+import { enterEditLine } from "./editLine";
 
 // 创建线完成
 export const finishLine = (
@@ -17,7 +18,7 @@ export const finishLine = (
   point: { x: number; y: number },
   e: KonvaEventObject<MouseEvent>
 ) => {
-  ie.stage.setAttrs({ draggable: true });
+  ie.drawState = "selection";
   begin.setAttrs({ draggable: true });
   // e.target.parent?.setAttrs({ draggable: true });
   let pos = ie.stage.getPointerPosition();
@@ -43,9 +44,6 @@ export const finishLine = (
     });
     beginInfo.outLineIds.push(line.id());
     endInfo.inLineIds.push(line.id());
-    line.on("dblclick", () => {
-      console.log("111");
-    });
   } else {
     line.remove();
   }
@@ -76,7 +74,6 @@ export const beginCreateLine = (
   point: { x: number; y: number },
   e: KonvaEventObject<MouseEvent>
 ) => {
-  ie.stage.setAttrs({ draggable: false });
   e.target.setAttrs({ draggable: false });
   // e.target.parent?.setAttrs({ draggable: false });
 
