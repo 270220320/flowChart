@@ -6,6 +6,7 @@ import { getUsePoint, getUsePointUn } from "../line/line";
 import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 
 export const dealRelation = (e: KonvaEventObject<any>, ie: INLEDITOR) => {
+  debugger;
   if (e.target.className === "Rect") {
     const { lineInfo } = getCustomAttrs(e.target);
     lineInfo.outLineIds?.forEach((lineId: string) => {

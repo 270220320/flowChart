@@ -18,7 +18,6 @@ export const finishLine = (
   point: { x: number; y: number },
   e: KonvaEventObject<MouseEvent>
 ) => {
-  ie.drawState = "selection";
   begin.setAttrs({ draggable: true });
   // e.target.parent?.setAttrs({ draggable: true });
   let pos = ie.stage.getPointerPosition();
@@ -27,7 +26,7 @@ export const finishLine = (
   if (end) {
     const beginInfo = getCustomAttrs(begin).lineInfo;
     const endInfo = getCustomAttrs(end).lineInfo;
-
+    debugger;
     const data = {
       from: begin.id(),
       fromExcursionX: line.attrs.points[0] - begin.attrs.x,
@@ -47,6 +46,7 @@ export const finishLine = (
   } else {
     line.remove();
   }
+  ie.drawState = "selection";
 };
 
 // 创建线过程中移动
