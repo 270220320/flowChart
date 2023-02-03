@@ -1,4 +1,5 @@
 import Konva from "konva";
+import { Shape, ShapeConfig } from "konva/lib/Shape";
 import { Component, useComponent } from "./component";
 import Scale from "./component/scale";
 import { Theme } from "./config/theme";
@@ -77,6 +78,7 @@ class INLEDITOR {
   onselect(
     cb: (
       type: "thing" | "shape" | "thingText",
+      e: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage,
       data?: { iu?: string; code?: string; attrs?: Konva.NodeConfig }
     ) => void
   ) {
@@ -87,7 +89,7 @@ class INLEDITOR {
         // 如果是父级不是layer那就有可能是thing或者是thingText
 
         if (parent.getClassName() === "Layer") {
-          cb("shape", {
+          cb("shape", e.target, {
             attrs: e.target.getAttrs(),
           });
         } else {
@@ -96,12 +98,15 @@ class INLEDITOR {
             case "thingGroup":
               const data1 = getCustomAttrs(parent);
 
-              cb("thing", { iu: data1.thing!.iu });
+              cb("thing", parent, { iu: data1.thing!.iu });
               break;
             default:
               parent = parent.getParent() as any;
               const data = getCustomAttrs(parent);
-              cb("thingText", { iu: data.thing!.iu, code: data.thing!.ic });
+              cb("thingText", parent, {
+                iu: data.thing!.iu,
+                code: data.thing!.tc,
+              });
           }
         }
       }

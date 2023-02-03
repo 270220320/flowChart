@@ -18,7 +18,10 @@ export default function (this: INLEDITOR, id: string, json?: string) {
       });
   container = stage.container();
   container.tabIndex = 1;
-  container.style.background = theme[this.theme].background;
+  container.setAttribute(
+    "style",
+    `background: ${theme[this.theme].background}; position: relative;`
+  );
   resetImg(stage);
   // watchElement(id, (dm) => {
   //   stage.size({
