@@ -38,7 +38,7 @@ const resetEvent = (stage: Konva.Stage) => {
 
 // 框选元素动作
 const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
-  const flag = e.evt.shiftKey;
+  const flag = e.evt.ctrlKey;
   let Transformers = stage.findOne("Transformer") as Konva.Transformer;
   const node = getSelectNode(e.target);
   const nodes: Array<Konva.Node> = [];
