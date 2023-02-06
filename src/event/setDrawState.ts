@@ -79,12 +79,15 @@ export default (ie: INLEDITOR) => {
       case "Rect":
         onRect(ie, rect);
         break;
+      case "editLine":
+        return;
       case "rightAngleLine":
       case "Line":
         if (line) {
           finishLine(ie, begin!, line!, { x, y }, e);
           line = undefined;
         }
+        break;
     }
     ie.drawState = "default";
     ie.stage.setAttrs({

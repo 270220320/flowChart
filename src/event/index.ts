@@ -2,7 +2,7 @@ import INLEDITOR from "..";
 import ondrop from "./ondrop";
 import onwheel from "./onwheel";
 import keyDown from "./keyDown";
-import selectionBox from "./selectionBox";
+import selectionBox from "./setDrawState";
 import selectItem from "./selectItem";
 import onDrag from "./onDrag";
 import onDbclick from "./dbclick";
