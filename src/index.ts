@@ -41,7 +41,8 @@ class INLEDITOR {
 
   event = event.bind(this);
 
-  drawState: "Line" | "rightAngleLine" | "Rect" | "default" = "default";
+  drawState: "Line" | "rightAngleLine" | "editLine" | "Rect" | "default" =
+    "default";
 
   createThingText = createThingText.bind(this);
 

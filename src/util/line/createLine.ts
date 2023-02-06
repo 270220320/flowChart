@@ -45,7 +45,6 @@ export const finishLine = (
   } else {
     line.remove();
   }
-  ie.drawState = "default";
 };
 
 // 创建线过程中移动
