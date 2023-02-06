@@ -4,6 +4,7 @@ import { Component, useComponent } from "./component";
 import Scale from "./component/scale";
 import { Theme } from "./config/theme";
 import { getThingTextGroup } from "./element/group";
+import { changeImage } from "./element/image";
 import event from "./event";
 import changeTheme from "./util/changeTheme";
 import createThingText from "./util/createThingText";
@@ -64,6 +65,9 @@ class INLEDITOR {
       }
     });
   }
+
+  // 动态修改图片
+  changeImage = changeImage;
 
   use = useComponent.bind(this);
 

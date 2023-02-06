@@ -17,8 +17,7 @@ export const createImage = (img: string) => {
   });
 };
 
-export const loadImage = (imageNode: Konva.Image) => {
-  const src = imageNode.getAttr("src");
+export const changeImage = (imageNode: Konva.Image, src: string) => {
   const image = new Image();
   image.src = src;
   image.onload = () => {

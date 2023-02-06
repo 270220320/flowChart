@@ -50,7 +50,7 @@ class Scale extends Component {
     }
   }
   createScaleLine() {
-    const width = this.that.stage.width();
+    const width = this.that.stage.width() / 2;
     const height = this.that.stage.height();
     const zoom = this.that.stage.scaleX();
     const { x, y } = this.that.stage.position();
@@ -82,34 +82,35 @@ class Scale extends Component {
     maxw: number,
     scaleTheme: any
   ) {
+    let cl = new Konva.Line({
+      points: [],
+      stroke: scaleTheme.lineFill,
+      strokeWidth: 1,
+      name: "line",
+    });
+    let ct = new Konva.Text({
+      text: ``,
+      fontSize: 10,
+      y: 2,
+    });
+    cl.cache();
+    ct.cache();
+
     const linesx = [];
     const { thickness } = scaleTheme;
     const xwww = width;
     for (let i = -xwww; i < xwww; i++) {
       const x = i * fiveScale;
       if (x % maxw == 0) {
-        const cloneLine = new Konva.Line({
-          points: [x, 2, x, thickness],
-          stroke: scaleTheme.lineFill, //scale.lineFill,
-          strokeWidth: 1,
-          name: "line",
-        });
-        const cloneText = new Konva.Text({
-          text: `${i}`,
-          fontSize: 10,
-          x: x + 2,
-          y: 2,
-        });
+        const cloneLine = cl.clone({ points: [x, 2, x, thickness] });
+        const cloneText = ct.clone({ x: x + 2, text: i });
         linesx.push(cloneLine, cloneText);
       } else {
-        linesx.push(
-          new Konva.Line({
-            points: [x, thickness / 1.5, x, thickness],
-            stroke: scaleTheme.lineFill, // scale.lineFill,
-            strokeWidth: 0.5,
-            name: "line",
-          })
-        );
+        const cloneLine = cl.clone({
+          points: [x, thickness / 1.5, x, thickness],
+          strokeWidth: 0.5,
+        });
+        linesx.push(cloneLine);
       }
     }
 
@@ -118,35 +119,21 @@ class Scale extends Component {
     for (let i = -ywww; i < ywww; i++) {
       const y = i * fiveScale;
       if (y % maxw == 0) {
-        const text = new Konva.Text({
-          text: `${i}`,
-          fontSize: 10,
-          x: 2,
-          y,
-        });
+        const text = ct.clone({ y, x: 2, text: i });
         text.setAttrs({
           y: y + text.width() + 2,
           rotation: -90,
         });
-
-        linesy.push(
-          new Konva.Line({
-            points: [2, y, thickness, y],
-            stroke: scaleTheme.lineFill, //scale.lineFill,
-            strokeWidth: 1,
-            name: "line",
-          }),
-          text
-        );
+        const cloneLine = cl.clone({
+          points: [2, y, thickness, y],
+        });
+        linesy.push(cloneLine, text);
       } else {
-        linesy.push(
-          new Konva.Line({
-            points: [thickness / 1.5, y, thickness, y],
-            stroke: scaleTheme.lineFill, // scale.lineFill,
-            strokeWidth: 0.5,
-            name: "line",
-          })
-        );
+        const cloneLine = cl.clone({
+          points: [thickness / 1.5, y, thickness, y],
+          strokeWidth: 0.5,
+        });
+        linesy.push(cloneLine);
       }
     }
 
@@ -155,20 +142,8 @@ class Scale extends Component {
 
   moveStageByCanvasOffset() {
     const { x, y } = this.that.stage.position();
-    // this.scaleX.setAttrs({ x });
-    var tween = new Konva.Tween({
-      node: this.scaleX,
-      x,
-      duration: 0.01,
-    });
-    var tween2 = new Konva.Tween({
-      node: this.scaleY,
-      y,
-      duration: 0.01,
-    });
-    tween2.play();
-
-    tween.play();
+    this.scaleLayerX.setAttrs({ x });
+    this.scaleLayerY.setAttrs({ y });
   }
 
   onChange() {
@@ -179,7 +154,7 @@ class Scale extends Component {
         n ? clearTimeout(n) : null;
         n = setTimeout(() => {
           this.moveStageByCanvasOffset();
-        }, 2);
+        }, 1);
       }
     });
   }
