@@ -12,7 +12,6 @@ export default function (this: INLEDITOR, id: string, json?: string) {
 
   if (json) {
     stage = konva.Node.create(json, id);
-    console.log(stage);
   } else {
     stage = new konva.Stage({
       container: id,
