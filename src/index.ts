@@ -67,7 +67,15 @@ class INLEDITOR {
   }
 
   // 动态修改图片
-  changeImage = changeImage;
+  changeImage(iu: string, src: string) {
+    const thingLayer = layer(this.stage, "thing");
+
+    const image = (thingLayer.findOne(`#${iu}`) as Konva.Group)?.findOne(
+      "Image"
+    ) as Konva.Image;
+
+    image ? changeImage(image, src) : null;
+  }
 
   use = useComponent.bind(this);
 
