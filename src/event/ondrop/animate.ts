@@ -1,39 +1,36 @@
 import data from "../../data/data";
 import createThingText from "src/util/createThingText";
-import { getThingGroup, getThingGroups } from "src/element/group";
-import addThing from "./addThing";
+import { getThingGroup } from "src/element/group";
 import layer from "src/util/layer";
 import Konva from "konva";
 import INLEDITOR from "src";
+import { createThingImageGroup } from "src/element/thing";
 
 export const createElements = (ie: INLEDITOR) => {
-  setTimeout(() => {
-    const w = ie.stage.width();
-    const mx = 200;
-    let sx = 0;
-    let sy = 0;
-    let line = 0;
-    let index = 0;
-    const img = data[0].img;
-    for (let i of data) {
-      if (sx >= w * 2) {
-        sx = 0;
-        line += mx;
-      }
-      index++;
-      // i.img = img;
-      addThing(ie, (sx += mx), line, i);
-      setTimeout(() => {
-        const ct = createThingText.bind(ie)(i.iu);
-        ct?.advanced({
-          labelv: "string：",
-          value: i.iu,
-          unitval: "string",
-          code: "123123",
-        });
-      }, 1000);
+  const layerThing = layer(ie.stage, "thing");
+
+  const w = ie.stage.width();
+  const mx = 200;
+  let sx = 0;
+  let line = 0;
+  let index = 0;
+  for (let i of data) {
+    if (sx >= w * 2) {
+      sx = 0;
+      line += mx;
     }
-  }, 100);
+    index++;
+    createThingImageGroup(layerThing, i as any, (sx += mx), line);
+    setTimeout(() => {
+      const ct = createThingText.bind(ie)(i.iu);
+      ct?.advanced({
+        labelv: "string：",
+        value: i.iu,
+        unitval: "string",
+        code: "123123",
+      });
+    }, 1000);
+  }
 };
 
 export const createAnimate = (ie: INLEDITOR) => {

@@ -10,6 +10,8 @@ export default function (this: INLEDITOR, iu: string) {
   const thingGroup = this.stage.findOne(`#${iu}`) as Konva.Group;
   if (!thingGroup) return;
   const thing = thingGroup.findOne("Image") as Konva.Image;
+
+  if (!thing) return console.warn(`查询错误:${iu}`);
   return {
     def: (text: string, code: string) => {
       const textShape = createThingDefaultText(this.theme, {

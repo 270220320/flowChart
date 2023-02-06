@@ -7,8 +7,8 @@ import INLEDITOR from "src";
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
   if (
-    selectTarget.getParent().name() !== "thing" &&
-    selectTarget.getLayer().name() === "thing"
+    selectTarget.getParent().name() === "thingTextGroup" ||
+    selectTarget.getLayer().name() === "createThingDefaultText"
   ) {
     return selectTarget.getParent();
   }

@@ -2,7 +2,8 @@ import loadsh from "lodash";
 
 export interface Thing {
   iu: string; // instanceUuid
-  tc: string; // instanceCode
+  ic: string; // instanceCode
+  tc: string;
   img: string;
   name: string;
 }
@@ -10,6 +11,7 @@ export interface Thing {
 const thing: Thing = {
   tc: "",
   iu: "",
+  ic: "",
   img: "",
   name: "",
 };

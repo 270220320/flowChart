@@ -21,11 +21,12 @@ interface INLEDITOR {
 
 interface OPT {
   id: string;
+  json?: string;
 }
 class INLEDITOR {
   constructor(opt: OPT) {
     this.opt = opt;
-    this.init();
+    this.init(opt.json);
   }
   init(json?: string) {
     const { id } = this.opt;
@@ -67,7 +68,8 @@ class INLEDITOR {
 
   // 序列化
   toJson() {
-    return this.stage.toJSON();
+    const json = this.stage.toJSON();
+    return json;
   }
   // 反序列化
   loadJson(json: string) {
