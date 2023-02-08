@@ -6,11 +6,13 @@ import { Theme } from "./config/theme";
 import { getThingTextGroup } from "./element/group";
 import { changeImage } from "./element/image";
 import event from "./event";
+import stageClick from "./event/stageClick";
 import changeTheme from "./util/changeTheme";
 import createThingText from "./util/createThingText";
 import { getCustomAttrs, setCustomAttrs } from "./util/customAttr";
 import initStage from "./util/initStage";
 import layer from "./util/layer";
+import stageTofit from "./util/stageTofit";
 
 interface INLEDITOR {
   [ket: string]: any;
@@ -22,7 +24,9 @@ interface INLEDITOR {
 
 interface OPT {
   id: string;
+  isPreview?: boolean;
   json?: string;
+  scale?: "show" | "hide";
 }
 class INLEDITOR {
   constructor(opt: OPT) {
@@ -35,7 +39,10 @@ class INLEDITOR {
     this.stage = stage;
     this.container = container;
     this.event();
-    this.use(new Scale({}));
+
+    if (this.opt.scale !== "show") {
+      this.use(new Scale({}));
+    }
   }
 
   theme: Theme = "dark";
@@ -66,6 +73,33 @@ class INLEDITOR {
     });
   }
 
+  removeText(iu: string, code: string) {
+    // 查找物模型
+    const thignGroup = layer(this.stage, "thing").findOne(
+      `#${iu}`
+    ) as Konva.Group;
+    // 筛选code
+    getThingTextGroup(thignGroup).forEach((e) => {
+      const attrs = e.getAttrs();
+      if (attrs.code && attrs.code === code) {
+        e.remove();
+      }
+    });
+  }
+
+  // 获取画布上所有物模型的id
+  getAllIus() {
+    const thingLayer = layer(this.stage, "thing");
+    const ius: Array<string> = [];
+    thingLayer.getChildren().forEach((e) => {
+      if (e.hasName("thingGroup")) {
+        const { iu } = getCustomAttrs(e).thing!;
+        ius.push(iu);
+      }
+    });
+    return ius;
+  }
+
   // 动态修改图片
   changeImage(iu: string, src: string) {
     const thingLayer = layer(this.stage, "thing");
@@ -73,7 +107,6 @@ class INLEDITOR {
     const image = (thingLayer.findOne(`#${iu}`) as Konva.Group)?.findOne(
       "Image"
     ) as Konva.Image;
-
     image ? changeImage(image, src) : null;
   }
 
@@ -90,42 +123,11 @@ class INLEDITOR {
   }
 
   // 当画布元素被选中
-  onselect(
-    cb: (
-      type: "thing" | "shape" | "thingText",
-      e: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage,
-      data?: { iu?: string; code?: string; attrs?: Konva.NodeConfig }
-    ) => void
-  ) {
-    this.stage.on("click", (e) => {
-      if (e.target !== this.stage) {
-        // 如果是图形或者是文字，那么父级别肯定是layer
-        let parent = e.target.getParent() as Konva.Layer | Konva.Group;
-        // 如果是父级不是layer那就有可能是thing或者是thingText
+  onselect = stageClick.bind(this);
 
-        if (parent.getClassName() === "Layer") {
-          cb("shape", e.target, {
-            attrs: e.target.getAttrs(),
-          });
-        } else {
-          const name = parent.name();
-          switch (name) {
-            case "thingGroup":
-              const data1 = getCustomAttrs(parent);
-
-              cb("thing", parent, { iu: data1.thing!.iu });
-              break;
-            default:
-              parent = parent.getParent() as any;
-              const data = getCustomAttrs(parent);
-              cb("thingText", parent, {
-                iu: data.thing!.iu,
-                code: data.thing!.tc,
-              });
-          }
-        }
-      }
-    });
+  // 适应画布
+  toFit() {
+    stageTofit(this.stage);
   }
 }
 

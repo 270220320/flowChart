@@ -94,7 +94,7 @@ class Scale extends Component {
       y: 2,
     });
     cl.cache();
-    ct.cache();
+    // ct.cache();
 
     const linesx = [];
     const { thickness } = scaleTheme;

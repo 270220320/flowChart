@@ -12,6 +12,10 @@ export default function (this: INLEDITOR, id: string, json?: string) {
 
   if (json) {
     stage = konva.Node.create(json, id);
+    stage.setAttrs({
+      width: offsetWidth,
+      height: offsetHeight,
+    });
   } else {
     stage = new konva.Stage({
       container: id,
