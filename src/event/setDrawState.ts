@@ -9,6 +9,11 @@ import {
   removeSelectionBox,
 } from "../element/rect";
 import { beginCreateLine, finishLine } from "../util/line/createLine";
+import {
+  checkKeepEdit,
+  lineMouseDown,
+  lineMouseUp,
+} from "src/util/line/editLine";
 
 const offSelection = (ie: INLEDITOR) => {
   // 删除 layer
@@ -65,10 +70,9 @@ export default (ie: INLEDITOR) => {
           line = beginCreateLine(ie, { x, y }, e);
         }
         break;
-      default:
-        onSelection(ie, { y, x }, (rc) => {
-          rect = rc;
-        });
+      case "editLine":
+        lineMouseDown(e, ie);
+        break;
     }
   });
 
@@ -80,7 +84,11 @@ export default (ie: INLEDITOR) => {
         onRect(ie, rect);
         break;
       case "editLine":
-        return;
+        if (checkKeepEdit(e, ie)) {
+          lineMouseUp(e, ie);
+          return;
+        }
+        break;
       case "rightAngleLine":
       case "Line":
         if (line) {
