@@ -49,6 +49,13 @@ class Scale extends Component {
       this.show();
     }
   }
+
+  render() {
+    this.syd.innerHTML = "";
+    this.sxd.innerHTML = "";
+    this.createStage();
+    this.onChange();
+  }
   createScaleLine() {
     const width = this.that.stage.width() / 2;
     const height = this.that.stage.height();

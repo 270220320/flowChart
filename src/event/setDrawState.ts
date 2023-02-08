@@ -47,7 +47,7 @@ const onRect = (ie: INLEDITOR, rect: Konva.Rect | null) => {
   shapeLayer.add(createDefaultRect);
 };
 
-export default (ie: INLEDITOR) => {
+export default (ie: INLEDITOR, cb?: () => void) => {
   let rect: Konva.Rect | null;
   let line: Konva.Arrow | undefined;
   let begin: Konva.Rect | Konva.Group | null;
@@ -74,6 +74,7 @@ export default (ie: INLEDITOR) => {
 
   ie.stage.on("mouseup", (e) => {
     const { x, y } = computedXYByEvent(ie.stage, e.evt);
+    cb ? cb() : null;
     offSelection(ie);
     switch (ie.drawState) {
       case "Rect":

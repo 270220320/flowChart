@@ -3,7 +3,7 @@ import { Shape, ShapeConfig } from "konva/lib/Shape";
 import { Component, useComponent } from "./component";
 import Scale from "./component/scale";
 import { Theme } from "./config/theme";
-import { getThingTextGroup } from "./element/group";
+import { getThingTextGroup, groupNames } from "./element/group";
 import { changeImage } from "./element/image";
 import event from "./event";
 import stageClick from "./event/stageClick";
@@ -40,18 +40,28 @@ class INLEDITOR {
     this.container = container;
     this.event();
 
-    if (this.opt.scale !== "show") {
+    if (this.opt.scale !== "show" && !this.opt.isPreview) {
       this.use(new Scale({}));
     }
   }
 
+  // 主题
   theme: Theme = "dark";
 
+  // 注册时间
   event = event.bind(this);
 
+  // 绘制状态
   drawState: "Line" | "rightAngleLine" | "editLine" | "Rect" | "default" =
     "default";
+  // 保存状态
+  saveState: boolean = true;
+  // 设置保存状态
+  changeSaveStage(v: boolean) {
+    this.saveState = v;
+  }
 
+  // 创建thing文字
   createThingText = createThingText.bind(this);
 
   // 修改主题
@@ -72,7 +82,7 @@ class INLEDITOR {
       }
     });
   }
-
+  // 删除thing文字
   removeText(iu: string, code: string) {
     // 查找物模型
     const thignGroup = layer(this.stage, "thing").findOne(
@@ -90,9 +100,10 @@ class INLEDITOR {
   // 获取画布上所有物模型的id
   getAllIus() {
     const thingLayer = layer(this.stage, "thing");
+    thingLayer.draw();
     const ius: Array<string> = [];
     thingLayer.getChildren().forEach((e) => {
-      if (e.hasName("thingGroup")) {
+      if (e.hasName(groupNames.thingGroup)) {
         const { iu } = getCustomAttrs(e).thing!;
         ius.push(iu);
       }
@@ -110,6 +121,7 @@ class INLEDITOR {
     image ? changeImage(image, src) : null;
   }
 
+  // 注册组件
   use = useComponent.bind(this);
 
   // 序列化
@@ -128,6 +140,19 @@ class INLEDITOR {
   // 适应画布
   toFit() {
     stageTofit(this.stage);
+  }
+
+  render(opt?: { width: number; height: number }) {
+    if (opt) {
+      this.stage.setAttrs({
+        width: opt.width,
+        height: opt.height,
+      });
+      if (this.scale) {
+        this.scale.render();
+      }
+    }
+    this.stage.draw();
   }
 }
 
