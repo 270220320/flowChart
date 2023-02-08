@@ -11,7 +11,8 @@ import {
 import { beginCreateLine, finishLine } from "../util/line/createLine";
 import {
   checkKeepEdit,
-  lineMouseDown,
+  editMouseDown,
+  exitEditLine,
   lineMouseUp,
 } from "src/util/line/editLine";
 
@@ -71,8 +72,12 @@ export default (ie: INLEDITOR) => {
         }
         break;
       case "editLine":
-        lineMouseDown(e, ie);
+        editMouseDown(e, ie);
         break;
+      default:
+        onSelection(ie, { y, x }, (rc) => {
+          rect = rc;
+        });
     }
   });
 
@@ -87,6 +92,8 @@ export default (ie: INLEDITOR) => {
         if (checkKeepEdit(e, ie)) {
           lineMouseUp(e, ie);
           return;
+        } else {
+          exitEditLine(ie);
         }
         break;
       case "rightAngleLine":
