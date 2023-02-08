@@ -1,6 +1,6 @@
 import Konva from "konva";
 
-export default (stage: Konva.Stage) => {
+export default (stage: Konva.Stage, cb?: () => void) => {
   const scaleBy = 1.1;
   stage.on("wheel", (e) => {
     e.evt.preventDefault();
@@ -20,5 +20,7 @@ export default (stage: Konva.Stage) => {
     };
     stage.position(newPos);
     stage.batchDraw();
+
+    cb ? cb() : null;
   });
 };

@@ -1,14 +1,14 @@
 import Konva from "konva";
 import INLEDITOR from "src";
+import { groupNames } from "src/element/group";
 import { getCustomAttrs } from "src/util/customAttr";
-import layer from "src/util/layer";
 
 export default (ie: INLEDITOR, e: KeyboardEvent) => {
   const Transformers = ie.stage.find("Transformer")[0] as Konva.Transformer;
   const nodes = Transformers?.getNodes() || [];
   for (let i of nodes) {
-    const isThing = i.getParent().hasName("thingGroup");
-    const isThingText = i.getParent().hasName("thingTextGroup");
+    const isThing = i.getParent().hasName(groupNames.thingGroup);
+    const isThingText = i.getParent().hasName(groupNames.thingTextGroup);
     Transformers.destroy();
 
     if ((isThing && i.getClassName() === "Image") || isThingText) {
@@ -16,7 +16,13 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
     } else {
       i.remove();
     }
+
+    // 删除关联关系
     removeRelevance(i, ie);
+
+    ie.changeSaveStage(false);
+
+    ie.stage.draw();
   }
 };
 

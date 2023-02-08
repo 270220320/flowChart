@@ -1,11 +1,11 @@
 import Konva from "konva";
 
-enum LAYER {
-  test,
-  thing, // text、thing、 shape
-  line,
-  util,
-}
+const LAYER = {
+  test: "test",
+  thing: "thing", // text、thing、 shape
+  line: "line",
+  util: "util",
+};
 
 export default (stage: Konva.Stage, type: keyof typeof LAYER) => {
   let layer = stage.find(`.${type}`)[0] as Konva.Layer;

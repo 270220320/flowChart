@@ -6,7 +6,7 @@ import { getCustomAttrs } from "src/util/customAttr";
 export default function (
   this: INLEDITOR,
   cb: (
-    type: "thing" | "shape" | "thingText",
+    type: "thing" | "shape" | "thingText" | "stage",
     e: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage,
     data?: {
       iu?: string;
@@ -45,6 +45,8 @@ export default function (
             });
         }
       }
+    } else {
+      cb("stage", e.target);
     }
   });
 }

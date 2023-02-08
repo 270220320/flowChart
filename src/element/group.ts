@@ -1,10 +1,10 @@
 import Konva from "konva";
 import theme, { Theme } from "src/config/theme";
-import thing, { Thing } from "src/data/thing";
+import { Thing } from "src/data/thing";
 import { setCustomAttrs } from "src/util/customAttr";
 import layer from "src/util/layer";
 
-const groupNames = {
+export const groupNames = {
   thingGroup: "thingGroup",
   thingTextGroup: "thingTextGroup",
   thingDefTextGroup: "thingDefTextGroup",

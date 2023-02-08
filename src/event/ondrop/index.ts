@@ -3,14 +3,12 @@ import { Thing } from "src/data/thing";
 import { createThingImageGroup } from "src/element/thing";
 import { computedXYByEvent } from "src/util/computedXY";
 import layer from "src/util/layer";
-import { createElements } from "./animate";
 
 export default (
   ie: INLEDITOR,
   dom: HTMLElement,
   callback?: (e: DragEvent) => void
 ) => {
-  // createElements(ie);
   dom.ondragenter = function (e) {
     e.preventDefault();
   };
@@ -31,5 +29,6 @@ export default (
     const layerThing = layer(ie.stage, "thing");
     // 上传thing
     if (useThing) createThingImageGroup(layerThing, useThing, x, y);
+    callback ? callback(e) : null;
   };
 };
