@@ -1,44 +1,41 @@
 import konva from "konva";
 import INLEDITOR from "src";
 import theme from "src/config/theme";
-import watchElement from "../watchElement";
 import resetImg from "./resetImg";
 
-export default function (this: INLEDITOR, id: string, json?: string) {
+export default (ie: INLEDITOR, json?: string) => {
+  const { id } = ie.opt;
   const dom = document.getElementById(id)!;
   const { offsetWidth, offsetHeight } = dom;
-  this.stage ? this.stage.clear() : null;
-  let stage: konva.Stage, container: HTMLDivElement;
+  if (ie.stage) {
+    ie.stage.destroy();
+  }
 
   if (json) {
-    stage = konva.Node.create(json, id);
-    stage.setAttrs({
+    ie.stage = konva.Node.create(json, id);
+    ie.stage.setAttrs({
       width: offsetWidth,
       height: offsetHeight,
     });
   } else {
-    stage = new konva.Stage({
+    ie.stage = new konva.Stage({
       container: id,
       width: offsetWidth,
       height: offsetHeight,
       draggable: true,
     });
   }
-  container = stage.container();
-  container.tabIndex = 1;
-  container.setAttribute(
+  ie.stage.container().tabIndex = 1;
+  ie.container = ie.stage.container();
+  ie.container.setAttribute(
     "style",
-    `background: ${theme[this.theme].background}; position: relative;`
+    `background: ${theme[ie.theme].background}; position: relative;`
   );
-  resetImg(stage);
+  resetImg(ie.stage);
   // watchElement(id, (dm) => {
   //   stage.size({
   //     width: dm.offsetWidth,
   //     height: dm.offsetHeight,
   //   });
   // });
-  return {
-    stage,
-    container,
-  };
-}
+};

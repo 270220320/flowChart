@@ -1,8 +1,7 @@
 import Konva from "konva";
-import { Shape, ShapeConfig } from "konva/lib/Shape";
-import { Component, useComponent } from "./component";
+import { useComponent } from "./component";
 import Scale from "./component/scale";
-import { Theme } from "./config/theme";
+import theme, { Theme } from "./config/theme";
 import { getThingTextGroup, groupNames } from "./element/group";
 import { changeImage } from "./element/image";
 import event from "./event";
@@ -13,6 +12,7 @@ import { getCustomAttrs, setCustomAttrs } from "./util/customAttr";
 import initStage from "./util/initStage";
 import layer from "./util/layer";
 import stageTofit from "./util/stageTofit";
+import toImage from "./util/toImage";
 
 interface INLEDITOR {
   [ket: string]: any;
@@ -34,12 +34,8 @@ class INLEDITOR {
     this.init(opt.json);
   }
   init(json?: string) {
-    const { id } = this.opt;
-    const { stage, container } = initStage.bind(this)(id, json);
-    this.stage = stage;
-    this.container = container;
+    initStage(this, json);
     this.event();
-
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
       this.use(new Scale({}));
     }
@@ -132,6 +128,11 @@ class INLEDITOR {
   // 反序列化
   loadJson(json: string) {
     this.init(json);
+  }
+
+  // 转换成图片
+  toImage() {
+    return toImage(this.stage, theme[this.theme].background);
   }
 
   // 当画布元素被选中

@@ -2,6 +2,7 @@ import INLEDITOR from "src";
 import { closeSubLine, initSubLine } from "./subline";
 import { dealRelation } from "../../util/element/relation";
 import { moveLine } from "src/util/line/rightAngleLine";
+import resetBackground from "./resetBackground";
 
 export default (ie: INLEDITOR, cb?: () => void) => {
   const { stage } = ie;
