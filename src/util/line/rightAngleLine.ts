@@ -1,11 +1,6 @@
 import Konva from "konva";
 import { KonvaEventObject } from "konva/lib/Node";
 
-export const moveLine = (
-  e: KonvaEventObject<MouseEvent>,
-  stage: Konva.Stage
-) => {};
-
 // 直线首末点赋值并修改相邻点坐标保持直角
 export const setRightAngleLineBeginOrEnd = (
   points: { x: number; y: number }[],

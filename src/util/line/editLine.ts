@@ -3,6 +3,7 @@ import INLEDITOR from "../..";
 import { getUsePointUn, getUsePoint } from "./line";
 import { getInsertIndex, movePartOfLine } from "./lineLogic";
 import { addPoint, bindPointEvent } from "./point";
+import { turnDrag } from "./rect";
 
 let editLine: Konva.Arrow;
 let controls: Konva.Circle[] = [];
@@ -10,6 +11,7 @@ let clickIndex: number;
 
 // 退出线编辑状态
 export const exitEditLine = (ie: INLEDITOR) => {
+  turnDrag(ie, true);
   controls.forEach((point) => {
     point.remove();
   });
@@ -30,6 +32,7 @@ export const enterEditLine = (line: Konva.Arrow, ie: INLEDITOR) => {
   const points = getUsePoint(editLine.attrs.points);
   bindPointEvent(pBegin, 0, editLine, ie);
   bindPointEvent(pEnd, points.length - 1, editLine, ie);
+  turnDrag(ie, false);
 };
 // 线编辑点击线
 const lineMouseDown = (e: any, ie: INLEDITOR) => {
