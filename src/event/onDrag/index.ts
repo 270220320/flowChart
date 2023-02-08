@@ -1,8 +1,6 @@
 import INLEDITOR from "src";
 import { closeSubLine, initSubLine } from "./subline";
 import { dealRelation } from "../../util/element/relation";
-import { moveLine } from "src/util/line/rightAngleLine";
-import resetBackground from "./resetBackground";
 
 export default (ie: INLEDITOR, cb?: () => void) => {
   const { stage } = ie;
@@ -10,10 +8,10 @@ export default (ie: INLEDITOR, cb?: () => void) => {
   stage.on("dragmove", (e) => {
     // 启动辅助线
     initSubLine.bind(ie)(stage, e);
+
     // 块关联线随动
     dealRelation(e, ie);
 
-    moveLine(e, stage);
     cb ? cb() : null;
   });
   // 结束拖动

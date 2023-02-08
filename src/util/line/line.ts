@@ -1,3 +1,38 @@
+import Konva from "konva";
+import { getCustomAttrs } from "../customAttr";
+import INLEDITOR from "../..";
+
+export const connectNewRect = (
+  line: Konva.Arrow,
+  controlIndex: number,
+  newParent: Konva.Shape | Konva.Group,
+  point: {
+    x: number;
+    y: number;
+  },
+  ie: INLEDITOR
+) => {
+  const { lineInfo } = getCustomAttrs(line);
+  const newInfo = getCustomAttrs(newParent).lineInfo;
+  if (controlIndex === 0) {
+    const oldRect = ie.stage.findOne("#" + lineInfo.from);
+    const oldRectInfo = getCustomAttrs(oldRect).lineInfo;
+    oldRectInfo.outLineIds.splice(oldRectInfo.outLineIds.indexOf(line.id()), 1);
+    lineInfo.from = newParent.id();
+    lineInfo.fromExcursionX = point.x - newParent.attrs.x;
+    lineInfo.fromExcursionY = point.y - newParent.attrs.y;
+    newInfo.outLineIds.push(line.id());
+  } else {
+    const oldRect = ie.stage.findOne("#" + lineInfo.to);
+    const oldRectInfo = getCustomAttrs(oldRect).lineInfo;
+    oldRectInfo.inLineIds.splice(oldRectInfo.inLineIds.indexOf(line.id()), 1);
+    lineInfo.to = newParent.id();
+    lineInfo.toExcursionX = point.x - newParent.attrs.x;
+    lineInfo.toExcursionY = point.y - newParent.attrs.y;
+    newInfo.inLineIds.push(line.id());
+  }
+};
+
 // 根据konva点转换正常点
 export const getUsePoint: (
   p: Array<number>,
