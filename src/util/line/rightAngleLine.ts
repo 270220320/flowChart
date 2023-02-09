@@ -1,6 +1,40 @@
 import Konva from "konva";
 import { KonvaEventObject } from "konva/lib/Node";
 
+// 直线合并中间无用折点
+export const mergeRightAngleLinePoint = (
+  points: { x: number; y: number }[]
+) => {
+  // 先合并首尾
+  if (
+    Math.abs(points[0].x - points[1].x) < 3 &&
+    Math.abs(points[0].y - points[1].y) < 3
+  ) {
+    points.splice(0, 1);
+  }
+  const lastIndex = points.length - 1;
+  if (
+    Math.abs(points[lastIndex].x - points[lastIndex - 1].x) < 3 &&
+    Math.abs(points[lastIndex].y - points[lastIndex - 1].y) < 3
+  ) {
+    points.splice(lastIndex, 1);
+  }
+  // 合并中间节点
+  for (let i = 1; i < points.length - 1; i++) {
+    const prev = points[i - 1];
+    const now = points[i];
+    const next = points[i + 1];
+    if (Math.abs(prev.x - now.x) < 3 && Math.abs(now.x - next.x) < 3) {
+      prev.x = now.x;
+      points.splice(i--, 1);
+    } else if (Math.abs(prev.y - now.y) < 3 && Math.abs(now.y - next.y) < 3) {
+      prev.y = now.y;
+      points.splice(i--, 1);
+    }
+  }
+  return points;
+};
+
 // 直线首末点赋值并修改相邻点坐标保持直角
 export const setRightAngleLineBeginOrEnd = (
   points: { x: number; y: number }[],
@@ -35,7 +69,7 @@ export const setRightAngleLineBeginOrEnd = (
   }
   return points;
 };
-
+// 根据两点返回折线坐标
 export const getLinePoints = (
   pointA: { x: number; y: number },
   pointB: { x: number; y: number }
