@@ -1,9 +1,9 @@
 import Konva from "konva";
-import theme, { Theme } from "@/config/theme";
-import { thingTextInfo } from "@/data/cdata";
-import { Thing } from "@/data/thing";
-import { setCustomAttrs } from "@/util/customAttr";
-import layer, { LAYER } from "@/util/layer";
+import theme, { Theme } from "../config/theme";
+import { thingTextInfo } from "../data/cdata";
+import { Thing } from "../data/thing";
+import { setCustomAttrs } from "../util/customAttr";
+import layer, { LAYER } from "../util/layer";
 
 type groupNames = "thingGroup" | "thingTextGroup" | "thingDefTextGroup";
 export const groupNames: Record<groupNames, groupNames> = {
