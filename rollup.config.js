@@ -25,6 +25,15 @@ rollupConfig.push({
     file: `dist/element/index.d.ts`,
     format: "es",
   },
-  plugins: [typescript()],
+  plugins: [dts()],
+});
+
+rollupConfig.push({
+  input: "src/index.ts",
+  output: {
+    file: `dist/index.d.ts`,
+    format: "es",
+  },
+  plugins: [dts()],
 });
 export default rollupConfig;
