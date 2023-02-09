@@ -17,7 +17,7 @@ export const bindPointEvent = (
     const { x, y } = computedXYByEvent(ie.stage, e.evt);
     const points = getUsePoint(line.attrs.points);
     let resPoints;
-    const { lineInfo } = getCustomAttrs(line);
+    const lineInfo = getCustomAttrs(line).lineInfo!;
     // 直角线
     if (lineInfo.type === "rightAngleLine") {
       resPoints = setRightAngleLineBeginOrEnd(points, controlIndex, {
@@ -36,7 +36,7 @@ export const bindPointEvent = (
     const { x, y } = computedXYByEvent(ie.stage, e.evt);
     const points = getUsePoint(line.attrs.points);
     const newParent = getMouseOver({ x: e.evt.layerX, y: e.evt.layerY }, ie);
-    const { lineInfo } = getCustomAttrs(line);
+    const lineInfo = getCustomAttrs(line).lineInfo!;
     if (newParent) {
       connectNewRect(
         line,

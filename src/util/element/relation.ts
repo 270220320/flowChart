@@ -1,13 +1,14 @@
 import Konva from "konva";
 import INLEDITOR from "src";
 import { KonvaEventObject } from "konva/lib/Node";
-import { getCustomAttrs } from "../customAttr";
+import { getCustomAttrs, getLineInfo } from "../customAttr";
 import { getUsePoint, getUsePointUn } from "../line/line";
 import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 
 export const dealRelation = (e: KonvaEventObject<any>, ie: INLEDITOR) => {
-  if (e.target.className === "Rect") {
-    const { lineInfo } = getCustomAttrs(e.target) as any;
+  if (e.target.className === "Rect" || e.target.className === "Image") {
+    const lineInfo = getLineInfo(e.target)!;
+    // debugger;
     lineInfo.outLineIds?.forEach((lineId: string) => {
       const line = ie.stage.findOne("#" + lineId);
       const { lineInfo } = getCustomAttrs(line) as any;
