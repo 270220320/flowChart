@@ -7,15 +7,15 @@ export const mergeRightAngleLinePoint = (
 ) => {
   // 先合并首尾
   if (
-    Math.abs(points[0].x - points[1].x) < 5 &&
-    Math.abs(points[0].y - points[1].y) < 5
+    Math.abs(points[0].x - points[1].x) < 3 &&
+    Math.abs(points[0].y - points[1].y) < 3
   ) {
     points.splice(0, 1);
   }
   const lastIndex = points.length - 1;
   if (
-    Math.abs(points[lastIndex].x - points[lastIndex - 1].x) < 5 &&
-    Math.abs(points[lastIndex].y - points[lastIndex - 1].y) < 5
+    Math.abs(points[lastIndex].x - points[lastIndex - 1].x) < 3 &&
+    Math.abs(points[lastIndex].y - points[lastIndex - 1].y) < 3
   ) {
     points.splice(lastIndex, 1);
   }
@@ -24,10 +24,10 @@ export const mergeRightAngleLinePoint = (
     const prev = points[i - 1];
     const now = points[i];
     const next = points[i + 1];
-    if (Math.abs(prev.x - now.x) < 2 && Math.abs(now.x - next.x) < 2) {
+    if (Math.abs(prev.x - now.x) < 3 && Math.abs(now.x - next.x) < 3) {
       prev.x = now.x;
       points.splice(i--, 1);
-    } else if (Math.abs(prev.y - now.y) < 2 && Math.abs(now.y - next.y) < 2) {
+    } else if (Math.abs(prev.y - now.y) < 3 && Math.abs(now.y - next.y) < 3) {
       prev.y = now.y;
       points.splice(i--, 1);
     }
