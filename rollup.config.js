@@ -10,4 +10,21 @@ rollupConfig.push({
   },
   plugins: [typescript()],
 });
+rollupConfig.push({
+  input: "src/element/index.ts",
+  output: {
+    file: `dist/element/index.js`,
+    format: "es",
+  },
+  plugins: [typescript()],
+});
+
+rollupConfig.push({
+  input: "src/element/index.ts",
+  output: {
+    file: `dist/element/index.d.ts`,
+    format: "es",
+  },
+  plugins: [typescript()],
+});
 export default rollupConfig;
