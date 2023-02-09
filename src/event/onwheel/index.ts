@@ -1,5 +1,4 @@
 import Konva from "konva";
-import resetBackground from "../onDrag/resetBackground";
 
 export default (stage: Konva.Stage, cb?: () => void) => {
   const scaleBy = 1.1;

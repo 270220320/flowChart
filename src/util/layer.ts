@@ -1,6 +1,8 @@
 import Konva from "konva";
 
-const LAYER = {
+type LayerTypes = "test" | "thing" | "line" | "util";
+
+export const LAYER: Record<LayerTypes, LayerTypes> = {
   test: "test",
   thing: "thing", // text、thing、 shape
   line: "line",

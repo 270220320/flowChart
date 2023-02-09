@@ -4,10 +4,10 @@ import Scale from "./component/scale";
 import theme, { Theme } from "./config/theme";
 import { getThingTextGroup, groupNames } from "./element/group";
 import { changeImage } from "./element/image";
+import { createThingText, setThingTextVal } from "./element/text";
 import event from "./event";
 import stageClick from "./event/stageClick";
 import changeTheme from "./util/changeTheme";
-import createThingText from "./util/createThingText";
 import { getCustomAttrs, setCustomAttrs } from "./util/customAttr";
 import initStage from "./util/initStage";
 import layer from "./util/layer";
@@ -58,7 +58,9 @@ class INLEDITOR {
   }
 
   // 创建thing文字
-  createThingText = createThingText.bind(this);
+  createThingText = (iu: string) => {
+    return createThingText(this.stage, iu, this.theme);
+  };
 
   // 修改主题
   changeTheme = changeTheme.bind(this);
@@ -69,12 +71,11 @@ class INLEDITOR {
     const thignGroup = layer(this.stage, "thing").findOne(
       `#${iu}`
     ) as Konva.Group;
+    if (!thignGroup) return;
     // 筛选code
     getThingTextGroup(thignGroup).forEach((e) => {
       if (e.attrs.code && e.attrs.code === code) {
-        setCustomAttrs(e, { val });
-        const valNode = e.findOne(".val");
-        valNode.setAttr("text", val);
+        setThingTextVal(e, val);
       }
     });
   }

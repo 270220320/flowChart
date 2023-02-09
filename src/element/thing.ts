@@ -1,10 +1,11 @@
 import Konva from "konva";
 import { defaultTheme } from "src/config/theme";
+import { cData } from "src/data/cdata";
 import { Thing } from "src/data/thing";
-import createThingText from "src/util/createThingText";
+import { setCustomAttrs } from "src/util/customAttr";
 import { createThingGroup } from "./group";
 import { createImage } from "./image";
-import { createText, createThingDefaultText } from "./text";
+import { createThingDefaultText } from "./text";
 
 export const createThingImageGroup = async (
   parent: Konva.Group | Konva.Layer,
@@ -15,16 +16,21 @@ export const createThingImageGroup = async (
   const group = createThingGroup(useThing);
   const { img } = useThing;
   const image = await createImage(img);
-  const text = createThingDefaultText(defaultTheme, {
-    value: useThing.ic,
-    code: "CODE",
-  });
-  const textVal = text.findOne(".val") as any;
+  const text = createThingDefaultText(
+    defaultTheme,
+    {
+      v: useThing.ic,
+      code: "CODE",
+    },
+    { x: 0, y: 0 }
+  );
+  const textVal = text.findOne(".val");
   const { width, height } = image.attrs.image;
   image.setAttrs({
     x: x - width / 2,
     y: y - height / 2,
   });
+  setCustomAttrs(image, cData);
   textVal.setAttrs({
     x: image.attrs.x + (image.width() - textVal.width()) / 2,
     y: image.attrs.y + image.height(),
