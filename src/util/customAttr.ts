@@ -1,23 +1,31 @@
 import Konva from "konva";
-import { Thing } from "src/data/thing";
-
-interface customData {
-  [key: string]: any;
-  thing?: Thing;
-  type?: string;
-  code?: string;
-}
+import { CDATA, cData } from "src/data/cdata";
 
 export const getCustomAttrs: (
   e: Konva.Stage | Konva.Group | Konva.Node
-) => customData = (e) => {
-  return e.getAttr("cdata") || {};
+) => CDATA = (e) => {
+  return e.getAttr("cdata") || cData;
 };
 
 export const setCustomAttrs = (
   e: Konva.Stage | Konva.Group | Konva.Node,
-  data: customData
+  data: CDATA
 ) => {
   const cdata = getCustomAttrs(e);
-  e.setAttr("cdata", Object.assign({}, cdata, data));
+  e.setAttr("cdata", Object.assign(cData, cdata, data));
+};
+
+export const getLineInfo = (e: Konva.Line) => {
+  const cd = getCustomAttrs(e);
+  if (!cd.lineInfo) {
+    setCustomAttrs(e, {
+      lineInfo: {
+        outLineIds: [],
+        inLineIds: [],
+      },
+    });
+    e.draw();
+  }
+  const { lineInfo } = getCustomAttrs(e);
+  return lineInfo;
 };

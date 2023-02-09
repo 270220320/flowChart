@@ -1,5 +1,5 @@
 import data from "../../data/data";
-import createThingText from "src/util/createThingText";
+import { createThingText } from "src/element/text";
 import { getThingGroup } from "src/element/group";
 import layer from "src/util/layer";
 import Konva from "konva";
@@ -22,7 +22,7 @@ export const createElements = (ie: INLEDITOR) => {
     index++;
     createThingImageGroup(layerThing, i as any, (sx += mx), line);
     setTimeout(() => {
-      const ct = createThingText.bind(ie)(i.iu);
+      const ct = createThingText(ie.stage, i.iu, ie.theme);
       ct?.advanced({
         labelv: "string：",
         value: i.iu,

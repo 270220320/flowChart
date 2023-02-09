@@ -1,10 +1,12 @@
 import Konva from "konva";
 import theme, { Theme } from "src/config/theme";
+import { thingTextInfo } from "src/data/cdata";
 import { Thing } from "src/data/thing";
 import { setCustomAttrs } from "src/util/customAttr";
-import layer from "src/util/layer";
+import layer, { LAYER } from "src/util/layer";
 
-export const groupNames = {
+type groupNames = "thingGroup" | "thingTextGroup" | "thingDefTextGroup";
+export const groupNames: Record<groupNames, groupNames> = {
   thingGroup: "thingGroup",
   thingTextGroup: "thingTextGroup",
   thingDefTextGroup: "thingDefTextGroup",
@@ -52,10 +54,12 @@ export interface createThingTextGroupData {
 
 // 创建thingtext 的组
 export const createThingTextGroup = (
-  data: createThingTextGroupData,
-  name: keyof typeof groupNames
+  data: thingTextInfo,
+  name: keyof typeof groupNames,
+  position: { x: number; y: number }
 ) => {
-  const { x, y, labelv, value, unitval, code } = data;
+  const { x, y } = position;
+  const { code, v } = data;
   const group = new Konva.Group({
     name: name,
     draggable: true,
@@ -64,10 +68,7 @@ export const createThingTextGroup = (
     y: y || 0,
   });
   setCustomAttrs(group, {
-    labelv,
-    val: value,
-    unitval,
-    code,
+    thingTextInfo: { code },
   });
   return group;
 };
@@ -113,9 +114,9 @@ export const setThingTextGroupTheme = (ea: Konva.Group, themeType: Theme) => {
 
 // 设置 Thing 组的样式
 export const setThingGroupTheme = (stage: Konva.Stage, themeType: Theme) => {
-  const thingLayer = layer(stage, "thing");
+  const thingLayer = layer(stage, LAYER.thing);
   getThingGroups(thingLayer).forEach((item) => {
-    getThingTextGroup(item, "thingTextGroup").forEach((ea) => {
+    getThingTextGroup(item, groupNames.thingTextGroup).forEach((ea) => {
       setThingTextGroupTheme(ea, themeType);
     });
     // 还需要处理其他样式主题

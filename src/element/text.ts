@@ -7,7 +7,9 @@ import {
   Parent,
   createThingTextGroup,
   createThingTextGroupData,
+  groupNames,
 } from "./group";
+import { thingTextInfo } from "src/data/cdata";
 
 export const createText = (config: TextConfig) =>
   new Konva.Text({
@@ -20,17 +22,19 @@ export const createText = (config: TextConfig) =>
 
 export const createThingDefaultText = (
   themeType: Theme,
-  data: createThingTextGroupData
+  data: thingTextInfo,
+  position: { x: number; y: number }
 ) => {
   const t = theme[themeType];
-  const { x, y, value, code } = data;
-  const group = createThingTextGroup(data, "thingDefTextGroup");
+  const { v, code } = data;
+  const { x, y } = position;
+  const group = createThingTextGroup(data, "thingDefTextGroup", position);
   const textEl = createText({
     x: x || 0,
     y: y || 0,
     fill: t.thingText.def.val.fill,
     fontSize: t.thingText.def.val.size,
-    text: value,
+    text: v,
     align: "center",
     code,
     height: t.thingText.advanced.val.rectHeight,
@@ -47,50 +51,58 @@ export const setThingDefaultTextTheme = (ea: Konva.Text, themeType: Theme) => {
   });
 };
 
-// 修改默认 thing 文字的val
-export const setThingDefaultTextVal = (e: Konva.Text, val: string) => {
-  e.setAttrs({
-    text: val,
-  });
+// 修改thing 文字的val
+export const setThingTextVal = (e: Konva.Group, val: string) => {
+  const text = e.findOne(".val");
+
+  if (text) {
+    // 设置value
+    text.setAttrs({
+      text: val,
+    });
+  }
+
+  // 设置thing属性值
 };
 
 // 查询默认 thing文字
 export const getThingDefaultTexts: (parent: Parent) => Array<Child> = (e) => {
-  return e.find(".createThingDefaultText");
+  return e.find(`.${groupNames.thingDefTextGroup}`);
 };
 
 // 创建复杂的thing文字
 export const createThingAdvancedText = (
   themeType: Theme,
-  data: createThingTextGroupData
+  data: thingTextInfo,
+  position: { x: number; y: number }
 ) => {
-  const { labelv, value, unitval } = data;
-  const group = createThingTextGroup(data, "thingTextGroup");
+  const { label, v, unit } = data;
+  const group = createThingTextGroup(data, "thingTextGroup", position);
   const t = theme[themeType];
-  const { val, unit, label } = t.thingText.advanced;
+  const { advanced } = t.thingText;
   const labelText = createText({
-    fill: label.fill,
-    fontSize: label.size,
-    text: labelv,
+    fill: advanced.label.fill,
+    fontSize: advanced.label.size,
+    text: label,
     draggable: false,
-    height: val.rectHeight,
+    height: advanced.val.rectHeight,
     name: "label",
   });
   const valtext = createText({
-    fill: val.fill,
-    fontSize: val.size,
-    text: value,
+    fill: advanced.val.fill,
+    fontSize: advanced.val.size,
+    text: v,
     draggable: false,
     x: labelText.width() + 5,
     align: "center",
-    height: val.rectHeight,
+    height: advanced.val.rectHeight,
     name: "val",
   });
   const valRect = defaultRect({
-    fill: val.rectFill,
-    stroke: val.rectStroke,
+    fill: advanced.val.rectFill,
+    stroke: advanced.val.rectStroke,
     strokeWidth: 1,
-    height: val.rectHeight,
+    height: advanced.val.rectHeight,
     width: valtext.width() + 10,
     draggable: false,
     x: labelText.width(),
@@ -99,13 +111,13 @@ export const createThingAdvancedText = (
   });
 
   const unitText = createText({
-    fill: unit.fill,
-    fontSize: unit.size,
-    opacity: unit.opacity,
-    text: unitval,
+    fill: advanced.unit.fill,
+    fontSize: advanced.unit.size,
+    opacity: advanced.unit.opacity,
+    text: unit,
     x: valRect.attrs.x + valRect.width() + 5,
     draggable: false,
-    height: val.rectHeight,
+    height: advanced.val.rectHeight,
     name: "unit",
   });
 
@@ -118,3 +130,50 @@ export const getThingAdvancedText = (parent: Parent) => {};
 
 // 修改thing 文字的主题
 export const changeThingTextTheme = (themeType: Theme) => {};
+
+export const createThingText = (
+  stage: Konva.Stage,
+  iu: string,
+  themeType: Theme
+) => {
+  const thingGroup = stage.findOne(`#${iu}`) as Konva.Group;
+  if (!thingGroup) return;
+  const thing = thingGroup.findOne("Image") as Konva.Image;
+
+  if (!thing) return console.warn(`查询错误:${iu}`);
+  return {
+    def: (text: string, code: string) => {
+      const textShape = createThingDefaultText(
+        themeType,
+        {
+          v: text,
+          code,
+        },
+        { x: 0, y: 0 }
+      );
+      thingGroup.add(textShape);
+      textShape.setAttrs({
+        x: thing.attrs.x,
+        y: thing.attrs.y + thing.height(),
+        draggable: true,
+      });
+    },
+    advanced: (data: createThingTextGroupData) => {
+      const { labelv, value, unitval, code } = data;
+      const group = createThingAdvancedText(
+        themeType,
+        {
+          label: labelv,
+          v: value,
+          unit: unitval,
+          code,
+        },
+        {
+          x: thing.attrs.x,
+          y: thing.attrs.y + thing.height(),
+        }
+      );
+      thingGroup.add(group);
+    },
+  };
+};

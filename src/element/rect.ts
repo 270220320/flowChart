@@ -3,7 +3,6 @@ import { RectConfig } from "konva/lib/shapes/Rect";
 import { setCustomAttrs } from "src/util/customAttr";
 import theme, { Theme } from "../config/theme";
 import { UUID } from "src/util/uuid";
-import layer from "src/util/layer";
 
 export const createSelectionBox = (stage: Konva.Stage, themeType?: Theme) => {
   const layer = stage.findOne(`.selection`);
@@ -41,22 +40,5 @@ export const defaultRect = (position: RectConfig, themeType?: Theme) => {
       inLineIds: [],
     },
   });
-  return rect;
-};
-
-export const createBackgroundRect = (stage: Konva.Stage, themeType: Theme) => {
-  const utilLayer = layer(stage, "util");
-  const rect = new Konva.Rect({
-    id: "backgroundRect",
-    fill: theme[themeType].background,
-    width: stage.width(),
-    height: stage.height(),
-  });
-  utilLayer.add(rect);
-  utilLayer.draw();
-  return rect;
-};
-export const getBackgroundRect = (stage: Konva.Stage) => {
-  const rect = layer(stage, "util").findOne("#backgroundRect");
   return rect;
 };
