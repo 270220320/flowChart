@@ -5,6 +5,7 @@ import { getUsePointUn, getUsePoint, connectNewRect } from "./line";
 import { setRightAngleLineBeginOrEnd } from "./rightAngleLine";
 import { getCustomAttrs } from "../customAttr";
 import { getMouseOver } from "..";
+import { computedXYByEvent } from "../computedXY";
 
 export const bindPointEvent = (
   point: Konva.Circle,
@@ -12,25 +13,28 @@ export const bindPointEvent = (
   line: Konva.Arrow,
   ie: INLEDITOR
 ) => {
-  const points = getUsePoint(line.attrs.points);
   point.on("dragmove", (e) => {
+    const { x, y } = computedXYByEvent(ie.stage, e.evt);
+    const points = getUsePoint(line.attrs.points);
     let resPoints;
     const { lineInfo } = getCustomAttrs(line);
     // 直角线
     if (lineInfo.type === "rightAngleLine") {
       resPoints = setRightAngleLineBeginOrEnd(points, controlIndex, {
-        x: e.evt.layerX,
-        y: e.evt.layerY,
+        x,
+        y,
       });
     } else {
       // 斜线
-      points[controlIndex] = { x: e.evt.layerX, y: e.evt.layerY };
+      points[controlIndex] = { x, y };
       resPoints = points;
     }
     const arr = getUsePointUn(resPoints);
     line.setAttrs({ points: arr });
   });
   point.on("dragend", (e: any) => {
+    const { x, y } = computedXYByEvent(ie.stage, e.evt);
+    const points = getUsePoint(line.attrs.points);
     const newParent = getMouseOver({ x: e.evt.layerX, y: e.evt.layerY }, ie);
     const { lineInfo } = getCustomAttrs(line);
     if (newParent) {
@@ -39,20 +43,20 @@ export const bindPointEvent = (
         controlIndex,
         newParent,
         {
-          x: e.evt.layerX,
-          y: e.evt.layerY,
+          x,
+          y,
         },
         ie
       );
     } else {
       if (controlIndex === 0) {
         const rectOut = ie.stage.findOne("#" + lineInfo.from);
-        lineInfo.fromExcursionX = e.evt.layerX - rectOut.attrs.x;
-        lineInfo.fromExcursionY = e.evt.layerY - rectOut.attrs.y;
+        lineInfo.fromExcursionX = x - rectOut.attrs.x;
+        lineInfo.fromExcursionY = y - rectOut.attrs.y;
       } else if (controlIndex === points.length - 1) {
         const rectIn = ie.stage.findOne("#" + lineInfo.to);
-        lineInfo.toExcursionX = e.evt.layerX - rectIn.attrs.x;
-        lineInfo.toExcursionY = e.evt.layerY - rectIn.attrs.y;
+        lineInfo.toExcursionX = x - rectIn.attrs.x;
+        lineInfo.toExcursionY = y - rectIn.attrs.y;
       }
     }
   });

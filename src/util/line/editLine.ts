@@ -4,6 +4,7 @@ import { getUsePointUn, getUsePoint } from "./line";
 import { getInsertIndex, movePartOfLine } from "./lineLogic";
 import { addPoint, bindPointEvent } from "./point";
 import { turnDrag } from "./rect";
+import { computedXYByEvent } from "../computedXY";
 
 let editLine: Konva.Arrow;
 let controls: Konva.Circle[] = [];
@@ -32,21 +33,28 @@ export const enterEditLine = (line: Konva.Arrow, ie: INLEDITOR) => {
   const points = getUsePoint(editLine.attrs.points);
   bindPointEvent(pBegin, 0, editLine, ie);
   bindPointEvent(pEnd, points.length - 1, editLine, ie);
+  // 关闭拖动
   turnDrag(ie, false);
 };
 // 线编辑点击线
 const lineMouseDown = (e: any, ie: INLEDITOR) => {
   const arr = getUsePoint(editLine.attrs.points);
+  const { x, y } = computedXYByEvent(ie.stage, e.evt);
   clickIndex = getInsertIndex(arr, {
-    x: e.evt.layerX,
-    y: e.evt.layerY,
+    x,
+    y,
   });
+  console.log(clickIndex);
   ie.stage.on("mousemove", (e: any) => {
+    const { x, y } = computedXYByEvent(ie.stage, e.evt);
     const arr = getUsePoint(editLine.attrs.points);
     const points = movePartOfLine(arr, clickIndex, {
-      x: e.evt.layerX,
-      y: e.evt.layerY,
+      x,
+      y,
     });
+    if (clickIndex === 1) {
+      clickIndex = 2;
+    }
     editLine.setAttrs({ points: getUsePointUn(points) });
   });
 };
