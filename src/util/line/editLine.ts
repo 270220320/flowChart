@@ -5,6 +5,7 @@ import { getInsertIndex, movePartOfLine } from "./lineLogic";
 import { addPoint, bindPointEvent } from "./point";
 import { turnDrag } from "./rect";
 import { computedXYByEvent } from "../computedXY";
+import { mergeRightAngleLinePoint } from "./rightAngleLine";
 
 let editLine: Konva.Arrow;
 let controls: Konva.Circle[] = [];
@@ -44,7 +45,6 @@ const lineMouseDown = (e: any, ie: INLEDITOR) => {
     x,
     y,
   });
-  console.log(clickIndex);
   ie.stage.on("mousemove", (e: any) => {
     const { x, y } = computedXYByEvent(ie.stage, e.evt);
     const arr = getUsePoint(editLine.attrs.points);
@@ -78,6 +78,9 @@ export const lineMouseUp = (
   e: Konva.KonvaEventObject<MouseEvent>,
   ie: INLEDITOR
 ) => {
+  const points = getUsePoint(editLine.attrs.points);
+  const resPoints = mergeRightAngleLinePoint(points);
+  editLine.setAttrs({ points: getUsePointUn(resPoints) });
   ie.stage.off("mousemove");
 };
 // 检查是否继续编辑
