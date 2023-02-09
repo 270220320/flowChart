@@ -1,6 +1,6 @@
 import konva from "konva";
-import INLEDITOR from "src";
-import theme from "src/config/theme";
+import INLEDITOR from "@/index";
+import theme from "@/config/theme";
 import resetImg from "./resetImg";
 
 export default (ie: INLEDITOR, json?: string) => {
@@ -16,6 +16,7 @@ export default (ie: INLEDITOR, json?: string) => {
     ie.stage.setAttrs({
       width: offsetWidth,
       height: offsetHeight,
+      background: "#dddddd",
     });
   } else {
     ie.stage = new konva.Stage({
@@ -23,6 +24,7 @@ export default (ie: INLEDITOR, json?: string) => {
       width: offsetWidth,
       height: offsetHeight,
       draggable: true,
+      background: "#dddddd",
     });
   }
   ie.stage.container().tabIndex = 1;

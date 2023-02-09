@@ -1,5 +1,4 @@
 import Konva from "konva";
-import INLEDITOR from "src";
 import { Component } from "..";
 import theme from "../../config/theme";
 

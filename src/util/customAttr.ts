@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CDATA, cData } from "src/data/cdata";
+import { CDATA, cData } from "@/data/cdata";
 
 export const getCustomAttrs: (
   e: Konva.Stage | Konva.Group | Konva.Node

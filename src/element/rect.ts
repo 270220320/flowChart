@@ -1,8 +1,8 @@
 import Konva from "konva";
 import { RectConfig } from "konva/lib/shapes/Rect";
-import { setCustomAttrs } from "src/util/customAttr";
+import { setCustomAttrs } from "@/util/customAttr";
+import { UUID } from "@/util/uuid";
 import theme, { Theme } from "../config/theme";
-import { UUID } from "src/util/uuid";
 
 export const createSelectionBox = (stage: Konva.Stage, themeType?: Theme) => {
   const layer = stage.findOne(`.selection`);

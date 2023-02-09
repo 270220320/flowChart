@@ -1,7 +1,7 @@
 import Konva from "konva";
-import INLEDITOR from "src";
-import { groupNames } from "src/element/group";
-import { getCustomAttrs } from "src/util/customAttr";
+import INLEDITOR from "@/index";
+import { groupNames } from "@/element/group";
+import { getCustomAttrs } from "@/util/customAttr";
 
 export default (ie: INLEDITOR, e: KeyboardEvent) => {
   const Transformers = ie.stage.find("Transformer")[0] as Konva.Transformer;

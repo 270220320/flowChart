@@ -1,7 +1,7 @@
 import Konva from "konva";
-import INLEDITOR from "src";
-import layer from "src/util/layer";
-import { enterEditLine } from "src/util/line/editLine";
+import INLEDITOR from "@/index";
+import layer from "@/util/layer";
+import { enterEditLine } from "@/util/line/editLine";
 
 export default (ie: INLEDITOR) => {
   layer(ie.stage, "line").on("dblclick", (e) => {
