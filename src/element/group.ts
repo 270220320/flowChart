@@ -1,9 +1,9 @@
 import Konva from "konva";
-import theme, { Theme } from "src/config/theme";
-import { thingTextInfo } from "src/data/cdata";
-import { Thing } from "src/data/thing";
-import { setCustomAttrs } from "src/util/customAttr";
-import layer, { LAYER } from "src/util/layer";
+import theme, { Theme } from "@/config/theme";
+import { thingTextInfo } from "@/data/cdata";
+import { Thing } from "@/data/thing";
+import { setCustomAttrs } from "@/util/customAttr";
+import layer, { LAYER } from "@/util/layer";
 
 type groupNames = "thingGroup" | "thingTextGroup" | "thingDefTextGroup";
 export const groupNames: Record<groupNames, groupNames> = {
@@ -42,15 +42,6 @@ export const getThingGroup: (parent: Parent, iu: string) => Konva.Group = (
 ) => {
   return parent.findOne(`#${iu}`);
 };
-
-export interface createThingTextGroupData {
-  labelv?: string;
-  value: string;
-  unitval?: string;
-  code: string;
-  x?: number;
-  y?: number;
-}
 
 // 创建thingtext 的组
 export const createThingTextGroup = (

@@ -1,8 +1,8 @@
 import Konva from "konva";
-import { defaultTheme } from "src/config/theme";
-import { cData } from "src/data/cdata";
-import { Thing } from "src/data/thing";
-import { setCustomAttrs } from "src/util/customAttr";
+import { defaultTheme } from "@/config/theme";
+import { cData } from "@/data/cdata";
+import { Thing } from "@/data/thing";
+import { setCustomAttrs } from "@/util/customAttr";
 import { createThingGroup } from "./group";
 import { createImage } from "./image";
 import { createThingDefaultText } from "./text";
@@ -40,4 +40,5 @@ export const createThingImageGroup = async (
 
   parent.add(group);
   parent.draw();
+  return Promise.resolve(group);
 };

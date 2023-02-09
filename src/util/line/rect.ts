@@ -1,5 +1,5 @@
 import Konva from "konva";
-import INLEDITOR from "src";
+import INLEDITOR from "@/index";
 import layer from "../layer";
 
 export const turnDrag = (ie: INLEDITOR, state: boolean) => {

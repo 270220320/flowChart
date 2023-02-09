@@ -3,8 +3,8 @@ import { createThingText } from "src/element/text";
 import { getThingGroup } from "src/element/group";
 import layer from "src/util/layer";
 import Konva from "konva";
-import INLEDITOR from "src";
-import { createThingImageGroup } from "src/element/thing";
+import INLEDITOR from "@/index";
+import { createThingImageGroup } from "@/element/thing";
 
 export const createElements = (ie: INLEDITOR) => {
   const layerThing = layer(ie.stage, "thing");

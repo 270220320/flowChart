@@ -1,7 +1,7 @@
 import Konva from "konva";
 import _ from "lodash";
-import { computedPoint, computedXYByEvent } from "src/util/computedXY";
-import layer from "src/util/layer";
+import { computedPoint, computedXYByEvent } from "@/util/computedXY";
+import layer from "@/util/layer";
 import INLEDITOR from "..";
 import {
   createSelectionBox,
@@ -14,7 +14,7 @@ import {
   editMouseDown,
   exitEditLine,
   lineMouseUp,
-} from "src/util/line/editLine";
+} from "@/util/line/editLine";
 
 const offSelection = (ie: INLEDITOR) => {
   // 删除 layer

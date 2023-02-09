@@ -1,7 +1,7 @@
 import Konva from "konva";
-import INLEDITOR from "src";
-import theme, { Theme } from "src/config/theme";
-import { setThingGroupTheme } from "src/element/group";
+import INLEDITOR from "@/index";
+import theme, { Theme } from "@/config/theme";
+import { setThingGroupTheme } from "@/element/group";
 
 export default function (
   this: INLEDITOR,

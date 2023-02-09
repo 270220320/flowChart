@@ -1,4 +1,4 @@
-import INLEDITOR from "src";
+import INLEDITOR from "@/index";
 import { closeSubLine, initSubLine } from "./subline";
 import { dealRelation } from "../../util/element/relation";
 

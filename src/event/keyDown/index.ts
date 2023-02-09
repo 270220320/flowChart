@@ -1,4 +1,4 @@
-import INLEDITOR from "src";
+import INLEDITOR from "@/index";
 import remove from "./remove";
 
 export default (ie: INLEDITOR, cb?: () => void) => {

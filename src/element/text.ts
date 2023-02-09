@@ -1,15 +1,11 @@
 import Konva from "konva";
 import { TextConfig } from "konva/lib/shapes/Text";
-import { defaultRect } from "src/element/rect";
-import theme, { Theme } from "src/config/theme";
-import {
-  Child,
-  Parent,
-  createThingTextGroup,
-  createThingTextGroupData,
-  groupNames,
-} from "./group";
-import { thingTextInfo } from "src/data/cdata";
+import { defaultRect } from "@/element/rect";
+import theme, { Theme } from "@/config/theme";
+import { Child, Parent, createThingTextGroup, groupNames } from "./group";
+import { thingTextInfo } from "@/data/cdata";
+import { THINGTEXT } from "@/data/dropData";
+import layer from "@/util/layer";
 
 export const createText = (config: TextConfig) =>
   new Konva.Text({
@@ -123,6 +119,31 @@ export const createThingAdvancedText = (
 
   group.add(valRect, labelText, valtext, unitText);
   return group;
+};
+
+// 根据 thing id 插入文字
+export const createThingTextByThingId = (
+  stage: Konva.Stage,
+  iu: string,
+  texts: THINGTEXT,
+  themeType: Theme
+) => {
+  const group = layer(stage, "thing").findOne(`#${iu}`) as Konva.Group;
+  createThingTextByGroup(group, texts, themeType);
+};
+// 根据 组插入文字
+export const createThingTextByGroup = (
+  group: Konva.Group,
+  texts: THINGTEXT,
+  themeType: Theme
+) => {
+  for (let i of texts) {
+    if (i.type === "thingDefTextGroup") {
+      group.add(createThingDefaultText(themeType, i.info, i.position));
+    } else {
+      group.add(createThingAdvancedText(themeType, i.info, i.position));
+    }
+  }
 };
 
 // 查询复杂的thing文字

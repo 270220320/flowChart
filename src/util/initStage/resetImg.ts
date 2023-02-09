@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { createImage } from "src/element/image";
+import { createImage } from "@/element/image";
 
 export default (stage: Konva.Stage) => {
   stage.find("Image").forEach(async (imageNode) => {

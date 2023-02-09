@@ -1,5 +1,5 @@
 import Konva from "konva";
-import INLEDITOR from "src";
+import INLEDITOR from "@/index";
 import { KonvaEventObject } from "konva/lib/Node";
 import { getCustomAttrs, getLineInfo } from "../customAttr";
 import { getUsePoint, getUsePointUn } from "../line/line";

@@ -2,11 +2,11 @@ import Konva from "konva";
 import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
 import { Stage } from "konva/lib/Stage";
-import INLEDITOR from "src";
-import { createSubLine, getSubLine } from "src/element/line";
-import { Theme } from "src/config/theme";
-import computedXY from "src/util/computedXY";
-import layer from "src/util/layer";
+import INLEDITOR from "@/index";
+import { createSubLine, getSubLine } from "@/element/line";
+import { Theme } from "@/config/theme";
+import computedXY from "@/util/computedXY";
+import layer from "@/util/layer";
 
 // 查询出需要辅助线计算的layer
 const getLayerBySubLine = (ie: INLEDITOR) => {

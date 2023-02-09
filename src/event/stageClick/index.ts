@@ -1,7 +1,7 @@
 import Konva from "konva";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
-import INLEDITOR from "src";
-import { getCustomAttrs } from "src/util/customAttr";
+import INLEDITOR from "@/index";
+import { getCustomAttrs } from "@/util/customAttr";
 
 export default function (
   this: INLEDITOR,
