@@ -2,6 +2,13 @@ import { Thing } from "./thing";
 
 export interface INTANCEINFO {}
 export interface LINEINFO {
+  from?: string;
+  fromExcursionX?: number;
+  fromExcursionY?: number;
+  to?: string;
+  toExcursionX?: number;
+  toExcursionY?: number;
+  type?: string;
   outLineIds?: Array<string>;
   inLineIds?: Array<string>;
 }

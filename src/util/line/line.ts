@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { getCustomAttrs } from "../customAttr";
+import { getCustomAttrs, getLineInfo } from "../customAttr";
 import INLEDITOR from "../..";
 
 export const connectNewRect = (
@@ -12,24 +12,27 @@ export const connectNewRect = (
   },
   ie: INLEDITOR
 ) => {
-  const { lineInfo } = getCustomAttrs(line);
-  const newInfo = getCustomAttrs(newParent).lineInfo;
+  const lineInfo = getCustomAttrs(line).lineInfo!;
+  const newInfo = getLineInfo(newParent);
   if (controlIndex === 0) {
     const oldRect = ie.stage.findOne("#" + lineInfo.from);
     const oldRectInfo = getCustomAttrs(oldRect).lineInfo;
-    oldRectInfo.outLineIds.splice(oldRectInfo.outLineIds.indexOf(line.id()), 1);
+    oldRectInfo?.outLineIds?.splice(
+      oldRectInfo.outLineIds.indexOf(line.id()),
+      1
+    );
     lineInfo.from = newParent.id();
     lineInfo.fromExcursionX = point.x - newParent.attrs.x;
     lineInfo.fromExcursionY = point.y - newParent.attrs.y;
-    newInfo.outLineIds.push(line.id());
+    newInfo?.outLineIds?.push(line.id());
   } else {
     const oldRect = ie.stage.findOne("#" + lineInfo.to);
     const oldRectInfo = getCustomAttrs(oldRect).lineInfo;
-    oldRectInfo.inLineIds.splice(oldRectInfo.inLineIds.indexOf(line.id()), 1);
+    oldRectInfo?.inLineIds?.splice(oldRectInfo.inLineIds.indexOf(line.id()), 1);
     lineInfo.to = newParent.id();
     lineInfo.toExcursionX = point.x - newParent.attrs.x;
     lineInfo.toExcursionY = point.y - newParent.attrs.y;
-    newInfo.inLineIds.push(line.id());
+    newInfo?.inLineIds?.push(line.id());
   }
 };
 

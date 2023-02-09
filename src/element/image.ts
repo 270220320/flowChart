@@ -1,8 +1,13 @@
 import Konva from "konva";
 import _ from "lodash";
+import { UUID } from "src/util/uuid";
 const cacheImgList: Record<string, Konva.Image> = {};
 export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
-  if (cacheImgList[img]) return Promise.resolve(cacheImgList[img].clone());
+  if (cacheImgList[img]) {
+    const image = cacheImgList[img].clone();
+    image.setId(UUID());
+    return Promise.resolve(image);
+  }
   return new Promise<Konva.Image>((res, rej) => {
     Konva.Image.fromURL(img, (darthNode: Konva.Image) => {
       const { width, height } = darthNode.attrs.image;
@@ -10,6 +15,7 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
         myWidth: width,
         myHeight: height,
         src: img,
+        id: UUID(),
       });
       darthNode.cache();
       cacheImgList[img] = darthNode;

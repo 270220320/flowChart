@@ -4,7 +4,7 @@ import { computedPoint, computedXYByEvent } from "src/util/computedXY";
 import layer from "src/util/layer";
 import { KonvaEventObject } from "konva/lib/Node";
 import { getMouseOver } from "../";
-import { getCustomAttrs, setCustomAttrs } from "../customAttr";
+import { getCustomAttrs, getLineInfo, setCustomAttrs } from "../customAttr";
 import { UUID } from "../uuid";
 import { getLinePoints } from "./rightAngleLine";
 import { getUsePointUn } from "./line";
@@ -24,8 +24,8 @@ export const finishLine = (
   const end = getMouseOver(pos!, ie);
 
   if (end) {
-    const beginInfo = getCustomAttrs(begin).lineInfo;
-    const endInfo = getCustomAttrs(end).lineInfo;
+    const beginInfo = getLineInfo(begin);
+    const endInfo = getLineInfo(end);
     const data = {
       from: begin.id(),
       fromExcursionX: line.attrs.points[0] - begin.attrs.x,
@@ -40,8 +40,8 @@ export const finishLine = (
     setCustomAttrs(line, {
       lineInfo: data,
     });
-    beginInfo.outLineIds.push(line.id());
-    endInfo.inLineIds.push(line.id());
+    beginInfo?.outLineIds?.push(line.id());
+    endInfo?.inLineIds?.push(line.id());
   } else {
     line.remove();
   }

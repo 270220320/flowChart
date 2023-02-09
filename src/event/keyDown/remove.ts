@@ -28,7 +28,7 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
 
 const removeRelevance = (obj: any, ie: INLEDITOR) => {
   if (obj.className === "Arrow") {
-    const { lineInfo } = getCustomAttrs(obj);
+    const lineInfo = getCustomAttrs(obj).lineInfo!;
 
     const rectOut = ie.stage.findOne("#" + lineInfo.from);
     const rectIn = ie.stage.findOne("#" + lineInfo.to);
@@ -36,11 +36,11 @@ const removeRelevance = (obj: any, ie: INLEDITOR) => {
     const outInfo = getCustomAttrs(rectOut).lineInfo;
     const inInfo = getCustomAttrs(rectIn).lineInfo;
 
-    outInfo.outLineIds.splice(outInfo.outLineIds.indexOf(lineInfo.from), 1);
-    inInfo.inLineIds.splice(inInfo.inLineIds.indexOf(lineInfo.to), 1);
+    outInfo?.outLineIds?.splice(outInfo.outLineIds.indexOf(lineInfo.from!), 1);
+    inInfo?.inLineIds?.splice(inInfo.inLineIds.indexOf(lineInfo.to!), 1);
   }
   if (obj.className === "Rect") {
-    const { lineInfo } = getCustomAttrs(obj);
+    const lineInfo = getCustomAttrs(obj).lineInfo!;
     [...(lineInfo.outLineIds || []), ...(lineInfo.inLineIds || [])]?.forEach(
       (id: string) => {
         const line = ie.stage.findOne("#" + id);
