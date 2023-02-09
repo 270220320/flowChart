@@ -19,7 +19,7 @@ export const finishLine = (
   e: KonvaEventObject<MouseEvent>
 ) => {
   begin.setAttrs({ draggable: true });
-  // e.target.parent?.setAttrs({ draggable: true });
+  begin.parent?.setAttrs({ draggable: true });
   let pos = ie.stage.getPointerPosition();
   const end = getMouseOver(pos!, ie);
 
@@ -73,7 +73,7 @@ export const beginCreateLine = (
   e: KonvaEventObject<MouseEvent>
 ) => {
   e.target.setAttrs({ draggable: false });
-  // e.target.parent?.setAttrs({ draggable: false });
+  e.target.parent?.setAttrs({ draggable: false });
 
   const lay = layer(ie.stage, "line");
   lay.moveToTop();

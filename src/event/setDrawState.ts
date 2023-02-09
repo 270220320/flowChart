@@ -58,7 +58,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
   let line: Konva.Arrow | undefined;
   let begin: Konva.Rect | Konva.Group | null;
   ie.stage.on("mousedown", (e) => {
-    const { y, x } = computedXYByEvent(ie.stage, e.evt);
+    const { x, y } = computedXYByEvent(ie.stage, e.evt);
     if (ie.drawState === "default") return;
     ie.stage.setAttrs({
       draggable: false,
@@ -66,7 +66,8 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     switch (ie.drawState) {
       case "rightAngleLine":
       case "Line":
-        if (e.target.className === "Rect") {
+        // debugger;
+        if (e.target.className === "Rect" || e.target.className === "Image") {
           begin = e.target as Konva.Rect;
           line = beginCreateLine(ie, { x, y }, e);
         }
