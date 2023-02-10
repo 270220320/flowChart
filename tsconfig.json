@@ -2,19 +2,17 @@
   "compilerOptions": {
     "jsx": "preserve",
     "target": "esnext",   
-    "lib": ["dom", "esnext"],                               /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "module": "esnext",                                /* Specify what module code is generated. */
-    // "declaration": true,                              /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
-    // "declarationMap": true,                           /* Create sourcemaps for d.ts files. */
+    "lib": ["dom", "esnext"],
+    "module": "esnext",
     "paths": {
       "@/*": ["./src/*"]
-    },                              /* Specify an output folder for all emitted files. */
+    },
     "baseUrl": ".",
     "rootDir": "./src",
     "outDir": "dist",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true,                                /* Skip type checking all .d.ts files. */
+    "resolveJsonModule": true,
   },
   "include": ["src"]
 }

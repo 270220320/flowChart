@@ -53,8 +53,9 @@ class INLEDITOR {
   }
 
   protected stage: Konva.Stage;
+
   getStage() {
-    return this.stage;
+    return this.stage || null;
   }
   setStage(c: Konva.Stage) {
     this.stage = c;
@@ -62,7 +63,7 @@ class INLEDITOR {
 
   protected container: HTMLDivElement;
   getContainer() {
-    return this.container;
+    return this.container || null;
   }
   setContainer(c: HTMLDivElement) {
     this.container = c;
