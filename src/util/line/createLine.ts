@@ -9,6 +9,7 @@ import { UUID } from "../uuid";
 import { getLinePoints } from "./rightAngleLine";
 import { getUsePointUn } from "./line";
 import { enterEditLine } from "./editLine";
+import { LineTheme } from "@/config/line";
 
 // 创建线完成
 export const finishLine = (
@@ -80,7 +81,7 @@ export const beginCreateLine = (
 
   const lay = layer(ie.stage, "line");
   lay.moveToTop();
-  const line = createTemporaryLine(lay, point);
+  const line = createTemporaryLine(lay, point, ie);
   ie.stage.on("mousemove", (e) => {
     const { x, y } = computedXYByEvent(ie.stage, e.evt);
     if (line) {
@@ -93,16 +94,13 @@ export const beginCreateLine = (
 // 画出预览线
 export const createTemporaryLine = (
   layer: Konva.Layer,
-  point: { x: number; y: number }
+  point: { x: number; y: number },
+  ie
 ) => {
   var arrow = new Konva.Arrow({
     id: UUID(),
     points: [point.x, point.y, point.x, point.y],
-    pointerLength: 20,
-    pointerWidth: 20,
-    fill: "black",
-    stroke: "black",
-    strokeWidth: 4,
+    ...LineTheme[ie.theme],
   });
 
   layer.add(arrow);
