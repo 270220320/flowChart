@@ -1,18 +1,9 @@
-export {
-  createThingGroup,
-  createThingTextGroup,
-  getThingGroup,
-  getThingGroups,
-  getThingTextGroup,
-  groupNames,
-  setThingGroupTheme,
-  setThingTextGroupTheme,
-} from "./group";
+export * from "./group";
 
-export { createImage, changeImage } from "./image";
+export * from "./image";
 
-export { createSubLine, getSubLine } from "./line";
+export * from "./line";
 
-export { defaultRect, removeSelectionBox, createSelectionBox } from "./rect";
+export * from "./rect";
 
-export { createThingImageGroup } from "./thing";
+export * from "./thing";

@@ -7,4 +7,8 @@ exports.entry = [
     type: "element",
     root: "src/element/index.ts",
   },
+  {
+    type: "config",
+    root: "src/config/index.ts",
+  },
 ];
