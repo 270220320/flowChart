@@ -20,6 +20,8 @@ export const exitEditLine = (ie: INLEDITOR) => {
 };
 // 进入线编辑状态
 export const enterEditLine = (line: Konva.Arrow, ie: INLEDITOR) => {
+  // 关闭拖动
+  turnDrag(ie, false);
   editLine = line;
   const length = line.attrs.points.length;
   const pBegin = addPoint(ie, {
@@ -34,8 +36,6 @@ export const enterEditLine = (line: Konva.Arrow, ie: INLEDITOR) => {
   const points = getUsePoint(editLine.attrs.points);
   bindPointEvent(pBegin, 0, editLine, ie);
   bindPointEvent(pEnd, points.length - 1, editLine, ie);
-  // 关闭拖动
-  turnDrag(ie, false);
 };
 // 线编辑点击线
 const lineMouseDown = (e: any, ie: INLEDITOR) => {
