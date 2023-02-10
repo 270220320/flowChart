@@ -6,6 +6,7 @@ import { Child, Parent, createThingTextGroup, groupNames } from "./group";
 import { thingTextInfo } from "../data/cdata";
 import { THINGTEXT } from "../data/dropData";
 import layer from "../util/layer";
+import { getCustomAttrs, setCustomAttrs } from "../util/customAttr";
 
 export const createText = (config: TextConfig) =>
   new Konva.Text({
@@ -19,12 +20,13 @@ export const createText = (config: TextConfig) =>
 export const createThingDefaultText = (
   themeType: Theme,
   data: thingTextInfo,
-  position: { x: number; y: number }
+  position: { x: number; y: number },
+  group?: Konva.Group
 ) => {
   const t = theme[themeType];
   const { v, code } = data;
   const { x, y } = position;
-  const group = createThingTextGroup(data, "thingDefTextGroup", position);
+  group = group || createThingTextGroup(data, "thingDefTextGroup", position);
   const textEl = createText({
     x: x || 0,
     y: y || 0,
@@ -70,10 +72,11 @@ export const getThingDefaultTexts: (parent: Parent) => Array<Child> = (e) => {
 export const createThingAdvancedText = (
   themeType: Theme,
   data: thingTextInfo,
-  position: { x: number; y: number }
+  position: { x: number; y: number },
+  group?: Konva.Group
 ) => {
   const { label, v, unit } = data;
-  const group = createThingTextGroup(data, "thingTextGroup", position);
+  group = createThingTextGroup(data, "thingTextGroup", position);
   const t = theme[themeType];
   const { advanced } = t.thingText;
   const labelText = createText({
@@ -179,14 +182,14 @@ export const createThingText = (
         draggable: true,
       });
     },
-    advanced: (data: createThingTextGroupData) => {
-      const { labelv, value, unitval, code } = data;
+    advanced: (data: thingTextInfo) => {
+      const { label, v, unit, code } = data;
       const group = createThingAdvancedText(
         themeType,
         {
-          label: labelv,
-          v: value,
-          unit: unitval,
+          label: label,
+          v: v,
+          unit: unit,
           code,
         },
         {
@@ -195,6 +198,38 @@ export const createThingText = (
         }
       );
       thingGroup.add(group);
+    },
+    changeTo: (code: string) => {
+      thingGroup.getChildren().forEach((item) => {
+        if (item.attrs.code && item.attrs.code === code) {
+          const name = item.name();
+          const attrs = getCustomAttrs(item);
+          (item as Konva.Group).removeChildren();
+
+          setCustomAttrs(item, attrs);
+          if (name === groupNames.thingDefTextGroup) {
+            item.setAttrs({
+              name: groupNames.thingTextGroup,
+            });
+            createThingAdvancedText(
+              themeType,
+              attrs.thingTextInfo,
+              item.position() || { x: 0, y: 0 },
+              item as Konva.Group
+            );
+          } else {
+            createThingDefaultText(
+              themeType,
+              attrs.thingTextInfo,
+              item.position() || { x: 0, y: 0 },
+              item as Konva.Group
+            );
+            item.setAttrs({
+              name: groupNames.thingDefTextGroup,
+            });
+          }
+        }
+      });
     },
   };
 };

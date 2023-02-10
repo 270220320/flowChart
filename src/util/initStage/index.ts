@@ -5,35 +5,39 @@ import resetImg from "./resetImg";
 
 export default (ie: INLEDITOR, json?: string) => {
   const { id } = ie.opt;
+  const stage = ie.getStage();
   const dom = document.getElementById(id)!;
   const { offsetWidth, offsetHeight } = dom;
-  if (ie.stage) {
-    ie.stage.destroy();
+  const themeType = ie.getTheme();
+  if (stage) {
+    stage.destroy();
   }
 
   if (json) {
-    ie.stage = konva.Node.create(json, id);
-    ie.stage.setAttrs({
+    ie.setStage(konva.Node.create(json, id));
+    stage.setAttrs({
       width: offsetWidth,
       height: offsetHeight,
       background: "#dddddd",
     });
   } else {
-    ie.stage = new konva.Stage({
-      container: id,
-      width: offsetWidth,
-      height: offsetHeight,
-      draggable: true,
-      background: "#dddddd",
-    });
+    ie.setStage(
+      new konva.Stage({
+        container: id,
+        width: offsetWidth,
+        height: offsetHeight,
+        draggable: true,
+        background: "#dddddd",
+      })
+    );
   }
-  ie.stage.container().tabIndex = 1;
-  ie.container = ie.stage.container();
-  ie.container.setAttribute(
+  stage.container().tabIndex = 1;
+  ie.setContainer(stage.container());
+  ie.getContainer().setAttribute(
     "style",
-    `background: ${theme[ie.theme].background}; position: relative;`
+    `background: ${theme[themeType].background}; position: relative;`
   );
-  resetImg(ie.stage);
+  resetImg(stage);
   // watchElement(id, (dm) => {
   //   stage.size({
   //     width: dm.offsetWidth,
