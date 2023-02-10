@@ -17,8 +17,8 @@ export class Component {
   init() {}
 }
 
-export const useComponent = function (this: INLEDITOR, component: Component) {
-  component.that = this;
+export const useComponent = (ie: INLEDITOR, component: Component) => {
+  component.that = ie;
   component.init();
-  this[component.name] = component;
+  ie[component.name] = component;
 };

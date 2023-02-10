@@ -1,12 +1,12 @@
 import Konva from "konva";
-import { useComponent } from "./component";
+import { Component, useComponent } from "./component";
 import Scale from "./component/scale";
 import theme, { Theme } from "./config/theme";
 import { getThingTextGroup, groupNames } from "./element/group";
 import { changeImage } from "./element/image";
 import { createThingText, setThingTextVal } from "./element/text";
 import event from "./event";
-import stageClick from "./event/stageClick";
+import stageClick, { onSelectCallBackFun } from "./event/stageClick";
 import changeTheme from "./util/changeTheme";
 import { getCustomAttrs, setCustomAttrs } from "./util/customAttr";
 import initStage from "./util/initStage";
@@ -33,7 +33,7 @@ class INLEDITOR {
     this.opt = opt;
     this.init(opt.json);
   }
-  init(json?: string) {
+  protected init(json?: string) {
     initStage(this, json);
     this.event();
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
@@ -42,18 +42,33 @@ class INLEDITOR {
   }
 
   // 主题
-  theme: Theme = "dark";
+  protected theme: Theme = "dark";
+  getTheme() {
+    return this.theme;
+  }
 
   // 注册时间
-  event = event.bind(this);
+  protected event() {
+    event(this);
+  }
 
   // 绘制状态
-  drawState: "Line" | "rightAngleLine" | "editLine" | "Rect" | "default" =
-    "default";
+  protected drawState:
+    | "Line"
+    | "rightAngleLine"
+    | "editLine"
+    | "Rect"
+    | "default" = "default";
+  getDrawState() {
+    return this.drawState;
+  }
   // 保存状态
-  saveState: boolean = true;
+  protected saveState: boolean = true;
+  getSaveState() {
+    return this.saveState;
+  }
   // 设置保存状态
-  changeSaveStage(v: boolean) {
+  setSaveStage(v: boolean) {
     this.saveState = v;
   }
 
@@ -63,7 +78,11 @@ class INLEDITOR {
   };
 
   // 修改主题
-  changeTheme = changeTheme.bind(this);
+  changeTheme(themeType: Theme, cb?: (stage: Konva.Stage) => {}) {
+    this.theme = themeType;
+    this.container.style.background = theme[themeType].background;
+    changeTheme(this.stage, themeType, cb);
+  }
 
   // 动态修改物模型的值
   setVal(iu: string, code: string, val: string) {
@@ -119,12 +138,14 @@ class INLEDITOR {
   }
 
   // 注册组件
-  use = useComponent.bind(this);
+  use(component: Component) {
+    useComponent(this, component);
+  }
 
   // 序列化
   toJson() {
     const json = this.stage.toJSON();
-    return json;
+    return { mapJson: json, image: this.toImage() };
   }
   // 反序列化
   loadJson(json: string) {
@@ -137,7 +158,9 @@ class INLEDITOR {
   }
 
   // 当画布元素被选中
-  onselect = stageClick.bind(this);
+  onselect(cb: onSelectCallBackFun) {
+    stageClick(this.stage, cb);
+  }
 
   // 适应画布
   toFit() {
