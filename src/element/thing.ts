@@ -1,7 +1,7 @@
 import Konva from "konva";
 import { defaultTheme } from "@/config/theme";
-import { cData } from "@/data/cdata";
-import { Thing } from "@/data/thing";
+import { cData } from "../data/cdata";
+import { Thing } from "../data/thing";
 import { setCustomAttrs } from "@/util/customAttr";
 import { createThingGroup } from "./group";
 import { createImage } from "./image";

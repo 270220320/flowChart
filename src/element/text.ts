@@ -1,11 +1,11 @@
 import Konva from "konva";
 import { TextConfig } from "konva/lib/shapes/Text";
-import { defaultRect } from "@/element/rect";
-import theme, { Theme } from "@/config/theme";
+import { defaultRect } from "../element/rect";
+import theme, { Theme } from "../config/theme";
 import { Child, Parent, createThingTextGroup, groupNames } from "./group";
-import { thingTextInfo } from "@/data/cdata";
-import { THINGTEXT } from "@/data/dropData";
-import layer from "@/util/layer";
+import { thingTextInfo } from "../data/cdata";
+import { THINGTEXT } from "../data/dropData";
+import layer from "../util/layer";
 
 export const createText = (config: TextConfig) =>
   new Konva.Text({
