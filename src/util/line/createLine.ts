@@ -8,24 +8,22 @@ import { getCustomAttrs, getLineInfo, setCustomAttrs } from "../customAttr";
 import { UUID } from "../uuid";
 import { getLinePoints } from "./rightAngleLine";
 import { getUsePointUn } from "./line";
-import { enterEditLine } from "./editLine";
 import { LineTheme } from "@/config/line";
 
 // 创建线完成
 export const finishLine = (
-  ie: INLEDITOR,
+  stage: Konva.Stage,
   begin: Konva.Rect | Konva.Group,
   line: Konva.Arrow,
-  point: { x: number; y: number },
-  e: KonvaEventObject<MouseEvent>
+  lineType
 ) => {
   if (begin.className !== "Image") {
     begin.setAttrs({ draggable: true });
   }
 
   begin.parent?.setAttrs({ draggable: true });
-  let pos = ie.stage.getPointerPosition();
-  const end = getMouseOver(pos!, ie);
+  let pos = stage.getPointerPosition();
+  const end = getMouseOver(pos!, stage);
 
   if (end) {
     const beginInfo = getLineInfo(begin);
@@ -39,7 +37,7 @@ export const finishLine = (
         line.attrs.points[line.attrs.points.length - 2] - end.attrs.x,
       toExcursionY:
         line.attrs.points[line.attrs.points.length - 1] - end.attrs.y,
-      type: ie.drawState,
+      type: lineType,
     };
     setCustomAttrs(line, {
       lineInfo: data,
@@ -55,9 +53,9 @@ export const finishLine = (
 const createLineMove = (
   line: Konva.Arrow,
   point: { x: number; y: number },
-  ie: INLEDITOR
+  opt
 ) => {
-  if (ie.drawState === "Line") {
+  if (opt.drawState === "Line") {
     line.attrs.points[2] = point.x;
     line.attrs.points[3] = point.y;
     line.points(line.attrs.points);
@@ -72,20 +70,21 @@ const createLineMove = (
 
 // 开始创建线
 export const beginCreateLine = (
-  ie: INLEDITOR,
+  stage: Konva.Stage,
   point: { x: number; y: number },
-  e: KonvaEventObject<MouseEvent>
+  e: KonvaEventObject<MouseEvent>,
+  opt
 ) => {
   e.target.setAttrs({ draggable: false });
   e.target.parent?.setAttrs({ draggable: false });
 
-  const lay = layer(ie.stage, "line");
+  const lay = layer(stage, "line");
   lay.moveToTop();
-  const line = createTemporaryLine(lay, point, ie);
-  ie.stage.on("mousemove", (e) => {
-    const { x, y } = computedXYByEvent(ie.stage, e.evt);
+  const line = createTemporaryLine(lay, point, opt);
+  stage.on("mousemove", (e) => {
+    const { x, y } = computedXYByEvent(stage, e.evt);
     if (line) {
-      createLineMove(line!, { x, y }, ie);
+      createLineMove(line!, { x, y }, opt.theme);
     }
   });
   return line;
@@ -95,12 +94,12 @@ export const beginCreateLine = (
 export const createTemporaryLine = (
   layer: Konva.Layer,
   point: { x: number; y: number },
-  ie
+  theme
 ) => {
   var arrow = new Konva.Arrow({
     id: UUID(),
     points: [point.x, point.y, point.x, point.y],
-    ...LineTheme[ie.theme],
+    ...LineTheme[theme],
   });
 
   layer.add(arrow);

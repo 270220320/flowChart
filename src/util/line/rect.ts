@@ -2,8 +2,8 @@ import Konva from "konva";
 import INLEDITOR from "@/index";
 import layer from "../layer";
 
-export const turnDrag = (ie: INLEDITOR, state: boolean) => {
-  const lay = layer(ie.stage, "thing");
+export const turnDrag = (stage: Konva.Stage, state: boolean) => {
+  const lay = layer(stage, "thing");
   lay.setAttrs({ draggable: state });
   lay.children?.forEach((ele: Konva.Node) => {
     ele.setAttrs({ draggable: state });

@@ -19,34 +19,34 @@ export const exitEditLine = (ie: INLEDITOR) => {
   });
 };
 // 进入线编辑状态
-export const enterEditLine = (line: Konva.Arrow, ie: INLEDITOR) => {
+export const enterEditLine = (line: Konva.Arrow, stage: Konva.Stage) => {
   // 关闭拖动
-  turnDrag(ie, false);
+  turnDrag(stage, false);
   editLine = line;
   const length = line.attrs.points.length;
-  const pBegin = addPoint(ie, {
+  const pBegin = addPoint(stage, {
     x: line.attrs.points[0],
     y: line.attrs.points[1],
   });
-  const pEnd = addPoint(ie, {
+  const pEnd = addPoint(stage, {
     x: line.attrs.points[length - 2],
     y: line.attrs.points[length - 1],
   });
   controls.push(pBegin, pEnd);
   const points = getUsePoint(editLine.attrs.points);
-  bindPointEvent(pBegin, 0, editLine, ie);
-  bindPointEvent(pEnd, points.length - 1, editLine, ie);
+  bindPointEvent(pBegin, 0, editLine, stage);
+  bindPointEvent(pEnd, points.length - 1, editLine, stage);
 };
 // 线编辑点击线
-const lineMouseDown = (e: any, ie: INLEDITOR) => {
+const lineMouseDown = (e: any, stage: Konva.Stage) => {
   const arr = getUsePoint(editLine.attrs.points);
-  const { x, y } = computedXYByEvent(ie.stage, e.evt);
+  const { x, y } = computedXYByEvent(stage, e.evt);
   clickIndex = getInsertIndex(arr, {
     x,
     y,
   });
-  ie.stage.on("mousemove", (e: any) => {
-    const { x, y } = computedXYByEvent(ie.stage, e.evt);
+  stage.on("mousemove", (e: any) => {
+    const { x, y } = computedXYByEvent(stage, e.evt);
     const arr = getUsePoint(editLine.attrs.points);
     const points = movePartOfLine(arr, clickIndex, {
       x,
@@ -68,9 +68,9 @@ const getPointIndex = (arr: Konva.Circle[], circle: Konva.Circle) => {
   return num;
 };
 // 线编辑状态按下鼠标
-export const editMouseDown = (e: any, ie: INLEDITOR) => {
+export const editMouseDown = (e: any, stage: Konva.Stage) => {
   if (e.target === editLine) {
-    lineMouseDown(e, ie);
+    lineMouseDown(e, stage);
   }
 };
 // 线编辑状态抬起鼠标
