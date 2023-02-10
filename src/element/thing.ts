@@ -21,6 +21,7 @@ export const createThingImageGroup = async (
     {
       v: useThing.ic,
       code: "CODE",
+      label: "编码：",
     },
     { x: 0, y: 0 }
   );
@@ -31,7 +32,7 @@ export const createThingImageGroup = async (
     y: y - height / 2,
   });
   setCustomAttrs(image, cData);
-  textVal.setAttrs({
+  text.setAttrs({
     x: image.attrs.x + (image.width() - textVal.width()) / 2,
     y: image.attrs.y + image.height(),
     draggable: true,

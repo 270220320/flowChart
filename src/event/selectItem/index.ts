@@ -3,6 +3,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
 import { Stage } from "konva/lib/Stage";
 import INLEDITOR from "@/index";
+import { IRect } from "konva/lib/types";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
@@ -30,10 +31,38 @@ const checkTarget: (selectTarget: Shape<ShapeConfig> | Stage) => TargetType = (
 // 如果是线条 去做什么事儿
 const isLine = () => {};
 
+// 初始化选择框
+const createTran = () =>
+  new Konva.Transformer({
+    centeredScaling: true,
+    rotationSnaps: [0, 90, 180, 270],
+  });
+// 获取 选择框
+export const getTran: (stage: Konva.Stage) => {
+  nodes: Array<Konva.Node>;
+  position: IRect;
+  Transformers: Konva.Transformer;
+} = (s) => {
+  const Transformers = s.findOne("Transformer") as Konva.Transformer;
+  if (!Transformers) return;
+
+  return {
+    nodes: Transformers.getNodes(),
+    position: Transformers.getClientRect(),
+    Transformers,
+  };
+};
 // 重置事件中心
 const resetEvent = (stage: Konva.Stage) => {
   const Transformers = stage.findOne("Transformer") as Konva.Transformer;
   Transformers?.destroy();
+};
+
+export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>) => {
+  resetEvent(stage);
+  const Transformers = createTran();
+  Transformers.nodes(nodes);
+  nodes[0].getLayer().add(Transformers);
 };
 
 // 框选元素动作
@@ -51,10 +80,7 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
     // 没有按住shift
     Transformers?.destroy();
     nodes.push(node);
-    Transformers = new Konva.Transformer({
-      centeredScaling: true,
-      rotationSnaps: [0, 90, 180, 270],
-    });
+    Transformers = createTran();
     layer.add(Transformers);
     Transformers.nodes(nodes);
   }

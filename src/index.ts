@@ -6,7 +6,11 @@ import { getThingTextGroup, groupNames } from "./element/group";
 import { changeImage } from "./element/image";
 import { createThingText, setThingTextVal } from "./element/text";
 import event from "./event";
+import { getTran } from "./event/selectItem";
 import stageClick, { onSelectCallBackFun } from "./event/stageClick";
+import changeElementsPosition, {
+  AlignType,
+} from "./util/changeElementsPosition";
 import changeTheme from "./util/changeTheme";
 import { getCustomAttrs, setCustomAttrs } from "./util/customAttr";
 import initStage from "./util/initStage";
@@ -80,15 +84,6 @@ class INLEDITOR {
   }
   setDrawState(state: DrawState) {
     this.drawState = state;
-  }
-  // 保存状态
-  protected saveState: boolean = true;
-  getSaveState() {
-    return this.saveState;
-  }
-  // 设置保存状态
-  setSaveStage(v: boolean) {
-    this.saveState = v;
   }
 
   // 创建thing文字
@@ -184,6 +179,23 @@ class INLEDITOR {
   // 适应画布
   toFit() {
     stageTofit(this.stage);
+  }
+
+  // 舞台发生变化
+  onStageChange(cb: () => void) {
+    this.stage.on("resize scale rotate wheel dragmove mouseUp", () => {
+      cb();
+    });
+    this.container.addEventListener("keydown", () => {
+      cb();
+    });
+    this.container.addEventListener("drop", () => {
+      cb();
+    });
+  }
+
+  changeElementsPosition(type: AlignType) {
+    console.log(getTran(this.stage).Transformers.getNode());
   }
 
   render(opt?: { width: number; height: number }) {
