@@ -56,10 +56,16 @@ class INLEDITOR {
   getStage() {
     return this.stage;
   }
+  setStage(c: Konva.Stage) {
+    this.stage = c;
+  }
 
   protected container: HTMLDivElement;
   getContainer() {
     return this.container;
+  }
+  setContainer(c: HTMLDivElement) {
+    this.container = c;
   }
   // 绘制状态
   protected drawState:

@@ -56,11 +56,13 @@ class Scale extends Component {
     this.onChange();
   }
   createScaleLine() {
-    const width = this.that.stage.width() / 2;
-    const height = this.that.stage.height();
-    const zoom = this.that.stage.scaleX();
-    const { x, y } = this.that.stage.position();
-    const scaleTheme = theme[this.that.theme].scale; // 主题
+    const stage = this.that.getStage();
+    const theme = this.that.getTheme();
+    const width = stage.width() / 2;
+    const height = stage.height();
+    const zoom = stage.scaleX();
+    const { x, y } = stage.position();
+    const scaleTheme = theme[theme].scale; // 主题
     const fiveScale = 5;
     const maxw = 50;
     this.scaleLayerX.removeChildren();
@@ -167,7 +169,8 @@ class Scale extends Component {
 
   createDom() {
     const dom = document.getElementById(this.that.opt.id);
-    const { scale } = theme[this.that.theme];
+    const theme = this.that.getTheme();
+    const { scale } = theme[theme];
     const scaleX = document.createElement("div");
     const scaleY = document.createElement("div");
     scaleX.id = "scalex";
