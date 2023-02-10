@@ -5,8 +5,7 @@ import { getCustomAttrs, getLineInfo } from "../customAttr";
 import { getUsePoint, getUsePointUn } from "../line/line";
 import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 
-export const dealRelation = (e: KonvaEventObject<any>, ie: INLEDITOR) => {
-  const stage = ie.getStage();
+export const dealRelation = (e: KonvaEventObject<any>, stage: Konva.Stage) => {
   if (e.target.className === "Rect" || e.target.className === "Image") {
     const lineInfo = getLineInfo(e.target)!;
     // debugger;

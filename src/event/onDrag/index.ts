@@ -10,7 +10,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     initSubLine.bind(ie)(stage, e);
 
     // 块关联线随动
-    dealRelation(e, ie);
+    dealRelation(e, ie.getStage());
 
     cb ? cb() : null;
   });

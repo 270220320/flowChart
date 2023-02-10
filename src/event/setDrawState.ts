@@ -99,11 +99,11 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         onRect(ie, rect);
         break;
       case "editLine":
-        if (checkKeepEdit(e, ie)) {
-          lineMouseUp(e, ie);
+        if (checkKeepEdit(e)) {
+          lineMouseUp(e, stage);
           return;
         } else {
-          exitEditLine(ie);
+          exitEditLine(stage);
         }
         break;
       case "rightAngleLine":

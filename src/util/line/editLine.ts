@@ -12,8 +12,8 @@ let controls: Konva.Circle[] = [];
 let clickIndex: number;
 
 // 退出线编辑状态
-export const exitEditLine = (ie: INLEDITOR) => {
-  turnDrag(ie, true);
+export const exitEditLine = (stage: Konva.Stage) => {
+  turnDrag(stage, true);
   controls.forEach((point) => {
     point.remove();
   });
@@ -76,15 +76,15 @@ export const editMouseDown = (e: any, stage: Konva.Stage) => {
 // 线编辑状态抬起鼠标
 export const lineMouseUp = (
   e: Konva.KonvaEventObject<MouseEvent>,
-  ie: INLEDITOR
+  stage: Konva.Stage
 ) => {
   const points = getUsePoint(editLine.attrs.points);
   const resPoints = mergeRightAngleLinePoint(points);
   editLine.setAttrs({ points: getUsePointUn(resPoints) });
-  ie.stage.off("mousemove");
+  stage.off("mousemove");
 };
 // 检查是否继续编辑
-export const checkKeepEdit = (e: any, ie: INLEDITOR) => {
+export const checkKeepEdit = (e: any) => {
   if (e.target === editLine || getPointIndex(controls, e.target) != -1) {
     return true;
   } else {
