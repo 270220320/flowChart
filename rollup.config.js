@@ -1,39 +1,32 @@
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
+import { entry } from "./entry.cjs";
 const rollupConfig = [];
 
-rollupConfig.push({
-  input: "src/index.ts",
-  output: {
-    file: `dist/index.js`,
-    format: "es",
-  },
-  plugins: [typescript()],
-});
-rollupConfig.push({
-  input: "src/element/index.ts",
-  output: {
-    file: `dist/element/index.js`,
-    format: "es",
-  },
-  plugins: [typescript()],
-});
+// 打包核心包文件
+for (let i of entry) {
+  const type = i.type === "main" ? "" : `${i.type}/`;
+  rollupConfig.push({
+    input: i.root,
+    output: [
+      {
+        file: `dist/${type}index.js`,
+        format: "es",
+      },
+    ],
+    plugins: [typescript()],
+  });
 
-rollupConfig.push({
-  input: "src/element/index.ts",
-  output: {
-    file: `dist/element/index.d.ts`,
-    format: "es",
-  },
-  plugins: [dts()],
-});
-
-rollupConfig.push({
-  input: "src/index.ts",
-  output: {
-    file: `dist/index.d.ts`,
-    format: "es",
-  },
-  plugins: [dts()],
-});
+  // 生成相关d.ts
+  rollupConfig.push({
+    input: i.root,
+    output: [
+      {
+        file: `dist/${type}index.d.ts`,
+        format: "es",
+      },
+    ],
+    plugins: [dts()],
+  });
+}
 export default rollupConfig;

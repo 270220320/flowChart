@@ -22,6 +22,6 @@ export default (inlEditor: INLEDITOR) => {
     data: {},
   });
 
-  const layerBox = layer(inlEditor.stage, "test");
+  const layerBox = layer(inlEditor.getStage(), "test");
   layerBox.add(Rect, arrow);
 };

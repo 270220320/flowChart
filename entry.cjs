@@ -1,4 +1,4 @@
-export default [
+exports.entry = [
   {
     type: "main",
     root: "src/index.ts",
