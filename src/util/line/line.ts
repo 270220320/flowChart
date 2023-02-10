@@ -1,7 +1,17 @@
 import Konva from "konva";
 import { getCustomAttrs, getLineInfo } from "../customAttr";
 import INLEDITOR from "../..";
+import layer from "src/util/layer";
+import { LineTheme } from "@/config/line";
 
+export const changeLineTheme = (stage: Konva.Stage, theme: string) => {
+  const lay = layer(stage, "line");
+  lay.children.forEach((ele: Konva.Arrow) => {
+    ele.setAttrs(LineTheme[theme]);
+  });
+};
+
+// 连接到新块修改关系
 export const connectNewRect = (
   line: Konva.Arrow,
   controlIndex: number,
