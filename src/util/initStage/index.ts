@@ -5,7 +5,7 @@ import resetImg from "./resetImg";
 
 export default (ie: INLEDITOR, json?: string) => {
   const { id } = ie.opt;
-  const stage = ie.getStage();
+  let stage = ie.getStage();
   const dom = document.getElementById(id)!;
   const { offsetWidth, offsetHeight } = dom;
   const themeType = ie.getTheme();
@@ -15,6 +15,7 @@ export default (ie: INLEDITOR, json?: string) => {
 
   if (json) {
     ie.setStage(konva.Node.create(json, id));
+    stage = ie.getStage();
     stage.setAttrs({
       width: offsetWidth,
       height: offsetHeight,

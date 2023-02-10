@@ -20,7 +20,7 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
     }
 
     // 删除关联关系
-    removeRelevance(i, ie);
+    removeRelevance(i, ie.getStage());
 
     ie.changeSaveStage(false);
 
@@ -28,12 +28,12 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
   }
 };
 
-const removeRelevance = (obj: any, ie: INLEDITOR) => {
+const removeRelevance = (obj: any, stage: Konva.Stage) => {
   if (obj.className === "Arrow") {
     const lineInfo = getCustomAttrs(obj).lineInfo!;
 
-    const rectOut = ie.stage.findOne("#" + lineInfo.from);
-    const rectIn = ie.stage.findOne("#" + lineInfo.to);
+    const rectOut = stage.findOne("#" + lineInfo.from);
+    const rectIn = stage.findOne("#" + lineInfo.to);
 
     const outInfo = getCustomAttrs(rectOut).lineInfo;
     const inInfo = getCustomAttrs(rectIn).lineInfo;
@@ -45,7 +45,7 @@ const removeRelevance = (obj: any, ie: INLEDITOR) => {
     const lineInfo = getCustomAttrs(obj).lineInfo!;
     [...(lineInfo.outLineIds || []), ...(lineInfo.inLineIds || [])]?.forEach(
       (id: string) => {
-        const line = ie.stage.findOne("#" + id);
+        const line = stage.findOne("#" + id);
         line.remove();
       }
     );
