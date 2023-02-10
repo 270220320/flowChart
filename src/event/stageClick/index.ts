@@ -4,7 +4,10 @@ import { getCustomAttrs } from "@/util/customAttr";
 
 export type onSelectCallBackFun = (
   type: "thing" | "shape" | "thingText" | "stage",
-  e: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage,
+  e: {
+    target: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage;
+    parent?: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage;
+  },
   data?: {
     iu?: string;
     code?: Array<string>;
@@ -20,9 +23,16 @@ export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
       // 如果是父级不是layer那就有可能是thing或者是thingText
 
       if (parent.getClassName() === "Layer") {
-        cb("shape", e.target, {
-          attrs: e.target.getAttrs(),
-        });
+        cb(
+          "shape",
+          {
+            target: e.target,
+            parent,
+          },
+          {
+            attrs: e.target.getAttrs(),
+          }
+        );
       } else {
         const name = parent.name();
         switch (name) {
@@ -31,20 +41,28 @@ export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
             const code1 = parent
               .find("Group")
               .map((item) => item.getAttr("code"));
-            cb("thing", parent, { iu: data1.thing!.iu, code: code1 });
+            cb(
+              "thing",
+              { parent, target: e.target },
+              { iu: data1.thing!.iu, code: code1 }
+            );
             break;
           default:
             const selfParent = e.target.getParent() as any;
             const thingData = getCustomAttrs(parent.getParent());
             const code2 = parent.getAttr("code");
-            cb("thingText", selfParent, {
-              iu: thingData.thing!.iu,
-              code: [code2],
-            });
+            cb(
+              "thingText",
+              { parent: selfParent, target: e.target },
+              {
+                iu: thingData.thing!.iu,
+                code: [code2],
+              }
+            );
         }
       }
     } else {
-      cb("stage", e.target);
+      cb("stage", { target: e.target });
     }
   });
 };

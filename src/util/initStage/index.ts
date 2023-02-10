@@ -14,27 +14,30 @@ export default (ie: INLEDITOR, json?: string) => {
   }
 
   if (json) {
-    ie.setStage(konva.Node.create(json, id));
-    stage = ie.getStage();
+    stage = konva.Node.create(json, id);
     stage.setAttrs({
       width: offsetWidth,
       height: offsetHeight,
       background: "#dddddd",
     });
+    ie.setStage(stage);
   } else {
-    ie.setStage(
-      new konva.Stage({
-        container: id,
-        width: offsetWidth,
-        height: offsetHeight,
-        draggable: true,
-        background: "#dddddd",
-      })
-    );
+    stage = new konva.Stage({
+      container: id,
+      width: offsetWidth,
+      height: offsetHeight,
+      draggable: true,
+      background: "#dddddd",
+    });
+    ie.setStage(stage);
   }
-  stage.container().tabIndex = 1;
-  ie.setContainer(stage.container());
-  ie.getContainer().setAttribute(
+
+  stage = ie.getStage();
+  let container = stage.container();
+  ie.setContainer(container);
+
+  container.tabIndex = 1;
+  container.setAttribute(
     "style",
     `background: ${theme[themeType].background}; position: relative;`
   );
