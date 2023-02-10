@@ -18,7 +18,10 @@ export const finishLine = (
   point: { x: number; y: number },
   e: KonvaEventObject<MouseEvent>
 ) => {
-  begin.setAttrs({ draggable: true });
+  if (begin.className !== "Image") {
+    begin.setAttrs({ draggable: true });
+  }
+
   begin.parent?.setAttrs({ draggable: true });
   let pos = ie.stage.getPointerPosition();
   const end = getMouseOver(pos!, ie);
