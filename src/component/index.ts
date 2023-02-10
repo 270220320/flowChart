@@ -1,5 +1,4 @@
-import INLEDITOR from "src";
-import initStage from "src/util/initStage";
+import INLEDITOR from "../";
 
 // export interface Component<T = any> {
 //   name: string;
