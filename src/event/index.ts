@@ -8,28 +8,28 @@ import onDrag from "./onDrag";
 import onDbclick from "./dbclick";
 import change from "./change";
 
-export default function (this: INLEDITOR) {
-  if (!this.opt.isPreview) {
-    setDrawState(this, () => {
-      change(this);
+export default (ie: INLEDITOR) => {
+  if (!ie.opt.isPreview) {
+    setDrawState(ie, () => {
+      change(ie);
     });
 
-    ondrop(this, this.container, () => {
-      change(this);
+    ondrop(ie, ie.container, () => {
+      change(ie);
     });
 
-    selectItem(this);
+    selectItem(ie);
 
-    keyDown(this, () => {
-      change(this);
+    keyDown(ie, () => {
+      change(ie);
     });
 
-    onDrag(this, () => {
-      change(this);
+    onDrag(ie, () => {
+      change(ie);
     });
-    onDbclick(this);
+    onDbclick(ie);
   }
-  onwheel(this.stage, () => {
-    change(this);
+  onwheel(ie.stage, () => {
+    change(ie);
   });
-}
+};

@@ -53,14 +53,14 @@ const onRect = (ie: INLEDITOR, rect: Konva.Rect | null) => {
   shapeLayer.add(createDefaultRect);
 };
 
-export default (ie: INLEDITOR, cb?: () => void) => {
+export default (stage: Konva.Stage, cb?: () => void) => {
   let rect: Konva.Rect | null;
   let line: Konva.Arrow | undefined;
   let begin: Konva.Rect | Konva.Group | null;
-  ie.stage.on("mousedown", (e) => {
-    const { x, y } = computedXYByEvent(ie.stage, e.evt);
+  stage.on("mousedown", (e) => {
+    const { x, y } = computedXYByEvent(stage, e.evt);
     if (ie.drawState === "default") return;
-    ie.stage.setAttrs({
+    stage.setAttrs({
       draggable: false,
     });
     switch (ie.drawState) {

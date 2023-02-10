@@ -1,22 +1,20 @@
 import Konva from "konva";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
-import INLEDITOR from "@/index";
 import { getCustomAttrs } from "@/util/customAttr";
 
-export default function (
-  this: INLEDITOR,
-  cb: (
-    type: "thing" | "shape" | "thingText" | "stage",
-    e: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage,
-    data?: {
-      iu?: string;
-      code?: Array<string>;
-      attrs?: Konva.NodeConfig;
-    }
-  ) => void
-) {
-  this.stage.on("click", (e) => {
-    if (e.target !== this.stage) {
+export type onSelectCallBackFun = (
+  type: "thing" | "shape" | "thingText" | "stage",
+  e: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage,
+  data?: {
+    iu?: string;
+    code?: Array<string>;
+    attrs?: Konva.NodeConfig;
+  }
+) => void;
+
+export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
+  stage.on("click", (e) => {
+    if (e.target !== stage) {
       // 如果是图形或者是文字，那么父级别肯定是layer
       let parent = e.target.getParent() as Konva.Layer | Konva.Group;
       // 如果是父级不是layer那就有可能是thing或者是thingText
@@ -49,4 +47,4 @@ export default function (
       cb("stage", e.target);
     }
   });
-}
+};
