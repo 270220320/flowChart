@@ -56,8 +56,8 @@ class Scale extends Component {
     this.onChange();
   }
   createScaleLine() {
-    const stage = this.that.getStage();
-    const theme = this.that.getTheme();
+    const stage = this.editor.getStage();
+    const theme = this.editor.getTheme();
     const width = stage.width() / 2;
     const height = stage.height();
     const zoom = stage.scaleX();
@@ -149,16 +149,17 @@ class Scale extends Component {
   }
 
   moveStageByCanvasOffset() {
-    const { x, y } = this.that.stage.position();
+    const { x, y } = this.editor.getStage().position();
     this.scaleLayerX.setAttrs({ x });
     this.scaleLayerY.setAttrs({ y });
   }
 
   onChange() {
     let n: number;
-    this.that.stage.on("dragmove", (e) => {
+    const stage = this.editor.getStage();
+    stage.on("dragmove", (e) => {
       // 性能有点低, 可以优化.
-      if (e.target === this.that.stage) {
+      if (e.target === stage) {
         n ? clearTimeout(n) : null;
         n = setTimeout(() => {
           this.moveStageByCanvasOffset();
@@ -168,8 +169,8 @@ class Scale extends Component {
   }
 
   createDom() {
-    const dom = document.getElementById(this.that.opt.id);
-    const theme = this.that.getTheme();
+    const dom = document.getElementById(this.editor.opt.id);
+    const theme = this.editor.getTheme();
     const { scale } = theme[theme];
     const scaleX = document.createElement("div");
     const scaleY = document.createElement("div");
@@ -189,9 +190,11 @@ class Scale extends Component {
     this.syd = scaleY;
   }
   createStage() {
-    const width = this.that.stage.width();
-    const height = this.that.stage.height();
-    const scaleTheme = theme[this.that.theme].scale;
+    const stage = this.editor.getStage();
+    const theme = this.editor.getTheme();
+    const width = stage.width();
+    const height = stage.height();
+    const scaleTheme = theme[theme].scale;
     this.scaleX = new Konva.Stage({
       width,
       height: scaleTheme.thickness,

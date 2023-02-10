@@ -9,7 +9,7 @@ import initStage from "src/util/initStage";
 
 export class Component {
   name = "comp";
-  that!: INLEDITOR;
+  editor!: INLEDITOR;
   version = "0.0.1";
   destory() {}
   show() {}
@@ -18,7 +18,7 @@ export class Component {
 }
 
 export const useComponent = (ie: INLEDITOR, component: Component) => {
-  component.that = ie;
+  component.editor = ie;
   component.init();
   ie[component.name] = component;
 };
