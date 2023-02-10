@@ -9,7 +9,7 @@ export default (ie: INLEDITOR) => {
     if (e.target.className === "Arrow") {
       ie.setDrawState("editLine");
       stage.setAttrs({ draggable: false });
-      enterEditLine(e.target as Konva.Arrow, ie);
+      enterEditLine(e.target as Konva.Arrow, stage);
     }
   });
 };

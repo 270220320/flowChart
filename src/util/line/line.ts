@@ -20,12 +20,12 @@ export const connectNewRect = (
     x: number;
     y: number;
   },
-  ie: INLEDITOR
+  stage: Konva.Stage
 ) => {
   const lineInfo = getCustomAttrs(line).lineInfo!;
   const newInfo = getLineInfo(newParent);
   if (controlIndex === 0) {
-    const oldRect = ie.stage.findOne("#" + lineInfo.from);
+    const oldRect = stage.findOne("#" + lineInfo.from);
     const oldRectInfo = getCustomAttrs(oldRect).lineInfo;
     oldRectInfo?.outLineIds?.splice(
       oldRectInfo.outLineIds.indexOf(line.id()),
@@ -36,7 +36,7 @@ export const connectNewRect = (
     lineInfo.fromExcursionY = point.y - newParent.attrs.y;
     newInfo?.outLineIds?.push(line.id());
   } else {
-    const oldRect = ie.stage.findOne("#" + lineInfo.to);
+    const oldRect = stage.findOne("#" + lineInfo.to);
     const oldRectInfo = getCustomAttrs(oldRect).lineInfo;
     oldRectInfo?.inLineIds?.splice(oldRectInfo.inLineIds.indexOf(line.id()), 1);
     lineInfo.to = newParent.id();

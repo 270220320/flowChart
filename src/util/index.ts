@@ -1,9 +1,10 @@
+import Konva from "konva";
 import INLEDITOR from "..";
 import layer from "./layer";
 
 export const getMouseOver = (
   point: { x: number; y: number },
-  ie: INLEDITOR
+  stage: Konva.Stage
 ) => {
-  return layer(ie.stage, "thing").getIntersection(point);
+  return layer(stage, "thing").getIntersection(point);
 };

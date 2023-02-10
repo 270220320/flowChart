@@ -60,8 +60,9 @@ export default (ie: INLEDITOR, cb?: () => void) => {
   let line: Konva.Arrow | undefined;
   let begin: Konva.Rect | Konva.Group | null;
   const stage = ie.getStage();
-  const drawState = ie.getDrawState();
+
   stage.on("mousedown", (e) => {
+    const drawState = ie.getDrawState();
     const { x, y } = computedXYByEvent(stage, e.evt);
     if (drawState === "default") return;
     stage.setAttrs({
@@ -73,11 +74,14 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         // debugger;
         if (e.target.className === "Rect" || e.target.className === "Image") {
           begin = e.target as Konva.Rect;
-          line = beginCreateLine(ie, { x, y }, e);
+          line = beginCreateLine(stage, { x, y }, e, {
+            theme: ie.getTheme(),
+            drawState: ie.getDrawState(),
+          });
         }
         break;
       case "editLine":
-        editMouseDown(e, ie);
+        editMouseDown(e, stage);
         break;
       default:
         onSelection(ie.getStage(), { y, x }, ie.getTheme(), (rc) => {
@@ -87,7 +91,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
   });
 
   stage.on("mouseup", (e) => {
-    const { x, y } = computedXYByEvent(stage, e.evt);
+    const drawState = ie.getDrawState();
     cb ? cb() : null;
     offSelection(ie.getStage());
     switch (drawState) {
@@ -95,17 +99,17 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         onRect(ie, rect);
         break;
       case "editLine":
-        if (checkKeepEdit(e, ie)) {
-          lineMouseUp(e, ie);
+        if (checkKeepEdit(e)) {
+          lineMouseUp(e, stage);
           return;
         } else {
-          exitEditLine(ie);
+          exitEditLine(stage);
         }
         break;
       case "rightAngleLine":
       case "Line":
         if (line) {
-          finishLine(ie, begin!, line!, { x, y }, e);
+          finishLine(ie.getStage(), begin!, line!, ie.getDrawState());
           line = undefined;
         }
         break;

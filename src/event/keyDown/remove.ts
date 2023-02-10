@@ -4,7 +4,9 @@ import { groupNames } from "@/element/group";
 import { getCustomAttrs } from "@/util/customAttr";
 
 export default (ie: INLEDITOR, e: KeyboardEvent) => {
-  const Transformers = ie.stage.find("Transformer")[0] as Konva.Transformer;
+  const Transformers = ie
+    .getStage()
+    .find("Transformer")[0] as Konva.Transformer;
   const nodes = Transformers?.getNodes() || [];
   for (let i of nodes) {
     const isThing = i.getParent().hasName(groupNames.thingGroup);
@@ -22,7 +24,7 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
 
     ie.changeSaveStage(false);
 
-    ie.stage.draw();
+    ie.getStage().draw();
   }
 };
 

@@ -11,10 +11,10 @@ export const bindPointEvent = (
   point: Konva.Circle,
   controlIndex: number,
   line: Konva.Arrow,
-  ie: INLEDITOR
+  stage: Konva.Stage
 ) => {
   point.on("dragmove", (e) => {
-    const { x, y } = computedXYByEvent(ie.stage, e.evt);
+    const { x, y } = computedXYByEvent(stage, e.evt);
     const points = getUsePoint(line.attrs.points);
     let resPoints;
     const lineInfo = getCustomAttrs(line).lineInfo!;
@@ -33,9 +33,9 @@ export const bindPointEvent = (
     line.setAttrs({ points: arr });
   });
   point.on("dragend", (e: any) => {
-    const { x, y } = computedXYByEvent(ie.stage, e.evt);
+    const { x, y } = computedXYByEvent(stage, e.evt);
     const points = getUsePoint(line.attrs.points);
-    const newParent = getMouseOver({ x: e.evt.layerX, y: e.evt.layerY }, ie);
+    const newParent = getMouseOver({ x: e.evt.layerX, y: e.evt.layerY }, stage);
     const lineInfo = getCustomAttrs(line).lineInfo!;
     if (newParent) {
       connectNewRect(
@@ -46,15 +46,15 @@ export const bindPointEvent = (
           x,
           y,
         },
-        ie
+        stage
       );
     } else {
       if (controlIndex === 0) {
-        const rectOut = ie.stage.findOne("#" + lineInfo.from);
+        const rectOut = stage.findOne("#" + lineInfo.from);
         lineInfo.fromExcursionX = x - rectOut.attrs.x;
         lineInfo.fromExcursionY = y - rectOut.attrs.y;
       } else if (controlIndex === points.length - 1) {
-        const rectIn = ie.stage.findOne("#" + lineInfo.to);
+        const rectIn = stage.findOne("#" + lineInfo.to);
         lineInfo.toExcursionX = x - rectIn.attrs.x;
         lineInfo.toExcursionY = y - rectIn.attrs.y;
       }
@@ -62,8 +62,11 @@ export const bindPointEvent = (
   });
 };
 
-export const addPoint = (ie: INLEDITOR, point: { x: number; y: number }) => {
-  const utilLayer = layer(ie.stage, "util");
+export const addPoint = (
+  stage: Konva.Stage,
+  point: { x: number; y: number }
+) => {
+  const utilLayer = layer(stage, "util");
   const circle = new Konva.Circle({
     x: point.x,
     y: point.y,
