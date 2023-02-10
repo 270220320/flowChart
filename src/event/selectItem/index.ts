@@ -61,7 +61,7 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
 };
 
 export default (ie: INLEDITOR) => {
-  const { stage } = ie;
+  const stage = ie.getStage();
 
   stage.on("click tap", (e) => {
     const layer = e.target.getLayer();

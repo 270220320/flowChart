@@ -14,10 +14,10 @@ import layer from "./util/layer";
 import stageTofit from "./util/stageTofit";
 import toImage from "./util/toImage";
 
+type DrawState = "Line" | "rightAngleLine" | "editLine" | "Rect" | "default";
+
 interface INLEDITOR {
   [ket: string]: any;
-  stage: Konva.Stage;
-  container: HTMLDivElement;
   opt: OPT;
   scale: Scale;
 }
@@ -52,6 +52,15 @@ class INLEDITOR {
     event(this);
   }
 
+  protected stage: Konva.Stage;
+  getStage() {
+    return this.stage;
+  }
+
+  protected container: HTMLDivElement;
+  getContainer() {
+    return this.container;
+  }
   // 绘制状态
   protected drawState:
     | "Line"
@@ -61,6 +70,9 @@ class INLEDITOR {
     | "default" = "default";
   getDrawState() {
     return this.drawState;
+  }
+  setDrawState(state: DrawState) {
+    this.drawState = state;
   }
   // 保存状态
   protected saveState: boolean = true;

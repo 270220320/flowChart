@@ -3,7 +3,7 @@ import { closeSubLine, initSubLine } from "./subline";
 import { dealRelation } from "../../util/element/relation";
 
 export default (ie: INLEDITOR, cb?: () => void) => {
-  const { stage } = ie;
+  const stage = ie.getStage();
   // 按下移动
   stage.on("dragmove", (e) => {
     // 启动辅助线

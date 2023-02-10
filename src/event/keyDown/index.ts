@@ -2,7 +2,8 @@ import INLEDITOR from "@/index";
 import remove from "./remove";
 
 export default (ie: INLEDITOR, cb?: () => void) => {
-  ie.container.addEventListener("keydown", (e) => {
+  const container = ie.getContainer();
+  container.addEventListener("keydown", (e) => {
     if (e.code === "Backspace" || e.code === "Delete") {
       remove(ie, e);
     }

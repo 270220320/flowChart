@@ -15,28 +15,30 @@ import {
   exitEditLine,
   lineMouseUp,
 } from "@/util/line/editLine";
+import { Theme } from "@/config/theme";
 
-const offSelection = (ie: INLEDITOR) => {
+const offSelection = (stage: Konva.Stage) => {
   // 删除 layer
-  removeSelectionBox(ie.stage);
+  removeSelectionBox(stage);
   // 移除mosemove 监听
-  ie.stage.off("mousemove");
+  stage.off("mousemove");
 };
 
 // 默认框选
 const onSelection = (
-  ie: INLEDITOR,
+  stage: Konva.Stage,
   startPoint: { x: number; y: number },
+  themeType: Theme,
   cb: (rect: Konva.Rect) => void
 ) => {
-  const rect = createSelectionBox(ie.stage, ie.theme) as Konva.Rect;
+  const rect = createSelectionBox(stage, themeType) as Konva.Rect;
   rect.setAttrs(startPoint);
   let flag: number;
-  ie.stage.on("mousemove", (e) => {
+  stage.on("mousemove", (e) => {
     if (flag) clearTimeout(flag);
     flag = setTimeout(() => {
       // 默认框选
-      const { y, x } = computedXYByEvent(ie.stage, e.evt);
+      const { y, x } = computedXYByEvent(stage, e.evt);
       const rectAttrs = computedPoint(startPoint, { x, y });
       rect.setAttrs(rectAttrs);
       cb(rect);
@@ -48,22 +50,24 @@ const onSelection = (
 const onRect = (ie: INLEDITOR, rect: Konva.Rect | null) => {
   if (!rect) return;
   const { width, height, x, y } = _.cloneDeep(rect.attrs);
-  const shapeLayer = layer(ie.stage, "thing");
+  const shapeLayer = layer(ie.getStage(), "thing");
   const createDefaultRect = defaultRect({ width, height, x, y });
   shapeLayer.add(createDefaultRect);
 };
 
-export default (stage: Konva.Stage, cb?: () => void) => {
+export default (ie: INLEDITOR, cb?: () => void) => {
   let rect: Konva.Rect | null;
   let line: Konva.Arrow | undefined;
   let begin: Konva.Rect | Konva.Group | null;
+  const stage = ie.getStage();
+  const drawState = ie.getDrawState();
   stage.on("mousedown", (e) => {
     const { x, y } = computedXYByEvent(stage, e.evt);
-    if (ie.drawState === "default") return;
+    if (drawState === "default") return;
     stage.setAttrs({
       draggable: false,
     });
-    switch (ie.drawState) {
+    switch (drawState) {
       case "rightAngleLine":
       case "Line":
         // debugger;
@@ -76,17 +80,17 @@ export default (stage: Konva.Stage, cb?: () => void) => {
         editMouseDown(e, ie);
         break;
       default:
-        onSelection(ie, { y, x }, (rc) => {
+        onSelection(ie.getStage(), { y, x }, ie.getTheme(), (rc) => {
           rect = rc;
         });
     }
   });
 
-  ie.stage.on("mouseup", (e) => {
-    const { x, y } = computedXYByEvent(ie.stage, e.evt);
+  stage.on("mouseup", (e) => {
+    const { x, y } = computedXYByEvent(stage, e.evt);
     cb ? cb() : null;
-    offSelection(ie);
-    switch (ie.drawState) {
+    offSelection(ie.getStage());
+    switch (drawState) {
       case "Rect":
         onRect(ie, rect);
         break;
@@ -106,8 +110,8 @@ export default (stage: Konva.Stage, cb?: () => void) => {
         }
         break;
     }
-    ie.drawState = "default";
-    ie.stage.setAttrs({
+    ie.setDrawState("default");
+    stage.setAttrs({
       draggable: true,
     });
     rect = null;

@@ -10,7 +10,8 @@ import layer from "@/util/layer";
 
 // 查询出需要辅助线计算的layer
 const getLayerBySubLine = (ie: INLEDITOR) => {
-  const thing = layer(ie.stage, "thing");
+  const stage = ie.getStage();
+  const thing = layer(stage, "thing");
   const arr: Array<Node<NodeConfig>> = [...thing.children!];
   return arr;
 };
@@ -170,9 +171,10 @@ const drawGuides = (
   layer: Konva.Layer,
   themeType: Theme
 ) => {
+  const stage = ie.getStage();
   guides.forEach((lg) => {
     if (lg.orientation === "H") {
-      const { x, y } = computedXY(ie.stage, 6000, lg.lineGuide);
+      const { x, y } = computedXY(stage, 6000, lg.lineGuide);
       const line = createSubLine(
         {
           points: [x, y, -x, y],
@@ -181,7 +183,7 @@ const drawGuides = (
       );
       layer.add(line);
     } else if (lg.orientation === "V") {
-      const { x, y } = computedXY(ie.stage, lg.lineGuide, -6000);
+      const { x, y } = computedXY(stage, lg.lineGuide, -6000);
       const line = createSubLine(
         {
           points: [x, y, x, -y],

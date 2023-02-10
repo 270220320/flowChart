@@ -10,6 +10,7 @@ export default (
   dom: HTMLElement,
   callback?: (e: DragEvent) => void
 ) => {
+  const stage = ie.getStage();
   dom.ondragenter = function (e) {
     e.preventDefault();
   };
@@ -26,13 +27,14 @@ export default (
     e.preventDefault();
     let data = e.dataTransfer?.getData("thing");
     const { thing, thingText } = getTransferData(data!);
-    const { x, y } = computedXYByEvent(ie.stage, e);
-    const layerThing = layer(ie.stage, "thing");
+    const { x, y } = computedXYByEvent(stage, e);
+    const layerThing = layer(stage, "thing");
+    const theme = ie.getTheme();
     // 上传thing
     if (thing) {
       // 创建thing group
       createThingImageGroup(layerThing, thing, x, y).then((group) => {
-        if (thingText) createThingTextByGroup(group, thingText, ie.theme);
+        if (thingText) createThingTextByGroup(group, thingText, theme);
       });
     }
     callback ? callback(e) : null;

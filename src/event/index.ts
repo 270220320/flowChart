@@ -9,12 +9,15 @@ import onDbclick from "./dbclick";
 import change from "./change";
 
 export default (ie: INLEDITOR) => {
+  const container = ie.getContainer();
+  const stage = ie.getStage();
+
   if (!ie.opt.isPreview) {
     setDrawState(ie, () => {
       change(ie);
     });
 
-    ondrop(ie, ie.container, () => {
+    ondrop(ie, container, () => {
       change(ie);
     });
 
@@ -29,7 +32,7 @@ export default (ie: INLEDITOR) => {
     });
     onDbclick(ie);
   }
-  onwheel(ie.stage, () => {
+  onwheel(stage, () => {
     change(ie);
   });
 };

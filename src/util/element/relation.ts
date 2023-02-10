@@ -6,11 +6,12 @@ import { getUsePoint, getUsePointUn } from "../line/line";
 import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 
 export const dealRelation = (e: KonvaEventObject<any>, ie: INLEDITOR) => {
+  const stage = ie.getStage();
   if (e.target.className === "Rect" || e.target.className === "Image") {
     const lineInfo = getLineInfo(e.target)!;
     // debugger;
     lineInfo.outLineIds?.forEach((lineId: string) => {
-      const line = ie.stage.findOne("#" + lineId);
+      const line = stage.findOne("#" + lineId);
       const { lineInfo } = getCustomAttrs(line) as any;
       const x = e.target.attrs.x + lineInfo.fromExcursionX;
       const y = e.target.attrs.y + lineInfo.fromExcursionY;
@@ -26,7 +27,7 @@ export const dealRelation = (e: KonvaEventObject<any>, ie: INLEDITOR) => {
       }
     });
     lineInfo.inLineIds?.forEach((lineId: string) => {
-      const line = ie.stage.findOne("#" + lineId);
+      const line = stage.findOne("#" + lineId);
       const { lineInfo } = getCustomAttrs(line) as any;
       const x = e.target.attrs.x + lineInfo.toExcursionX;
       const y = e.target.attrs.y + lineInfo.toExcursionY;
