@@ -12,7 +12,6 @@ export default (ie: INLEDITOR, json?: string) => {
   if (stage) {
     stage.destroy();
   }
-
   if (json) {
     stage = konva.Node.create(json, id);
     stage.setAttrs({
