@@ -6,6 +6,7 @@ import { getUsePoint, getUsePointUn } from "../line/line";
 import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 
 export const dealRelation = (e: KonvaEventObject<any>, stage: Konva.Stage) => {
+  console.log(e.target);
   if (e.target.className === "Rect" || e.target.className === "Image") {
     const lineInfo = getLineInfo(e.target)!;
     lineInfo.outLineIds?.forEach((lineId: string) => {
