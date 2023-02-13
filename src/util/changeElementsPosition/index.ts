@@ -48,7 +48,6 @@ export default (stage: Konva.Stage, type: AlignType) => {
     maxX = Math.max(maxX, rect.x + rect.width);
     maxY = Math.max(maxY, rect.y + rect.height);
   }
-
   for (let i of nodes) {
     let node = i;
     if (i.hasName("val")) {

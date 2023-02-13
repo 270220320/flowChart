@@ -201,10 +201,11 @@ export const initSubLine = function (
   stage: Konva.Stage,
   e: KonvaEventObject<any>
 ) {
-  const layerSubLine = layer(this.stage, "util");
+  const layerSubLine = layer(stage, "util");
+  const theme = this.getTheme();
   let target = e.target as Shape<ShapeConfig> | Stage | Konva.Transformer;
 
-  getSubLine(layerSubLine, this.theme).forEach((item) => {
+  getSubLine(layerSubLine, theme).forEach((item) => {
     item.destroy();
   });
   if (target === stage) return;
@@ -267,8 +268,10 @@ export const initSubLine = function (
 };
 
 export const closeSubLine = function (this: INLEDITOR) {
-  const layerSubLine = layer(this.stage, "util");
-  getSubLine(layerSubLine, this.theme).forEach((item) => {
+  const stage = this.getStage();
+  const theme = this.getTheme();
+  const layerSubLine = layer(stage, "util");
+  getSubLine(layerSubLine, theme).forEach((item) => {
     item.destroy();
   });
   layerSubLine.batchDraw();

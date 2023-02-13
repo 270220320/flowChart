@@ -8,7 +8,6 @@ import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 export const dealRelation = (e: KonvaEventObject<any>, stage: Konva.Stage) => {
   if (e.target.className === "Rect" || e.target.className === "Image") {
     const lineInfo = getLineInfo(e.target)!;
-    // debugger;
     lineInfo.outLineIds?.forEach((lineId: string) => {
       const line = stage.findOne("#" + lineId);
       const { lineInfo } = getCustomAttrs(line) as any;
