@@ -12,11 +12,9 @@ export default (ie: INLEDITOR, json?: string) => {
   if (stage) {
     stage.destroy();
   }
-
   if (json) {
     ie.setStage(konva.Node.create(json, id));
-    stage = ie.getStage();
-    stage.setAttrs({
+    ie.getStage().setAttrs({
       width: offsetWidth,
       height: offsetHeight,
       background: "#dddddd",
@@ -32,6 +30,7 @@ export default (ie: INLEDITOR, json?: string) => {
       })
     );
   }
+  stage = ie.getStage();
   stage.container().tabIndex = 1;
   ie.setContainer(stage.container());
   ie.getContainer().setAttribute(
