@@ -22,8 +22,6 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
     // 删除关联关系
     removeRelevance(i, ie.getStage());
 
-    ie.changeSaveStage(false);
-
     ie.getStage().draw();
   }
 };

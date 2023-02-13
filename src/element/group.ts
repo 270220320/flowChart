@@ -59,7 +59,7 @@ export const createThingTextGroup = (
     y: y || 0,
   });
   setCustomAttrs(group, {
-    thingTextInfo: { code },
+    thingTextInfo: data,
   });
   return group;
 };

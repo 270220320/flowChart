@@ -57,12 +57,12 @@ class Scale extends Component {
   }
   createScaleLine() {
     const stage = this.editor.getStage();
-    const theme = this.editor.getTheme();
+    const themeType = this.editor.getTheme();
     const width = stage.width() / 2;
     const height = stage.height();
     const zoom = stage.scaleX();
     const { x, y } = stage.position();
-    const scaleTheme = theme[theme].scale; // 主题
+    const scaleTheme = theme[themeType].scale; // 主题
     const fiveScale = 5;
     const maxw = 50;
     this.scaleLayerX.removeChildren();
@@ -150,8 +150,8 @@ class Scale extends Component {
 
   moveStageByCanvasOffset() {
     const { x, y } = this.editor.getStage().position();
-    this.scaleLayerX.setAttrs({ x });
-    this.scaleLayerY.setAttrs({ y });
+    this.scaleX.setPosition({ x, y: 0 });
+    this.scaleY.setPosition({ x: 0, y });
   }
 
   onChange() {
@@ -170,8 +170,8 @@ class Scale extends Component {
 
   createDom() {
     const dom = document.getElementById(this.editor.opt.id);
-    const theme = this.editor.getTheme();
-    const { scale } = theme[theme];
+    const themeType = this.editor.getTheme();
+    const { scale } = theme[themeType];
     const scaleX = document.createElement("div");
     const scaleY = document.createElement("div");
     scaleX.id = "scalex";
@@ -191,10 +191,10 @@ class Scale extends Component {
   }
   createStage() {
     const stage = this.editor.getStage();
-    const theme = this.editor.getTheme();
+    const themeType = this.editor.getTheme();
     const width = stage.width();
     const height = stage.height();
-    const scaleTheme = theme[theme].scale;
+    const scaleTheme = theme[themeType].scale;
     this.scaleX = new Konva.Stage({
       width,
       height: scaleTheme.thickness,

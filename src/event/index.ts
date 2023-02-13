@@ -13,26 +13,16 @@ export default (ie: INLEDITOR) => {
   const stage = ie.getStage();
 
   if (!ie.opt.isPreview) {
-    setDrawState(ie, () => {
-      change(ie);
-    });
+    setDrawState(ie);
 
-    ondrop(ie, container, () => {
-      change(ie);
-    });
+    ondrop(ie, container);
 
     selectItem(ie);
 
-    keyDown(ie, () => {
-      change(ie);
-    });
+    keyDown(ie);
 
-    onDrag(ie, () => {
-      change(ie);
-    });
+    onDrag(ie);
     onDbclick(ie);
   }
-  onwheel(stage, () => {
-    change(ie);
-  });
+  onwheel(stage);
 };

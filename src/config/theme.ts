@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { LineTheme } from "./line";
+import { subLineTheme } from "./line";
 import { RectTheme } from "./rect";
 import { ScaleTheme } from "./scale";
 import { SelectionTheme } from "./selection";
@@ -20,7 +20,7 @@ const thtmeInfo: Record<Theme, ThemeInfo> = {
   light: {
     scale: ScaleTheme.light,
     background: "#F0F3FA",
-    subLine: LineTheme.light,
+    subLine: subLineTheme.light,
     rect: RectTheme.light,
     selection: SelectionTheme.light,
     thingText: ThingText.light,
@@ -28,7 +28,7 @@ const thtmeInfo: Record<Theme, ThemeInfo> = {
   dark: {
     scale: ScaleTheme.dark,
     background: "#08163B",
-    subLine: LineTheme.dark,
+    subLine: subLineTheme.dark,
     rect: RectTheme.dark,
     selection: SelectionTheme.dark,
     thingText: ThingText.dark,
