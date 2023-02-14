@@ -15,6 +15,7 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
         myWidth: width,
         myHeight: height,
         src: img,
+        name: "thingImage",
         id: UUID(),
       });
       darthNode.cache();

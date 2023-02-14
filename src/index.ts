@@ -1,18 +1,18 @@
 import Konva from "konva";
-import { Component, useComponent } from "./component";
+import { Component, useComponent } from "./component/component";
+import BELT from "./component/belt";
 import Scale from "./component/scale";
 import theme, { Theme } from "./config/theme";
 import { getThingTextGroup, groupNames } from "./element/group";
 import { changeImage } from "./element/image";
 import { createThingText, setThingTextVal } from "./element/text";
 import event from "./event";
-import { getTran } from "./event/selectItem";
 import stageClick, { onSelectCallBackFun } from "./event/stageClick";
 import changeElementsPosition, {
   AlignType,
 } from "./util/changeElementsPosition";
 import changeTheme from "./util/changeTheme";
-import { getCustomAttrs, setCustomAttrs } from "./util/customAttr";
+import { getCustomAttrs } from "./util/customAttr";
 import initStage from "./util/initStage";
 import layer from "./util/layer";
 import stageTofit from "./util/stageTofit";
@@ -23,7 +23,9 @@ type DrawState = "Line" | "rightAngleLine" | "editLine" | "Rect" | "default";
 interface INLEDITOR {
   [ket: string]: any;
   opt: OPT;
-  scale: Scale;
+  components: {
+    [ket: string]: Component;
+  };
 }
 
 interface OPT {
@@ -42,6 +44,7 @@ class INLEDITOR {
     this.event();
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
       this.use(new Scale({}));
+      this.use(new BELT());
     }
   }
 
@@ -156,6 +159,10 @@ class INLEDITOR {
     useComponent(this, component);
   }
 
+  getComponent<T = Component>(s: string) {
+    return this.components[s] as T;
+  }
+
   // 序列化
   toJson() {
     const json = this.stage.toJSON();
@@ -195,7 +202,9 @@ class INLEDITOR {
   }
 
   changeElementsPosition(type: AlignType) {
-    console.log(getTran(this.stage).Transformers.getNode());
+    // getTran(this.stage).Transformers.getNode();
+    changeElementsPosition(this.getStage(), type);
+    // console.log(getTran(this.stage).Transformers.getNode());
   }
 
   render(opt?: { width: number; height: number }) {
