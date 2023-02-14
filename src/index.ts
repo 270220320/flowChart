@@ -13,6 +13,7 @@ import changeElementsPosition, {
 } from "./util/changeElementsPosition";
 import changeTheme from "./util/changeTheme";
 import { getCustomAttrs } from "./util/customAttr";
+import { getRelations } from "./util/getRelations";
 import initStage from "./util/initStage";
 import layer from "./util/layer";
 import stageTofit from "./util/stageTofit";
@@ -181,6 +182,11 @@ class INLEDITOR {
   // 当画布元素被选中
   onselect(cb: onSelectCallBackFun) {
     stageClick(this.stage, cb);
+  }
+
+  // 获取所有关系
+  getRelations() {
+    return getRelations(this.stage);
   }
 
   // 适应画布

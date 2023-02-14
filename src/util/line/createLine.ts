@@ -80,7 +80,7 @@ export const beginCreateLine = (
 
   const lay = layer(stage, "line");
   lay.moveToTop();
-  const line = createTemporaryLine(lay, point, opt);
+  const line = createTemporaryLine(lay, point, opt.theme);
   stage.on("mousemove", (e) => {
     const { x, y } = computedXYByEvent(stage, e.evt);
     if (line) {
@@ -96,7 +96,7 @@ export const createTemporaryLine = (
   point: { x: number; y: number },
   theme
 ) => {
-  var arrow = new Konva.Arrow({
+  const arrow = new Konva.Arrow({
     id: UUID(),
     points: [point.x, point.y, point.x, point.y],
     ...LineTheme[theme],
