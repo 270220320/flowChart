@@ -98,7 +98,7 @@ export const createTemporaryLine = (
 ) => {
   const arrow = new Konva.Arrow({
     id: UUID(),
-    points: [point.x, point.y, 100, 100],
+    points: [point.x, point.y, point.x, point.y],
     ...LineTheme[theme],
   });
 
