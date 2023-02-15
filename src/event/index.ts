@@ -6,7 +6,6 @@ import setDrawState from "./setDrawState";
 import selectItem from "./selectItem";
 import onDrag from "./onDrag";
 import onDbclick from "./dbclick";
-import change from "./change";
 
 export default (ie: INLEDITOR) => {
   const container = ie.getContainer();

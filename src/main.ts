@@ -1,5 +1,8 @@
 import inleditor from "./";
 
+export { Theme } from "./config/theme";
 export * from "./util/changeElementsPosition";
-export { inleditor };
 export * from "./";
+export { inleditor };
+
+export default inleditor;

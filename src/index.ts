@@ -150,15 +150,28 @@ class INLEDITOR {
     });
     return ius;
   }
-
-  // 动态修改图片
-  changeImage(iu: string, src: string) {
+  //查询设备状态
+  getThingState(iu: string) {
     const thingLayer = layer(this.stage, "thing");
-
-    const image = (thingLayer.findOne(`#${iu}`) as Konva.Group)?.findOne(
-      "Image"
+    const thingBox = thingLayer.findOne(`#${iu}`);
+    const { state } = getCustomAttrs(thingBox);
+    return state;
+  }
+  // 修改设备状态
+  setThingState(iu: string, setStateVal: string, src?: string) {
+    const thingLayer = layer(this.stage, "thing");
+    const thingBox = thingLayer.findOne(`#${iu}`);
+    const image = (thingBox as Konva.Group)?.findOne(
+      ".thingImage"
     ) as Konva.Image;
-    image ? changeImage(image, src) : null;
+
+    const { state } = getCustomAttrs(thingBox);
+    if (state === setStateVal) return;
+    if (image.getClassName() !== "Image") {
+      // 组件处理
+    } else {
+      image ? changeImage(image, src, setStateVal) : null;
+    }
   }
 
   // 注册组件

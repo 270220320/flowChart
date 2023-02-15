@@ -41,11 +41,11 @@ const createTran = () =>
 // 获取 选择框
 export const getTran: (stage: Konva.Stage) => {
   nodes: Array<Konva.Node>;
-  position: IRect;
   Transformers: Konva.Transformer;
+  position?: IRect;
 } = (s) => {
   const Transformers = s.findOne("Transformer") as Konva.Transformer;
-  if (!Transformers) return;
+  if (!Transformers) return { nodes: [], Transformers: null };
 
   return {
     nodes: Transformers.getNodes(),

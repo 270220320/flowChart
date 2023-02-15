@@ -1,7 +1,7 @@
 import INLEDITOR from "../..";
 import { closeSubLine, initSubLine } from "./subline";
 import { dealRelation } from "../../util/element/relation";
-import { clearTransFormer } from "../selectItem";
+import { clearTransFormer, getTran } from "../selectItem";
 
 export default (ie: INLEDITOR, cb?: () => void) => {
   const stage = ie.getStage();
@@ -12,9 +12,11 @@ export default (ie: INLEDITOR, cb?: () => void) => {
 
     // 块关联线随动
     dealRelation(e, ie.getStage());
-
-    if (e.target !== stage) {
-      clearTransFormer(stage);
+    if (e.target !== stage && e.target.getClassName() !== "Transformer") {
+      const { nodes } = getTran(stage);
+      if (nodes.length === 1 && nodes[0] !== e.target) {
+        clearTransFormer(stage);
+      }
     }
 
     cb ? cb() : null;

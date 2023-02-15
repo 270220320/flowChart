@@ -4,13 +4,13 @@ import { Theme } from "./theme";
 const defaultText = "文本";
 export const Text: Record<Theme, Konva.TextConfig> = {
   light: {
-    fill: "#000",
+    fill: "#354052",
     text: defaultText,
-    fontSize: 12,
+    fontSize: 40,
   },
   dark: {
-    fill: "#fff",
+    fill: "#9CA9C7",
     text: defaultText,
-    fontSize: 12,
+    fontSize: 40,
   },
 };

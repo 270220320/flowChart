@@ -50,7 +50,7 @@ export const createThingTextGroup = (
   position: { x: number; y: number }
 ) => {
   const { x, y } = position;
-  const { code, v } = data;
+  const { code } = data;
   const group = new Konva.Group({
     name: name,
     draggable: true,
@@ -60,6 +60,7 @@ export const createThingTextGroup = (
   });
   setCustomAttrs(group, {
     thingTextInfo: data,
+    state: "defalut",
   });
   return group;
 };
