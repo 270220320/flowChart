@@ -18,6 +18,7 @@ import initStage from "./util/initStage";
 import layer from "./util/layer";
 import stageTofit from "./util/stageTofit";
 import toImage from "./util/toImage";
+import animate from "./animate";
 
 type DrawState = "Line" | "rightAngleLine" | "editLine" | "Rect" | "default";
 
@@ -218,4 +219,5 @@ class INLEDITOR {
   }
 }
 
+export const Animate = animate;
 export default INLEDITOR;

@@ -84,7 +84,7 @@ export const beginCreateLine = (
   stage.on("mousemove", (e) => {
     const { x, y } = computedXYByEvent(stage, e.evt);
     if (line) {
-      createLineMove(line!, { x, y }, opt.theme);
+      createLineMove(line!, { x, y }, opt);
     }
   });
   return line;
