@@ -1,3 +1,4 @@
+import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import Konva from "konva";
 import _ from "lodash";
 import { UUID } from "src/util/uuid";
@@ -26,8 +27,14 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
   });
 };
 
-export const changeImage = async (imageNode: Konva.Image, src: string) => {
+export const changeImage = async (
+  imageNode: Konva.Image,
+  src: string,
+  stage: string
+) => {
   const parent = imageNode.getParent();
+
+  setCustomAttrs(parent, { stage });
   const attrs = _.cloneDeep(imageNode.getAttrs());
   imageNode.remove();
   const newImage = await createImage(src);

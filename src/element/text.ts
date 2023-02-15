@@ -183,12 +183,13 @@ export const editorText = (textNode: Konva.Text, stage: Konva.Stage) => {
     y: stageBox.top + textPosition.y,
   };
   const textarea = document.createElement("textarea");
-  document.body.appendChild(textarea);
   textarea.value = textNode.text();
   textarea.style.position = "absolute";
   textarea.style.top = areaPosition.y + "px";
   textarea.style.left = areaPosition.x + "px";
   textarea.style.width = textNode.width() + "px";
+  document.body.appendChild(textarea);
+
   textNode.opacity(0);
   textarea.focus();
   textarea.addEventListener("keydown", function (e) {

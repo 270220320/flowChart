@@ -49,8 +49,7 @@ class BELT extends Component {
         this.group.off("transform");
         // const { height } = e.target.getClientRect();
         // this.draw.update();
-        const { width, x, y } = getTran(this.stage).position;
-        console.log(width, x, y);
+        const { width, x, y } = getTran(this.stage).position!;
         this.config.left = x;
         this.config.top = y;
         this.config.width = width;

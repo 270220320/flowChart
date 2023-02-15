@@ -1,7 +1,7 @@
 exports.entry = [
   {
     type: "main",
-    root: "src/index.ts",
+    root: "src/main.ts",
   },
   {
     type: "element",

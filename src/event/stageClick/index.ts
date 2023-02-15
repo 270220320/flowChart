@@ -3,7 +3,7 @@ import { Shape, ShapeConfig } from "konva/lib/Shape";
 import { getCustomAttrs } from "@/util/customAttr";
 
 export type onSelectCallBackFun = (
-  type: "thing" | "shape" | "thingText" | "stage",
+  type: "thing" | "shape" | "thingText" | "stage" | string,
   e: {
     target: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage;
     parent?: Konva.Group | Konva.Rect | Shape<ShapeConfig> | Konva.Stage;
@@ -24,7 +24,7 @@ export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
       if (!parent) return;
       if (parent.getClassName() === "Layer") {
         cb(
-          "shape",
+          e.target.getClassName(),
           {
             target: e.target,
             parent,

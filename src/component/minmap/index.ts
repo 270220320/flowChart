@@ -1,3 +1,3 @@
-import INLEDITOR from "src";
+import INLEDITOR from "@/index";
 
 export default (ie: INLEDITOR) => {};
