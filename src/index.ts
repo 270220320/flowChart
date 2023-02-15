@@ -18,8 +18,15 @@ import initStage from "./util/initStage";
 import layer from "./util/layer";
 import stageTofit from "./util/stageTofit";
 import toImage from "./util/toImage";
+import disableMove from "./util/initStage/disableMove";
 
-type DrawState = "Line" | "rightAngleLine" | "editLine" | "Rect" | "default";
+export type DrawState =
+  | "Line"
+  | "rightAngleLine"
+  | "editLine"
+  | "Rect"
+  | "Text"
+  | "default";
 
 interface INLEDITOR {
   [ket: string]: any;
@@ -77,12 +84,7 @@ class INLEDITOR {
     this.container = c;
   }
   // 绘制状态
-  protected drawState:
-    | "Line"
-    | "rightAngleLine"
-    | "editLine"
-    | "Rect"
-    | "default" = "default";
+  protected drawState: DrawState = "default";
   getDrawState() {
     return this.drawState;
   }
@@ -90,6 +92,9 @@ class INLEDITOR {
     this.drawState = state;
   }
 
+  disableStageMove() {
+    disableMove(this.stage);
+  }
   // 创建thing文字
   createThingText = (iu: string) => {
     return createThingText(this.stage, iu, this.theme);
@@ -220,7 +225,7 @@ class INLEDITOR {
         height: opt.height,
       });
       if (this.scale) {
-        this.scale.render();
+        this.getComponent<Scale>("scale").render();
       }
     }
     this.stage.draw();

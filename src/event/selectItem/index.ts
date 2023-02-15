@@ -59,6 +59,11 @@ const resetEvent = (stage: Konva.Stage) => {
   Transformers?.destroy();
 };
 
+export const clearTransFormer = (stage: Konva.Stage) => {
+  const Transformers = stage.findOne("Transformer") as Konva.Transformer;
+  Transformers?.destroy();
+};
+
 export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>) => {
   resetEvent(stage);
   const Transformers = createTran();
