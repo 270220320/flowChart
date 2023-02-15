@@ -5,9 +5,9 @@ export const computedZoomCoord = (x: number, y: number, stage: Konva.Stage) => {
   const zoom = stage.scale()!;
   let left = x;
   let top = y;
-  if (stage.position()) {
-    left = (left - stage.position().x) / zoom.x;
-    top = (top - stage.position().y) / zoom.x;
+  if (stage.absolutePosition()) {
+    left = (left - stage.absolutePosition().x) / zoom.x;
+    top = (top - stage.absolutePosition().y) / zoom.y;
   }
   return {
     left,
@@ -16,36 +16,39 @@ export const computedZoomCoord = (x: number, y: number, stage: Konva.Stage) => {
 };
 
 export default (stage: Konva.Stage) => {
-  const objects = layer(stage, "thing").getChildren();
-  let rect = objects[0].getClientRect();
-  let minX = rect.x;
-  let minY = rect.y;
-  let maxX = rect.x + rect.width;
-  let maxY = rect.y + rect.height;
-  if (objects.length > 0) {
-    for (let i = 1; i < objects.length; i++) {
-      rect = objects[i].getClientRect();
-      minX = Math.min(minX, rect.x);
-      minY = Math.min(minY, rect.y);
-      maxX = Math.max(maxX, rect.x + rect.width);
-      maxY = Math.max(maxY, rect.y + rect.height);
-    }
-  }
-  //计算平移坐标
-  const { left, top } = computedZoomCoord(minX, minY, stage);
+  // 获取层的边界框
 
-  //计算缩放比例
-  const zoom =
-    Math.min(stage.width() / (maxX - minX), stage.height() / (maxY - minY)) *
-    0.9;
+  const thingLayer = layer(stage, "thing");
+  thingLayer.findOne("#ttttt")?.remove();
+  thingLayer.batchDraw();
+  const { x, y } = thingLayer.getClientRect();
+  const { width, height } = thingLayer.getClientRect();
+
+  const stagePosition = stage.absolutePosition();
+  thingLayer.add(
+    new Konva.Rect({
+      width: width,
+      height: height,
+      x: x,
+      y: y,
+      fill: "red",
+      id: "ttttt",
+    })
+  );
+  // 计算缩放比例
+  const scale = Math.min(stage.width() / width, stage.height() / height) * 0.8;
+
+  // 缩放层
+
   const stageMove = new Konva.Tween({
     node: stage,
-    x: left,
-    y: top,
-    // scaleX: zoom,
-    // scaleY: zoom,
+    x: -x,
+    y: -y,
+    // scaleX: scale,
+    // scaleY: scale,
     easing: Konva.Easings.EaseIn,
     duration: 0.5,
   });
   stageMove.play();
+  stage.batchDraw();
 };
