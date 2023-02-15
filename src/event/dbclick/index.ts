@@ -23,7 +23,7 @@ export default (ie: INLEDITOR) => {
       if (editable) {
         // 清除select
         clearTransFormer(ie.getStage());
-        editorText(e.target, stage);
+        editorText(e.target as Konva.Text, stage);
       }
     }
   });

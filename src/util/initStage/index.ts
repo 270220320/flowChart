@@ -46,6 +46,7 @@ export default (ie: INLEDITOR, json?: string) => {
   if (ie.opt.isPreview) {
     disableMove(ie.getStage());
   }
+  console.log(ie.opt.isPreview);
   // watchElement(id, (dm) => {
   //   stage.size({
   //     width: dm.offsetWidth,

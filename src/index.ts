@@ -225,7 +225,7 @@ class INLEDITOR {
         width: opt.width,
         height: opt.height,
       });
-      if (this.scale) {
+      if (this.getComponent<Scale>("scale")) {
         this.getComponent<Scale>("scale").render();
       }
     }
