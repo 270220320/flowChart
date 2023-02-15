@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { Component } from "..";
+import { Component } from "../component";
 import theme from "../../config/theme";
 
 interface ScaleOpt {}

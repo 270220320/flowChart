@@ -4,6 +4,7 @@ import { Shape, ShapeConfig } from "konva/lib/Shape";
 import { Stage } from "konva/lib/Stage";
 import INLEDITOR from "@/index";
 import { IRect } from "konva/lib/types";
+import { isComponentChild } from "@/component";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
@@ -13,7 +14,7 @@ const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
   ) {
     return selectTarget.getParent();
   }
-  return selectTarget;
+  return isComponentChild(selectTarget).node;
 };
 
 /**
@@ -54,6 +55,11 @@ export const getTran: (stage: Konva.Stage) => {
 };
 // 重置事件中心
 const resetEvent = (stage: Konva.Stage) => {
+  const Transformers = stage.findOne("Transformer") as Konva.Transformer;
+  Transformers?.destroy();
+};
+
+export const clearTransFormer = (stage: Konva.Stage) => {
   const Transformers = stage.findOne("Transformer") as Konva.Transformer;
   Transformers?.destroy();
 };

@@ -50,11 +50,18 @@ export const setThingDefaultTextTheme = (ea: Konva.Text, themeType: Theme) => {
 // 修改thing 文字的val
 export const setThingTextVal = (e: Konva.Group, val: string) => {
   const text = e.findOne(".val");
-
+  const rect = e.findOne(".rect");
+  const unit = e.findOne(".unit");
   if (text) {
     // 设置value
     text.setAttrs({
       text: val,
+    });
+    rect.setAttrs({
+      width: text.width() + 10,
+    });
+    unit.setAttrs({
+      x: rect.attrs.x + rect.width() + 5,
     });
   }
 
@@ -147,22 +154,80 @@ export const createThingTextByGroup = (
   }
 };
 
+// 创建可编辑的文本
+export const createEditableText = (
+  stage: Konva.Stage,
+  position: { x: number; y: number },
+  themeType: Theme
+) => {
+  const thingLayer = layer(stage, "thing");
+  const Text = theme[themeType].text;
+  const { x, y } = position;
+  thingLayer.add(
+    createText({
+      ...Text,
+      draggable: true,
+      editable: true,
+      x,
+      y,
+    })
+  );
+};
+export const editorText = (textNode: Konva.Text, stage: Konva.Stage) => {
+  const textPosition = textNode.getAbsolutePosition();
+
+  // then lets find position of stage container on the page:
+  const stageBox = stage.container().getBoundingClientRect();
+  const areaPosition = {
+    x: stageBox.left + textPosition.x,
+    y: stageBox.top + textPosition.y,
+  };
+  const textarea = document.createElement("textarea");
+  document.body.appendChild(textarea);
+  textarea.value = textNode.text();
+  textarea.style.position = "absolute";
+  textarea.style.top = areaPosition.y + "px";
+  textarea.style.left = areaPosition.x + "px";
+  textarea.style.width = textNode.width() + "px";
+  textNode.opacity(0);
+  textarea.focus();
+  textarea.addEventListener("keydown", function (e) {
+    // hide on enter
+    if (e.keyCode === 13) {
+      textNode.text(textarea.value);
+      stage.draw();
+      document.body.removeChild(textarea);
+      textNode.opacity(1);
+    }
+  });
+  textarea.addEventListener("blur", function (e) {
+    textNode.text(textarea.value);
+    stage.draw();
+    document.body.removeChild(textarea);
+    textNode.opacity(1);
+  });
+};
+
 // 查询复杂的thing文字
 export const getThingAdvancedText = (parent: Parent) => {};
 
 // 修改thing 文字的主题
 export const changeThingTextTheme = (themeType: Theme) => {};
 
+// 创建文字
 export const createThingText = (
   stage: Konva.Stage,
   iu: string,
   themeType: Theme
 ) => {
   const thingGroup = stage.findOne(`#${iu}`) as Konva.Group;
-  if (!thingGroup) return;
+  if (!thingGroup) return {};
   const thing = thingGroup.findOne("Image") as Konva.Image;
 
-  if (!thing) return console.warn(`查询错误:${iu}`);
+  if (!thing) {
+    console.warn(`查询错误:${iu}`);
+    return;
+  }
   return {
     def: (text: string, code: string) => {
       const textShape = createThingDefaultText(

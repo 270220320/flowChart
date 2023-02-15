@@ -1,23 +1,15 @@
-import INLEDITOR from "../";
+import Konva from "konva";
 
-// export interface Component<T = any> {
-//   name: string;
-//   version: string;
-//   instance: T;
-// }
+export * from "./belt";
+export * from "./grid";
+export * from "./scale";
+export * from "./minmap";
 
-export class Component {
-  name = "comp";
-  editor!: INLEDITOR;
-  version = "0.0.1";
-  destory() {}
-  show() {}
-  hide() {}
-  init() {}
-}
+export const isComponentChild = (node: Konva.Node) => {
+  const parent = node.parent;
+  const parentName = parent.name();
 
-export const useComponent = (ie: INLEDITOR, component: Component) => {
-  component.editor = ie;
-  component.init();
-  ie[component.name] = component;
+  return {
+    node: parentName === "thingImage" ? parent : node,
+  };
 };

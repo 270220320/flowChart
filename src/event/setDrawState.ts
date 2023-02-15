@@ -1,6 +1,6 @@
 import Konva from "konva";
 import _ from "lodash";
-import { computedPoint, computedXYByEvent } from "@/util/computedXY";
+import { computedPoint, computedXYByEvent } from "../util/computedXY";
 import layer from "@/util/layer";
 import INLEDITOR from "..";
 import {
@@ -14,8 +14,9 @@ import {
   editMouseDown,
   exitEditLine,
   lineMouseUp,
-} from "@/util/line/editLine";
-import { Theme } from "@/config/theme";
+} from "../util/line/editLine";
+import { Theme } from "../config/theme";
+import { createEditableText } from "../element/text";
 
 const offSelection = (stage: Konva.Stage) => {
   // 删除 layer
@@ -55,6 +56,15 @@ const onRect = (stage: Konva.Stage, rect: Konva.Rect | null) => {
   shapeLayer.add(createDefaultRect);
 };
 
+// custom text
+const customText = (
+  stage: Konva.Stage,
+  startPoint: { x: number; y: number },
+  themeType: Theme
+) => {
+  createEditableText(stage, startPoint, themeType);
+};
+
 export default (ie: INLEDITOR, cb?: () => void) => {
   let rect: Konva.Rect | null;
   let line: Konva.Arrow | undefined;
@@ -79,6 +89,9 @@ export default (ie: INLEDITOR, cb?: () => void) => {
             drawState: ie.getDrawState(),
           });
         }
+        break;
+      case "Text":
+        customText(stage, { x, y }, ie.getTheme());
         break;
       case "editLine":
         editMouseDown(e, stage);

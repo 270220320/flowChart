@@ -1,4 +1,4 @@
-import { Component } from "..";
+import { Component } from "../component";
 
 interface GridOpt {}
 export default class Grid extends Component {

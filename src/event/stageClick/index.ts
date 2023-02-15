@@ -21,7 +21,7 @@ export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
       // 如果是图形或者是文字，那么父级别肯定是layer
       let parent = e.target.getParent() as Konva.Layer | Konva.Group;
       // 如果是父级不是layer那就有可能是thing或者是thingText
-
+      if (!parent) return;
       if (parent.getClassName() === "Layer") {
         cb(
           "shape",

@@ -2,6 +2,7 @@ import konva from "konva";
 import INLEDITOR from "@/index";
 import theme from "@/config/theme";
 import resetImg from "./resetImg";
+import disableMove from "./disableMove";
 
 export default (ie: INLEDITOR, json?: string) => {
   const { id } = ie.opt;
@@ -41,6 +42,10 @@ export default (ie: INLEDITOR, json?: string) => {
     `background: ${theme[themeType].background}; position: relative;`
   );
   resetImg(stage);
+
+  if (ie.opt.isPreview) {
+    disableMove(ie.getStage());
+  }
   // watchElement(id, (dm) => {
   //   stage.size({
   //     width: dm.offsetWidth,
