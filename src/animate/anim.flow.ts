@@ -4,10 +4,10 @@ import LineAnimate from ".";
 
 const BASEDURATION = 100;
 export default function (this: LineAnimate) {
-  this.animateEl = new Konva.Line(this.opt.line.getAttrs()).hide();
+  this.animateEl = new Konva.Line(this.opt.line.getAttrs());
   this.animateLayer.add(this.animateEl);
   let flag = true;
-  const n = this.opt.direction === "obey" ? 1 : -1;
+  const sign = this.opt.direction === "obey" ? 1 : -1;
   const bc = "rgb(35 128 246 / 28%)";
   const qc = "red";
   let points = JSON.parse(JSON.stringify(this.opt.line.points())) || [];
@@ -18,10 +18,9 @@ export default function (this: LineAnimate) {
     dashOffset: distance,
   });
   this.opt.line.dash([0, 0]).setAttr("stroke", bc);
-  // debugger;
   const anim = () => {
     this.animateEl.to({
-      dashOffset: n ? 0 : distance * n,
+      dashOffset: sign ? 0 : distance * sign,
       duration: (distance / BASEDURATION) * this.speed, // + this.speed
       onFinish: () => {
         if (flag) {

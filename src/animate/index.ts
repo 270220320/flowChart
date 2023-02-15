@@ -8,7 +8,7 @@ import animDot from "./anim.dot";
 import animFlow from "./anim.flow";
 
 export enum LineAnimateType {
-  "default", // 默认水珠流动
+  "default", // 默认虚线流动
   "flow", // 水流
   "dot", // 圆点动画
 }
@@ -55,14 +55,14 @@ class LineAnimate {
       this.resetAnimate[this.opt.animateType || "default"]();
     start();
   }
-  start() {
+  show() {
     this.animateEl.show();
   }
-  stop() {
+  hide() {
     this.animateEl.hide();
   }
   destroy() {
-    this.stop();
+    this.hide();
     this.animateEl.remove();
   }
 }
