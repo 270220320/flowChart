@@ -1,17 +1,18 @@
 import Konva from "konva";
 import { computedDuration } from "../util/distance";
 import LineAnimate from ".";
+import { lineAni } from "../config";
 
 export default function (this: LineAnimate) {
   this.animateEl = new Konva.Line(this.opt.line.getAttrs());
   this.animateLayer.add(this.animateEl);
   let animate;
   const sign = this.opt.direction === "obey" ? 1 : -1;
-  const bc = "lightskyblue";
   let points = JSON.parse(JSON.stringify(this.opt.line.points())) || [];
   const { distance } = computedDuration(points, this.speed);
+  const theme = this.opt.ie.getTheme();
   this.animateEl.setAttrs({
-    stroke: bc,
+    ...lineAni.flow[theme],
     dash: [distance],
     dashOffset: distance,
   });

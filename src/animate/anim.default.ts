@@ -1,15 +1,16 @@
 import { getTotalDistance } from "@/util/distance";
 import Konva from "konva";
 import LineAnimate from ".";
+import { lineAni } from "../config";
 
 export default function (this: LineAnimate) {
   this.animateEl = new Konva.Line(this.opt.line.getAttrs());
   this.animateLayer.add(this.animateEl);
   let animate;
   const sign = this.opt.direction === "obey" ? -1 : 1;
-  const bc = "lightskyblue";
+  const theme = this.opt.ie.getTheme();
   this.animateEl.setAttrs({
-    stroke: bc,
+    ...lineAni.dotted[theme],
     strokeWidth: this.opt.line.getAttr("strokeWidth") * 1.5,
     dash: [10, 0, 10],
   });

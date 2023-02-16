@@ -1,6 +1,7 @@
 import Konva from "konva";
 import { computedDuration } from "../util/distance";
 import LineAnimate from ".";
+import { lineAni } from "../config";
 
 export default function (this: LineAnimate) {
   const w = this.opt.line.getAttr("strokeWidth");
@@ -11,9 +12,10 @@ export default function (this: LineAnimate) {
   if (this.opt.direction === "inverse") {
     pointRes.reverse();
   }
+  const theme = this.opt.ie.getTheme();
   this.animateEl = new Konva.Circle({
     radius: w * 2,
-    fill: "#2380f6",
+    ...lineAni.dot[theme],
     x: points[0],
     y: points[1],
   });

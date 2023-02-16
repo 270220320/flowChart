@@ -4,3 +4,4 @@ export * from "./scale";
 export * from "./selection";
 export * from "./theme";
 export * from "./thingText";
+export * from "./lineAni";
