@@ -57,12 +57,17 @@ export const setThingTextVal = (e: Konva.Group, val: string) => {
     text.setAttrs({
       text: val,
     });
-    rect.setAttrs({
-      width: text.width() + 10,
-    });
-    unit.setAttrs({
-      x: rect.attrs.x + rect.width() + 5,
-    });
+
+    if (rect) {
+      rect.setAttrs({
+        width: text.width() + 10,
+      });
+    }
+    if (unit) {
+      unit.setAttrs({
+        x: rect.attrs.x + rect.width() + 5,
+      });
+    }
   }
 
   // 设置thing属性值
