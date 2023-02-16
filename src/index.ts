@@ -23,7 +23,9 @@ import disableMove from "./util/initStage/disableMove";
 
 export type DrawState =
   | "Line"
+  | "dottedLine"
   | "rightAngleLine"
+  | "rightAngleDottedLine"
   | "editLine"
   | "Rect"
   | "Text"

@@ -81,6 +81,8 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     });
     switch (drawState) {
       case "rightAngleLine":
+      case "rightAngleDottedLine":
+      case "dottedLine":
       case "Line":
         if (e.target.className === "Rect" || e.target.className === "Image") {
           begin = e.target as Konva.Rect;
@@ -120,7 +122,10 @@ export default (ie: INLEDITOR, cb?: () => void) => {
           exitEditLine(stage);
         }
         break;
+
       case "rightAngleLine":
+      case "rightAngleDottedLine":
+      case "dottedLine":
       case "Line":
         if (line) {
           finishLine(stage, begin!, line!, ie.getDrawState());

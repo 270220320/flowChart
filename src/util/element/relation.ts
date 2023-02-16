@@ -20,7 +20,7 @@ export const dealRelation = (e: any, stage: Konva.Stage) => {
       const x = target.absolutePosition().x + lineInfo.fromExcursionX;
       const y = target.absolutePosition().y + lineInfo.fromExcursionY;
 
-      if (lineInfo.type === "rightAngleLine") {
+      if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
         const points = getUsePoint(line.attrs.points);
         const pointsRes = setRightAngleLineBeginOrEnd(points, 0, { x, y });
         line.setAttrs({ points: getUsePointUn(pointsRes) });
@@ -35,7 +35,7 @@ export const dealRelation = (e: any, stage: Konva.Stage) => {
       const { lineInfo } = getCustomAttrs(line) as any;
       const x = target.absolutePosition().x + lineInfo.toExcursionX;
       const y = target.absolutePosition().y + lineInfo.toExcursionY;
-      if (lineInfo.type === "rightAngleLine") {
+      if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
         const points = getUsePoint(line.attrs.points);
         const pointsRes = setRightAngleLineBeginOrEnd(
           points,
