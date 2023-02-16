@@ -3,6 +3,7 @@ import INLEDITOR from "@/index";
 import theme from "@/config/theme";
 import resetImg from "./resetImg";
 import disableMove from "./disableMove";
+import test from "@/test";
 
 export default (ie: INLEDITOR, json?: string) => {
   const { id } = ie.opt;
@@ -46,4 +47,14 @@ export default (ie: INLEDITOR, json?: string) => {
   if (ie.opt.isPreview) {
     disableMove(ie.getStage());
   }
+<<<<<<< HEAD
+=======
+  test(ie);
+  // watchElement(id, (dm) => {
+  //   stage.size({
+  //     width: dm.offsetWidth,
+  //     height: dm.offsetHeight,
+  //   });
+  // });
+>>>>>>> 6dcb518ea8810aaca14d52b59e3ac0a1af5cff11
 };

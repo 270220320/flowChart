@@ -3,25 +3,13 @@ import layer from "src/util/layer";
 import INLEDITOR from "..";
 
 export default (inlEditor: INLEDITOR) => {
-  const Rect = new Konva.Rect({
-    x: 20,
-    y: 20,
-    width: 100,
-    height: 50,
-    fill: "green",
-    stroke: "black",
-    draggable: true,
-  });
-  var arrow = new Konva.Arrow({
-    points: [0, 0, 200, 0, 150, 300],
-    pointerLength: 20,
-    pointerWidth: 20,
-    fill: "black",
-    stroke: "black",
-    strokeWidth: 4,
-    data: {},
+  const Rect = new Konva.Circle({
+    x: 0,
+    y: 0,
+    fill: "red",
+    radius: 2,
   });
 
   const layerBox = layer(inlEditor.getStage(), "test");
-  layerBox.add(Rect, arrow);
+  layerBox.add(Rect);
 };
