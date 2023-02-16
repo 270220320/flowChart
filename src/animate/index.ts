@@ -1,7 +1,7 @@
 import Konva from "konva";
 import { Group } from "konva/lib/Group";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
-import { AnimationFn } from "konva/lib/types";
+import INLEDITOR from "..";
 // import { EDITORLINELAYNAME } from "../../draw/line/line.config";
 import animDefault from "./anim.default";
 import animDot from "./anim.dot";
@@ -15,7 +15,7 @@ export enum LineAnimateType {
 
 interface LineAnimateOpt {
   line: Konva.Arrow;
-  canvas: Konva.Stage;
+  ie: INLEDITOR;
   direction: "inverse" | "obey";
   animateType: keyof typeof LineAnimateType;
   speed?: number;
@@ -29,7 +29,9 @@ class LineAnimate {
   }
   animateLayer!: Konva.Layer;
   animateEl!: Group | Shape<ShapeConfig>;
-  anim!: { start: () => void; stop: () => void };
+  start;
+  stop;
+  destroy;
   opt!: LineAnimateOpt;
   init() {
     this.reset();
@@ -44,26 +46,16 @@ class LineAnimate {
     dot: animDot.bind(this),
   };
   reset() {
-    const { canvas } = this.opt;
-    let ANIMATELAYER = canvas.findOne(`.animate`) as Konva.Layer;
+    const stage = this.opt.ie.getStage();
+    let ANIMATELAYER = stage.findOne(`.animate`) as Konva.Layer;
     if (!ANIMATELAYER) {
       ANIMATELAYER = new Konva.Layer({ name: "animate" });
-      canvas.add(ANIMATELAYER);
+      stage.add(ANIMATELAYER);
     }
     this.animateLayer = ANIMATELAYER;
-    const { start, stop } =
-      this.resetAnimate[this.opt.animateType || "default"]();
-    start();
-  }
-  show() {
-    this.animateEl.show();
-  }
-  hide() {
-    this.animateEl.hide();
-  }
-  destroy() {
-    this.hide();
-    this.animateEl.remove();
+    // const { start, stop } =
+    this.resetAnimate[this.opt.animateType || "default"]();
+    this.start();
   }
 }
 

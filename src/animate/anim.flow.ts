@@ -1,43 +1,45 @@
 import Konva from "konva";
 import { computedDuration } from "../util/distance";
 import LineAnimate from ".";
+import { lineAni } from "../config";
 
-const BASEDURATION = 100;
 export default function (this: LineAnimate) {
   this.animateEl = new Konva.Line(this.opt.line.getAttrs());
   this.animateLayer.add(this.animateEl);
-  let flag = true;
+  let animate;
   const sign = this.opt.direction === "obey" ? 1 : -1;
-  const bc = "rgb(35 128 246 / 28%)";
-  const qc = "red";
   let points = JSON.parse(JSON.stringify(this.opt.line.points())) || [];
-  const { distance } = computedDuration(points, 5);
+  const { distance } = computedDuration(points, this.speed);
+  const theme = this.opt.ie.getTheme();
   this.animateEl.setAttrs({
-    stroke: qc,
+    ...lineAni.flow[theme],
     dash: [distance],
     dashOffset: distance,
   });
-  this.opt.line.dash([0, 0]).setAttr("stroke", bc);
-  const anim = () => {
-    this.animateEl.to({
+  const init = () => {
+    animate = new Konva.Tween({
+      node: this.animateEl,
       dashOffset: sign ? 0 : distance * sign,
-      duration: (distance / BASEDURATION) * this.speed, // + this.speed
+      duration: this.speed,
       onFinish: () => {
-        if (flag) {
-          this.animateEl.setAttrs({ dashOffset: distance });
-          anim();
-        }
+        this.animateEl.setAttrs({ dashOffset: distance });
+        init();
       },
     });
+    animate.play();
   };
-  return {
-    start() {
-      flag = true;
-      anim();
-    },
-    stop() {
-      flag = false;
-    },
-    destroy() {},
+  this.start = () => {
+    if (animate) {
+      animate.play();
+    } else {
+      init();
+    }
+  };
+  this.stop = () => {
+    animate.pause();
+  };
+  this.destroy = () => {
+    animate.pause();
+    this.animateEl.remove();
   };
 }
