@@ -13,7 +13,7 @@ import changeElementsPosition, {
 } from "./util/changeElementsPosition";
 import changeTheme from "./util/changeTheme";
 import { getCustomAttrs } from "./util/customAttr";
-import { getRelations } from "./util/getRelations";
+import { getRelations, getRelation } from "./util/getRelations";
 import initStage from "./util/initStage";
 import layer from "./util/layer";
 import stageTofit from "./util/stageTofit";
@@ -206,6 +206,10 @@ class INLEDITOR {
   // 获取所有关系
   getRelations() {
     return getRelations(this.stage);
+  }
+  // 获取关系
+  getRelation(line) {
+    return getRelation(line, this.stage);
   }
 
   // 适应画布

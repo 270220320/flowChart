@@ -10,3 +10,11 @@ export const getRelations = (stage: Konva.Stage) => {
     };
   });
 };
+
+export const getRelation = (line, stage: Konva.Stage) => {
+  const lineInfo = getLineInfo(line);
+  return {
+    instanceIdUp: stage.findOne("#" + lineInfo.from).parent.id(),
+    instanceIdDown: stage.findOne("#" + lineInfo.to).parent.id(),
+  };
+};
