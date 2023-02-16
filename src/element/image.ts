@@ -22,7 +22,7 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
       });
       darthNode.cache();
       cacheImgList[img] = darthNode;
-      res(cacheImgList[img]);
+      res(cacheImgList[img].clone());
     });
   });
 };

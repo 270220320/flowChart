@@ -182,7 +182,7 @@ class INLEDITOR {
   }
 
   getComponent<T = Component>(s: string) {
-    return this.components[s] as T;
+    return (this.components[s] ? this.components[s] : {}) as T;
   }
 
   // 序列化

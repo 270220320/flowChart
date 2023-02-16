@@ -33,7 +33,7 @@ const checkTarget: (selectTarget: Shape<ShapeConfig> | Stage) => TargetType = (
 const isLine = () => {};
 
 // 初始化选择框
-const createTran = () =>
+export const createTran = () =>
   new Konva.Transformer({
     centeredScaling: true,
     rotationSnaps: [0, 90, 180, 270],
@@ -61,7 +61,9 @@ const resetEvent = (stage: Konva.Stage) => {
 
 export const clearTransFormer = (stage: Konva.Stage) => {
   const Transformers = stage.findOne("Transformer") as Konva.Transformer;
+  Transformers?.remove();
   Transformers?.destroy();
+  stage.draw();
 };
 
 export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>) => {
