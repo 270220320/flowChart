@@ -4,12 +4,12 @@ import LineAnimate from ".";
 
 export default function (this: LineAnimate) {
   const w = this.opt.line.getAttr("strokeWidth");
-  const flag = true;
+  let animate;
   let points = JSON.parse(JSON.stringify(this.opt.line.points())) || [];
   const animLength = points.length / 2; // 线段运动次数
-  let { point2 } = computedDuration(points, this.speed);
+  let { pointRes } = computedDuration(points, this.speed);
   if (this.opt.direction === "inverse") {
-    point2.reverse();
+    pointRes.reverse();
   }
   this.animateEl = new Konva.Circle({
     radius: w * 2,
@@ -19,24 +19,31 @@ export default function (this: LineAnimate) {
   });
 
   this.animateLayer.add(this.animateEl);
-  const anim = (index: number) => {
-    const { x, y, duration } = point2[index];
-    this.animateEl.to({
+  const init = (index) => {
+    const { x, y, duration } = pointRes[index];
+    animate = new Konva.Tween({
+      node: this.animateEl,
       x,
       y,
       duration,
-      onFinish() {
-        if (flag) {
-          anim(index < animLength - 1 ? (index += 1) : 0);
-        }
+      onFinish: () => {
+        init(index < animLength - 1 ? (index += 1) : 0);
       },
     });
+    animate.play();
   };
-  return {
-    start() {
-      anim(0);
-    },
-    stop() {},
-    destroy() {},
+  this.start = () => {
+    if (animate) {
+      animate.play();
+    } else {
+      init(0);
+    }
+  };
+  this.stop = () => {
+    animate.pause();
+  };
+  this.destroy = () => {
+    animate.pause();
+    this.animateEl.remove();
   };
 }

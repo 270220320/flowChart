@@ -6,9 +6,9 @@ export const computedPointLength = (p1, p2) => {
 };
 
 // 计算两点之间的速度
-export const computedDurationByLength = (p1, p2, speed, aw) => {
+export const computedDurationByLength = (p1, p2, speed, distance) => {
   const length = computedPointLength(p1, p2);
-  const duration = (speed / aw) * length;
+  const duration = (speed / distance) * length;
   return duration;
 };
 
@@ -17,29 +17,48 @@ interface Point2Item {
   y: number;
   duration: number;
 }
-export const computedDuration = (p: Array<number>, speed: number) => {
+
+export const getTotalDistance = (p: Array<number>) => {
   const animLength = p.length / 2;
-  let point2: Array<Point2Item> = [];
+  let pointRes = [];
   let distance = 0; // 总长度
   for (let i = 0; i < animLength; i++) {
-    const p1 = { x: p[i * 2], y: p[i * 2 + 1], duration: 1 };
-    point2.push(p1);
+    const p1 = { x: p[i * 2], y: p[i * 2 + 1] };
+    pointRes.push(p1);
   }
-  for (let i = 0; i < point2.length; i++) {
-    const p1 = point2[i];
-    const p2 = point2[i + 1];
+  for (let i = 0; i < pointRes.length; i++) {
+    const p1 = pointRes[i];
+    const p2 = pointRes[i + 1];
     if (p2) {
       distance += computedPointLength(p1, p2) || 0;
     }
   }
-  for (let i = 0; i < point2.length; i++) {
-    const p1 = point2[i - 1];
-    const p2 = point2[i];
+  return distance;
+};
+
+export const computedDuration = (p: Array<number>, speed: number) => {
+  const animLength = p.length / 2;
+  let pointRes: Array<Point2Item> = [];
+  let distance = 0; // 总长度
+  for (let i = 0; i < animLength; i++) {
+    const p1 = { x: p[i * 2], y: p[i * 2 + 1], duration: 1 };
+    pointRes.push(p1);
+  }
+  for (let i = 0; i < pointRes.length; i++) {
+    const p1 = pointRes[i];
+    const p2 = pointRes[i + 1];
+    if (p2) {
+      distance += computedPointLength(p1, p2) || 0;
+    }
+  }
+  for (let i = 0; i < pointRes.length; i++) {
+    const p1 = pointRes[i - 1];
+    const p2 = pointRes[i];
     if (!p1) {
       p2.duration = 0;
     } else {
       p2.duration = computedDurationByLength(p1, p2, speed, distance);
     }
   }
-  return { point2, distance };
+  return { pointRes, distance };
 };

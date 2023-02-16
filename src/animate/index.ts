@@ -29,7 +29,9 @@ class LineAnimate {
   }
   animateLayer!: Konva.Layer;
   animateEl!: Group | Shape<ShapeConfig>;
-  anim!: { start: () => void; stop: () => void };
+  start;
+  stop;
+  destroy;
   opt!: LineAnimateOpt;
   init() {
     this.reset();
@@ -51,19 +53,9 @@ class LineAnimate {
       canvas.add(ANIMATELAYER);
     }
     this.animateLayer = ANIMATELAYER;
-    const { start, stop } =
-      this.resetAnimate[this.opt.animateType || "default"]();
-    start();
-  }
-  show() {
-    this.animateEl.show();
-  }
-  hide() {
-    this.animateEl.hide();
-  }
-  destroy() {
-    this.hide();
-    this.animateEl.remove();
+    // const { start, stop } =
+    this.resetAnimate[this.opt.animateType || "default"]();
+    this.start();
   }
 }
 
