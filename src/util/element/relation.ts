@@ -10,7 +10,7 @@ export const dealRelation = (e: any, stage: Konva.Stage) => {
   if (e.target.nodeType === "Shape" || e.target.nodeType === "Image") {
     target = e.target;
   } else if (e.target.nodeType === "Group") {
-    target = e.target.children.find((ele) => ele.className === "Image");
+    target = e.target.children.find((ele) => ele.name() === "thingImage");
   }
   if (target) {
     const lineInfo = getLineInfo(target)!;

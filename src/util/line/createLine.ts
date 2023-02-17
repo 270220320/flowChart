@@ -10,16 +10,22 @@ import { getLinePoints } from "./rightAngleLine";
 import { getUsePointUn } from "./line";
 import { LineTheme } from "@/config/line";
 import { lineState } from "../../config";
+import { isComponentChild, isComponentChildren } from "@/component";
 
 // 创建线完成
 export const finishLine = (
   stage: Konva.Stage,
-  begin: Konva.Rect | Konva.Group,
+  begin: Konva.Node,
   line: Konva.Arrow,
   lineType
 ) => {
+  // 设备
   if (begin.className === "Image" && begin.parent?.nodeType === "Group") {
     begin.parent?.setAttrs({ draggable: true });
+    //组件
+  } else if (isComponentChildren(begin)) {
+    begin.parent.parent.setAttrs({ draggable: true });
+    begin = begin.parent;
   } else {
     begin.setAttrs({ draggable: true });
   }
@@ -78,8 +84,15 @@ export const beginCreateLine = (
   e: KonvaEventObject<MouseEvent>,
   opt
 ) => {
+  // 设备
+  if (e.target.className === "Image" && e.target.parent?.nodeType === "Group") {
+    e.target.parent?.setAttrs({ draggable: false });
+  }
+  //组件
+  if (isComponentChildren(e.target)) {
+    e.target.parent.parent.setAttrs({ draggable: false });
+  }
   e.target.setAttrs({ draggable: false });
-  e.target.parent?.setAttrs({ draggable: false });
 
   const lay = layer(stage, "line");
   lay.moveToTop();

@@ -55,7 +55,7 @@ export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
             cb(
               "thing",
               { parent: thingImgParent as any, target: parent },
-              { iu: thingImgData.thing!.iu, code: ["code1"] }
+              { iu: thingImgData.thing!.iu, code: ["CODE"] }
             );
             break;
           default:
