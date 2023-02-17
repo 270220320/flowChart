@@ -1,9 +1,10 @@
 import konva from "konva";
 import INLEDITOR from "@/index";
 import theme from "@/config/theme";
-import resetImg from "./resetImg";
+import resetImg from "./reset/resetImg";
 import disableMove from "./disableMove";
 import test from "@/test";
+import reset from "./reset";
 
 export default (ie: INLEDITOR, json?: string) => {
   const { id } = ie.opt;
@@ -42,7 +43,7 @@ export default (ie: INLEDITOR, json?: string) => {
     "style",
     `background: ${theme[themeType].background}; position: relative;`
   );
-  resetImg(stage);
+  reset(stage);
 
   if (ie.opt.isPreview) {
     disableMove(ie.getStage());

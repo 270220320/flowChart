@@ -16,6 +16,8 @@
     "rollup-plugin-dts": "^5.1.1",
     "tslib": "^2.5.0",
     "typescript": "^4.9.4",
+    "video.js": "^8.0.4",
+    "videojs-flash": "^2.2.1",
     "vite": "^4.0.4",
     "vue-router": "^4.1.6"
   },

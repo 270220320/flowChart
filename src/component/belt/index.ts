@@ -47,15 +47,14 @@ class BELT extends Component {
     event: () => {
       this.group.on("transform", (e) => {
         this.group.off("transform");
-        // const { height } = e.target.getClientRect();
-        // this.draw.update();
         const { width, x, y } = getTran(this.stage).position!;
         this.config.left = x;
         this.config.top = y;
-        this.config.width = width;
-        // this.group.setAttrs({
-        //   height: this.config.height,
-        // });
+        this.config.width = (width * this.group.scaleX()) / this.stage.scaleX();
+        this.group.scale({
+          x: 1,
+          y: 1,
+        });
         this.group.removeChildren();
         this.draw.update();
       });
@@ -97,6 +96,7 @@ class BELT extends Component {
         height: this.config.height,
         cornerRadius: [13, 13, 26, 26],
         stroke: "black",
+        name: "block",
         strokeWidth: 0.5,
       });
 
@@ -149,14 +149,7 @@ class BELT extends Component {
         draggable: false,
       });
 
-      if (this.group) {
-        this.group.setAttrs({
-          width: this.config.width,
-          height: this.config.height,
-          x: this.config.left || 0,
-          y: this.config.top || 0,
-        });
-      } else {
+      if (!this.group) {
         this.group = new Konva.Group({
           width: this.config.width,
           height: this.config.height,
@@ -174,6 +167,7 @@ class BELT extends Component {
         this.circle,
         this.circle1
       );
+
       const thingLayer = layer(this.stage, "thing");
       setCustomAttrs(this.group, { beltGroupType: this.config.theme });
       this.thingGroup.add(this.group);
