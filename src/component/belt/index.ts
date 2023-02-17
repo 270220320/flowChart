@@ -27,7 +27,11 @@ class BELT extends Component {
     this.stage = this.stage || this.editor.getStage();
   }
   createThingGroup(thingInfo: Thing) {
+    const thingLayer = layer(this.stage, "thing");
+
     this.thingGroup = createThingGroup(thingInfo);
+    thingLayer.add(this.thingGroup);
+
     this.draw.init();
   }
   config = {
@@ -168,10 +172,9 @@ class BELT extends Component {
         this.circle1
       );
 
-      const thingLayer = layer(this.stage, "thing");
       setCustomAttrs(this.group, { beltGroupType: this.config.theme });
       this.thingGroup.add(this.group);
-      thingLayer.add(this.thingGroup);
+      console.log(this.thingGroup);
       this.draw.event();
     },
   };

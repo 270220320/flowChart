@@ -1,4 +1,4 @@
-import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
+import { setCustomAttrs } from "@/util/customAttr";
 import Konva from "konva";
 import _ from "lodash";
 import { UUID } from "src/util/uuid";
