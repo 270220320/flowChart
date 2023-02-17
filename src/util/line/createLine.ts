@@ -55,16 +55,16 @@ const createLineMove = (
   point: { x: number; y: number },
   opt
 ) => {
-  if (opt.drawState === "Line") {
-    line.attrs.points[2] = point.x;
-    line.attrs.points[3] = point.y;
-    line.points(line.attrs.points);
-  } else {
+  if (opt.drawState.toLowerCase().indexOf("rightangle") !== -1) {
     const res = getLinePoints(
       { x: line.attrs.points[0], y: line.attrs.points[1] },
       { x: point.x, y: point.y }
     );
     line.points(getUsePointUn(res));
+  } else {
+    line.attrs.points[2] = point.x;
+    line.attrs.points[3] = point.y;
+    line.points(line.attrs.points);
   }
 };
 
@@ -80,7 +80,7 @@ export const beginCreateLine = (
 
   const lay = layer(stage, "line");
   lay.moveToTop();
-  const line = createTemporaryLine(lay, point, opt.theme);
+  const line = createLine(lay, point, opt);
   stage.on("mousemove", (e) => {
     const { x, y } = computedXYByEvent(stage, e.evt);
     if (line) {
@@ -91,15 +91,17 @@ export const beginCreateLine = (
 };
 
 // 画出预览线
-export const createTemporaryLine = (
+export const createLine = (
   layer: Konva.Layer,
   point: { x: number; y: number },
-  theme
+  opt
 ) => {
+  const dotted = opt.drawState.toLowerCase().indexOf("dotted") !== -1;
   const arrow = new Konva.Arrow({
     id: UUID(),
     points: [point.x, point.y, point.x, point.y],
-    ...LineTheme[theme],
+    ...LineTheme[opt.theme],
+    dash: dotted ? [10, 0, 10] : undefined,
   });
 
   layer.add(arrow);

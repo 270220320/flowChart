@@ -19,7 +19,7 @@ export const bindPointEvent = (
     let resPoints;
     const lineInfo = getCustomAttrs(line).lineInfo!;
     // 直角线
-    if (lineInfo.type === "rightAngleLine") {
+    if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
       resPoints = setRightAngleLineBeginOrEnd(points, controlIndex, {
         x,
         y,
