@@ -18,11 +18,12 @@ export const finishLine = (
   line: Konva.Arrow,
   lineType
 ) => {
-  if (begin.className !== "Image") {
+  if (begin.className === "Image" && begin.parent?.nodeType === "Group") {
+    begin.parent?.setAttrs({ draggable: true });
+  } else {
     begin.setAttrs({ draggable: true });
   }
 
-  begin.parent?.setAttrs({ draggable: true });
   let pos = stage.getPointerPosition();
   const end = getMouseOver(pos!, stage);
 
