@@ -9,6 +9,7 @@ import { UUID } from "../uuid";
 import { getLinePoints } from "./rightAngleLine";
 import { getUsePointUn } from "./line";
 import { LineTheme } from "@/config/line";
+import { lineState } from "../../config";
 
 // 创建线完成
 export const finishLine = (
@@ -102,7 +103,8 @@ export const createLine = (
     points: [point.x, point.y, point.x, point.y],
     ...LineTheme[opt.theme],
     dash: dotted ? [10, 0, 10] : undefined,
-    // stroke:
+    stroke: lineState[opt.theme][lineState.default],
+    fill: lineState[opt.theme][lineState.default],
   });
 
   layer.add(arrow);

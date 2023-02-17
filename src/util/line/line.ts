@@ -13,6 +13,7 @@ export const updateLineColor = (
   info.state = key;
   line.setAttrs({
     stroke: lineState[theme][key],
+    fill: lineState[theme][key],
   });
 };
 
