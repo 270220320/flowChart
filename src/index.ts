@@ -18,8 +18,9 @@ import initStage from "./util/initStage";
 import layer from "./util/layer";
 import stageTofit from "./util/stageTofit";
 import toImage from "./util/toImage";
-import animate from "./animate";
+import animate from "./animate/line";
 import disableMove from "./util/initStage/disableMove";
+import { updateLineColor } from "./util/line/line";
 
 export type DrawState =
   | "Line"
@@ -212,6 +213,9 @@ class INLEDITOR {
   // 获取关系
   getRelation(line) {
     return getRelation(line, this.stage);
+  }
+  updateLineColor(key, line) {
+    updateLineColor(key, line, this.theme);
   }
 
   // 适应画布

@@ -102,6 +102,7 @@ export const createLine = (
     points: [point.x, point.y, point.x, point.y],
     ...LineTheme[opt.theme],
     dash: dotted ? [10, 0, 10] : undefined,
+    // stroke:
   });
 
   layer.add(arrow);

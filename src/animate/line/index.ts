@@ -1,7 +1,7 @@
 import Konva from "konva";
 import { Group } from "konva/lib/Group";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
-import INLEDITOR from "..";
+import INLEDITOR from "../..";
 // import { EDITORLINELAYNAME } from "../../draw/line/line.config";
 import animDefault from "./anim.default";
 import animDot from "./anim.dot";

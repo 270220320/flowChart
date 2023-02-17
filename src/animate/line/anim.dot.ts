@@ -1,7 +1,7 @@
 import Konva from "konva";
-import { computedDuration } from "../util/distance";
+import { computedDuration } from "../../util/distance";
 import LineAnimate from ".";
-import { lineAni } from "../config";
+import { lineAni } from "../../config";
 
 export default function (this: LineAnimate) {
   const w = this.opt.line.getAttr("strokeWidth");
