@@ -1,9 +1,11 @@
 import Konva from "konva";
-import { computedDuration } from "../util/distance";
+import { computedDuration } from "../../util/distance";
 import LineAnimate from ".";
-import { lineAni } from "../config";
+import { aniLineState, lineAni } from "../../config";
+import { getLineInfo } from "@/util/customAttr";
 
 export default function (this: LineAnimate) {
+  const lineInfo = getLineInfo(this.opt.line);
   const w = this.opt.line.getAttr("strokeWidth");
   let animate;
   let points = JSON.parse(JSON.stringify(this.opt.line.points())) || [];
@@ -16,6 +18,7 @@ export default function (this: LineAnimate) {
   this.animateEl = new Konva.Circle({
     radius: w * 2,
     ...lineAni.dot[theme],
+    fill: aniLineState[theme][lineInfo.state],
     x: points[0],
     y: points[1],
   });

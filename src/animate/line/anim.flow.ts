@@ -1,9 +1,11 @@
 import Konva from "konva";
-import { computedDuration } from "../util/distance";
+import { computedDuration } from "../../util/distance";
 import LineAnimate from ".";
-import { lineAni } from "../config";
+import { aniLineState, lineAni } from "../../config";
+import { getLineInfo } from "@/util/customAttr";
 
 export default function (this: LineAnimate) {
+  const lineInfo = getLineInfo(this.opt.line);
   this.animateEl = new Konva.Line(this.opt.line.getAttrs());
   this.animateLayer.add(this.animateEl);
   let animate;
@@ -13,6 +15,7 @@ export default function (this: LineAnimate) {
   const theme = this.opt.ie.getTheme();
   this.animateEl.setAttrs({
     ...lineAni.flow[theme],
+    stroke: aniLineState[theme][lineInfo.state],
     dash: [distance],
     dashOffset: distance,
   });

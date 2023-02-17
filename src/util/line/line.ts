@@ -1,10 +1,21 @@
 import Konva from "konva";
 import { getCustomAttrs, getLineInfo } from "../customAttr";
-import INLEDITOR from "../..";
+import { lineState } from "../../config";
 import layer from "src/util/layer";
 import { LineTheme } from "@/config/line";
 
-export const updateLineColor = (key: string) => {};
+export const updateLineColor = (
+  key: string,
+  line: Konva.Arrow,
+  theme: string
+) => {
+  const info = getLineInfo(line);
+  info.state = key;
+  line.setAttrs({
+    stroke: lineState[theme][key],
+    fill: lineState[theme][key],
+  });
+};
 
 export const changeLineTheme = (stage: Konva.Stage, theme: string) => {
   const lay = layer(stage, "line");
