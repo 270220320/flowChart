@@ -39,9 +39,13 @@ const removeRelevance = (obj: any, stage: Konva.Stage) => {
     outInfo?.outLineIds?.splice(outInfo.outLineIds.indexOf(lineInfo.from!), 1);
     inInfo?.inLineIds?.splice(inInfo.inLineIds.indexOf(lineInfo.to!), 1);
   }
-  if (obj.className === "Rect" || obj.className === "Image") {
-    const lineInfo = getCustomAttrs(obj).lineInfo!;
-    [...(lineInfo.outLineIds || []), ...(lineInfo.inLineIds || [])]?.forEach(
+  if (
+    obj.className === "Rect" ||
+    obj.className === "Image" ||
+    obj.name() === "thingImage"
+  ) {
+    const lineInfo = getCustomAttrs(obj).lineInfo;
+    [...(lineInfo?.outLineIds || []), ...(lineInfo?.inLineIds || [])]?.forEach(
       (id: string) => {
         const line = stage.findOne("#" + id);
         line.remove();
