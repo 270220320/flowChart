@@ -19,8 +19,9 @@ export const updateLineColor = (
 
 export const changeLineTheme = (stage: Konva.Stage, theme: string) => {
   const lay = layer(stage, "line");
-  lay.children.forEach((ele: Konva.Arrow) => {
-    ele.setAttrs(LineTheme[theme]);
+  lay.children.forEach((line: Konva.Arrow) => {
+    const info = getLineInfo(line);
+    updateLineColor(info.state, line, theme);
   });
 };
 
