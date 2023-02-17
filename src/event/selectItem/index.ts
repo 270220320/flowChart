@@ -35,7 +35,7 @@ const isLine = () => {};
 // 初始化选择框
 export const createTran = () =>
   new Konva.Transformer({
-    centeredScaling: true,
+    // centeredScaling: true,
     rotationSnaps: [0, 90, 180, 270],
   });
 // 获取 选择框

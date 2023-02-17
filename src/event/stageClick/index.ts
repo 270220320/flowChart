@@ -47,6 +47,17 @@ export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
               { iu: data1.thing!.iu, code: code1 }
             );
             break;
+          case "thingImage":
+            const thingImgParent =
+              e.target.getClassName() === "Image" ? parent : parent.getParent();
+            const thingImgData = getCustomAttrs(thingImgParent);
+
+            cb(
+              "thing",
+              { parent: thingImgParent as any, target: parent },
+              { iu: thingImgData.thing!.iu, code: ["code1"] }
+            );
+            break;
           default:
             const selfParent = e.target.getParent() as any;
             const thingData = getCustomAttrs(parent.getParent());
