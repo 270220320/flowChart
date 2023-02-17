@@ -39,6 +39,7 @@ export const finishLine = (
       toExcursionY:
         line.attrs.points[line.attrs.points.length - 1] - end.attrs.y,
       type: lineType,
+      state: lineState.default,
     };
     setCustomAttrs(line, {
       lineInfo: data,
