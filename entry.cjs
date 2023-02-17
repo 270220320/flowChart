@@ -11,4 +11,8 @@ exports.entry = [
     type: "config",
     root: "src/config/index.ts",
   },
+  {
+    type: "component",
+    root: "src/component/index.ts",
+  },
 ];

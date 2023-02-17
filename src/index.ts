@@ -21,6 +21,8 @@ import toImage from "./util/toImage";
 import animate from "./animate/line";
 import disableMove from "./util/initStage/disableMove";
 import { updateLineColor } from "./util/line/line";
+import { Thing } from "./data/thing";
+import { clearTransFormer } from "./event/selectItem";
 
 export type DrawState =
   | "Line"
@@ -42,6 +44,7 @@ interface INLEDITOR {
 
 interface OPT {
   id: string;
+  onDropCb?: (s: Thing, p: { x: number; y: number }) => void;
   isPreview?: boolean;
   json?: string;
   scale?: "show" | "hide";
@@ -56,7 +59,6 @@ class INLEDITOR {
     this.event();
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
       this.use(new Scale({}));
-      this.use(new BELT());
     }
   }
 
@@ -189,6 +191,7 @@ class INLEDITOR {
   // 序列化
   toJson() {
     const json = this.stage.toJSON();
+    clearTransFormer(this.stage);
     return { mapJson: json, image: this.toImage() };
   }
   // 反序列化

@@ -228,7 +228,7 @@ export const createThingText = (
 ) => {
   const thingGroup = stage.findOne(`#${iu}`) as Konva.Group;
   if (!thingGroup) return {};
-  const thing = thingGroup.findOne("Image") as Konva.Image;
+  const thing = thingGroup.findOne(".thingImage") as Konva.Image;
 
   if (!thing) {
     console.warn(`查询错误:${iu}`);
