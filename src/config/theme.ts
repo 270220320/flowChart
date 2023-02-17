@@ -38,5 +38,5 @@ const thtmeInfo: Record<Theme, ThemeInfo> = {
     text: Text.dark,
   },
 };
-
+export { thtmeInfo };
 export default thtmeInfo;

@@ -1,11 +1,7 @@
 import INLEDITOR from "@/index";
-import { getTransferData } from "@/data/dropData";
-import { createThingTextByGroup } from "@/element/text";
-import { createThingImageGroup } from "@/element/thing";
-import { computedXYByEvent } from "@/util/computedXY";
-import layer from "@/util/layer";
 import dropThingImage from "./dropThingImage";
 import customAddImage from "./customAddImage";
+import computedXY from "@/util/computedXY";
 
 export default (
   ie: INLEDITOR,
@@ -27,8 +23,15 @@ export default (
 
   dom.ondrop = (e) => {
     e.preventDefault();
-
-    let data = e.dataTransfer?.getData("thing");
+    const isCustomComponent = e.dataTransfer?.getData("customComponent");
+    const data = e.dataTransfer?.getData("thing");
+    if (isCustomComponent) {
+      const { x, y } = computedXY(ie.getStage(), e.offsetX, e.offsetY);
+      ie.opt.onDropCb
+        ? ie.opt.onDropCb(JSON.parse(data).thing, { x, y })
+        : null;
+      return;
+    }
     if (e.dataTransfer.files.length > 0 && !data) {
       customAddImage(stage, e);
     } else {

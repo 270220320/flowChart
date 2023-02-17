@@ -7,6 +7,31 @@ import { createThingGroup } from "./group";
 import { createImage } from "./image";
 import { createThingDefaultText } from "./text";
 
+export const createComponentThingGoup = (
+  parent: Konva.Group | Konva.Layer,
+  useThing: Thing,
+  image: Konva.Group
+) => {
+  const group = createThingGroup(useThing);
+  const text = createThingDefaultText(
+    defaultTheme,
+    {
+      v: useThing.ic,
+      code: "CODE",
+      label: "编码：",
+    },
+    { x: 0, y: 0 }
+  );
+  const textVal = text.findOne(".val");
+  text.setAttrs({
+    x: image.attrs.x + (image.width() - textVal.width()) / 2,
+    y: image.attrs.y + image.height(),
+    draggable: true,
+  });
+  group.add(image, text);
+  parent.add(group);
+  return group;
+};
 export const createThingImageGroup = async (
   parent: Konva.Group | Konva.Layer,
   useThing: Thing,

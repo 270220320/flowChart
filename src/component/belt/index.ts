@@ -1,9 +1,8 @@
 import { Thing } from "../../data/thing";
-import { createThingGroup } from "@/element";
+import { createComponentThingGoup } from "@/element";
 import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import layer from "../../util/layer";
 import Konva from "konva";
-import { Component } from "../component";
 import state from "./state";
 import { getTran } from "@/event/selectItem";
 
@@ -18,16 +17,32 @@ interface BELT {
   circle1: Konva.Circle;
 }
 
-class BELT extends Component {
-  constructor() {
-    super();
+class BELT {
+  constructor(stage: Konva.Stage) {
+    this.stage = stage;
   }
   name = "belt";
-  init() {
-    this.stage = this.stage || this.editor.getStage();
-  }
-  createThingGroup(thingInfo: Thing) {
-    this.thingGroup = createThingGroup(thingInfo);
+
+  createThingGroup(thingInfo: Thing, p?: { x: number; y: number }) {
+    if (p) {
+      this.config.left = p.x;
+      this.config.top = p.y;
+    }
+    const thingLayer = layer(this.stage, "thing");
+    this.group = new Konva.Group({
+      width: this.config.width,
+      height: this.config.height,
+      x: this.config.left || 0,
+      y: this.config.top || 0,
+      draggable: false,
+      name: "thingImage",
+    });
+    this.thingGroup = createComponentThingGoup(
+      thingLayer,
+      thingInfo,
+      this.group
+    );
+
     this.draw.init();
   }
   config = {
@@ -38,12 +53,12 @@ class BELT extends Component {
     theme: 2,
     callBack: (group: Konva.Group) => {},
   };
-  render(group: Konva.Group, theme: number = 0) {
+  protected render(group: Konva.Group, theme: number = 0) {
     const { beltGroupType } = getCustomAttrs(group);
     this.config.theme = beltGroupType;
     this.draw.update();
   }
-  draw = {
+  protected draw = {
     event: () => {
       this.group.on("transform", (e) => {
         this.group.off("transform");
@@ -148,18 +163,6 @@ class BELT extends Component {
         fill: theme.round.bj[0],
         draggable: false,
       });
-
-      if (!this.group) {
-        this.group = new Konva.Group({
-          width: this.config.width,
-          height: this.config.height,
-          x: this.config.left || 0,
-          y: this.config.top || 0,
-          draggable: false,
-          name: "thingImage",
-        });
-      }
-
       this.group.add(
         this.brect,
         this.brect1,
@@ -168,13 +171,11 @@ class BELT extends Component {
         this.circle1
       );
 
-      const thingLayer = layer(this.stage, "thing");
       setCustomAttrs(this.group, { beltGroupType: this.config.theme });
       this.thingGroup.add(this.group);
-      thingLayer.add(this.thingGroup);
       this.draw.event();
     },
   };
 }
-
+export { BELT };
 export default BELT;
