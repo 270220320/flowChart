@@ -44,7 +44,7 @@ export const getRelations = (stage: Konva.Stage) => {
 export const getRelation = (line, stage: Konva.Stage) => {
   const lineInfo = getLineInfo(line);
   const parents = findParents(lineInfo.from, stage);
-  const children = findChildren(lineInfo.from, stage);
+  const children = findChildren(lineInfo.to, stage);
   let res = [];
   parents.forEach((p) => {
     children.forEach((c) => {

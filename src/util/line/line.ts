@@ -4,6 +4,8 @@ import INLEDITOR from "../..";
 import layer from "src/util/layer";
 import { LineTheme } from "@/config/line";
 
+export const updateLineColor = (key: string) => {};
+
 export const changeLineTheme = (stage: Konva.Stage, theme: string) => {
   const lay = layer(stage, "line");
   lay.children.forEach((ele: Konva.Arrow) => {

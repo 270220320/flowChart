@@ -7,7 +7,6 @@ import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 
 export const dealRelation = (e: any, stage: Konva.Stage) => {
   let target;
-  debugger;
   if (e.target.nodeType === "Shape" || e.target.nodeType === "Image") {
     target = e.target;
   } else if (e.target.nodeType === "Group") {
