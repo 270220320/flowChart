@@ -18,8 +18,15 @@ interface BELT {
 }
 
 class BELT {
-  constructor(stage: Konva.Stage) {
+  constructor(
+    stage: Konva.Stage,
+    info: {
+      thingInfo: Thing;
+      p?: { x: number; y: number };
+    }
+  ) {
     this.stage = stage;
+    this.createThingGroup(info.thingInfo, info.p);
   }
   name = "belt";
 
@@ -29,33 +36,43 @@ class BELT {
       this.config.top = p.y;
     }
     const thingLayer = layer(this.stage, "thing");
-    this.group = new Konva.Group({
-      width: this.config.width,
-      height: this.config.height,
-      x: this.config.left || 0,
-      y: this.config.top || 0,
-      draggable: false,
-      name: "thingImage",
-    });
-    this.thingGroup = createComponentThingGoup(
-      thingLayer,
-      thingInfo,
-      this.group
-    );
 
-    this.draw.init();
+    const thingGroup = thingLayer.findOne(`#${thingInfo.iu}`);
+
+    if (thingGroup) {
+      this.thingGroup = thingGroup as Konva.Group;
+      this.group = this.thingGroup.findOne(".thingImage");
+      this.config.width = this.group.getClientRect().width;
+      this.draw.event();
+    } else {
+      this.group = new Konva.Group({
+        width: this.config.width,
+        height: this.config.height,
+        x: this.config.left || 0,
+        y: this.config.top || 0,
+        draggable: false,
+        name: "thingImage",
+        componentName: this.name,
+      });
+      this.thingGroup = createComponentThingGoup(
+        thingLayer,
+        thingInfo,
+        this.group
+      );
+      this.draw.init();
+    }
   }
   config = {
     width: 180,
     height: 25,
     left: 0,
     top: 0,
-    theme: 2,
+    theme: 0,
     callBack: (group: Konva.Group) => {},
   };
-  protected render(group: Konva.Group, theme: number = 0) {
-    const { beltGroupType } = getCustomAttrs(group);
-    this.config.theme = beltGroupType;
+  render(state: number) {
+    this.config.theme = state;
+    this.group.removeChildren();
     this.draw.update();
   }
   protected draw = {
@@ -95,18 +112,18 @@ class BELT {
     },
     render: (theme: typeof state[0]) => {
       // 最大的
+
       this.brect = new Konva.Rect({
-        // fillLinearGradientStartPoint: { x: -50, y: -50 },
-        // fillLinearGradientEndPoint: { x: 50, y: 50 },
-        // fillLinearGradientColorStops: [
-        //   0,
-        //   theme.rect1.bj[0],
-        //   1,
-        //   theme.rect1.bj[1],
-        //   2,
-        //   theme.rect1.bj[2],
-        // ],
-        fill: "#fff",
+        fillLinearGradientStartPoint: { x: 0, y: 0 },
+        fillLinearGradientEndPoint: { x: 0, y: this.config.height },
+        fillLinearGradientColorStops: [
+          0,
+          theme.rect1.bj[0],
+          0.3,
+          theme.rect1.bj[1],
+          1,
+          theme.rect1.bj[2],
+        ],
         width: this.config.width,
         height: this.config.height,
         cornerRadius: [13, 13, 26, 26],
@@ -130,17 +147,16 @@ class BELT {
       this.brect2 = new Konva.Rect({
         x: 6,
         y: 6,
-        fill: "#fff",
-        // fillLinearGradientStartPoint: { x: -50, y: -50 },
-        // fillLinearGradientEndPoint: { x: 50, y: 50 },
-        // fillLinearGradientColorStops: [
-        //   0,
-        //   theme.rect3.bj[0],
-        //   1,
-        //   theme.rect3.bj[1],
-        //   2,
-        //   theme.rect3.bj[2],
-        // ],
+        fillLinearGradientStartPoint: { x: 6, y: 6 },
+        fillLinearGradientEndPoint: { x: 6, y: this.config.height - 6 },
+        fillLinearGradientColorStops: [
+          0,
+          theme.rect3.bj[0],
+          0.5,
+          theme.rect3.bj[1],
+          1,
+          theme.rect3.bj[2],
+        ],
         draggable: false,
         width: this.config.width - 12,
         height: this.config.height - 12,

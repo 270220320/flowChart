@@ -31,6 +31,7 @@ export const defaultRect = (position: RectConfig, themeType?: Theme) => {
   const t = theme[themeType || "light"];
   const rect = new Konva.Rect({
     id: UUID(),
+    cornerRadius: 0,
     ...t.rect,
     ...position,
   });

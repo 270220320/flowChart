@@ -4,7 +4,7 @@ import BELT from "./component/belt";
 import Scale from "./component/scale";
 import theme, { Theme } from "./config/theme";
 import { getThingTextGroup, groupNames } from "./element/group";
-import { changeImage } from "./element/image";
+import { changeThingComponentState, changeThingImage } from "./element/image";
 import { createThingText, setThingTextVal } from "./element/text";
 import event from "./event";
 import stageClick, { onSelectCallBackFun } from "./event/stageClick";
@@ -174,8 +174,9 @@ class INLEDITOR {
     if (state === setStateVal) return;
     if (image.getClassName() !== "Image") {
       // 组件处理
+      changeThingComponentState(this.stage, image);
     } else {
-      image ? changeImage(image, src, setStateVal) : null;
+      image ? changeThingImage(image, src, setStateVal) : null;
     }
   }
 

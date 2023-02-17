@@ -27,7 +27,7 @@ export default [
     },
     rect3: {
       bj: ["#E3E3E3", "#FFFFFF", "#B0B0B0"],
-      border: "#2FB790",
+      border: "#5A8EF6",
     },
     round: {
       bj: ["#629DE3"],

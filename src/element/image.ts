@@ -1,5 +1,7 @@
-import { setCustomAttrs } from "@/util/customAttr";
+import { BELT } from "@/component";
+import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import Konva from "konva";
+import { Group } from "konva/lib/Group";
 import _ from "lodash";
 import { UUID } from "src/util/uuid";
 const cacheImgList: Record<string, Konva.Image> = {};
@@ -26,15 +28,28 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
     });
   });
 };
+export const changeThingComponentState = (
+  stage: Konva.Stage,
+  node: Konva.Image
+) => {
+  const { thing } = getCustomAttrs(node);
+  const { componentName } = node.getAttrs();
 
-export const changeImage = async (
+  if (componentName && componentName === "belt") {
+    const belt = new BELT(stage, { thingInfo: thing });
+    console.log(belt);
+    belt.render(2);
+  }
+};
+
+export const changeThingImage = async (
   imageNode: Konva.Image,
   src: string,
-  stage: string
+  state: string
 ) => {
   const parent = imageNode.getParent();
 
-  setCustomAttrs(parent, { stage });
+  setCustomAttrs(parent, { state });
   const attrs = _.cloneDeep(imageNode.getAttrs());
   imageNode.remove();
   const newImage = await createImage(src);
