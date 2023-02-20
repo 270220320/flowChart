@@ -98,13 +98,9 @@ export default (ie: INLEDITOR) => {
   const stage = ie.getStage();
 
   stage.on("click tap", (e) => {
-    if (e.target.className === "Arrow") {
-      return;
-    }
     const layer = e.target.getLayer();
     // 判断一下当元素类型
-
-    if (e.target.className === "Arrow") return;
+    // if (e.target.className === "Arrow") return;
     if (!layer) {
       resetEvent(stage);
       return;
