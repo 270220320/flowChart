@@ -8,6 +8,7 @@ import { THINGTEXT } from "../data/dropData";
 import layer from "../util/layer";
 import { getCustomAttrs, setCustomAttrs } from "../util/customAttr";
 import { toSelect } from "@/event/selectItem";
+import { Group } from "konva/lib/Group";
 
 export const createText = (config: TextConfig) =>
   new Konva.Text({
@@ -235,7 +236,7 @@ export const createThingText = (
     return;
   }
   return {
-    def: (text: string, code: string) => {
+    def: (text: string, code: string, cb?: (thingTextGroup: Group) => void) => {
       const textShape = createThingDefaultText(
         themeType,
         {
@@ -250,8 +251,9 @@ export const createThingText = (
         y: thing.attrs.y + thing.height(),
         draggable: true,
       });
+      cb ? cb(textShape) : null;
     },
-    advanced: (data: thingTextInfo) => {
+    advanced: (data: thingTextInfo, cb?: (thingTextGroup: Group) => void) => {
       const { label, v, unit, code } = data;
       const group = createThingAdvancedText(
         themeType,
@@ -267,6 +269,7 @@ export const createThingText = (
         }
       );
       thingGroup.add(group);
+      cb ? cb(group) : null;
     },
     changeTo: (code: string) => {
       thingGroup.getChildren().forEach((item) => {
