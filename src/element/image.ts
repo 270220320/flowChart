@@ -37,7 +37,6 @@ export const changeThingComponentState = (
 
   if (componentName && componentName === "belt") {
     const belt = new BELT(stage, { thingInfo: thing });
-    console.log(belt);
     belt.render(2);
   }
 };

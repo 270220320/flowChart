@@ -36,7 +36,6 @@ class BELT {
       this.config.top = p.y;
     }
     const thingLayer = layer(this.stage, "thing");
-
     const thingGroup = thingLayer.findOne(`#${thingInfo.iu}`);
 
     if (thingGroup) {

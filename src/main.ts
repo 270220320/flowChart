@@ -1,6 +1,5 @@
 import inleditor from "./";
-import { getLineInfo } from "./util/customAttr";
-
+export { createThingDefaultText } from "./element/text";
 export * from "./config/theme";
 export * from "./util/changeElementsPosition";
 export * from "./util/customAttr";

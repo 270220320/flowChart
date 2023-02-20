@@ -8,7 +8,7 @@ export default (stage: Konva.Stage) => {
   thingLayer.find(".thingImage").forEach((item) => {
     const { componentName } = item.getAttrs();
     if (componentName && componentName === "belt") {
-      const { thing } = getCustomAttrs(item);
+      const { thing } = getCustomAttrs(item.parent);
       new BELT(stage, { thingInfo: thing });
     }
   });
