@@ -68,13 +68,14 @@ export const addPoint = (
   point: { x: number; y: number }
 ) => {
   const utilLayer = layer(stage, "util");
+  utilLayer.moveToTop();
   const circle = new Konva.Circle({
     x: point.x,
     y: point.y,
     draggable: true,
-    radius: 7,
-    fill: "lightskyblue",
-    stroke: "black",
+    radius: 7 / stage.scaleX(),
+    fill: "white",
+    stroke: "lightskyblue",
     strokeWidth: 0.5,
   });
   utilLayer.add(circle);
