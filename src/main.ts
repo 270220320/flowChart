@@ -1,6 +1,6 @@
 import inleditor from "./";
 export { createThingDefaultText } from "./element/text";
-export { getThingChildPosition } from "./util";
+export { getThingChildPosition } from "./data/dropData";
 export * from "./config/theme";
 export * from "./util/changeElementsPosition";
 export * from "./util/customAttr";
