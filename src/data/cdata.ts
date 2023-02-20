@@ -10,6 +10,7 @@ export interface LINEINFO {
   toExcursionY?: number;
   type?: string;
   state?: string;
+  aniType?: string;
   outLineIds?: Array<string>;
   inLineIds?: Array<string>;
 }
