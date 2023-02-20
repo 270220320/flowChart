@@ -73,7 +73,6 @@ export const setThingChildPosition = (
       g.setAttrs({
         x: thing.attrs.x + (thing.width() - g.width()) / 2,
         y: thing.attrs.y + thing.height(),
-        draggable: true,
       });
     } else {
       g.setAttrs({
