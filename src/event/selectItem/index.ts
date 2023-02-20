@@ -5,6 +5,7 @@ import { Stage } from "konva/lib/Stage";
 import INLEDITOR from "@/index";
 import { IRect } from "konva/lib/types";
 import { isComponentChild } from "@/component";
+import { getCustomAttrs } from "@/main";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
@@ -100,7 +101,7 @@ export default (ie: INLEDITOR) => {
   stage.on("click tap", (e) => {
     const layer = e.target.getLayer();
     // 判断一下当元素类型
-    // if (e.target.className === "Arrow") return;
+    if (getCustomAttrs(e.target).type === "control") return;
     if (!layer) {
       resetEvent(stage);
       return;
