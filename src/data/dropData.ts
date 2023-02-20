@@ -55,6 +55,7 @@ export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
       },
     });
   }
+  return arr;
 };
 // 设置物模型的文字位置
 export const setThingChildPosition = (
