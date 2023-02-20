@@ -37,3 +37,22 @@ export const getMouseOver = (
   }
   return node;
 };
+
+// 获取物模型的所有文字内容
+export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
+  const thingLayer = layer(stage, "thing");
+  const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
+  const child = thing
+    .getChildren()
+    .filter((item) => !item.hasName("thingImage"));
+  const { width, height, x, y } = thing.getClientRect();
+  const arr: Array<{ x: number; y: number }> = [];
+  for (let i of child) {
+    const iRect = i.getClientRect();
+    arr.push({
+      x: iRect.x - x,
+      y: iRect.y - y,
+    });
+  }
+  console.log(arr);
+};
