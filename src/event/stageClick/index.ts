@@ -1,6 +1,8 @@
 import Konva from "konva";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
-import { getCustomAttrs } from "@/util/customAttr";
+import selectStage from "./selectStage";
+import shapeText from "./shapeText";
+import selectThing from "./selectThing";
 
 export type onSelectCallBackFun = (
   type: "thing" | "shape" | "thingText" | "stage" | string,
@@ -15,6 +17,20 @@ export type onSelectCallBackFun = (
   }
 ) => void;
 
+export const getIus = (group: Konva.Group) => {
+  let arr = [];
+
+  try {
+    arr = group
+      .find("Group")
+      .map((item) => item.getAttr("code"))
+      .filter((item) => item);
+  } catch (error) {
+    new Error("获取iu失败");
+  }
+  return arr;
+};
+
 export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
   stage.on("click", (e) => {
     if (e.target !== stage) {
@@ -22,58 +38,11 @@ export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
       let parent = e.target.getParent() as Konva.Layer | Konva.Group;
       // 如果是父级不是layer那就有可能是thing或者是thingText
       if (!parent) return;
-      if (parent.getClassName() === "Layer") {
-        cb(
-          e.target.getClassName(),
-          {
-            target: e.target,
-            parent,
-          },
-          {
-            attrs: e.target.getAttrs(),
-          }
-        );
-      } else {
-        const name = parent.name();
-        switch (name) {
-          case "thingGroup":
-            const data1 = getCustomAttrs(parent);
-            const code1 = parent
-              .find("Group")
-              .map((item) => item.getAttr("code"));
-            cb(
-              "thing",
-              { parent, target: e.target },
-              { iu: data1.thing!.iu, code: code1 }
-            );
-            break;
-          case "thingImage":
-            const thingImgParent =
-              e.target.getClassName() === "Image" ? parent : parent.getParent();
-            const thingImgData = getCustomAttrs(thingImgParent);
 
-            cb(
-              "thing",
-              { parent: thingImgParent as any, target: parent },
-              { iu: thingImgData.thing!.iu, code: ["code1"] }
-            );
-            break;
-          default:
-            const selfParent = e.target.getParent() as any;
-            const thingData = getCustomAttrs(parent.getParent());
-            const code2 = parent.getAttr("code");
-            cb(
-              "thingText",
-              { parent: selfParent, target: e.target },
-              {
-                iu: thingData.thing!.iu,
-                code: [code2],
-              }
-            );
-        }
-      }
+      shapeText(cb, e);
+      selectThing(cb, e);
     } else {
-      cb("stage", { target: e.target });
+      selectStage(cb, e);
     }
   });
 };
