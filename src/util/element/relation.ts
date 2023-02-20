@@ -4,6 +4,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 import { getCustomAttrs, getLineInfo } from "../customAttr";
 import { getUsePoint, getUsePointUn } from "../line/line";
 import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
+import computedXY from "../computedXY";
 
 export const dealRelation = (e: any, stage: Konva.Stage) => {
   let target;
@@ -14,12 +15,17 @@ export const dealRelation = (e: any, stage: Konva.Stage) => {
   }
   if (target) {
     const lineInfo = getLineInfo(target)!;
+    const point = computedXY(
+      stage,
+      target.absolutePosition().x,
+      target.absolutePosition().y
+    );
     lineInfo.outLineIds?.forEach((lineId: string) => {
       const line = stage.findOne("#" + lineId);
       const { lineInfo } = getCustomAttrs(line) as any;
-      const x = target.absolutePosition().x + lineInfo.fromExcursionX;
-      const y = target.absolutePosition().y + lineInfo.fromExcursionY;
 
+      const x = point.x + lineInfo.fromExcursionX;
+      const y = point.y + lineInfo.fromExcursionY;
       if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
         const points = getUsePoint(line.attrs.points);
         const pointsRes = setRightAngleLineBeginOrEnd(points, 0, { x, y });
@@ -33,8 +39,8 @@ export const dealRelation = (e: any, stage: Konva.Stage) => {
     lineInfo.inLineIds?.forEach((lineId: string) => {
       const line = stage.findOne("#" + lineId);
       const { lineInfo } = getCustomAttrs(line) as any;
-      const x = target.absolutePosition().x + lineInfo.toExcursionX;
-      const y = target.absolutePosition().y + lineInfo.toExcursionY;
+      const x = point.x + lineInfo.toExcursionX;
+      const y = point.y + lineInfo.toExcursionY;
       if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
         const points = getUsePoint(line.attrs.points);
         const pointsRes = setRightAngleLineBeginOrEnd(
