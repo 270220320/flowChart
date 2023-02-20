@@ -9,7 +9,7 @@ import { Thing } from "./thing";
 export type THINGTEXTINFO = {
   type: keyof typeof groupNames;
   info: thingTextInfo;
-  position: { x: number; y: number };
+  position?: { x: number; y: number };
 };
 export type THINGTEXT = Array<THINGTEXTINFO>;
 export interface TransferData {
@@ -69,10 +69,18 @@ export const setThingChildPosition = (
   const creatext = createThingText(stage, iu, themeType);
   const { x, y } = thing.getClientRect();
   const cb = (g: Konva.Group, i: THINGTEXTINFO) => {
-    g.setAttrs({
-      x: i.position.x + x,
-      y: i.position.y + y,
-    });
+    if (!i.position) {
+      g.setAttrs({
+        x: thing.attrs.x + (thing.width() - g.width()) / 2,
+        y: thing.attrs.y + thing.height(),
+        draggable: true,
+      });
+    } else {
+      g.setAttrs({
+        x: i.position.x + x,
+        y: i.position.y + y,
+      });
+    }
   };
   for (let i of arr) {
     if (i.type === "thingDefTextGroup") {
