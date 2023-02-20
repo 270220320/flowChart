@@ -1,6 +1,5 @@
 import Konva from "konva";
 import { Component, useComponent } from "./component/component";
-import BELT from "./component/belt";
 import Scale from "./component/scale";
 import theme, { Theme } from "./config/theme";
 import { getThingTextGroup, groupNames } from "./element/group";
@@ -42,9 +41,15 @@ interface INLEDITOR {
   };
 }
 
+export type onDropCb = (
+  s: Thing,
+  p: { x: number; y: number },
+  parent?: Konva.Group
+) => void;
+
 interface OPT {
   id: string;
-  onDropCb?: (s: Thing, p: { x: number; y: number }) => void;
+  onDropCb?: onDropCb;
   isPreview?: boolean;
   json?: string;
   scale?: "show" | "hide";

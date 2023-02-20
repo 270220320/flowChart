@@ -35,7 +35,7 @@ export default (
     if (e.dataTransfer.files.length > 0 && !data) {
       customAddImage(stage, e);
     } else {
-      dropThingImage(stage, ie.getTheme(), e);
+      dropThingImage(stage, ie.getTheme(), e, ie.opt.onDropCb);
     }
 
     callback ? callback(e) : null;

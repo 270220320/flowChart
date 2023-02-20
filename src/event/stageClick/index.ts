@@ -38,6 +38,7 @@ export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
       let parent = e.target.getParent() as Konva.Layer | Konva.Group;
       // 如果是父级不是layer那就有可能是thing或者是thingText
       if (!parent) return;
+      if (e.target.className === "Arrow") return;
 
       shapeText(cb, e);
       selectThing(cb, e);

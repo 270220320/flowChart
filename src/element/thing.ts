@@ -13,22 +13,7 @@ export const createComponentThingGoup = (
   image: Konva.Group
 ) => {
   const group = createThingGroup(useThing);
-  const text = createThingDefaultText(
-    defaultTheme,
-    {
-      v: useThing.ic,
-      code: "CODE",
-      label: "编码：",
-    },
-    { x: 0, y: 0 }
-  );
-  const textVal = text.findOne(".val");
-  text.setAttrs({
-    x: image.attrs.x + (image.width() - textVal.width()) / 2,
-    y: image.attrs.y + image.height(),
-    draggable: true,
-  });
-  group.add(image, text);
+  group.add(image);
   parent.add(group);
   return group;
 };
@@ -41,28 +26,15 @@ export const createThingImageGroup = async (
   const group = createThingGroup(useThing);
   const { img } = useThing;
   const image = await createImage(img);
-  const text = createThingDefaultText(
-    defaultTheme,
-    {
-      v: useThing.ic,
-      code: "CODE",
-      label: "编码：",
-    },
-    { x: 0, y: 0 }
-  );
-  const textVal = text.findOne(".val");
+
   const { width, height } = image.attrs.image;
   image.setAttrs({
     x: x - width / 2,
     y: y - height / 2,
   });
   setCustomAttrs(image, cData);
-  text.setAttrs({
-    x: image.attrs.x + (image.width() - textVal.width()) / 2,
-    y: image.attrs.y + image.height(),
-    draggable: true,
-  });
-  group.add(image, text);
+
+  group.add(image);
 
   parent.add(group);
   parent.draw();
