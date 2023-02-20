@@ -5,7 +5,7 @@ import { CDATA, cData } from "src/data/cdata";
 export const getCustomAttrs: (
   e: Konva.Stage | Konva.Group | Konva.Node
 ) => CDATA = (e) => {
-  return e.getAttr("cdata") || cData;
+  return e.getAttr("cdata") || {};
 };
 
 export const setCustomAttrs = (
@@ -13,7 +13,7 @@ export const setCustomAttrs = (
   data: CDATA
 ) => {
   const cdata = getCustomAttrs(e);
-  e.setAttr("cdata", _.cloneDeep(Object.assign(cData, cdata, data)));
+  e.setAttr("cdata", _.cloneDeep(Object.assign(cdata, data)));
 };
 
 export const getLineInfo = (e: Konva.Node) => {

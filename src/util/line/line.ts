@@ -29,7 +29,7 @@ export const changeLineTheme = (stage: Konva.Stage, theme: string) => {
 export const connectNewRect = (
   line: Konva.Arrow,
   controlIndex: number,
-  newParent: Konva.Shape | Konva.Group,
+  newParent: Konva.Node,
   point: {
     x: number;
     y: number;

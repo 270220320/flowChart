@@ -13,3 +13,7 @@ export const isComponentChild = (node: Konva.Node) => {
     node: parentName === "thingImage" ? parent : node,
   };
 };
+
+export const isComponentChildren = (node: Konva.Node) => {
+  return node.parent.parent.name() === "thingGroup";
+};
