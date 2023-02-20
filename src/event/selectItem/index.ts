@@ -103,6 +103,8 @@ export default (ie: INLEDITOR) => {
     }
     const layer = e.target.getLayer();
     // 判断一下当元素类型
+
+    if (e.target.className === "Arrow") return;
     if (!layer) {
       resetEvent(stage);
       return;
