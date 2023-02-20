@@ -2,13 +2,16 @@ import INLEDITOR from "../..";
 import { closeSubLine, initSubLine } from "./subline";
 import { dealRelation } from "../../util/element/relation";
 import { clearTransFormer, getTran } from "../selectItem";
+import { getCustomAttrs } from "@/main";
 
 export default (ie: INLEDITOR, cb?: () => void) => {
   const stage = ie.getStage();
   // 按下移动
   stage.on("dragmove", (e) => {
     // 启动辅助线
-    initSubLine.bind(ie)(stage, e);
+    if (getCustomAttrs(e.target).type !== "control") {
+      initSubLine.bind(ie)(stage, e);
+    }
 
     // 块关联线随动
     dealRelation(e, ie.getStage());
