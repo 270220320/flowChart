@@ -25,7 +25,7 @@ export default (
       if (thingText) {
         createThingTextByGroup(group, thingText, themeType);
       }
-      cb ? cb(getCustomAttrs(group).thing, { x, y }) : null;
+      cb ? cb(getCustomAttrs(group).thing, { x, y }, group) : null;
     });
   }
 };

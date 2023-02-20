@@ -5,6 +5,7 @@ import { Thing } from "../data/thing";
 import { setCustomAttrs } from "@/util/customAttr";
 import { createThingGroup } from "./group";
 import { createImage } from "./image";
+import { createThingDefaultText } from "./text";
 
 export const createComponentThingGoup = (
   parent: Konva.Group | Konva.Layer,
