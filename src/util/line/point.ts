@@ -3,7 +3,7 @@ import layer from "../layer";
 import INLEDITOR from "../..";
 import { getUsePointUn, getUsePoint, connectNewRect } from "./line";
 import { setRightAngleLineBeginOrEnd } from "./rightAngleLine";
-import { getCustomAttrs } from "../customAttr";
+import { getCustomAttrs, setCustomAttrs } from "../customAttr";
 import { getMouseOver } from "..";
 import { computedXYByEvent } from "../computedXY";
 
@@ -13,8 +13,9 @@ export const bindPointEvent = (
   line: Konva.Arrow,
   stage: Konva.Stage
 ) => {
+  setCustomAttrs(point, { type: "control" });
   point.on("dragmove", (e) => {
-    const { x, y } = computedXYByEvent(stage, e.evt);
+    const { x, y } = e.target.attrs;
     const points = getUsePoint(line.attrs.points);
     let resPoints;
     const lineInfo = getCustomAttrs(line).lineInfo!;
@@ -33,7 +34,7 @@ export const bindPointEvent = (
     line.setAttrs({ points: arr });
   });
   point.on("dragend", (e: any) => {
-    const { x, y } = computedXYByEvent(stage, e.evt);
+    const { x, y } = e.target.attrs;
     const points = getUsePoint(line.attrs.points);
     const newParent = getMouseOver({ x: e.evt.layerX, y: e.evt.layerY }, stage);
     const lineInfo = getCustomAttrs(line).lineInfo!;
@@ -74,7 +75,7 @@ export const addPoint = (
     radius: 7,
     fill: "lightskyblue",
     stroke: "black",
-    strokeWidth: 1,
+    strokeWidth: 0.5,
   });
   utilLayer.add(circle);
   return circle;
