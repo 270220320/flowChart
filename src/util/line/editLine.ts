@@ -20,6 +20,9 @@ export const exitEditLine = (stage: Konva.Stage) => {
 };
 // 进入线编辑状态
 export const enterEditLine = (line: Konva.Arrow, stage: Konva.Stage) => {
+  if (line === editLine) {
+    return;
+  }
   // 关闭拖动
   turnDrag(stage, false);
   editLine = line;
