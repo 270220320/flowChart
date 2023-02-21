@@ -14,6 +14,8 @@ let clickIndex: number;
 // 退出线编辑状态
 export const exitEditLine = (stage: Konva.Stage) => {
   turnDrag(stage, true);
+  editLine.off("mouseenter");
+  editLine.off("mouseleave");
   controls.forEach((point) => {
     point.remove();
   });
@@ -26,6 +28,13 @@ export const enterEditLine = (line: Konva.Arrow, stage: Konva.Stage) => {
   // 关闭拖动
   turnDrag(stage, false);
   editLine = line;
+  editLine.on("mouseenter", function () {
+    stage.container().style.cursor = "move";
+  });
+
+  editLine.on("mouseleave", function () {
+    stage.container().style.cursor = "default";
+  });
   const length = line.attrs.points.length;
   const pBegin = addPoint(stage, {
     x: line.attrs.points[0],
