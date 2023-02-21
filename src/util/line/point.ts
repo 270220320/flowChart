@@ -73,7 +73,7 @@ export const addPoint = (
     x: point.x,
     y: point.y,
     draggable: true,
-    radius: 7 / stage.scaleX(),
+    radius: 5 / stage.scaleX(),
     fill: "white",
     stroke: "lightskyblue",
     strokeWidth: 0.5,
