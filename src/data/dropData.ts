@@ -1,5 +1,6 @@
 import { createThingText } from "@/element/text";
 import { getCustomAttrs, Theme } from "@/main";
+import computedXY from "@/util/computedXY";
 import layer from "@/util/layer";
 import Konva from "konva";
 import { groupNames } from "src/element/group";
@@ -67,12 +68,17 @@ export const setThingChildPosition = (
   const thingLayer = layer(stage, "thing");
   const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
   const creatext = createThingText(stage, iu, themeType);
-  const { x, y } = thing.getClientRect();
+  const { x, y, width, height } = thing.getClientRect();
   const cb = (g: Konva.Group, i: THINGTEXTINFO) => {
+    const xy = computedXY(
+      stage,
+      x + (width - g.getClientRect().width) / 2,
+      y + height
+    );
     if (!i.position) {
       g.setAttrs({
-        x: thing.attrs.x + (thing.width() - g.width()) / 2,
-        y: thing.attrs.y + thing.height(),
+        x: xy.x,
+        y: xy.y,
       });
     } else {
       g.setAttrs({
