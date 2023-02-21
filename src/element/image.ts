@@ -60,8 +60,8 @@ export const changeThingImage = async (
   newImage.setAttrs({
     x: XY.x,
     y: XY.y,
-    height,
-    width,
+    height: height,
+    width: width,
     id,
     cData,
   });
