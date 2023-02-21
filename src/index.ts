@@ -179,6 +179,8 @@ class INLEDITOR {
     if (state === setStateVal) return;
     if (image.getClassName() !== "Image") {
       // 组件处理
+      console.log(image);
+
       changeThingComponentState(this.stage, image);
     } else {
       image ? changeThingImage(image, src, setStateVal) : null;

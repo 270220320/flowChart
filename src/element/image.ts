@@ -31,7 +31,7 @@ export const changeThingComponentState = (
   stage: Konva.Stage,
   node: Konva.Image
 ) => {
-  const { thing } = getCustomAttrs(node);
+  const { thing } = getCustomAttrs(node.parent);
   const { componentName } = node.getAttrs();
 
   if (componentName && componentName === "belt") {
