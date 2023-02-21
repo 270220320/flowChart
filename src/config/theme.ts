@@ -30,7 +30,7 @@ const thtmeInfo: Record<Theme, ThemeInfo> = {
   },
   dark: {
     scale: ScaleTheme.dark,
-    background: "#08163B",
+    background: "#000F37",
     subLine: subLineTheme.dark,
     rect: RectTheme.dark,
     selection: SelectionTheme.dark,
