@@ -23,9 +23,9 @@ interface LineAnimateOpt {
 
 interface LineAnimate {
   opt: LineAnimateOpt;
-  start: Function;
-  stop: Function;
-  destroy: Function;
+  start: () => void;
+  stop: () => void;
+  destroy: () => void;
 }
 
 class LineAnimate {
@@ -36,9 +36,9 @@ class LineAnimate {
   }
   animateLayer!: Konva.Layer;
   animateEl!: Group | Shape<ShapeConfig>;
-  start;
-  stop;
-  destroy;
+  start = () => {};
+  stop = () => {};
+  destroy = () => {};
   opt!: LineAnimateOpt;
   init() {
     this.reset();
