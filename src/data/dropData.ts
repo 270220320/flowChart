@@ -42,11 +42,12 @@ export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
   for (let i of child) {
     const iRect = i.getClientRect();
     const { v, code, label, unit } = getCustomAttrs(i).thingTextInfo;
+    const xy = computedXY(stage, iRect.x - x, iRect.y - y);
     arr.push({
       type: i.name() as keyof typeof groupNames,
       position: {
-        x: iRect.x - x,
-        y: iRect.y - y,
+        x: xy.x,
+        y: xy.y,
       },
       info: {
         v,
