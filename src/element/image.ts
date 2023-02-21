@@ -1,7 +1,6 @@
 import { BELT } from "@/component";
 import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import Konva from "konva";
-import { Group } from "konva/lib/Group";
 import _ from "lodash";
 import { UUID } from "src/util/uuid";
 const cacheImgList: Record<string, Konva.Image> = {};
@@ -19,7 +18,6 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
         myHeight: height,
         src: img,
         name: "thingImage",
-        // draggable: true,
         id: UUID(),
       });
       darthNode.cache();
@@ -50,8 +48,12 @@ export const changeThingImage = async (
 
   setCustomAttrs(parent, { state });
   const attrs = _.cloneDeep(imageNode.getAttrs());
+
   imageNode.remove();
+
   const newImage = await createImage(src);
+  console.log(newImage);
+
   attrs.image.src = src;
   newImage.setAttrs(attrs);
   parent.add(newImage);

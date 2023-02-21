@@ -5,6 +5,7 @@ import layer from "../../util/layer";
 import Konva from "konva";
 import state from "./state";
 import { getTran } from "@/event/selectItem";
+import { UUID } from "@/util/uuid";
 
 interface BELT {
   stage: Konva.Stage;
@@ -52,6 +53,7 @@ class BELT {
         draggable: false,
         name: "thingImage",
         componentName: this.name,
+        id: UUID(),
       });
       this.thingGroup = createComponentThingGoup(
         thingLayer,
