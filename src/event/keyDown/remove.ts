@@ -12,7 +12,6 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
     const isThing = i.getParent().hasName(groupNames.thingGroup);
     const isThingText = i.getParent().hasName(groupNames.thingTextGroup);
     Transformers.destroy();
-    console.log(i);
     if ((isThing && i.hasName("thingImage")) || isThingText) {
       i.getParent().remove();
     } else {

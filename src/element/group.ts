@@ -104,12 +104,26 @@ export const setThingTextGroupTheme = (ea: Konva.Group, themeType: Theme) => {
   });
 };
 
+export const setThingDefTextGroupTheme = (
+  ea: Konva.Group,
+  themeType: Theme
+) => {
+  const t = theme[themeType];
+  const val = ea.findOne(".val");
+  val.setAttrs({
+    fill: t.thingText.def.val.fill,
+  });
+};
+
 // 设置 Thing 组的样式
 export const setThingGroupTheme = (stage: Konva.Stage, themeType: Theme) => {
   const thingLayer = layer(stage, LAYER.thing);
   getThingGroups(thingLayer).forEach((item) => {
     getThingTextGroup(item, groupNames.thingTextGroup).forEach((ea) => {
       setThingTextGroupTheme(ea, themeType);
+    });
+    getThingTextGroup(item, groupNames.thingDefTextGroup).forEach((ea) => {
+      setThingDefTextGroupTheme(ea, themeType);
     });
     // 还需要处理其他样式主题
   });

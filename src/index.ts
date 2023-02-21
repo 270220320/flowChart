@@ -246,9 +246,7 @@ class INLEDITOR {
   }
 
   changeElementsPosition(type: AlignType) {
-    // getTran(this.stage).Transformers.getNode();
     changeElementsPosition(this.getStage(), type);
-    // console.log(getTran(this.stage).Transformers.getNode());
   }
 
   render(opt?: { width: number; height: number }) {
