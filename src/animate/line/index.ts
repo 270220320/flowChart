@@ -21,6 +21,13 @@ interface LineAnimateOpt {
   speed?: number;
 }
 
+interface LineAnimate {
+  opt: LineAnimateOpt;
+  start: Function;
+  stop: Function;
+  destroy: Function;
+}
+
 class LineAnimate {
   constructor(opt: LineAnimateOpt) {
     this.opt = opt;
