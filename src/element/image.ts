@@ -29,14 +29,15 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
 };
 export const changeThingComponentState = (
   stage: Konva.Stage,
-  node: Konva.Image
+  node: Konva.Image,
+  state: string | number
 ) => {
   const { thing } = getCustomAttrs(node.parent);
   const { componentName } = node.getAttrs();
 
   if (componentName && componentName === "belt") {
     const belt = new BELT(stage, { thingInfo: thing });
-    belt.render(2);
+    belt.render(state as number);
   }
 };
 
