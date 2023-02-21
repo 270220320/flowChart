@@ -1,6 +1,6 @@
 import { Thing } from "../../data/thing";
 import { createComponentThingGoup } from "@/element";
-import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
+import { setCustomAttrs } from "@/util/customAttr";
 import layer from "../../util/layer";
 import Konva from "konva";
 import state from "./state";

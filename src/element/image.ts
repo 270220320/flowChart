@@ -47,25 +47,16 @@ export const changeThingImage = async (
   state: string
 ) => {
   const parent = imageNode.getParent();
-  const { x, y, height, width } = imageNode.getClientRect();
-  const stage = imageNode.getStage();
+  const data = _.cloneDeep(imageNode.getAttrs());
   setCustomAttrs(parent, { state });
-  const { id, cData } = imageNode.getAttrs();
-
   imageNode.remove();
-
   const newImage = await createImage(src);
-
   newImage.getAttrs().image.src = src;
-  const XY = computedXY(stage, x, y);
-  newImage.setAttrs({
-    x: XY.x,
-    y: XY.y,
-    height: height / stage.scaleX(),
-    width: width / stage.scaleX(),
-    id,
-    cData,
-  });
+  delete data.image;
+  // const XY = computedXY(stage, x, y);
+  newImage.setAttrs(data);
   parent.add(newImage);
-  parent.draw();
+  newImage.getAttrs().image.onload = () => {
+    parent.getLayer().draw();
+  };
 };
