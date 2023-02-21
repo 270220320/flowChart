@@ -38,16 +38,17 @@ export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
     .getChildren()
     .filter((item) => !item.hasName("thingImage"));
   const { x, y } = thing.getClientRect();
+  const thingXY = computedXY(stage, x, y);
   const arr: THINGTEXT = [];
   for (let i of child) {
     const iRect = i.getClientRect();
+    const ItemXY = computedXY(stage, iRect.x, iRect.y);
     const { v, code, label, unit } = getCustomAttrs(i).thingTextInfo;
-    const xy = computedXY(stage, iRect.x - x, iRect.y - y);
     arr.push({
       type: i.name() as keyof typeof groupNames,
       position: {
-        x: xy.x,
-        y: xy.y,
+        x: ItemXY.x - thingXY.x,
+        y: ItemXY.y - thingXY.y,
       },
       info: {
         v,
@@ -69,7 +70,8 @@ export const setThingChildPosition = (
   const thingLayer = layer(stage, "thing");
   const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
   const creatext = createThingText(stage, iu, themeType);
-  const { x, y, width, height } = thing.getClientRect();
+  const { width, height, x, y } = thing.getClientRect();
+
   const cb = (g: Konva.Group, i: THINGTEXTINFO) => {
     if (!i.position) {
       const xy = computedXY(
@@ -77,15 +79,15 @@ export const setThingChildPosition = (
         x + (width - g.getClientRect().width) / 2,
         y + height
       );
-      g.setAttrs({
+      g.setPosition({
         x: xy.x,
         y: xy.y,
       });
     } else {
-      const xy = computedXY(stage, i.position.x + x, i.position.y + y);
-      g.setAttrs({
-        x: xy.x,
-        y: xy.y,
+      const xy = computedXY(stage, x, y);
+      g.setPosition({
+        x: i.position.x + xy.x,
+        y: i.position.y + xy.y,
       });
     }
   };

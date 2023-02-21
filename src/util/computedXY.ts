@@ -11,7 +11,6 @@ export const computedXY = (
   layerY: number
 ) => {
   const zoom = canvas.scaleX();
-
   if (canvas.attrs.x || canvas.attrs.y) {
     layerX = layerX - canvas.attrs.x;
     layerY = layerY - canvas.attrs.y;
