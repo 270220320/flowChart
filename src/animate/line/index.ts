@@ -21,6 +21,13 @@ interface LineAnimateOpt {
   speed?: number;
 }
 
+interface LineAnimate {
+  opt: LineAnimateOpt;
+  start: () => void;
+  stop: () => void;
+  destroy: () => void;
+}
+
 class LineAnimate {
   constructor(opt: LineAnimateOpt) {
     this.opt = opt;
@@ -29,9 +36,9 @@ class LineAnimate {
   }
   animateLayer!: Konva.Layer;
   animateEl!: Group | Shape<ShapeConfig>;
-  start;
-  stop;
-  destroy;
+  start = () => {};
+  stop = () => {};
+  destroy = () => {};
   opt!: LineAnimateOpt;
   init() {
     this.reset();
