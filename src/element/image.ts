@@ -60,10 +60,11 @@ export const changeThingImage = async (
   newImage.setAttrs({
     x: XY.x,
     y: XY.y,
-    height: height,
-    width: width,
+    height: height / stage.scaleX(),
+    width: width / stage.scaleX(),
     id,
     cData,
   });
   parent.add(newImage);
+  parent.draw();
 };
