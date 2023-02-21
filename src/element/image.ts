@@ -1,4 +1,5 @@
 import { BELT } from "@/component";
+import computedXY from "@/util/computedXY";
 import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import Konva from "konva";
 import _ from "lodash";
@@ -45,16 +46,24 @@ export const changeThingImage = async (
   state: string
 ) => {
   const parent = imageNode.getParent();
-
+  const { x, y, height, width } = imageNode.getClientRect();
+  const stage = imageNode.getStage();
   setCustomAttrs(parent, { state });
-  const attrs = _.cloneDeep(imageNode.getAttrs());
+  const { id, cData } = imageNode.getAttrs();
 
   imageNode.remove();
 
   const newImage = await createImage(src);
-  console.log(newImage);
 
-  attrs.image.src = src;
-  newImage.setAttrs(attrs);
+  newImage.getAttrs().image.src = src;
+  const XY = computedXY(stage, x, y);
+  newImage.setAttrs({
+    x: XY.x,
+    y: XY.y,
+    height,
+    width,
+    id,
+    cData,
+  });
   parent.add(newImage);
 };
