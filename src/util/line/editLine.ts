@@ -14,11 +14,12 @@ let clickIndex: number;
 // 退出线编辑状态
 export const exitEditLine = (stage: Konva.Stage) => {
   turnDrag(stage, true);
-  editLine.off("mouseenter");
-  editLine.off("mouseleave");
   controls.forEach((point) => {
     point.remove();
   });
+  editLine.off("mouseenter");
+  editLine.off("mouseleave");
+  editLine = undefined;
 };
 // 进入线编辑状态
 export const enterEditLine = (line: Konva.Arrow, stage: Konva.Stage) => {
