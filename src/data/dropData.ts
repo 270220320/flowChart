@@ -70,20 +70,21 @@ export const setThingChildPosition = (
   const creatext = createThingText(stage, iu, themeType);
   const { x, y, width, height } = thing.getClientRect();
   const cb = (g: Konva.Group, i: THINGTEXTINFO) => {
-    const xy = computedXY(
-      stage,
-      x + (width - g.getClientRect().width) / 2,
-      y + height
-    );
     if (!i.position) {
+      const xy = computedXY(
+        stage,
+        x + (width - g.getClientRect().width) / 2,
+        y + height
+      );
       g.setAttrs({
         x: xy.x,
         y: xy.y,
       });
     } else {
+      const xy = computedXY(stage, i.position.x + x, i.position.y + y);
       g.setAttrs({
-        x: i.position.x + x,
-        y: i.position.y + y,
+        x: xy.x,
+        y: xy.y,
       });
     }
   };

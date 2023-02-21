@@ -48,11 +48,15 @@ const onSelection = (
 };
 
 // 矩形
-const onRect = (stage: Konva.Stage, rect: Konva.Rect | null) => {
+const onRect = (
+  stage: Konva.Stage,
+  rect: Konva.Rect | null,
+  themeType: Theme
+) => {
   if (!rect) return;
   const { width, height, x, y } = _.cloneDeep(rect.attrs);
   const shapeLayer = layer(stage, "thing");
-  const createDefaultRect = defaultRect({ width, height, x, y });
+  const createDefaultRect = defaultRect({ width, height, x, y }, themeType);
   shapeLayer.add(createDefaultRect);
 };
 
@@ -112,7 +116,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     offSelection(ie.getStage());
     switch (drawState) {
       case "Rect":
-        onRect(stage, rect);
+        onRect(stage, rect, ie.getTheme());
         break;
       case "editLine":
         if (checkKeepEdit(e)) {

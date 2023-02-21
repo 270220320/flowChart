@@ -3,15 +3,15 @@ import { Theme } from "./theme";
 
 export const RectTheme: Record<Theme, Konva.NodeConfig> = {
   light: {
-    fill: "green",
-    stroke: "green",
+    fill: "#D8D8D8",
+    stroke: "#D8D8D8",
     strokeWidth: 1,
     draggable: true,
     strokeScaleEnabled: false,
   },
   dark: {
-    fill: "orange",
-    stroke: "orange",
+    fill: "#D8D8D8",
+    stroke: "#D8D8D8",
     strokeWidth: 1,
     draggable: true,
     strokeScaleEnabled: false,
