@@ -42,7 +42,8 @@ class BELT {
     if (thingGroup) {
       this.thingGroup = thingGroup as Konva.Group;
       this.group = this.thingGroup.findOne(".thingImage");
-      this.config.width = this.group.getClientRect().width;
+      this.config.width =
+        this.group.getClientRect().width / this.stage.scaleX();
       this.draw.event();
     } else {
       this.group = new Konva.Group({
