@@ -3,6 +3,7 @@ import { getCustomAttrs, getLineInfo } from "../customAttr";
 import { lineState } from "../../config";
 import layer from "src/util/layer";
 import { LineTheme } from "@/config/line";
+import computedXY from "../computedXY";
 
 export const updateLineColor = (
   key: string,
@@ -38,6 +39,11 @@ export const connectNewRect = (
 ) => {
   const lineInfo = getCustomAttrs(line).lineInfo!;
   const newInfo = getLineInfo(newParent);
+  const xy = computedXY(
+    stage,
+    newParent.absolutePosition().x,
+    newParent.absolutePosition().y
+  );
   if (controlIndex === 0) {
     const oldRect = stage.findOne("#" + lineInfo.from);
     const oldRectInfo = getCustomAttrs(oldRect).lineInfo;
@@ -46,16 +52,16 @@ export const connectNewRect = (
       1
     );
     lineInfo.from = newParent.id();
-    lineInfo.fromExcursionX = point.x - newParent.absolutePosition().x;
-    lineInfo.fromExcursionY = point.y - newParent.absolutePosition().y;
+    lineInfo.fromExcursionX = point.x - xy.x;
+    lineInfo.fromExcursionY = point.y - xy.y;
     newInfo?.outLineIds?.push(line.id());
   } else {
     const oldRect = stage.findOne("#" + lineInfo.to);
     const oldRectInfo = getCustomAttrs(oldRect).lineInfo;
     oldRectInfo?.inLineIds?.splice(oldRectInfo.inLineIds.indexOf(line.id()), 1);
     lineInfo.to = newParent.id();
-    lineInfo.toExcursionX = point.x - newParent.absolutePosition().x;
-    lineInfo.toExcursionY = point.y - newParent.absolutePosition().y;
+    lineInfo.toExcursionX = point.x - xy.x;
+    lineInfo.toExcursionY = point.y - xy.y;
     newInfo?.inLineIds?.push(line.id());
   }
 };
