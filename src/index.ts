@@ -169,7 +169,7 @@ class INLEDITOR {
     return state;
   }
   // 修改设备状态
-  setThingState(iu: string, setStateVal: string | number, src?: string) {
+  async setThingState(iu: string, setStateVal: string | number, src?: string) {
     const thingLayer = layer(this.stage, "thing");
     const thingBox = thingLayer.findOne(`#${iu}`);
     const image = (thingBox as Konva.Group)?.findOne(
@@ -183,7 +183,7 @@ class INLEDITOR {
 
       changeThingComponentState(this.stage, image, setStateVal);
     } else {
-      image ? changeThingImage(image, src, setStateVal as string) : null;
+      image ? await changeThingImage(image, src, setStateVal as string) : null;
     }
   }
 

@@ -57,7 +57,10 @@ export const changeThingImage = async (
   // const XY = computedXY(stage, x, y);
   newImage.setAttrs(data);
   parent.add(newImage);
-  newImage.getAttrs().image.onload = () => {
-    parent.getLayer().draw();
-  };
+  return new Promise((res) => {
+    newImage.getAttrs().image.onload = () => {
+      parent.getLayer().draw();
+      res(newImage);
+    };
+  });
 };
