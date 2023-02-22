@@ -1,4 +1,4 @@
-import { BELT } from "@/component";
+import { BELT, changeBeltState } from "@/component";
 import computedXY from "@/util/computedXY";
 import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import Konva from "konva";
@@ -36,8 +36,9 @@ export const changeThingComponentState = (
   const { componentName } = node.getAttrs();
 
   if (componentName && componentName === "belt") {
-    const belt = new BELT(stage, { thingInfo: thing });
-    belt.render(state as number);
+    // const belt = new BELT(stage, { thingInfo: thing });
+    // belt.render(state as number);
+    changeBeltState(stage, state, thing.iu);
   }
 };
 

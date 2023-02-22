@@ -27,7 +27,7 @@ export interface CDATA {
   ii?: INTANCEINFO; // intance info
   lineInfo?: LINEINFO;
   thingTextInfo?: thingTextInfo;
-  state?: string;
+  state?: string | number;
 }
 
 export const cData: CDATA = {};
