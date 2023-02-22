@@ -12,14 +12,14 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
     const isThing = i.getParent().hasName(groupNames.thingGroup);
     const isThingText = i.getParent().hasName(groupNames.thingTextGroup);
     Transformers.destroy();
+    debugger;
     if ((isThing && i.hasName("thingImage")) || isThingText) {
       i.getParent().remove();
     } else {
+      // 删除关联关系
+      removeRelevance(i, ie.getStage());
       i.remove();
     }
-
-    // 删除关联关系
-    removeRelevance(i, ie.getStage());
 
     ie.getStage().draw();
   }
@@ -47,6 +47,7 @@ const removeRelevance = (obj: any, stage: Konva.Stage) => {
     [...(lineInfo?.outLineIds || []), ...(lineInfo?.inLineIds || [])]?.forEach(
       (id: string) => {
         const line = stage.findOne("#" + id);
+        removeRelevance(line, stage);
         line.remove();
       }
     );

@@ -7,8 +7,8 @@ export default (ie: INLEDITOR, cb?: () => void) => {
   const container = ie.getContainer();
   container.addEventListener("keydown", (e) => {
     if (e.code === "Backspace" || e.code === "Delete") {
-      remove(ie, e);
       exitEditLine(ie.getStage());
+      remove(ie, e);
     }
     if (e.code === "Space") {
       stageTofit(ie.getStage());
