@@ -59,6 +59,9 @@ class INLEDITOR {
   constructor(opt: OPT) {
     this.opt = opt;
     this.init(opt.json);
+    if (opt.isPreview) {
+      layer(this.stage, "line").moveToBottom();
+    }
   }
   protected init(json?: string) {
     initStage(this, json);

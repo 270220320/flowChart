@@ -1,23 +1,31 @@
 import Konva from "konva";
 import { computedDuration } from "../../util/distance";
 import LineAnimate from ".";
-import { aniLineState, lineAni } from "../../config";
+import { aniLineState, lineAni, lineState } from "../../config";
 import { getLineInfo } from "@/util/customAttr";
 
 export default function (this: LineAnimate) {
   const lineInfo = getLineInfo(this.opt.line);
-  this.animateEl = new Konva.Line(this.opt.line.getAttrs());
+  this.animateEl = new Konva.Arrow(this.opt.line.getAttrs());
   this.animateLayer.add(this.animateEl);
   let animate;
   const sign = this.opt.direction === "obey" ? 1 : -1;
   let points = JSON.parse(JSON.stringify(this.opt.line.points())) || [];
   const { distance } = computedDuration(points, this.speed);
   const theme = this.opt.ie.getTheme();
+  const width = this.opt.line.getAttr("strokeWidth");
+  this.opt.line.setAttrs({
+    stroke: aniLineState[theme][lineInfo.state],
+    fill: aniLineState[theme][lineInfo.state],
+    strokeWidth: width * 2,
+  });
   this.animateEl.setAttrs({
     ...lineAni.flow[theme],
-    stroke: aniLineState[theme][lineInfo.state],
+    stroke: lineState[theme][lineInfo.state],
+    fill: lineState[theme][lineInfo.state],
     dash: [distance],
     dashOffset: distance,
+    strokeWidth: width,
   });
   const init = () => {
     animate = new Konva.Tween({
@@ -43,6 +51,11 @@ export default function (this: LineAnimate) {
   };
   this.destroy = () => {
     animate.pause();
+    this.opt.line.setAttrs({
+      stroke: lineState[theme][lineInfo.state],
+      fill: lineState[theme][lineInfo.state],
+      strokeWidth: width,
+    });
     this.animateEl.remove();
   };
 }
