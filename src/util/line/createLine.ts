@@ -1,6 +1,9 @@
 import Konva from "konva";
 import INLEDITOR from "../..";
-import { computedPoint, computedXYByEvent } from "src/util/computedXY";
+import computedXY, {
+  computedPoint,
+  computedXYByEvent,
+} from "src/util/computedXY";
 import layer from "src/util/layer";
 import { KonvaEventObject } from "konva/lib/Node";
 import { getMouseOver } from "../";
@@ -36,17 +39,23 @@ export const finishLine = (
   if (end) {
     const beginInfo = getLineInfo(begin);
     const endInfo = getLineInfo(end);
+    const xya = computedXY(
+      stage,
+      begin.absolutePosition().x,
+      begin.absolutePosition().y
+    );
+    const xyb = computedXY(
+      stage,
+      end.absolutePosition().x,
+      end.absolutePosition().y
+    );
     const data = {
       from: begin.id(),
-      fromExcursionX: line.attrs.points[0] - begin.absolutePosition().x,
-      fromExcursionY: line.attrs.points[1] - begin.absolutePosition().y,
+      fromExcursionX: line.attrs.points[0] - xya.x,
+      fromExcursionY: line.attrs.points[1] - xya.y,
       to: end.id(),
-      toExcursionX:
-        line.attrs.points[line.attrs.points.length - 2] -
-        end.absolutePosition().x,
-      toExcursionY:
-        line.attrs.points[line.attrs.points.length - 1] -
-        end.absolutePosition().y,
+      toExcursionX: line.attrs.points[line.attrs.points.length - 2] - xyb.x,
+      toExcursionY: line.attrs.points[line.attrs.points.length - 1] - xyb.y,
       type: lineType,
       state: lineState.default,
     };
