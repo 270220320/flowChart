@@ -22,6 +22,7 @@ import disableMove from "./util/initStage/disableMove";
 import { updateLineColor } from "./util/line/line";
 import { Thing } from "./data/thing";
 import { clearTransFormer } from "./event/selectItem";
+import { exitEditLine } from "./util/line/editLine";
 
 export type DrawState =
   | "Line"
@@ -198,6 +199,7 @@ class INLEDITOR {
   // 序列化
   toJson() {
     const json = this.stage.toJSON();
+    exitEditLine(this.stage);
     clearTransFormer(this.stage);
     return { mapJson: json, image: this.toImage() };
   }
