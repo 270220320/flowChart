@@ -178,7 +178,7 @@ class BELT {
         this.circle1
       );
 
-      setCustomAttrs(this.group, { state: this.config.theme });
+      setCustomAttrs(this.thingGroup, { state: this.config.theme });
       this.thingGroup.add(this.group);
       this.draw.event();
     },
@@ -264,7 +264,7 @@ export const changeBeltState = (
     fill: theme.round.bj[0],
     draggable: false,
   });
-  setCustomAttrs(thingImage, { state: stateType });
+  setCustomAttrs(thingGroup, { state: stateType });
   thingImage.add(brect, brect1, brect2, circle, circle1);
   return thingImage;
 };

@@ -66,7 +66,7 @@ class COALANIM {
   start() {
     this.tim = setInterval(() => {
       this.anim();
-    }, 180);
+    }, 220);
   }
   stop() {
     clearInterval(this.tim);
@@ -81,24 +81,26 @@ class COALANIM {
     const { width } = this.animEl.getClientRect();
     const scale = this.stage.scaleX();
     node.setAttrs({
-      width: 15,
-      height: 7,
+      width: 30,
+      height: 14,
     });
     node.setAttrs({
       y: 25 - node.height(),
     });
+    const movejl = width / scale - node.width();
     const tween = new Konva.Tween({
       node,
       // rotation: 360,
-      duration: width / node.width() / scale / 5,
-      x: width / scale - node.width(),
+      duration: width / node.width() / scale / 3,
+      x: movejl,
     });
     tween.play();
     tween.onFinish = () => {
       const hidek = new Konva.Tween({
         node,
         opacity: 0,
-        x: width / scale,
+        x: movejl + 10,
+        y: node.getAttr("y") + 3,
         duration: 0.2,
       });
       hidek.play();
