@@ -5,7 +5,7 @@ import LineAnimate from ".";
 import { aniLineState, lineAni } from "../../config";
 
 export default function (this: LineAnimate) {
-  this.animateEl = new Konva.Line(this.opt.line.getAttrs());
+  this.animateEl = new Konva.Arrow(this.opt.line.getAttrs());
   const lineInfo = getLineInfo(this.opt.line);
   this.animateLayer.add(this.animateEl);
   let animate;

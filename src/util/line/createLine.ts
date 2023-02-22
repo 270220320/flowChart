@@ -117,6 +117,7 @@ export const createLine = (
     id: UUID(),
     points: [point.x, point.y, point.x, point.y],
     ...LineTheme[opt.theme],
+    pointerFill: "red",
     dash: dotted ? [10, 0, 10] : undefined,
     stroke: lineState[opt.theme][lineState.default],
     fill: lineState[opt.theme][lineState.default],
