@@ -1,7 +1,7 @@
 import { isComponentChildren } from "@/component";
 import Konva from "konva";
 import layer from "./layer";
-
+export * from "./customAttr";
 export const fileToBase64 = (files: FileList) => {
   const promises = [];
   for (let i = 0; i < files.length; i++) {

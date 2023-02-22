@@ -1,6 +1,6 @@
 import Konva from "konva";
 import _ from "lodash";
-import { CDATA, cData } from "src/data/cdata";
+import { CDATA } from "src/data/cdata";
 
 export const getCustomAttrs: (
   e: Konva.Stage | Konva.Group | Konva.Node
