@@ -1,3 +1,4 @@
+import { getCustomAttrs } from "@/main";
 import layer from "@/util/layer";
 import Konva from "konva";
 import drawCoal from "./drawCoal";
@@ -7,22 +8,32 @@ interface COALANIM {
   animEl: Konva.Node;
   stage: Konva.Stage;
   animGroup: Konva.Group;
-  cacheCoal: Konva.Star;
+  cacheCoal: Konva.Star | Konva.Image;
   tim: number;
 }
+
+interface OPT {
+  stage: Konva.Stage;
+  uuid: string;
+  imgUrl?: string;
+  autoPlay?: boolean;
+}
 class COALANIM {
-  constructor(stage: Konva.Stage, uuid: string, autoPlay?: boolean) {
+  constructor(opt: OPT) {
+    const { autoPlay, stage, uuid, imgUrl } = opt;
     this.autoPlay = autoPlay || false;
     this.stage = stage;
-    this.cacheCoal = drawCoal();
-    this.cacheCoal.cache();
-    this.reset(uuid);
+
+    this.reset(uuid, imgUrl);
 
     if (autoPlay) {
       this.start();
     }
   }
-  reset(uuid: string) {
+  async reset(uuid: string, imgUrl: string) {
+    this.cacheCoal = await drawCoal(imgUrl);
+
+    this.cacheCoal.cache();
     const layerthing = layer(this.stage, "thing");
     this.animEl = (layerthing.findOne(`#${uuid}`) as Konva.Group).findOne(
       ".thingImage"
@@ -45,7 +56,11 @@ class COALANIM {
 
     layerthing.add(this.animGroup);
     layerthing.draw();
-    this.start();
+    const state = getCustomAttrs(this.animEl).state;
+
+    if (state === 1) {
+      this.start();
+    }
   }
 
   start() {
@@ -66,17 +81,20 @@ class COALANIM {
     const { width } = this.animEl.getClientRect();
     const scale = this.stage.scaleX();
     node.setAttrs({
-      y: 22,
+      width: 15,
+      height: 7,
+    });
+    node.setAttrs({
+      y: 25 - node.height(),
     });
     const tween = new Konva.Tween({
       node,
-      rotation: 360,
-      duration: 5,
-      x: width / scale - 10,
+      // rotation: 360,
+      duration: width / node.width() / scale / 5,
+      x: width / scale - node.width(),
     });
     tween.play();
     tween.onFinish = () => {
-      const { x } = node.getAttrs();
       const hidek = new Konva.Tween({
         node,
         opacity: 0,

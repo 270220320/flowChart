@@ -192,7 +192,10 @@ export const changeBeltState = (
   const thingLayer = layer(stage, "thing");
   const thingGroup = thingLayer.findOne(`#${iu}`) as Konva.Group;
   const thingImage = thingGroup.findOne(`.thingImage`) as Konva.Group;
-  const { width, height } = thingImage.getClientRect();
+  const block = thingImage.findOne(".block");
+  const thingIrect = block.getAttrs();
+  const width = thingIrect.width;
+  const height = thingIrect.height;
   const theme = state[stateType];
   thingImage.removeChildren();
   const brect = new Konva.Rect({
