@@ -17,8 +17,8 @@ export const exitEditLine = (stage: Konva.Stage) => {
   controls.forEach((point) => {
     point.remove();
   });
-  editLine.off("mouseenter");
-  editLine.off("mouseleave");
+  editLine?.off("mouseenter");
+  editLine?.off("mouseleave");
   editLine = undefined;
 };
 // 进入线编辑状态

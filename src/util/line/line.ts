@@ -46,16 +46,16 @@ export const connectNewRect = (
       1
     );
     lineInfo.from = newParent.id();
-    lineInfo.fromExcursionX = point.x - newParent.attrs.x;
-    lineInfo.fromExcursionY = point.y - newParent.attrs.y;
+    lineInfo.fromExcursionX = point.x - newParent.absolutePosition().x;
+    lineInfo.fromExcursionY = point.y - newParent.absolutePosition().y;
     newInfo?.outLineIds?.push(line.id());
   } else {
     const oldRect = stage.findOne("#" + lineInfo.to);
     const oldRectInfo = getCustomAttrs(oldRect).lineInfo;
     oldRectInfo?.inLineIds?.splice(oldRectInfo.inLineIds.indexOf(line.id()), 1);
     lineInfo.to = newParent.id();
-    lineInfo.toExcursionX = point.x - newParent.attrs.x;
-    lineInfo.toExcursionY = point.y - newParent.attrs.y;
+    lineInfo.toExcursionX = point.x - newParent.absolutePosition().x;
+    lineInfo.toExcursionY = point.y - newParent.absolutePosition().y;
     newInfo?.inLineIds?.push(line.id());
   }
 };

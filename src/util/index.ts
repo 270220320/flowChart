@@ -33,7 +33,6 @@ export const getMouseOver = (
   stage: Konva.Stage
 ) => {
   let node: Konva.Node = layer(stage, "thing").getIntersection(point);
-
   if (isComponentChildren(node)) {
     return node.parent;
   }

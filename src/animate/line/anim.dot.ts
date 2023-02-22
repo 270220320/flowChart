@@ -1,12 +1,12 @@
 import Konva from "konva";
 import { computedDuration } from "../../util/distance";
 import LineAnimate from ".";
-import { aniLineState, lineAni } from "../../config";
+import { aniLineState, lineAni, lineState } from "../../config";
 import { getLineInfo } from "@/util/customAttr";
 
 export default function (this: LineAnimate) {
   const lineInfo = getLineInfo(this.opt.line);
-  const w = this.opt.line.getAttr("strokeWidth");
+  const width = this.opt.line.getAttr("strokeWidth");
   let animate;
   let points = JSON.parse(JSON.stringify(this.opt.line.points())) || [];
   const animLength = points.length / 2; // 线段运动次数
@@ -15,10 +15,15 @@ export default function (this: LineAnimate) {
     pointRes.reverse();
   }
   const theme = this.opt.ie.getTheme();
-  this.animateEl = new Konva.Circle({
-    radius: w * 2,
-    ...lineAni.dot[theme],
+  this.opt.line.setAttrs({
+    stroke: aniLineState[theme][lineInfo.state],
     fill: aniLineState[theme][lineInfo.state],
+    strokeWidth: width * 2,
+  });
+  this.animateEl = new Konva.Circle({
+    radius: width,
+    ...lineAni.dot[theme],
+    fill: lineState[theme][lineInfo.state],
     x: points[0],
     y: points[1],
   });
@@ -49,6 +54,11 @@ export default function (this: LineAnimate) {
   };
   this.destroy = () => {
     animate.pause();
+    this.opt.line.setAttrs({
+      stroke: lineState[theme][lineInfo.state],
+      fill: lineState[theme][lineInfo.state],
+      strokeWidth: width,
+    });
     this.animateEl.remove();
   };
 }

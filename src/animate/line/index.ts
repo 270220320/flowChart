@@ -1,3 +1,4 @@
+import layer from "@/util/layer";
 import Konva from "konva";
 import { Group } from "konva/lib/Group";
 import { Shape, ShapeConfig } from "konva/lib/Shape";
@@ -54,13 +55,7 @@ class LineAnimate {
   };
   reset() {
     const stage = this.opt.ie.getStage();
-    let ANIMATELAYER = stage.findOne(`.animate`) as Konva.Layer;
-    if (!ANIMATELAYER) {
-      ANIMATELAYER = new Konva.Layer({ name: "animate" });
-      stage.add(ANIMATELAYER);
-    }
-    this.animateLayer = ANIMATELAYER;
-    // const { start, stop } =
+    this.animateLayer = layer(stage, "line");
     this.resetAnimate[this.opt.animateType || "default"]();
     this.start();
   }
