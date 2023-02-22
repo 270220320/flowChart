@@ -34,30 +34,32 @@ export const bindPointEvent = (
     line.setAttrs({ points: arr });
   });
   point.on("dragend", (e: any) => {
-    const { x, y } = e.target.attrs;
+    let position;
     const points = getUsePoint(line.attrs.points);
     const newParent = getMouseOver({ x: e.evt.layerX, y: e.evt.layerY }, stage);
     const lineInfo = getCustomAttrs(line).lineInfo!;
+    if (controlIndex === 0) {
+      position = {
+        x: line.attrs.points[0],
+        y: line.attrs.points[1],
+      };
+    } else if (controlIndex === points.length - 1) {
+      position = {
+        x: line.attrs.points[line.attrs.points.length - 2],
+        y: line.attrs.points[line.attrs.points.length - 1],
+      };
+    }
     if (newParent) {
-      connectNewRect(
-        line,
-        controlIndex,
-        newParent,
-        {
-          x,
-          y,
-        },
-        stage
-      );
+      connectNewRect(line, controlIndex, newParent, position, stage);
     } else {
       if (controlIndex === 0) {
         const rectOut = stage.findOne("#" + lineInfo.from);
-        lineInfo.fromExcursionX = x - rectOut.attrs.x;
-        lineInfo.fromExcursionY = y - rectOut.attrs.y;
+        lineInfo.fromExcursionX = position.x - rectOut.attrs.x;
+        lineInfo.fromExcursionY = position.y - rectOut.attrs.y;
       } else if (controlIndex === points.length - 1) {
         const rectIn = stage.findOne("#" + lineInfo.to);
-        lineInfo.toExcursionX = x - rectIn.attrs.x;
-        lineInfo.toExcursionY = y - rectIn.attrs.y;
+        lineInfo.toExcursionX = position.x - rectIn.attrs.x;
+        lineInfo.toExcursionY = position.y - rectIn.attrs.y;
       }
     }
   });

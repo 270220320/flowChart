@@ -38,13 +38,15 @@ export const finishLine = (
     const endInfo = getLineInfo(end);
     const data = {
       from: begin.id(),
-      fromExcursionX: line.attrs.points[0] - begin.attrs.x,
-      fromExcursionY: line.attrs.points[1] - begin.attrs.y,
+      fromExcursionX: line.attrs.points[0] - begin.absolutePosition().x,
+      fromExcursionY: line.attrs.points[1] - begin.absolutePosition().y,
       to: end.id(),
       toExcursionX:
-        line.attrs.points[line.attrs.points.length - 2] - end.attrs.x,
+        line.attrs.points[line.attrs.points.length - 2] -
+        end.absolutePosition().x,
       toExcursionY:
-        line.attrs.points[line.attrs.points.length - 1] - end.attrs.y,
+        line.attrs.points[line.attrs.points.length - 1] -
+        end.absolutePosition().y,
       type: lineType,
       state: lineState.default,
     };
