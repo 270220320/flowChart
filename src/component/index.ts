@@ -15,5 +15,5 @@ export const isComponentChild = (node: Konva.Node) => {
 };
 
 export const isComponentChildren = (node: Konva.Node) => {
-  return node.parent.parent.name() === "thingGroup";
+  return node?.parent?.parent?.name() === "thingGroup";
 };
