@@ -85,23 +85,29 @@ export const setThingTextGroupTheme = (ea: Konva.Group, themeType: Theme) => {
   const val = ea.findOne(".val");
   const unit = ea.findOne(".unit");
 
-  label.setAttrs({
-    fill: t.thingText.advanced.label.fill,
-  });
+  if (label) {
+    label.setAttrs({
+      fill: t.thingText.advanced.label.fill,
+    });
+  }
 
-  rect.setAttrs({
-    fill: t.thingText.advanced.val.rectFill,
-    stroke: t.thingText.advanced.val.rectStroke,
-  });
-
-  val.setAttrs({
-    fill: t.thingText.advanced.val.fill,
-  });
-
-  unit.setAttrs({
-    fill: t.thingText.advanced.unit.fill,
-    opacity: t.thingText.advanced.unit.opacity,
-  });
+  if (rect) {
+    rect.setAttrs({
+      fill: t.thingText.advanced.val.rectFill,
+      stroke: t.thingText.advanced.val.rectStroke,
+    });
+  }
+  if (val) {
+    val.setAttrs({
+      fill: t.thingText.advanced.val.fill,
+    });
+  }
+  if (unit) {
+    unit.setAttrs({
+      fill: t.thingText.advanced.unit.fill,
+      opacity: t.thingText.advanced.unit.opacity,
+    });
+  }
 };
 
 export const setThingDefTextGroupTheme = (
@@ -110,9 +116,11 @@ export const setThingDefTextGroupTheme = (
 ) => {
   const t = theme[themeType];
   const val = ea.findOne(".val");
-  val.setAttrs({
-    fill: t.thingText.def.val.fill,
-  });
+  if (val) {
+    val.setAttrs({
+      fill: t.thingText.def.val.fill,
+    });
+  }
 };
 
 // 设置 Thing 组的样式
