@@ -5,6 +5,7 @@ import { ScaleTheme } from "./scale";
 import { SelectionTheme } from "./selection";
 import { ThingText, ThingTextType } from "./thingText";
 import { Text } from "./text";
+import { MapTitleTheme } from "./mapTitle";
 
 interface ThemeInfo {
   scale: Konva.NodeConfig;
@@ -14,6 +15,7 @@ interface ThemeInfo {
   selection: Konva.NodeConfig;
   thingText: ThingTextType;
   text: Konva.TextConfig;
+  MapTitleTheme: Konva.TextConfig;
 }
 export type Theme = "light" | "dark";
 export const defaultTheme: Theme = "dark";
@@ -27,6 +29,7 @@ const thtmeInfo: Record<Theme, ThemeInfo> = {
     selection: SelectionTheme.light,
     thingText: ThingText.light,
     text: Text.light,
+    MapTitleTheme: MapTitleTheme.light,
   },
   dark: {
     scale: ScaleTheme.dark,
@@ -36,6 +39,7 @@ const thtmeInfo: Record<Theme, ThemeInfo> = {
     selection: SelectionTheme.dark,
     thingText: ThingText.dark,
     text: Text.dark,
+    MapTitleTheme: MapTitleTheme.dark,
   },
 };
 export { thtmeInfo };
