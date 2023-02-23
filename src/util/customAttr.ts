@@ -5,7 +5,7 @@ import { CDATA } from "src/data/cdata";
 export const getCustomAttrs: (
   e: Konva.Stage | Konva.Group | Konva.Node
 ) => CDATA = (e) => {
-  return e.getAttr("cdata") || {};
+  return e?.getAttr("cdata") || {};
 };
 
 export const setCustomAttrs = (

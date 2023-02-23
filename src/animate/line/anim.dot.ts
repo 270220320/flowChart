@@ -10,7 +10,8 @@ export default function (this: LineAnimate) {
   let animate;
   let points = JSON.parse(JSON.stringify(this.opt.line.points())) || [];
   const animLength = points.length / 2; // 线段运动次数
-  let { pointRes } = computedDuration(points, this.speed);
+  const { distance } = computedDuration(points, this.speed);
+  let { pointRes } = computedDuration(points, (this.speed * distance) / 500);
   if (this.opt.direction === "inverse") {
     pointRes.reverse();
   }

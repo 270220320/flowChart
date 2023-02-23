@@ -29,7 +29,7 @@ export default function (this: LineAnimate) {
     animate = new Konva.Tween({
       node: this.animateEl,
       dashOffset: (i += sign * distance),
-      duration: this.speed,
+      duration: (this.speed * distance) / 500,
       onFinish: () => {
         init(i);
       },
