@@ -70,12 +70,10 @@ class Pool extends Component {
     return poolEle.thingGroup;
   }
   setLevel = (iu: string, percent: number) => {
-    const thingGroup = this.stage.findOne("#" + iu);
-    const imgGroup = thingGroup.children.find(
-      (ele) => ele.attrs.name === "thingImage"
-    );
-    const img = imgGroup.children.find((ele) => ele.attrs.name === "water");
-    img.setAttrs({
+    const thingGroup = this.stage.findOne("#" + iu) as Konva.Group;
+    const imgGroup = thingGroup.findOne("thingImage") as Konva.Group;
+    const img = imgGroup.findOne("water") as Konva.Group;
+    img?.setAttrs({
       height: (height - thickness) * percent * 0.01,
       y: (height - thickness) * (1 - percent * 0.01),
     });

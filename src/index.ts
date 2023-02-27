@@ -24,6 +24,7 @@ import { Thing } from "./data/thing";
 import { clearTransFormer } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
 import { Pool } from "./component/pool";
+import reset from "./util/initStage/reset";
 
 export type DrawState =
   | "Line"
@@ -70,7 +71,9 @@ class INLEDITOR {
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
       this.use(new Scale({}));
     }
+
     this.use(new Pool(this.stage));
+    reset(this);
   }
 
   // 主题
