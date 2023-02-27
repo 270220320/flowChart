@@ -5,6 +5,7 @@ export * from "./config/theme";
 export * from "./util/changeElementsPosition";
 export * from "./util/customAttr";
 export * from "./util";
+export * from "./component";
 export * from "./";
 export { inleditor };
 

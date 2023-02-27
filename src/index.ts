@@ -23,6 +23,7 @@ import { updateLineColor } from "./util/line/line";
 import { Thing } from "./data/thing";
 import { clearTransFormer } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
+import { Pool } from "./component/pool";
 
 export type DrawState =
   | "Line"
@@ -69,6 +70,7 @@ class INLEDITOR {
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
       this.use(new Scale({}));
     }
+    this.use(new Pool(this.stage));
   }
 
   // 主题
@@ -195,7 +197,7 @@ class INLEDITOR {
     useComponent(this, component);
   }
 
-  getComponent<T = Component>(s: string) {
+  getComponent<T extends Component>(s: string) {
     return (this.components[s] ? this.components[s] : {}) as T;
   }
 
