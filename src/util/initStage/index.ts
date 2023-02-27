@@ -43,7 +43,7 @@ export default (ie: INLEDITOR, json?: string) => {
     "style",
     `background: ${theme[themeType].background}; position: relative;`
   );
-  reset(stage);
+  reset(ie);
 
   if (ie.opt.isPreview) {
     disableMove(ie.getStage());
