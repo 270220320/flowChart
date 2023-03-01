@@ -5,6 +5,7 @@ export * from "./grid";
 export * from "./scale";
 export * from "./minmap";
 export * from "./pool";
+export * from "./video";
 
 export const isComponentChild = (node: Konva.Node) => {
   const parent = node.parent;

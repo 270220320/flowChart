@@ -1,4 +1,5 @@
 import typescript from "@rollup/plugin-typescript";
+import copy from "rollup-plugin-copy";
 import dts from "rollup-plugin-dts";
 import { entry } from "./entry.cjs";
 const rollupConfig = [];

@@ -23,6 +23,7 @@ export default (
 
   dom.ondrop = (e) => {
     e.preventDefault();
+    // 自定义组件拦截+回调
     const isCustomComponent = e.dataTransfer?.getData("customComponent");
     const data = e.dataTransfer?.getData("thing");
     if (isCustomComponent) {

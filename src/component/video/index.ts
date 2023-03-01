@@ -1,121 +1,98 @@
 import { Thing } from "@/data/thing";
 import { createComponentThingGoup } from "@/element";
+import { getCustomAttrs } from "@/util";
 import layer from "@/util/layer";
-import { getUsePointUn } from "@/util/line/line";
 import { UUID } from "@/util/uuid";
+import { playOneWebRtcMt } from "@/videoPlay/videoV2";
 import Konva from "konva";
 import { Component } from "../component";
-interface PoolEle {
+interface VideoEle {
   thingGroup?: Konva.Group;
   imgGroup?: Konva.Group;
 }
-interface Pool {
-  setLevel: (id: string, percent: number) => void;
-}
-class Pool extends Component {
+interface VideoNode {}
+class VideoNode extends Component {
   stage;
   constructor(stage: Konva.Stage) {
     super();
     this.stage = stage;
   }
-  name = "pool";
-  pools = [];
-  add(thingInfo: Thing, p?: { x: number; y: number }, eleGroup?: Konva.Group) {
+  name = "video";
+  width = 200;
+  height = 150;
+  elements = [];
+  add = (
+    thingInfo: Thing,
+    p?: { x: number; y: number },
+    isPreview?: boolean,
+    eleGroup?: Konva.Group
+  ) => {
     // 拖入
     if (p) {
-      this.pools.push(this.draw(thingInfo, p));
+      this.elements.push(this.draw(thingInfo, thingInfo.img, p));
       // 反序列化
-    } else if (eleGroup) {
-      this.pools.push(eleGroup);
+    } else if (eleGroup && !isPreview) {
+      const info = getCustomAttrs(eleGroup);
+      const imgGroup: Konva.Group = eleGroup.children.find(
+        (ele) => ele.attrs.name === "thingImage"
+      ) as Konva.Group;
+      const img = imgGroup.children[0];
+      const imageObj = new Image();
+      imageObj.src = info.thing.img;
+      img.setAttrs({ image: imageObj });
+    } else {
+      const video = document.createElement("video");
+      video.id = thingInfo.iu;
+      video.muted = true;
+      video.autoplay = true;
+      // video.style.display = "none";
+      video.width = 0;
+      video.height = 0;
+      document.getElementsByTagName("body")[0].appendChild(video);
+      playOneWebRtcMt(video.id, video.id);
+      const thingGroup = this.stage.findOne("#" + thingInfo.iu);
+      const imgGroup = thingGroup.children.find(
+        (ele) => ele.attrs.name === "thingImage"
+      );
+      imgGroup.children[0].setAttrs({ image: video });
+      const ani = new Konva.Animation(() => {
+        // do nothing, animation just need to update the layer
+      }, eleGroup.parent);
+      ani.start();
     }
-  }
-  draw(thingInfo: Thing, p: { x: number; y: number }) {
-    const poolEle: PoolEle = {};
+  };
+  draw = (thingInfo: Thing, imgUrl: string, p: { x: number; y: number }) => {
+    const element: VideoEle = {};
     const lay = layer(this.stage, "thing");
-    poolEle.imgGroup = new Konva.Group({
+    element.imgGroup = new Konva.Group({
       ...p,
       draggable: false,
-      width,
-      height,
+      width: this.width,
+      height: this.height,
       name: "thingImage",
       componentName: this.name,
       id: UUID(),
     });
-    poolEle.thingGroup = createComponentThingGoup(
+    element.thingGroup = createComponentThingGoup(
       lay,
       thingInfo,
-      poolEle.imgGroup
+      element.imgGroup
     );
+    const imageObj = new Image();
+    imageObj.onload = function () {
+      const video = new Konva.Image({
+        x: 50,
+        y: 50,
+        image: imageObj,
+        width: 106,
+        height: 118,
+      });
 
-    const poly = new Konva.Line({
-      id: UUID(),
-      points: getUsePointUn(points),
-      fill: "grey",
-      stroke: "black",
-      strokeWidth: 3,
-      closed: true,
-    });
-    const rect = new Konva.Rect({
-      id: UUID(),
-      x: thickness,
-      y: 0,
-      name: "water",
-      width: width - 2 * thickness,
-      height: height - thickness,
-      fill: "blue",
-    });
-    poolEle.imgGroup.add(rect);
-    poolEle.imgGroup.add(poly);
-
-    return poolEle.thingGroup;
-  }
-  setLevel = (iu: string, percent: number) => {
-    const thingGroup = this.stage.findOne("#" + iu) as Konva.Group;
-    const imgGroup = thingGroup.findOne("thingImage") as Konva.Group;
-    const img = imgGroup.findOne("water") as Konva.Group;
-    img?.setAttrs({
-      height: (height - thickness) * percent * 0.01,
-      y: (height - thickness) * (1 - percent * 0.01),
-    });
+      // add the shape to the layer
+      element.imgGroup.add(video);
+    };
+    imageObj.src = imgUrl;
   };
 }
 
-const thickness = 20;
-const width = 200;
-const height = 150;
-const points = [
-  {
-    x: 0,
-    y: 0,
-  },
-  {
-    x: thickness,
-    y: 0,
-  },
-
-  {
-    x: thickness,
-    y: height - thickness,
-  },
-  {
-    x: width - thickness,
-    y: height - thickness,
-  },
-  {
-    x: width - thickness,
-    y: 0,
-  },
-  {
-    x: width,
-    y: 0,
-  },
-  {
-    x: width,
-    y: height,
-  },
-  {
-    x: 0,
-    y: height,
-  },
-];
-export { Pool };
+export { VideoNode };

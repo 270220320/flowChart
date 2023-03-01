@@ -25,6 +25,7 @@ import { clearTransFormer } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
 import { Pool } from "./component/pool";
 import reset from "./util/initStage/reset";
+import { VideoNode } from "./main";
 
 export type DrawState =
   | "Line"
@@ -73,6 +74,7 @@ class INLEDITOR {
     }
 
     this.use(new Pool(this.stage));
+    this.use(new VideoNode(this.stage));
     reset(this);
   }
 

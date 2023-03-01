@@ -10,6 +10,9 @@ const Events$1 = {
   CAPTURE_STREAM_FAILED: "CAPTURE_STREAM_FAILED",
 };
 
+const VERSION = "1.0.1";
+const BUILD_DATE = "Tue Feb 08 2022 10:41:32 GMT+0800 (中国标准时间)";
+
 // Copyright (C) <2018> Intel Corporation
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -54,6 +57,33 @@ const VideoSourceInfo = {
   SCREENCAST: "screen-cast",
   FILE: "file",
   MIXED: "mixed",
+};
+/**
+ * @class TrackKind
+ * @classDesc Kind of a track. Values: 'audio' for audio track, 'video' for video track, 'av' for both audio and video tracks.
+ * @memberOf Owt.Base
+ * @readonly
+ * @enum {string}
+ */
+
+const TrackKind = {
+  /**
+   * Audio tracks.
+   * @type string
+   */
+  AUDIO: "audio",
+
+  /**
+   * Video tracks.
+   * @type string
+   */
+  VIDEO: "video",
+
+  /**
+   * Both audio and video tracks.
+   * @type string
+   */
+  AUDIO_AND_VIDEO: "av",
 };
 /**
  * @class Resolution
@@ -6283,6 +6313,20 @@ class MediaStreamFactory {
   }
 }
 
+// Copyright (C) <2018> Intel Corporation
+
+var media = /*#__PURE__*/ Object.freeze({
+  __proto__: null,
+  AudioTrackConstraints: AudioTrackConstraints,
+  VideoTrackConstraints: VideoTrackConstraints,
+  StreamConstraints: StreamConstraints,
+  MediaStreamFactory: MediaStreamFactory,
+  AudioSourceInfo: AudioSourceInfo,
+  VideoSourceInfo: VideoSourceInfo,
+  TrackKind: TrackKind,
+  Resolution: Resolution,
+});
+
 let logger;
 let errorLogger;
 function setLogger() {
@@ -6667,307 +6711,129 @@ class RTCEndpoint extends Event$1 {
     return this._localStream;
   }
 }
+
+const quickScan = [
+  {
+    label: "4K(UHD)",
+    width: 3840,
+    height: 2160,
+  },
+  {
+    label: "1080p(FHD)",
+    width: 1920,
+    height: 1080,
+  },
+  {
+    label: "UXGA",
+    width: 1600,
+    height: 1200,
+    ratio: "4:3",
+  },
+  {
+    label: "720p(HD)",
+    width: 1280,
+    height: 720,
+  },
+  {
+    label: "SVGA",
+    width: 800,
+    height: 600,
+  },
+  {
+    label: "VGA",
+    width: 640,
+    height: 480,
+  },
+  {
+    label: "360p(nHD)",
+    width: 640,
+    height: 360,
+  },
+  {
+    label: "CIF",
+    width: 352,
+    height: 288,
+  },
+  {
+    label: "QVGA",
+    width: 320,
+    height: 240,
+  },
+  {
+    label: "QCIF",
+    width: 176,
+    height: 144,
+  },
+  {
+    label: "QQVGA",
+    width: 160,
+    height: 120,
+  },
+];
+function GetSupportCameraResolutions$1() {
+  return new Promise(function (resolve, reject) {
+    let resolutions = [];
+    let ok = 0;
+    let err = 0;
+
+    for (let i = 0; i < quickScan.length; ++i) {
+      let videoConstraints = new VideoTrackConstraints(VideoSourceInfo.CAMERA);
+      videoConstraints.resolution = new Resolution(
+        quickScan[i].width,
+        quickScan[i].height
+      );
+      MediaStreamFactory.createMediaStream(
+        new StreamConstraints(false, videoConstraints)
+      )
+        .then((stream) => {
+          resolutions.push(quickScan[i]);
+          ok++;
+
+          if (ok + err == quickScan.length) {
+            resolve(resolutions);
+          }
+        })
+        .catch((e) => {
+          err++;
+
+          if (ok + err == quickScan.length) {
+            resolve(resolutions);
+          }
+        });
+    }
+  });
+}
+function GetAllScanResolution$1() {
+  return quickScan;
+}
+function isSupportResolution$1(w, h) {
+  return new Promise(function (resolve, reject) {
+    let videoConstraints = new VideoTrackConstraints(VideoSourceInfo.CAMERA);
+    videoConstraints.resolution = new Resolution(w, h);
+    MediaStreamFactory.createMediaStream(
+      new StreamConstraints(false, videoConstraints)
+    )
+      .then((stream) => {
+        resolve();
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
 const Events = Events$1;
+const Media = media;
 const Endpoint = RTCEndpoint;
+const GetSupportCameraResolutions = GetSupportCameraResolutions$1;
+const GetAllScanResolution = GetAllScanResolution$1;
+const isSupportResolution = isSupportResolution$1;
 
-const appName = "live";
-const playOneWebRtcMt = async (uuid, domId, token) => {
-  let play;
-  const res = await axios.get(`/api/vms/v1/camera/getByUuid?uuid=${uuid}`, {
-    headers: {
-      token: token || sessionStorage.getItem("token") || "",
-    },
-  });
-  if (res.status === 200) {
-    const camera = res.data.data;
-    const { channel, streamType } = camera;
-    let url = camera.webrtcTemplateMerged;
-    url = url.replaceAll("${channel}", channel);
-    url = url.replaceAll("${streamType}", streamType);
-    play = new WebRtcMt({
-      plays: {
-        videoElm: domId,
-        mediaServerAddr: camera.mediaServerPo.url,
-        cameraUserName: camera.user,
-        cameraPwd: camera.pass,
-        cameraIp: camera.ip,
-        cameraRtspPort: camera.rtspPort,
-        cameraChannel: camera.channel,
-        cameraStream: camera.streamType,
-        addRtspProxyUrl: url,
-      },
-    });
-  }
-  return play;
+export {
+  Endpoint,
+  Events,
+  GetAllScanResolution,
+  GetSupportCameraResolutions,
+  Media,
+  isSupportResolution,
 };
-class WebRtcMt {
-  constructor(opt) {
-    this.init(opt);
-  }
-  p_player; // 返回播放视频数据
-  instance = axios.create({
-    timeout: 60000,
-  });
-  playerMap = new Map();
-  streamMap = new Map();
-  mediaServerAddrMap = new Map();
-  config = {
-    w: 100,
-    h: 100,
-    endpointConfig: {},
-  };
-  // 根据参数配置组装相关url
-  createRtspUrl(plays) {
-    const {
-      cameraIp,
-      cameraRtspPort,
-      cameraChannel,
-      cameraStream,
-      mediaServerAddr,
-      addRtspProxyUrl,
-    } = plays;
-    const stream = `v${cameraIp}-${cameraRtspPort}-${cameraChannel}-${cameraStream}`;
-    const sdpUrl = `${mediaServerAddr}/index/api/webrtc?app=${appName}&stream=${stream}&type=play`;
-    return { stream, addRtspProxyUrl, sdpUrl };
-  }
-  // 初始化
-  init(opt) {
-    // 初始化视频播放器配置
-    if (opt.endpointConfig) {
-      this.config.endpointConfig = opt.endpointConfig;
-    }
-    // 初始化视频播放器宽高分辨率
-    if (opt.h) this.config.h = opt.h;
-    if (opt.w) this.config.w = opt.w;
-    // 判断是否是多个视频同时播放
-    if (Object.prototype.toString.call(opt.plays) === "[object Object]") {
-      // 单个视频播放
-      this.p_player = this.createVideo(opt.plays);
-    } else {
-      // 多个视频播放
-      for (const i of opt.plays) {
-        this.createVideo(i);
-      }
-    }
-  }
-  // 拉流创建播放器
-  createVideo(plays) {
-    this.mediaServerAddrMap.set(plays.videoElm, plays);
-    const { addRtspProxyUrl } = this.createRtspUrl(plays);
-    return new Promise((resolve, reject) => {
-      this.instance.get(addRtspProxyUrl).then((res) => {
-        if (res.data.code === 0) {
-          // 拉流成功
-          console.log(plays, addRtspProxyUrl);
-          this.startPlay(plays);
-          resolve(res.data);
-        } else {
-          // 拉流失败删除缓存信息
-          this.mediaServerAddrMap.delete(plays.videoElm);
-          reject();
-          this.log("err", "从服务端拉流失败，请重试");
-        }
-      });
-    });
-  }
-  log(type, text) {
-    switch (type) {
-      case "err":
-        throw new Error(text);
-      case "warn":
-        console.warn(text);
-        break;
-      default:
-        console.info(text);
-    }
-  }
-  // 停止播放0
-  stopPlay(id) {
-    if (id) {
-      // 关闭指定video
-      let player = this.playerMap.get(id);
-      if (player) {
-        player.close();
-        this.playerMap.delete(id);
-        this.mediaServerAddrMap.delete(id);
-        player = null;
-      }
-    } else {
-      // 关闭所有video
-      this.playerMap.forEach((item) => {
-        item.close();
-        item = null;
-      });
-      this.playerMap.clear();
-      this.mediaServerAddrMap.clear();
-    }
-  }
-  // 注册事件监听
-  playEvent(player, videoElm, sdpUrl) {
-    // 下边监听事件如果出现问题得重启一下服务器才行。
-    player.on(Events.WEBRTC_ICE_CANDIDATE_ERROR, (e) => {
-      // ICE 协商出错
-      this.log("err", "ICE 协商出错");
-      this.rePlay(videoElm);
-    });
-    player.on(Events.WEBRTC_ON_REMOTE_STREAMS, (e) => {
-      // 获取到了远端流，可以播放
-    });
-    player.on(Events.WEBRTC_OFFER_ANWSER_EXCHANGE_FAILED, (e) => {
-      // offer anwser 交换失败,这里前端得重新调用添加视频拉流代码。
-      this.log("warn", `offer anwser 交换失败，获取视频流失败, ${e}`);
-      this.rePlay(videoElm);
-    });
-    player.on(Events.DISCONNECTED, (e) => {
-      this.log("warn", `事件检测到连接断开${videoElm}`);
-      this.rePlay(videoElm);
-    });
-    player.on(Events.LOST_SERVER, (e) => {
-      this.log("warn", `事件检测到视频服务器丢失${videoElm}`);
-      this.rePlay(videoElm);
-    });
-    player.on(Events.WEBRTC_ON_CONNECTION_STATE_CHANGE, (state) => {
-      // RTC 状态变化 ,详情参考 https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionState
-      if (state === "disconnected" || state === "failed") {
-        this.rePlay(videoElm);
-      }
-    });
-  }
-  // 重播
-  rePlay(videoElm) {
-    setTimeout(() => {
-      this.play(videoElm);
-    }, 3000);
-  }
-  // 播放
-  play(videoElm) {
-    const plays = this.mediaServerAddrMap.get(videoElm);
-    const { sdpUrl } = this.createRtspUrl(plays);
-    const { w, h } = this.config;
-    const EndpointConfig = {
-      element:
-        typeof videoElm === "string"
-          ? document.getElementById(videoElm)
-          : videoElm,
-      debug: false,
-      zlmsdpUrl: sdpUrl,
-      simulcast: false,
-      useCamera: false,
-      audioEnable: false,
-      videoEnable: true,
-      recvOnly: true,
-      resolution: { w, h },
-    };
-    const player = new Endpoint({
-      ...Object.assign(EndpointConfig, this.config.endpointConfig),
-    });
-    this.playEvent(player, videoElm, sdpUrl);
-    this.playerMap.set(videoElm, player);
-  }
-  // 开始播放
-  startPlay(plays) {
-    setTimeout(() => {
-      this.play(plays.videoElm);
-    }, 100);
-  }
-}
-
-// import { getCommonHeaders } from "../utils/apiInstance";
-// 判断两个对象是否相同
-function isSame(a, b) {
-  if (a === null || b === null) {
-    return a == b;
-  }
-  if (typeof a === "object" && typeof b === "object") {
-    const aKeys = Object.keys(a);
-    const bKeys = Object.keys(b);
-    if (aKeys.length !== bKeys.length) {
-      return false;
-    }
-    for (const key of aKeys) {
-      const res = isSame(a[key], b[key]);
-      if (!res) {
-        return false;
-      }
-    }
-    return true;
-  } else {
-    return a === b;
-  }
-}
-/**
- * 轮询正在报警的摄像头列表
- * @returns 停止轮询
- * @example
- * const stopRequest = getAlarmingCamera({
- *   token: 'xxx',
- *   delay: 3000,
- *   onChange(cameraList, alarmList) {
- *     console.log(cameraList, alarmList);
- *   }
- * })
- */
-function getAlarmingCamera(config) {
-  const { token, delay = 5000, onChange, onPolling } = config;
-  const reqToken = token ?? sessionStorage.getItem("token");
-  if (!reqToken) {
-    throw new Error("没有token，不能获取");
-  }
-  const headers = {
-    token: reqToken,
-    "Content-Type": "application/json;charset=utf-8",
-  };
-  let timer = null;
-  // 获取报警列表
-  const getCurrentAlarm = async () => {
-    const res = await fetch("/api/alarmlite/v1/record/list", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ pageNum: 1, pageSize: 999, status: "ALARMING" }),
-    });
-    const { data } = await res.json();
-    return data.records;
-  };
-  // 获取实例关联的摄像头列表
-  const getCameraList = async (instId, zthingCode, alarmId, alarmName) => {
-    const res = await fetch(
-      `/api/thing/v1/adapter/thing/relation/findZInstsByClass/${instId}/DEVICE_CAMERA`,
-      { method: "GET", headers }
-    );
-    const { data } = await res.json();
-    const cameraList = data.map((item) => ({
-      cameraId: item.thingInst.id,
-      cameraCode: item.thingInst.code,
-    }));
-    return {
-      alarmId,
-      alarmName,
-      thingId: instId,
-      thingCode: zthingCode,
-      cameraList,
-    };
-  };
-  let prevAlarmList = [];
-  const request = async () => {
-    const alarmList = await getCurrentAlarm();
-    const isDiffrent = !isSame(prevAlarmList, alarmList);
-    prevAlarmList = alarmList;
-    const cameraReq = alarmList.map((item) =>
-      getCameraList(item.instanceUuid, item.instanceCode, item.id, item.name)
-    );
-    const data = await Promise.all(cameraReq);
-    if (isDiffrent) {
-      onChange?.(data, alarmList);
-    }
-    onPolling?.(data, alarmList);
-  };
-  request();
-  timer = setInterval(request, delay);
-  // 停止轮询
-  function stop() {
-    timer && clearInterval(timer);
-  }
-  return stop;
-}
-
-export { WebRtcMt, getAlarmingCamera, playOneWebRtcMt };
+//# sourceMappingURL=ZLMRTCClient.js.map

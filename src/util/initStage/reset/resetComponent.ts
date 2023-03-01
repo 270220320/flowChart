@@ -1,4 +1,4 @@
-import { BELT, Pool } from "@/component";
+import { BELT, Pool, VideoNode } from "@/component";
 import { getCustomAttrs } from "@/util/customAttr";
 import layer from "@/util/layer";
 import Konva from "konva";
@@ -15,6 +15,10 @@ export default (ie: INLEDITOR) => {
     if (componentName && componentName === "pool") {
       const pool: Pool = ie.getComponent("pool");
       pool.add(thing, undefined, item.parent as Konva.Group);
+    }
+    if (componentName && componentName === "video") {
+      const video: VideoNode = ie.getComponent("video");
+      video.add(thing, undefined, ie.opt.isPreview, item.parent as Konva.Group);
     }
   });
 };
