@@ -29,7 +29,7 @@ class VideoNode extends Component {
   ) => {
     // 拖入
     if (p) {
-      this.elements.push(this.draw(thingInfo, thingInfo.img, p));
+      this.draw(thingInfo, thingInfo.img, p);
       // 反序列化
     } else if (eleGroup && !isPreview) {
       const info = getCustomAttrs(eleGroup);
@@ -45,10 +45,10 @@ class VideoNode extends Component {
       video.id = thingInfo.iu;
       video.muted = true;
       video.autoplay = true;
-      // video.style.display = "none";
+      video.style.position = "fixed";
       video.width = 0;
       video.height = 0;
-      document.getElementsByTagName("body")[0].appendChild(video);
+      document.getElementById("app").appendChild(video);
       playOneWebRtcMt(video.id, video.id);
       const thingGroup = this.stage.findOne("#" + thingInfo.iu);
       const imgGroup = thingGroup.children.find(
@@ -59,7 +59,13 @@ class VideoNode extends Component {
         // do nothing, animation just need to update the layer
       }, eleGroup.parent);
       ani.start();
+      this.elements.push(video.id);
     }
+  };
+  destory = () => {
+    this.elements.forEach((uuid: string) => {
+      document.getElementById(uuid).remove();
+    });
   };
   draw = (thingInfo: Thing, imgUrl: string, p: { x: number; y: number }) => {
     const element: VideoEle = {};
