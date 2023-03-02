@@ -129,7 +129,7 @@ export const createLine = (
     points: [point.x, point.y, point.x, point.y],
     ...LineTheme[opt.theme],
     pointerFill: "red",
-    dash: dotted ? [10, 0, 10] : undefined,
+    dash: dotted ? [15, 8, 15, 8] : undefined,
     stroke: lineState[opt.theme][lineState.default],
     fill: lineState[opt.theme][lineState.default],
   });

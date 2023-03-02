@@ -208,10 +208,15 @@ class INLEDITOR {
 
   // 序列化
   toJson() {
-    const json = this.stage.toJSON();
     exitEditLine(this.stage);
+    const json = this.stage.toJSON();
     clearTransFormer(this.stage);
     return { mapJson: json, image: this.toImage() };
+  }
+  deleteAllPoint() {
+    this.stage.find("Circle").forEach((point) => {
+      point.remove();
+    });
   }
   // 反序列化
   loadJson(json: string) {
