@@ -75,7 +75,7 @@ const tofit = (stage: Konva.Stage) => {
     stageMove1.play();
   };
   moveStageScale();
-  stage.batchDraw();
+  // stage.batchDraw();
 };
 
 export default (stage: Konva.Stage) => {

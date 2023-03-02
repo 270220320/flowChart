@@ -66,7 +66,7 @@ class INLEDITOR {
       layer(this.stage, "line").moveToBottom();
     }
   }
-  protected init(json?: string) {
+  protected async init(json?: string) {
     initStage(this, json);
     this.event();
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
@@ -75,7 +75,7 @@ class INLEDITOR {
 
     this.use(new Pool(this.stage));
     this.use(new VideoNode(this.stage));
-    reset(this);
+    await reset(this);
   }
 
   // 主题
@@ -219,8 +219,9 @@ class INLEDITOR {
     });
   }
   // 反序列化
-  loadJson(json: string) {
-    this.init(json);
+  async loadJson(json: string, cb?) {
+    await this.init(json);
+    cb ? cb() : "";
   }
 
   // 转换成图片

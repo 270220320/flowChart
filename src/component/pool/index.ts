@@ -82,7 +82,7 @@ class Pool extends Component {
   };
 }
 
-const thickness = 20;
+const thickness = 10;
 const width = 100;
 const height = 75;
 const points = [

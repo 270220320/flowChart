@@ -17,11 +17,13 @@ export default (ie: INLEDITOR, json?: string) => {
   }
   if (json) {
     stage = konva.Node.create(json, id);
-    stage.setAttrs({
-      width: offsetWidth,
-      height: offsetHeight,
-      background: "#dddddd",
-    });
+    stage
+      .setAttrs({
+        width: offsetWidth,
+        height: offsetHeight,
+        background: "#dddddd",
+      })
+      .draw();
     ie.setStage(stage);
   } else {
     stage = new konva.Stage({

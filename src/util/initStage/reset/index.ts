@@ -3,8 +3,8 @@ import resetComponent from "./resetComponent";
 import resetImg from "./resetImg";
 import INLEDITOR from "../../../index";
 
-export default (ie: INLEDITOR) => {
+export default async (ie: INLEDITOR) => {
   const stage = ie.getStage();
-  resetImg(stage);
+  await resetImg(stage);
   resetComponent(ie);
 };

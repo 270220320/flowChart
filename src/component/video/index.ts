@@ -87,11 +87,11 @@ class VideoNode extends Component {
     const imageObj = new Image();
     imageObj.onload = function () {
       const video = new Konva.Image({
-        x: 50,
-        y: 50,
+        x: 0,
+        y: 0,
         image: imageObj,
-        width: 106,
-        height: 118,
+        width: 150,
+        height: 130,
       });
 
       // add the shape to the layer
