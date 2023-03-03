@@ -18,8 +18,8 @@ class VideoNode extends Component {
     this.stage = stage;
   }
   name = "video";
-  width = 200;
-  height = 150;
+  width = 150;
+  height = 130;
   elements = [];
   add = (
     thingInfo: Thing,
@@ -54,7 +54,11 @@ class VideoNode extends Component {
       const imgGroup = thingGroup.children.find(
         (ele) => ele.attrs.name === "thingImage"
       );
-      imgGroup.children[0].setAttrs({ image: video });
+      imgGroup.children[0].setAttrs({
+        image: video,
+        width: this.width,
+        height: this.height,
+      });
       const ani = new Konva.Animation(() => {
         // do nothing, animation just need to update the layer
       }, eleGroup.parent);
@@ -85,15 +89,15 @@ class VideoNode extends Component {
       element.imgGroup
     );
     const imageObj = new Image();
-    imageObj.onload = function () {
-      const video = new Konva.Image({
+    let video;
+    imageObj.onload = () => {
+      video = new Konva.Image({
         x: 0,
         y: 0,
+        width: this.width,
+        height: this.height,
         image: imageObj,
-        width: 150,
-        height: 130,
       });
-
       // add the shape to the layer
       element.imgGroup.add(video);
     };

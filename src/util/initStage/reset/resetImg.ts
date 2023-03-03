@@ -7,6 +7,9 @@ export default async (stage: Konva.Stage) => {
       return new Promise(async (resolve) => {
         const parent = imageNode.getParent();
         const attrs = imageNode.getAttrs();
+        if (parent.getAttrs().componentName === "video") {
+          resolve(false);
+        }
         const newImage = await createImage(attrs.src);
         imageNode.remove();
         newImage.setAttrs(attrs);

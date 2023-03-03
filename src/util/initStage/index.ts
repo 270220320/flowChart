@@ -1,10 +1,7 @@
 import konva from "konva";
 import INLEDITOR from "@/index";
 import theme from "@/config/theme";
-import resetImg from "./reset/resetImg";
 import disableMove from "./disableMove";
-import test from "@/test";
-import reset from "./reset";
 
 export default (ie: INLEDITOR, json?: string) => {
   const { id } = ie.opt;
@@ -17,13 +14,11 @@ export default (ie: INLEDITOR, json?: string) => {
   }
   if (json) {
     stage = konva.Node.create(json, id);
-    stage
-      .setAttrs({
-        width: offsetWidth,
-        height: offsetHeight,
-        background: "#dddddd",
-      })
-      .draw();
+    stage.setAttrs({
+      width: offsetWidth,
+      height: offsetHeight,
+      background: "#dddddd",
+    });
     ie.setStage(stage);
   } else {
     stage = new konva.Stage({

@@ -26,6 +26,8 @@ import { exitEditLine } from "./util/line/editLine";
 import { Pool } from "./component/pool";
 import reset from "./util/initStage/reset";
 import { VideoNode } from "./main";
+import { fabric } from "fabric";
+import { Canvg } from "canvg";
 
 export type DrawState =
   | "Line"
@@ -75,7 +77,9 @@ class INLEDITOR {
 
     this.use(new Pool(this.stage));
     this.use(new VideoNode(this.stage));
-    await reset(this);
+    if (json) {
+      await reset(this);
+    }
   }
 
   // 主题
@@ -229,6 +233,23 @@ class INLEDITOR {
     return toImage(this.stage, theme[this.theme].background);
   }
 
+  async toShape() {
+    const SOURCE =
+      "http://192.168.5.190//api/thing/v1/photo/thing48F63632E12A47618E640E119EAB3FCB.svg";
+    // try to draw SVG natively
+    // draw svg with external library
+    const canvas: any = document.getElementById("can");
+    const v = await Canvg.from(canvas.getContext("2d"), SOURCE);
+    v.render();
+    // var image = new Konva.Image({
+    //   image: canvas,
+    //   x: 200,
+    //   width: 150,
+    //   height: 150,
+    // });
+    // layer.add(image);
+  }
+
   // 当画布元素被选中
   onselect(cb: onSelectCallBackFun) {
     stageClick(this.stage, cb);
@@ -274,7 +295,10 @@ class INLEDITOR {
         width: opt.width,
         height: opt.height,
       });
-      if (this.getComponent<Scale>("scale")) {
+      if (
+        this.getComponent<Scale>("scale") &&
+        Object.keys(this.getComponent<Scale>("scale")).length !== 0
+      ) {
         this.getComponent<Scale>("scale").render();
       }
     }

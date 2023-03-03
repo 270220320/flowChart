@@ -51,7 +51,7 @@ class Pool extends Component {
       id: UUID(),
       points: getUsePointUn(points),
       fill: "grey",
-      stroke: "black",
+      stroke: "#AEBCC6",
       strokeWidth: 3,
       closed: true,
     });
@@ -62,7 +62,7 @@ class Pool extends Component {
       name: "water",
       width: width - 2 * thickness,
       height: height - thickness,
-      fill: "blue",
+      fill: "#5ED4EE",
     });
     poolEle.imgGroup.add(rect);
     poolEle.imgGroup.add(poly);
