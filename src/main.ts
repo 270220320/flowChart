@@ -1,4 +1,5 @@
 import inleditor from "./";
+import { getIus } from "./event/stageClick";
 export { createThingDefaultText } from "./element/text";
 export { getThingChildPosition, setThingChildPosition } from "./data/dropData";
 export * from "./config/theme";

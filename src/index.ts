@@ -6,7 +6,7 @@ import { getThingTextGroup, groupNames } from "./element/group";
 import { changeThingComponentState, changeThingImage } from "./element/image";
 import { createThingText, setThingTextVal } from "./element/text";
 import event from "./event";
-import stageClick, { onSelectCallBackFun } from "./event/stageClick";
+import stageClick, { getIus, onSelectCallBackFun } from "./event/stageClick";
 import changeElementsPosition, {
   AlignType,
 } from "./util/changeElementsPosition";
@@ -45,6 +45,9 @@ interface INLEDITOR {
   components: {
     [ket: string]: Component;
   };
+}
+enum SpecialCode {
+  all = "allOfThem",
 }
 
 export type onDropCb = (
@@ -147,8 +150,9 @@ class INLEDITOR {
       }
     });
   }
-  // 删除thing文字
-  removeText(iu: string, code: string) {
+
+  // 删除thing文字 allOfThem删除全部
+  removeText(iu: string, code: string | SpecialCode.all) {
     // 查找物模型
     const thignGroup = layer(this.stage, "thing").findOne(
       `#${iu}`
@@ -156,7 +160,7 @@ class INLEDITOR {
     // 筛选code
     getThingTextGroup(thignGroup).forEach((e) => {
       const attrs = e.getAttrs();
-      if (attrs.code && attrs.code === code) {
+      if (code === "allOfThem" || (attrs.code && attrs.code === code)) {
         e.remove();
       }
     });
@@ -248,6 +252,11 @@ class INLEDITOR {
     //   height: 150,
     // });
     // layer.add(image);
+  }
+  // 通过ID获取已选codes
+  getCodeById(iu: string) {
+    const thingGroup: Konva.Group = this.stage.findOne("#" + iu);
+    return getIus(thingGroup);
   }
 
   // 当画布元素被选中

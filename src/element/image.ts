@@ -14,7 +14,6 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
   return new Promise<Konva.Image>((res, rej) => {
     Konva.Image.fromURL(img, (darthNode: Konva.Image) => {
       const { width, height } = darthNode.attrs.image;
-      console.log(darthNode);
       darthNode.setAttrs({
         myWidth: width,
         myHeight: height,

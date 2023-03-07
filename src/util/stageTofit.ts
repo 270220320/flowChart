@@ -22,43 +22,6 @@ export const computedZoomCoord = (
 const tofit = (stage: Konva.Stage) => {
   // 获取层的边界框
   const thingLayer = layer(stage, "thing");
-  const moveStageScale = () => {
-    const { x, y, width, height } = thingLayer.getClientRect();
-    const scaleOld = Number(stage.scaleX().toFixed(5));
-    // 计算缩放比例
-    const scale = Number(
-      (
-        Math.min(
-          (stage.width() / width) * scaleOld,
-          (stage.height() / height) * scaleOld
-        ) * 0.8
-      ).toFixed(5)
-    );
-    const stageMove = new Konva.Tween({
-      node: stage,
-      scaleX: scale,
-      scaleY: scale,
-      easing: Konva.Easings.EaseIn,
-      duration: 0.2,
-    });
-    stageMove.play();
-    stageMove.onFinish = () => {
-      const data = {
-        scale,
-        x,
-        y,
-        scaleOld,
-      };
-
-      if (scaleOld !== scale) {
-        const pp = thingLayer.getClientRect();
-        data.x = pp.x;
-        data.y = pp.y;
-      }
-      movePosition(data);
-    };
-  };
-
   const movePosition = (data) => {
     const { x, y, scale } = data;
     const p = stage.position();
@@ -74,7 +37,41 @@ const tofit = (stage: Konva.Stage) => {
     });
     stageMove1.play();
   };
-  moveStageScale();
+  const { x, y, width, height } = thingLayer.getClientRect();
+  const scaleOld = Number(stage.scaleX().toFixed(5));
+  // 计算缩放比例
+  const scale = Number(
+    (
+      Math.min(
+        (stage.width() / width) * scaleOld,
+        (stage.height() / height) * scaleOld
+      ) * 0.8
+    ).toFixed(5)
+  );
+  const stageMove = new Konva.Tween({
+    node: stage,
+    scaleX: scale,
+    scaleY: scale,
+    easing: Konva.Easings.EaseIn,
+    duration: 0.2,
+  });
+  stageMove.play();
+  stageMove.onFinish = () => {
+    const data = {
+      scale,
+      x,
+      y,
+      scaleOld,
+    };
+
+    if (scaleOld !== scale) {
+      const pp = thingLayer.getClientRect();
+      data.x = pp.x;
+      data.y = pp.y;
+    }
+    movePosition(data);
+  };
+
   stage.batchDraw();
 };
 

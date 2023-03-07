@@ -5,7 +5,7 @@ import { getUsePointUn, getUsePoint, connectNewRect } from "./line";
 import { setRightAngleLineBeginOrEnd } from "./rightAngleLine";
 import { getCustomAttrs, setCustomAttrs } from "../customAttr";
 import { getMouseOver } from "..";
-import { computedXYByEvent } from "../computedXY";
+import computedXY, { computedXYByEvent } from "../computedXY";
 
 export const bindPointEvent = (
   point: Konva.Circle,
@@ -49,17 +49,29 @@ export const bindPointEvent = (
         y: line.attrs.points[line.attrs.points.length - 1],
       };
     }
+    debugger;
     if (newParent) {
       connectNewRect(line, controlIndex, newParent, position, stage);
     } else {
+      // 有BUG
       if (controlIndex === 0) {
         const rectOut = stage.findOne("#" + lineInfo.from);
-        lineInfo.fromExcursionX = position.x - rectOut.attrs.x;
-        lineInfo.fromExcursionY = position.y - rectOut.attrs.y;
+        const xy = computedXY(
+          stage,
+          rectOut.absolutePosition().x,
+          rectOut.absolutePosition().y
+        );
+        lineInfo.fromExcursionX = position.x - xy.x;
+        lineInfo.fromExcursionY = position.y - xy.y;
       } else if (controlIndex === points.length - 1) {
         const rectIn = stage.findOne("#" + lineInfo.to);
-        lineInfo.toExcursionX = position.x - rectIn.attrs.x;
-        lineInfo.toExcursionY = position.y - rectIn.attrs.y;
+        const xy = computedXY(
+          stage,
+          rectIn.absolutePosition().x,
+          rectIn.absolutePosition().y
+        );
+        lineInfo.toExcursionX = position.x - xy.x;
+        lineInfo.toExcursionY = position.y - xy.y;
       }
     }
   });

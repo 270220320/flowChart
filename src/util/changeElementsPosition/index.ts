@@ -2,6 +2,10 @@ import Konva from "konva";
 import { getTran } from "../../event/selectItem";
 
 export type AlignType =
+  | "moveToTop"
+  | "moveToBottom"
+  | "moveUp"
+  | "moveDown"
   | "top"
   | "left"
   | "right"
@@ -88,6 +92,19 @@ export default (stage: Konva.Stage, type: AlignType) => {
   if (type === "flipX" || type === "flipY") {
     nodes.forEach((node) => {
       align[type](node);
+    });
+    return;
+  }
+  if (
+    type === "moveToTop" ||
+    type === "moveToBottom" ||
+    type === "moveUp" ||
+    type === "moveDown"
+  ) {
+    nodes.forEach((node) => {
+      if (node.name() === "thingImage") {
+        node.parent[type]();
+      }
     });
     return;
   }
