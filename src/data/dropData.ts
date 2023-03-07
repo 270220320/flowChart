@@ -34,18 +34,21 @@ export const setTransferData = () => {};
 export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
   const thingLayer = layer(stage, "thing");
   const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
-  const child = thing
+  const childText = thing
     .getChildren()
     .filter((item) => !item.hasName("thingImage"));
-  const { x, y } = thing.getClientRect();
+  const childImage = thing
+    .getChildren()
+    .find((item) => item.hasName("thingImage"));
+  const { x, y } = childImage.getAbsolutePosition();
   const thingXY = computedXY(stage, x, y);
   const arr: THINGTEXT = [];
-  for (let i of child) {
-    const iRect = i.getClientRect();
+  for (let text of childText) {
+    const iRect = text.getAbsolutePosition();
     const ItemXY = computedXY(stage, iRect.x, iRect.y);
-    const { v, code, label, unit } = getCustomAttrs(i).thingTextInfo;
+    const { v, code, label, unit } = getCustomAttrs(text).thingTextInfo;
     arr.push({
-      type: i.name() as keyof typeof groupNames,
+      type: text.name() as keyof typeof groupNames,
       position: {
         x: ItemXY.x - thingXY.x,
         y: ItemXY.y - thingXY.y,

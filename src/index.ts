@@ -27,7 +27,7 @@ import { Pool } from "./component/pool";
 import reset from "./util/initStage/reset";
 import { VideoNode } from "./main";
 import { fabric } from "fabric";
-import { Canvg } from "canvg";
+// import { Canvg } from "canvg";
 
 export type DrawState =
   | "Line"
@@ -242,9 +242,9 @@ class INLEDITOR {
       "http://192.168.5.190//api/thing/v1/photo/thing48F63632E12A47618E640E119EAB3FCB.svg";
     // try to draw SVG natively
     // draw svg with external library
-    const canvas: any = document.getElementById("can");
-    const v = await Canvg.from(canvas.getContext("2d"), SOURCE);
-    v.render();
+    // const canvas: any = document.getElementById("can");
+    // const v = await Canvg.from(canvas.getContext("2d"), SOURCE);
+    // v.render();
     // var image = new Konva.Image({
     //   image: canvas,
     //   x: 200,

@@ -49,7 +49,6 @@ export const bindPointEvent = (
         y: line.attrs.points[line.attrs.points.length - 1],
       };
     }
-    debugger;
     if (newParent) {
       connectNewRect(line, controlIndex, newParent, position, stage);
     } else {
