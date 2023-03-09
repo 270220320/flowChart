@@ -25,7 +25,7 @@ export default (ie: INLEDITOR, json?: string) => {
       container: id,
       width: offsetWidth,
       height: offsetHeight,
-      draggable: true,
+      draggable: false,
       background: "#dddddd",
     });
     ie.setStage(stage);
@@ -34,6 +34,7 @@ export default (ie: INLEDITOR, json?: string) => {
   stage = ie.getStage();
   let container = stage.container();
   ie.setContainer(container);
+  container.children[0].setAttribute("id", "myCanvas");
 
   container.tabIndex = 1;
   container.setAttribute(

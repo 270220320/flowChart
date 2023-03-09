@@ -19,7 +19,7 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
       removeRelevance(i, ie.getStage());
       i.remove();
     }
-
+    ie.opt.onRemoveCb?.();
     ie.getStage().draw();
   }
 };

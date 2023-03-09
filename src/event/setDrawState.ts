@@ -17,6 +17,8 @@ import {
 } from "../util/line/editLine";
 import { Theme } from "../config/theme";
 import { createEditableText } from "../element/text";
+import { toSelect } from "./selectItem";
+import { getInclude } from "@/util/element/getInclude";
 
 const offSelection = (stage: Konva.Stage) => {
   // 删除 layer
@@ -79,7 +81,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     const stage = ie.getStage();
     const drawState = ie.getDrawState();
     const { x, y } = computedXYByEvent(stage, e.evt);
-    if (drawState === "default") return;
+    if (drawState === "dragStage") return;
     stage.setAttrs({
       draggable: false,
     });
@@ -113,7 +115,6 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     const stage = ie.getStage();
     const drawState = ie.getDrawState();
     cb ? cb() : null;
-    offSelection(ie.getStage());
     switch (drawState) {
       case "Rect":
         onRect(stage, rect, ie.getTheme());
@@ -136,11 +137,12 @@ export default (ie: INLEDITOR, cb?: () => void) => {
           line = undefined;
         }
         break;
+      default:
+        getInclude(rect);
+      // toSelect(stage,rect.get)
     }
+    offSelection(ie.getStage());
     ie.setDrawState("default");
-    stage.setAttrs({
-      draggable: true,
-    });
     rect = null;
   });
 };

@@ -37,6 +37,7 @@ export type DrawState =
   | "editLine"
   | "Rect"
   | "Text"
+  | "dragStage"
   | "default";
 
 interface INLEDITOR {
@@ -59,6 +60,7 @@ export type onDropCb = (
 interface OPT {
   id: string;
   onDropCb?: onDropCb;
+  onRemoveCb?: () => void;
   isPreview?: boolean;
   json?: string;
   scale?: "show" | "hide";
@@ -114,11 +116,16 @@ class INLEDITOR {
   }
   // 绘制状态
   protected drawState: DrawState = "default";
+  protected stateChangeCb: (state: DrawState) => void | undefined;
+  onDrawStateChange(cb: (state: DrawState) => {}) {
+    this.stateChangeCb = cb;
+  }
   getDrawState() {
     return this.drawState;
   }
   setDrawState(state: DrawState) {
     this.drawState = state;
+    this.stateChangeCb?.(state);
   }
 
   disableStageMove() {
@@ -281,18 +288,35 @@ class INLEDITOR {
     stageTofit(this.stage);
   }
 
+  hasChange = false;
+
   // 舞台发生变化
-  onStageChange(cb: () => void) {
-    this.stage.on("resize scale rotate wheel dragmove mouseUp", () => {
-      cb();
+  onStageChange = (ie, cb: () => void) => {
+    this.stage.on(
+      "resize scale rotate wheel dragmove mouseUp mousedown",
+      (e) => {
+        if (ie.getDrawState() === "default") {
+          return;
+        }
+        this.hasChange = true;
+        // cb();
+      }
+    );
+    this.stage.children.forEach((lay: Konva.Layer) => {
+      lay.on("resize scale rotate wheel dragmove mousedown mouseup", () => {
+        // cb();
+        this.hasChange = true;
+      });
     });
     this.container.addEventListener("keydown", () => {
-      cb();
+      // cb();
+      this.hasChange = true;
     });
     this.container.addEventListener("drop", () => {
-      cb();
+      // cb();
+      this.hasChange = true;
     });
-  }
+  };
 
   changeElementsPosition(type: AlignType) {
     changeElementsPosition(this.getStage(), type);

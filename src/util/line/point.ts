@@ -52,7 +52,6 @@ export const bindPointEvent = (
     if (newParent) {
       connectNewRect(line, controlIndex, newParent, position, stage);
     } else {
-      // 有BUG
       if (controlIndex === 0) {
         const rectOut = stage.findOne("#" + lineInfo.from);
         const xy = computedXY(
