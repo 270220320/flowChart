@@ -87,14 +87,8 @@ const align = {
 };
 
 export default (stage: Konva.Stage, type: AlignType) => {
-  const { nodes } = getTran(stage);
-
-  if (type === "flipX" || type === "flipY") {
-    nodes.forEach((node) => {
-      align[type](node);
-    });
-    return;
-  }
+  let { nodes } = getTran(stage);
+  // 层级
   if (
     type === "moveToTop" ||
     type === "moveToBottom" ||
@@ -108,6 +102,20 @@ export default (stage: Konva.Stage, type: AlignType) => {
     });
     return;
   }
+  nodes = nodes.map((node: Konva.Group) => {
+    if (node.name() === "thingGroup") {
+      return node.children.find((child) => child.name() === "thingImage");
+    }
+    return node;
+  });
+  // 翻转
+  if (type === "flipX" || type === "flipY") {
+    nodes.forEach((node) => {
+      align[type](node);
+    });
+    return;
+  }
+  // 对齐
   let minX = nodes[0].absolutePosition().x;
   let minY = nodes[0].absolutePosition().y;
   let maxY = nodes[0].absolutePosition().y + nodes[0].height();

@@ -82,6 +82,7 @@ class INLEDITOR {
 
     this.use(new Pool(this.stage));
     this.use(new VideoNode(this.stage));
+    this.onStageChange(this);
     if (json) {
       await reset(this);
     }
@@ -291,7 +292,7 @@ class INLEDITOR {
   hasChange = false;
 
   // 舞台发生变化
-  onStageChange = (ie, cb: () => void) => {
+  onStageChange = (ie, cb?: () => void) => {
     this.stage.on(
       "resize scale rotate wheel dragmove mouseUp mousedown",
       (e) => {
@@ -317,7 +318,6 @@ class INLEDITOR {
       this.hasChange = true;
     });
   };
-
   changeElementsPosition(type: AlignType) {
     changeElementsPosition(this.getStage(), type);
   }

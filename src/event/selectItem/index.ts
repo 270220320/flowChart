@@ -9,13 +9,18 @@ import { getCustomAttrs } from "@/main";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
+  let resNode;
   if (
     selectTarget.getParent().name() === "thingTextGroup" ||
     selectTarget.getLayer().name() === "createThingDefaultText"
   ) {
-    return selectTarget.getParent();
+    resNode = selectTarget.getParent();
   }
-  return isComponentChild(selectTarget).node;
+  resNode = isComponentChild(selectTarget).node;
+  if (resNode.name() === "thingImage") {
+    resNode = resNode.parent;
+  }
+  return resNode;
 };
 
 /**
@@ -68,6 +73,7 @@ export const clearTransFormer = (stage: Konva.Stage) => {
 };
 
 export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>) => {
+  if (nodes.length === 0) return;
   resetEvent(stage);
   const Transformers = createTran();
   Transformers.nodes(nodes);

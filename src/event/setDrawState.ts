@@ -138,8 +138,9 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         }
         break;
       default:
-        getInclude(rect);
-      // toSelect(stage,rect.get)
+        if (rect) {
+          toSelect(stage, getInclude(ie.getStage(), rect));
+        }
     }
     offSelection(ie.getStage());
     ie.setDrawState("default");
