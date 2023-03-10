@@ -72,12 +72,13 @@ export const clearTransFormer = (stage: Konva.Stage) => {
   stage.draw();
 };
 
-export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>) => {
+export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>, cb?) => {
   if (nodes.length === 0) return;
   resetEvent(stage);
   const Transformers = createTran();
   Transformers.nodes(nodes);
   nodes[0].getLayer().add(Transformers);
+  cb?.("things", {}, {});
 };
 
 // 框选元素动作

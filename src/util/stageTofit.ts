@@ -1,3 +1,4 @@
+import { clearTransFormer } from "@/event/selectItem";
 import Konva from "konva";
 import layer from "./layer";
 
@@ -20,6 +21,7 @@ export const computedZoomCoord = (
 };
 
 const tofit = (stage: Konva.Stage) => {
+  clearTransFormer(stage);
   // 获取层的边界框
   const thingLayer = layer(stage, "thing");
   const movePosition = (data) => {

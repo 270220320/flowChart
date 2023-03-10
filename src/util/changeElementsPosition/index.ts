@@ -24,7 +24,7 @@ type AlignOpt = {
   index: number;
   nodeLength: number;
 };
-
+// 需要改成父级挪多少
 const align = {
   top(node: Konva.Node, opt: AlignOpt) {
     node.setAbsolutePosition({ y: opt.minY, x: node.getAbsolutePosition().x });

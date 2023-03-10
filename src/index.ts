@@ -223,7 +223,10 @@ class INLEDITOR {
   }
 
   // 序列化
-  toJson() {
+  toJson(source?: string) {
+    if (source === "auto" && this.stage.findOne("Transformer")) {
+      return { res: false };
+    }
     exitEditLine(this.stage);
     const json = this.stage.toJSON();
     clearTransFormer(this.stage);
@@ -267,8 +270,10 @@ class INLEDITOR {
     return getIus(thingGroup);
   }
 
+  selectCb;
   // 当画布元素被选中
   onselect(cb: onSelectCallBackFun) {
+    this.selectCb = cb;
     stageClick(this.stage, cb);
   }
 

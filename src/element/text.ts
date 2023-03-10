@@ -9,6 +9,7 @@ import layer from "../util/layer";
 import { getCustomAttrs, setCustomAttrs } from "../util/customAttr";
 import { toSelect } from "@/event/selectItem";
 import { Group } from "konva/lib/Group";
+import computedXY from "@/util/computedXY";
 
 export const createText = (config: TextConfig) =>
   new Konva.Text({
@@ -247,8 +248,8 @@ export const createThingText = (
       );
       thingGroup.add(textShape);
       textShape.setAttrs({
-        x: thing.attrs.x,
-        y: thing.attrs.y + thing.height(),
+        x: thingGroup.getClientRect().x,
+        y: thingGroup.getClientRect().y + thingGroup.getClientRect().height,
         draggable: true,
       });
       cb ? cb(textShape) : null;
@@ -264,8 +265,8 @@ export const createThingText = (
           code,
         },
         {
-          x: thing.attrs.x,
-          y: thing.attrs.y + thing.height(),
+          x: thingGroup.getClientRect().x,
+          y: thingGroup.getClientRect().y + thingGroup.getClientRect().height,
         }
       );
       thingGroup.add(group);

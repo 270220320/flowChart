@@ -139,7 +139,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         break;
       default:
         if (rect) {
-          toSelect(stage, getInclude(ie.getStage(), rect));
+          toSelect(stage, getInclude(ie.getStage(), rect), ie.selectCb);
         }
     }
     offSelection(ie.getStage());
