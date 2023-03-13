@@ -17,9 +17,9 @@ const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
     resNode = selectTarget.getParent();
   }
   resNode = isComponentChild(selectTarget).node;
-  if (resNode.name() === "thingImage") {
-    resNode = resNode.parent;
-  }
+  // if (resNode.name() === "thingImage") {
+  //   resNode = resNode.parent;
+  // }
   return resNode;
 };
 
