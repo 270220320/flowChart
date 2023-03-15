@@ -5,17 +5,18 @@ import { KonvaEventObject } from "konva/lib/Node";
 export const mergeRightAngleLinePoint = (
   points: { x: number; y: number }[]
 ) => {
+  const range = 8;
   // 先合并首尾
   if (
-    Math.abs(points[0].x - points[1].x) < 3 &&
-    Math.abs(points[0].y - points[1].y) < 3
+    Math.abs(points[0].x - points[1].x) < range &&
+    Math.abs(points[0].y - points[1].y) < range
   ) {
     points.splice(0, 1);
   }
   const lastIndex = points.length - 1;
   if (
-    Math.abs(points[lastIndex].x - points[lastIndex - 1].x) < 3 &&
-    Math.abs(points[lastIndex].y - points[lastIndex - 1].y) < 3
+    Math.abs(points[lastIndex].x - points[lastIndex - 1].x) < range &&
+    Math.abs(points[lastIndex].y - points[lastIndex - 1].y) < range
   ) {
     points.splice(lastIndex, 1);
   }
@@ -24,10 +25,13 @@ export const mergeRightAngleLinePoint = (
     const prev = points[i - 1];
     const now = points[i];
     const next = points[i + 1];
-    if (Math.abs(prev.x - now.x) < 3 && Math.abs(now.x - next.x) < 3) {
+    if (Math.abs(prev.x - now.x) < range && Math.abs(now.x - next.x) < range) {
       prev.x = now.x;
       points.splice(i--, 1);
-    } else if (Math.abs(prev.y - now.y) < 3 && Math.abs(now.y - next.y) < 3) {
+    } else if (
+      Math.abs(prev.y - now.y) < range &&
+      Math.abs(now.y - next.y) < range
+    ) {
       prev.y = now.y;
       points.splice(i--, 1);
     }
@@ -52,9 +56,15 @@ export const setRightAngleLineBeginOrEnd = (
     } else if (now.x === next.x) {
       next.x = target.x;
     }
+    // 如果直线加点
+    if (points.length === 2) {
+      points.splice(0, 0, { x: now.x, y: now.y });
+    }
     now.x = target.x;
     now.y = target.y;
-  } else if (index === points.length - 1) {
+  } else {
+    // 修正加点问题
+    index = points.length - 1;
     now = points[index];
     const prev = points[index - 1];
     // 横线
@@ -63,6 +73,10 @@ export const setRightAngleLineBeginOrEnd = (
       // 竖线
     } else if (now.x === prev.x) {
       prev.x = target.x;
+    }
+    // 如果直线加点
+    if (points.length === 2) {
+      points.push({ x: now.x, y: now.y });
     }
     now.x = target.x;
     now.y = target.y;

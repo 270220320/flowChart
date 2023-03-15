@@ -19,12 +19,14 @@ export const exitEditLine = (stage: Konva.Stage) => {
   });
   editLine?.off("mouseenter");
   editLine?.off("mouseleave");
+  controls = [];
   editLine = undefined;
 };
 // 进入线编辑状态
 export const enterEditLine = (line: Konva.Arrow, stage: Konva.Stage) => {
   if (line === editLine) {
-    return;
+    // return;
+    exitEditLine(stage);
   }
   // 关闭拖动
   turnDrag(stage, false);

@@ -6,6 +6,8 @@ import { setRightAngleLineBeginOrEnd } from "./rightAngleLine";
 import { getCustomAttrs, setCustomAttrs } from "../customAttr";
 import { getMouseOver } from "..";
 import computedXY, { computedXYByEvent } from "../computedXY";
+import { enterEditLine, lineMouseUp } from "./editLine";
+import pointConfig from "@/config/point";
 
 export const bindPointEvent = (
   point: Konva.Circle,
@@ -22,8 +24,8 @@ export const bindPointEvent = (
     // 直角线
     if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
       resPoints = setRightAngleLineBeginOrEnd(points, controlIndex, {
-        x,
-        y,
+        x: x,
+        y: y,
       });
     } else {
       // 斜线
@@ -31,6 +33,7 @@ export const bindPointEvent = (
       resPoints = points;
     }
     const arr = getUsePointUn(resPoints);
+    console.log(JSON.stringify(resPoints));
     line.setAttrs({ points: arr });
   });
   point.on("dragend", (e: any) => {
@@ -43,12 +46,14 @@ export const bindPointEvent = (
         x: line.attrs.points[0],
         y: line.attrs.points[1],
       };
-    } else if (controlIndex === points.length - 1) {
+    } else {
       position = {
         x: line.attrs.points[line.attrs.points.length - 2],
         y: line.attrs.points[line.attrs.points.length - 1],
       };
     }
+    // 合并重合的
+    lineMouseUp(e, stage);
     if (newParent) {
       connectNewRect(line, controlIndex, newParent, position, stage);
     } else {
@@ -61,7 +66,7 @@ export const bindPointEvent = (
         );
         lineInfo.fromExcursionX = position.x - xy.x;
         lineInfo.fromExcursionY = position.y - xy.y;
-      } else if (controlIndex === points.length - 1) {
+      } else {
         const rectIn = stage.findOne("#" + lineInfo.to);
         const xy = computedXY(
           stage,
@@ -72,6 +77,8 @@ export const bindPointEvent = (
         lineInfo.toExcursionY = position.y - xy.y;
       }
     }
+    // stage.draw();
+    enterEditLine(line, stage);
   });
 };
 
@@ -85,7 +92,7 @@ export const addPoint = (
     x: point.x,
     y: point.y,
     draggable: true,
-    radius: 5 / stage.scaleX(),
+    radius: pointConfig.radius / stage.scaleX(),
     fill: "white",
     stroke: "lightskyblue",
     strokeWidth: 0.5,

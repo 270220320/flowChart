@@ -121,7 +121,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         break;
       case "editLine":
         if (checkKeepEdit(e)) {
-          lineMouseUp(e, stage);
+          stage.off("mousemove");
           return;
         } else {
           exitEditLine(stage);

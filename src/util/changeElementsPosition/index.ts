@@ -102,12 +102,12 @@ export default (stage: Konva.Stage, type: AlignType) => {
     });
     return;
   }
-  nodes = nodes.map((node: Konva.Group) => {
-    if (node.name() === "thingGroup") {
-      return node.children.find((child) => child.name() === "thingImage");
-    }
-    return node;
-  });
+  // nodes = nodes.map((node: Konva.Group) => {
+  //   if (node.name() === "thingGroup") {
+  //     return node.children.find((child) => child.name() === "thingImage");
+  //   }
+  //   return node;
+  // });
   // 翻转
   if (type === "flipX" || type === "flipY") {
     nodes.forEach((node) => {
