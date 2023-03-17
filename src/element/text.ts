@@ -195,6 +195,7 @@ export const editorText = (textNode: Konva.Text, stage: Konva.Stage) => {
   textarea.style.top = areaPosition.y + "px";
   textarea.style.left = areaPosition.x + "px";
   textarea.style.width = textNode.width() + "px";
+  textarea.style.color = "white";
   document.body.appendChild(textarea);
 
   textNode.opacity(0);

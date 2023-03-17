@@ -32,8 +32,8 @@ const tofit = (stage: Konva.Stage) => {
 
     const stageMove1 = new Konva.Tween({
       node: stage,
-      x: sjx + stage.width() * 0.1,
-      y: sjy + stage.height() * 0.1,
+      x: sjx + stage.width() * 0.05,
+      y: sjy + stage.height() * 0.05,
       easing: Konva.Easings.EaseIn,
       duration: 0.5,
     });
@@ -47,7 +47,7 @@ const tofit = (stage: Konva.Stage) => {
       Math.min(
         (stage.width() / width) * scaleOld,
         (stage.height() / height) * scaleOld
-      ) * 0.8
+      ) * 0.9
     ).toFixed(5)
   );
   const stageMove = new Konva.Tween({

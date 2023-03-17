@@ -39,12 +39,17 @@ const checkTarget: (selectTarget: Shape<ShapeConfig> | Stage) => TargetType = (
 const isLine = () => {};
 
 // 初始化选择框
-export const createTran = (enabledAnchors?: []) =>
-  new Konva.Transformer({
+export const createTran = (name?: string) => {
+  const opt: any = {
     // centeredScaling: true,
-    enabledAnchors,
     rotationSnaps: [0, 90, 180, 270],
-  });
+  };
+  if (name === "belt") {
+    opt.enabledAnchors = ["middle-right"];
+    opt.rotateEnabled = false;
+  }
+  return new Konva.Transformer(opt);
+};
 // 获取 选择框
 export const getTran: (stage: Konva.Stage) => {
   nodes: Array<Konva.Node>;
@@ -52,7 +57,6 @@ export const getTran: (stage: Konva.Stage) => {
   position?: IRect;
 } = (s) => {
   const Transformers = s.findOne("Transformer") as Konva.Transformer;
-  debugger;
   if (!Transformers) return { nodes: [], Transformers: null };
 
   return {
@@ -98,11 +102,7 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
     // 没有按住shift
     Transformers?.destroy();
     nodes.push(node);
-    let anchors;
-    if (node.getAttrs().componentName === "belt") {
-      anchors = ["middle-right"];
-    }
-    Transformers = createTran(anchors);
+    Transformers = createTran(node.getAttrs().componentName);
     layer.add(Transformers);
     Transformers.nodes(nodes);
   }
