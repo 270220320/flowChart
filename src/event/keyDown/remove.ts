@@ -16,9 +16,9 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
       i.getParent().remove();
     } else {
       // 删除关联关系
-      removeRelevance(i, ie.getStage());
       i.remove();
     }
+    removeRelevance(i, ie.getStage());
     ie.opt.onRemoveCb?.();
     ie.getStage().draw();
   }

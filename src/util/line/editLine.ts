@@ -49,6 +49,7 @@ export const enterEditLine = (line: Konva.Arrow, stage: Konva.Stage) => {
   });
   controls.push(pBegin, pEnd);
   const points = getUsePoint(editLine.attrs.points);
+  console.log("addpoint", pBegin, JSON.parse(JSON.stringify(pEnd)));
   bindPointEvent(pBegin, 0, editLine, stage);
   bindPointEvent(pEnd, points.length - 1, editLine, stage);
 };
@@ -95,6 +96,7 @@ export const lineMouseUp = (
 ) => {
   const points = getUsePoint(editLine.attrs.points);
   const resPoints = mergeRightAngleLinePoint(points);
+  console.log(resPoints);
   editLine.setAttrs({ points: getUsePointUn(resPoints) });
   stage.off("mousemove");
 };

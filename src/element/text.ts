@@ -349,7 +349,6 @@ export const createThingText = (
             );
           }
           item.draw();
-          toSelect(stage, [item]);
         }
       });
     },

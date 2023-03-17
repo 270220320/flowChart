@@ -49,17 +49,21 @@ export const setRightAngleLineBeginOrEnd = (
   if (index === 0) {
     now = points[0];
     const next = points[1];
-    // 横线
-    if (now.y === next.y) {
-      next.y = target.y;
-      // 竖线
-    } else if (now.x === next.x) {
-      next.x = target.x;
-    }
     // 如果直线加点
     if (points.length === 2) {
-      points.splice(0, 0, { x: now.x, y: now.y });
+      // 用target避免斜向拖动问题
+      points.splice(0, 0, { x: target.x, y: target.y });
+    } else {
+      // 横线
+      if (now.y === next.y) {
+        next.y = target.y;
+
+        // 竖线
+      } else if (now.x === next.x) {
+        next.x = target.x;
+      }
     }
+
     now.x = target.x;
     now.y = target.y;
   } else {
@@ -67,17 +71,20 @@ export const setRightAngleLineBeginOrEnd = (
     index = points.length - 1;
     now = points[index];
     const prev = points[index - 1];
-    // 横线
-    if (now.y === prev.y) {
-      prev.y = target.y;
-      // 竖线
-    } else if (now.x === prev.x) {
-      prev.x = target.x;
-    }
     // 如果直线加点
     if (points.length === 2) {
-      points.push({ x: now.x, y: now.y });
+      // 用target避免斜向拖动问题
+      points.push({ x: target.x, y: target.y });
+    } else {
+      // 横线
+      if (now.y === prev.y) {
+        prev.y = target.y;
+        // 竖线
+      } else if (now.x === prev.x) {
+        prev.x = target.x;
+      }
     }
+
     now.x = target.x;
     now.y = target.y;
   }
