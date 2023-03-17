@@ -105,9 +105,11 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         editMouseDown(e, stage);
         break;
       default:
-        onSelection(ie.getStage(), { y, x }, ie.getTheme(), (rc) => {
-          rect = rc;
-        });
+        if (e.target.getClassName() === "Stage") {
+          onSelection(ie.getStage(), { y, x }, ie.getTheme(), (rc) => {
+            rect = rc;
+          });
+        }
     }
   });
 
@@ -121,6 +123,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         break;
       case "editLine":
         if (checkKeepEdit(e)) {
+          lineMouseUp(e, stage);
           stage.off("mousemove");
           return;
         } else {

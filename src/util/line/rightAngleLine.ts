@@ -5,7 +5,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 export const mergeRightAngleLinePoint = (
   points: { x: number; y: number }[]
 ) => {
-  const range = 8;
+  const range = 15;
   // 先合并首尾
   if (
     Math.abs(points[0].x - points[1].x) < range &&

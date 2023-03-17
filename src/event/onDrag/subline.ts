@@ -222,49 +222,49 @@ export const initSubLine = function (
   }
   drawGuides(this, guides, layerSubLine, this.theme);
 
-  guides.forEach((lg) => {
-    switch (lg.snap) {
-      case "start": {
-        switch (lg.orientation) {
-          case "V": {
-            target.x(lg.lineGuide + lg.offset);
-            break;
-          }
-          case "H": {
-            target.y(lg.lineGuide + lg.offset);
-            break;
-          }
-        }
-        break;
-      }
-      case "center": {
-        switch (lg.orientation) {
-          case "V": {
-            target.x(lg.lineGuide + lg.offset);
-            break;
-          }
-          case "H": {
-            target.y(lg.lineGuide + lg.offset);
-            break;
-          }
-        }
-        break;
-      }
-      case "end": {
-        switch (lg.orientation) {
-          case "V": {
-            target.x(lg.lineGuide + lg.offset);
-            break;
-          }
-          case "H": {
-            target.y(lg.lineGuide + lg.offset);
-            break;
-          }
-        }
-        break;
-      }
-    }
-  });
+  // guides.forEach((lg) => {
+  //   switch (lg.snap) {
+  //     case "start": {
+  //       switch (lg.orientation) {
+  //         case "V": {
+  //           target.x(lg.lineGuide + lg.offset);
+  //           break;
+  //         }
+  //         case "H": {
+  //           target.y(lg.lineGuide + lg.offset);
+  //           break;
+  //         }
+  //       }
+  //       break;
+  //     }
+  //     case "center": {
+  //       switch (lg.orientation) {
+  //         case "V": {
+  //           target.x(lg.lineGuide + lg.offset);
+  //           break;
+  //         }
+  //         case "H": {
+  //           target.y(lg.lineGuide + lg.offset);
+  //           break;
+  //         }
+  //       }
+  //       break;
+  //     }
+  //     case "end": {
+  //       switch (lg.orientation) {
+  //         case "V": {
+  //           target.x(lg.lineGuide + lg.offset);
+  //           break;
+  //         }
+  //         case "H": {
+  //           target.y(lg.lineGuide + lg.offset);
+  //           break;
+  //         }
+  //       }
+  //       break;
+  //     }
+  //   }
+  // });
 };
 
 export const closeSubLine = function (this: INLEDITOR) {

@@ -82,11 +82,11 @@ class BELT {
     event: () => {
       this.group.on("transform", (e) => {
         this.group.off("transform");
-
         const { width, x, y } = getTran(this.stage).position!;
+        this.config.width = (width * this.group.scaleX()) / this.stage.scaleX();
         this.config.left = x;
         this.config.top = y;
-        this.config.width = (width * this.group.scaleX()) / this.stage.scaleX();
+
         this.group.scale({
           x: 1,
           y: 1,

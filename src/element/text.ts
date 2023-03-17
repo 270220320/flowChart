@@ -238,24 +238,36 @@ export const createThingText = (
   }
   return {
     def: (text: string, code: string, cb?: (thingTextGroup: Group) => void) => {
+      const point = computedXY(
+        stage,
+        thingGroup.getClientRect().x,
+        thingGroup.getClientRect().y + thingGroup.getClientRect().height
+      );
       const textShape = createThingDefaultText(
         themeType,
         {
           v: text,
           code,
         },
-        { x: 0, y: 0 }
+        {
+          x: point.x,
+          y: point.y,
+        }
       );
       thingGroup.add(textShape);
+
       textShape.setAttrs({
-        x: thingGroup.getClientRect().x,
-        y: thingGroup.getClientRect().y + thingGroup.getClientRect().height,
         draggable: true,
       });
       cb ? cb(textShape) : null;
     },
     advanced: (data: thingTextInfo, cb?: (thingTextGroup: Group) => void) => {
       const { label, v, unit, code } = data;
+      const point = computedXY(
+        stage,
+        thingGroup.getClientRect().x,
+        thingGroup.getClientRect().y + thingGroup.getClientRect().height
+      );
       const group = createThingAdvancedText(
         themeType,
         {
@@ -265,8 +277,8 @@ export const createThingText = (
           code,
         },
         {
-          x: thingGroup.getClientRect().x,
-          y: thingGroup.getClientRect().y + thingGroup.getClientRect().height,
+          x: point.x,
+          y: point.y,
         }
       );
       thingGroup.add(group);

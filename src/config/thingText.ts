@@ -60,7 +60,7 @@ export const ThingText: Record<Theme, ThingTextType> = {
         opacity: 0.5,
       },
       label: {
-        fill: "#fff",
+        fill: "#9CA9C7",
         size: 14,
       },
     },
