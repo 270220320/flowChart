@@ -37,6 +37,7 @@ export type DrawState =
   | "editLine"
   | "Rect"
   | "Text"
+  | "img"
   | "dragStage"
   | "default";
 
@@ -117,6 +118,7 @@ class INLEDITOR {
   }
   // 绘制状态
   protected drawState: DrawState = "default";
+  drawInfo: any;
   protected stateChangeCb: (state: DrawState) => void | undefined;
   onDrawStateChange(cb: (state: DrawState) => {}) {
     this.stateChangeCb = cb;
@@ -124,8 +126,9 @@ class INLEDITOR {
   getDrawState() {
     return this.drawState;
   }
-  setDrawState(state: DrawState) {
+  setDrawState(state: DrawState, info?: any) {
     this.drawState = state;
+    this.drawInfo = info;
     this.stateChangeCb?.(state);
   }
 

@@ -19,6 +19,8 @@ import { Theme } from "../config/theme";
 import { createEditableText } from "../element/text";
 import { toSelect } from "./selectItem";
 import { getInclude } from "@/util/element/getInclude";
+import { createImage } from "@/element";
+import customAddImage from "./ondrop/customAddImage";
 
 const offSelection = (stage: Konva.Stage) => {
   // 删除 layer
@@ -86,6 +88,9 @@ export default (ie: INLEDITOR, cb?: () => void) => {
       draggable: false,
     });
     switch (drawState) {
+      case "img":
+        customAddImage(stage, e.evt, ie.drawInfo);
+        break;
       case "rightAngleLine":
       case "rightAngleDottedLine":
       case "dottedLine":

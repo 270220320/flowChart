@@ -6,6 +6,7 @@ export interface Thing {
   tc: string;
   img: string;
   name: string;
+  type?: string;
 }
 
 const thing: Thing = {

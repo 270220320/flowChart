@@ -4,8 +4,19 @@ import { computedXYByEvent } from "@/util/computedXY";
 import layer from "@/util/layer";
 import Konva from "konva";
 
-export default async (stage: Konva.Stage, e: DragEvent) => {
-  const urls = await fileToBase64(e.dataTransfer.files);
+export default async (
+  stage: Konva.Stage,
+  e?: DragEvent | Event,
+  url?: string
+) => {
+  let urls;
+
+  if (url) {
+    urls = [url];
+  } else {
+    urls = await fileToBase64((e as DragEvent).dataTransfer.files);
+  }
+
   const thingLayer = layer(stage, "thing");
   for (let i of urls) {
     const image = await createImage(i);

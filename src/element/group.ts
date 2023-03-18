@@ -25,7 +25,7 @@ export const createThingGroup = (useThing: Thing) => {
   const group = new Konva.Group({
     draggable: true,
     id: useThing?.iu,
-    name: groupNames.thingGroup,
+    name: useThing.type || groupNames.thingGroup,
   });
   setCustomAttrs(group, { thing: useThing, type: groupNames.thingGroup });
   return group;

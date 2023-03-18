@@ -22,7 +22,6 @@ export const bindPointEvent = (
     let resPoints;
     const lineInfo = getCustomAttrs(line).lineInfo!;
     // 直角线
-    console.log(x, y);
     if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
       resPoints = setRightAngleLineBeginOrEnd(points, controlIndex, {
         x: x,
@@ -34,7 +33,6 @@ export const bindPointEvent = (
       resPoints = points;
     }
     const arr = getUsePointUn(resPoints);
-    console.log(JSON.stringify(resPoints));
     line.setAttrs({ points: arr });
   });
   point.on("dragend", (e: any) => {
