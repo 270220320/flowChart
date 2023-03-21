@@ -64,6 +64,17 @@ export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
   return arr;
 };
 // 设置物模型的文字位置
+export const setThingScale = (
+  stage: Konva.Stage,
+  iu: string,
+  scaleX: number,
+  scaleY: number
+) => {
+  const thingLayer = layer(stage, "thing");
+  const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
+  thing.children[0].setAttrs({ scaleX, scaleY });
+};
+// 设置物模型的文字位置
 export const setThingChildPosition = (
   stage: Konva.Stage,
   iu: string,

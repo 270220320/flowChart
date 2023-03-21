@@ -320,11 +320,10 @@ export const createThingText = (
       });
     },
     changeVal: (code, val) => {
-      thingGroup.getChildren().forEach((item) => {
+      thingGroup.getChildren().forEach((item: Konva.Group) => {
         if (item.attrs.code && item.attrs.code === code) {
           const name = item.name();
           const attrs = getCustomAttrs(item);
-          (item as Konva.Group).removeChildren();
           const thingTextInfo = { ...attrs.thingTextInfo, v: val };
           setCustomAttrs(item, {
             ...attrs,
@@ -334,19 +333,9 @@ export const createThingText = (
             item.setAttrs({
               name: groupNames.thingDefTextGroup,
             });
-            createThingDefaultText(
-              themeType,
-              thingTextInfo,
-              item.position() || { x: 0, y: 0 },
-              item as Konva.Group
-            );
+            item.children[0].setAttrs({ text: val });
           } else {
-            createThingAdvancedText(
-              themeType,
-              thingTextInfo,
-              item.position() || { x: 0, y: 0 },
-              item as Konva.Group
-            );
+            item.children[2].setAttrs({ text: val });
           }
           item.draw();
         }
