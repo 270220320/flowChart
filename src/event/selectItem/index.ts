@@ -44,7 +44,7 @@ export const createTran = (name?: string) => {
     // centeredScaling: true,
     rotationSnaps: [0, 90, 180, 270],
   };
-  if (name === "belt") {
+  if (name === "belt" || name === "scraper") {
     opt.enabledAnchors = ["middle-right"];
     opt.rotateEnabled = false;
   }

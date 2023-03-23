@@ -1,5 +1,4 @@
 import inleditor from "./";
-import { getIus } from "./event/stageClick";
 export { createThingDefaultText } from "./element/text";
 export {
   getThingChildPosition,
@@ -12,6 +11,7 @@ export * from "./util/customAttr";
 export * from "./util";
 export * from "./component";
 export * from "./";
+
 export { inleditor };
 
 export * from "./animate/coal";

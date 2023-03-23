@@ -1,4 +1,4 @@
-import { BELT, Pool, VideoNode } from "@/component";
+import { BELT, Pool, VideoNode, Scraper } from "@/component";
 import { getCustomAttrs } from "@/util/customAttr";
 import layer from "@/util/layer";
 import Konva from "konva";
@@ -11,6 +11,10 @@ export default (ie: INLEDITOR) => {
     const { thing } = getCustomAttrs(item.parent);
     if (componentName && componentName === "belt") {
       new BELT(ie.getStage(), { thingInfo: thing });
+    }
+    if (componentName && componentName === "scraper") {
+      console.log("dddd");
+      new Scraper(ie.getStage(), { thingInfo: thing });
     }
     if (componentName && componentName === "pool") {
       const pool: Pool = ie.getComponent("pool");

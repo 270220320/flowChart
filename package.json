@@ -8,6 +8,7 @@
     "site": "vite ./site"
   },
   "devDependencies": {
+    "@rollup/plugin-image": "^3.0.2",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/lodash": "^4.14.191",
     "esbuild-register": "^3.4.2",

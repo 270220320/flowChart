@@ -6,6 +6,7 @@ export * from "./scale";
 export * from "./minmap";
 export * from "./pool";
 export * from "./video";
+export * from "./scraper";
 
 export const isComponentChild = (node: Konva.Node) => {
   const parent = node.parent;
@@ -19,3 +20,5 @@ export const isComponentChild = (node: Konva.Node) => {
 export const isComponentChildren = (node: Konva.Node) => {
   return node?.parent?.parent?.name() === "thingGroup";
 };
+
+export const componentsName = ["POOL", "SCRAPER", "BELT"];

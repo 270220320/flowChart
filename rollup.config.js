@@ -1,5 +1,5 @@
+import image from "@rollup/plugin-image";
 import typescript from "@rollup/plugin-typescript";
-import copy from "rollup-plugin-copy";
 import dts from "rollup-plugin-dts";
 import { entry } from "./entry.cjs";
 const rollupConfig = [];
@@ -16,7 +16,7 @@ for (let i of entry) {
         format: "es",
       },
     ],
-    plugins: [typescript()],
+    plugins: [typescript(), image()],
   });
 
   // 生成相关d.ts

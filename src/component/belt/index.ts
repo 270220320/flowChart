@@ -103,7 +103,6 @@ class BELT {
     render: (stateType: number | string) => {
       const theme = state[stateType || 0];
       // 最大的
-
       this.brect = new Konva.Rect({
         fillLinearGradientStartPoint: { x: 0, y: 0 },
         fillLinearGradientEndPoint: { x: 0, y: this.config.height },
