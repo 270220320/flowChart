@@ -7,7 +7,7 @@ import { thingTextInfo } from "../data/cdata";
 import { THINGTEXT } from "../data/dropData";
 import layer from "../util/layer";
 import { getCustomAttrs, setCustomAttrs } from "../util/customAttr";
-import { toSelect } from "@/event/selectItem";
+import { getTran, toSelect } from "@/event/selectItem";
 import { Group } from "konva/lib/Group";
 import computedXY from "@/util/computedXY";
 
@@ -170,15 +170,18 @@ export const createEditableText = (
   const thingLayer = layer(stage, "thing");
   const Text = theme[themeType].text;
   const { x, y } = position;
-  thingLayer.add(
-    createText({
-      ...Text,
-      draggable: true,
-      editable: true,
-      x,
-      y,
-    })
-  );
+  const textNode = createText({
+    ...Text,
+    draggable: true,
+    editable: true,
+    width: 200,
+    x,
+    y,
+  });
+
+  thingLayer.add(textNode);
+
+  return textNode;
 };
 export const editorText = (textNode: Konva.Text, stage: Konva.Stage) => {
   const textPosition = textNode.getAbsolutePosition();
@@ -195,7 +198,8 @@ export const editorText = (textNode: Konva.Text, stage: Konva.Stage) => {
   textarea.style.top = areaPosition.y + "px";
   textarea.style.left = areaPosition.x + "px";
   textarea.style.width = textNode.width() + "px";
-  textarea.style.color = "white";
+  textarea.style.backgroundColor = "white";
+  textarea.style.color = "black";
   document.body.appendChild(textarea);
 
   textNode.opacity(0);

@@ -17,7 +17,7 @@ import {
 } from "../util/line/editLine";
 import { Theme } from "../config/theme";
 import { createEditableText } from "../element/text";
-import { toSelect } from "./selectItem";
+import { getTran, toSelect } from "./selectItem";
 import { getInclude } from "@/util/element/getInclude";
 import { createImage } from "@/element";
 import customAddImage from "./ondrop/customAddImage";
@@ -70,7 +70,11 @@ const customText = (
   startPoint: { x: number; y: number },
   themeType: Theme
 ) => {
-  createEditableText(stage, startPoint, themeType);
+  const text = createEditableText(stage, startPoint, themeType);
+  text.on("transform", (e) => {
+    const { width } = getTran(stage).position;
+    text.setAttrs({ width: text.width() * text.scaleX(), scaleX: 1 });
+  });
 };
 
 export default (ie: INLEDITOR, cb?: () => void) => {

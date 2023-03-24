@@ -1,4 +1,5 @@
 import { getCustomAttrs } from "@/main";
+import computedXY from "@/util/computedXY";
 import layer from "@/util/layer";
 import Konva from "konva";
 import drawCoal from "./drawCoal";
@@ -24,15 +25,18 @@ class COALANIM {
     this.autoPlay = autoPlay || false;
     this.stage = stage;
 
-    this.reset(uuid, imgUrl);
+    this.init(autoPlay, uuid, imgUrl);
+  }
+  async init(autoPlay, uuid, imgUrl) {
+    await this.reset(uuid, imgUrl);
 
     if (autoPlay) {
       this.start();
     }
   }
+
   async reset(uuid: string, imgUrl: string) {
     this.cacheCoal = await drawCoal(imgUrl);
-
     this.cacheCoal.cache();
     const layerthing = layer(this.stage, "thing");
     this.animEl = (layerthing.findOne(`#${uuid}`) as Konva.Group).findOne(
@@ -44,7 +48,9 @@ class COALANIM {
       return;
     }
     const { width, height } = this.animEl.getClientRect();
-    const { x, y } = this.animEl.position();
+    const point = this.animEl.getAbsolutePosition();
+    const { x, y } = computedXY(this.stage, point.x, point.y);
+
     const scale = this.stage.scaleX();
 
     this.animGroup = new Konva.Group({
