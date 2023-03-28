@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="91px" height="91px" viewBox="0 0 91 91" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>切片</title>
+    <defs>
+        <linearGradient x1="-38.370829%" y1="73.9133715%" x2="122.621103%" y2="73.9133715%" id="linearGradient-1">
+            <stop stop-color="#B0B0B0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="63.2615767%"></stop>
+            <stop stop-color="#E3E3E3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="8.82417246%" y1="48.9933973%" x2="91.1992024%" y2="54.2741343%" id="linearGradient-2">
+            <stop stop-color="#B0B0B0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="63.2615767%"></stop>
+            <stop stop-color="#E3E3E3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="49.7560976%" x2="100%" y2="49.7560976%" id="linearGradient-3">
+            <stop stop-color="#B0B0B0" offset="0%"></stop>
+            <stop stop-color="#B7B7B7" offset="15%"></stop>
+            <stop stop-color="#CCCCCC" offset="37%"></stop>
+            <stop stop-color="#EDEDED" offset="64%"></stop>
+            <stop stop-color="#FFFFFF" offset="77%"></stop>
+            <stop stop-color="#F4F4F4" offset="82%"></stop>
+            <stop stop-color="#E7E7E7" offset="91%"></stop>
+            <stop stop-color="#E3E3E3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="linearGradient-4">
+            <stop stop-color="#B0B0B0" offset="0%"></stop>
+            <stop stop-color="#B7B7B7" offset="15%"></stop>
+            <stop stop-color="#CCCCCC" offset="37%"></stop>
+            <stop stop-color="#EDEDED" offset="64%"></stop>
+            <stop stop-color="#FFFFFF" offset="77%"></stop>
+            <stop stop-color="#F4F4F4" offset="82%"></stop>
+            <stop stop-color="#E7E7E7" offset="91%"></stop>
+            <stop stop-color="#E3E3E3" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="2D设备图" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2D设备-无状态-14个" transform="translate(-782.000000, -1337.000000)" stroke="#010101">
+            <g id="单仓_2D_无数据" transform="translate(782.500000, 1337.193333)">
+                <rect id="矩形" fill="url(#linearGradient-1)" x="1.75" y="12.13" width="86.5" height="44.94"></rect>
+                <rect id="矩形" stroke-width="1.05" fill="#D4D9DF" fill-rule="nonzero" x="1.75" y="7.88" width="86.5" height="4.25"></rect>
+                <rect id="矩形" stroke-width="1.05" fill="#D4D9DF" fill-rule="nonzero" x="1.75" y="11.79" width="86.5" height="4.25"></rect>
+                <rect id="矩形" stroke-width="1.05" fill="#D4D9DF" fill-rule="nonzero" x="1.75" y="57.07" width="86.5" height="3.47"></rect>
+                <polygon id="路径" fill="url(#linearGradient-2)" points="44.72 62.5 27.68 80.22 19.58 80.22 2.55 62.5"></polygon>
+                <polygon id="路径" fill="url(#linearGradient-2)" points="88.21 62.5 71.17 80.22 63.07 80.22 46.04 62.5"></polygon>
+                <rect id="矩形" stroke-width="1.05" fill="url(#linearGradient-3)" fill-rule="nonzero" x="19.37" y="80.07" width="8.3" height="2.05"></rect>
+                <rect id="矩形" stroke-width="1.05" fill="url(#linearGradient-4)" fill-rule="nonzero" x="62.97" y="80.22" width="8.3" height="1.9"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

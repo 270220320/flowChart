@@ -25,7 +25,7 @@ import { clearTransFormer } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
 import { Pool } from "./component/pool";
 import reset from "./util/initStage/reset";
-import { VideoNode } from "./main";
+import { StoreHouse, VideoNode } from "./main";
 import { fabric } from "fabric";
 // import { Canvg } from "canvg";
 
@@ -76,18 +76,22 @@ class INLEDITOR {
   }
   protected async init(json?: string) {
     initStage(this, json);
+    // 留存设备画布，避免重复获取，提高性能
+    this.thingLayer = layer(this.stage, "thing");
     this.event();
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
       this.use(new Scale({}));
     }
-
     this.use(new Pool(this.stage));
+    this.use(new StoreHouse(this.stage));
     this.use(new VideoNode(this.stage));
     this.onStageChange(this);
     if (json) {
       await reset(this);
     }
   }
+  // 设备图层
+  thingLayer;
 
   // 主题
   protected theme: Theme = "dark";
@@ -150,9 +154,7 @@ class INLEDITOR {
   // 动态修改物模型的值
   setVal(iu: string, code: string, val: string) {
     // 查找物模型
-    const thignGroup = layer(this.stage, "thing").findOne(
-      `#${iu}`
-    ) as Konva.Group;
+    const thignGroup = this.thingLayer.findOne(`#${iu}`) as Konva.Group;
     if (!thignGroup) return;
     // 筛选code
     getThingTextGroup(thignGroup).forEach((e) => {
@@ -192,15 +194,13 @@ class INLEDITOR {
   }
   //查询设备状态
   getThingState(iu: string) {
-    const thingLayer = layer(this.stage, "thing");
-    const thingBox = thingLayer.findOne(`#${iu}`);
+    const thingBox = this.thingLayer.findOne(`#${iu}`);
     const { state } = getCustomAttrs(thingBox);
     return state;
   }
   // 修改设备状态
   async setThingState(iu: string, setStateVal: string | number, src?: string) {
-    const thingLayer = layer(this.stage, "thing");
-    const thingBox = thingLayer.findOne(`#${iu}`);
+    const thingBox = this.thingLayer.findOne(`#${iu}`);
     const image = (thingBox as Konva.Group)?.findOne(
       ".thingImage"
     ) as Konva.Image;

@@ -13,11 +13,14 @@ export default (ie: INLEDITOR) => {
       new BELT(ie.getStage(), { thingInfo: thing });
     }
     if (componentName && componentName === "scraper") {
-      console.log("dddd");
       new Scraper(ie.getStage(), { thingInfo: thing });
     }
     if (componentName && componentName === "pool") {
       const pool: Pool = ie.getComponent("pool");
+      pool.add(thing, undefined, item.parent as Konva.Group);
+    }
+    if (componentName && componentName === "storeHouse") {
+      const pool: Pool = ie.getComponent("storeHouse");
       pool.add(thing, undefined, item.parent as Konva.Group);
     }
     if (componentName && componentName === "video") {

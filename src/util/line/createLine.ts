@@ -37,6 +37,7 @@ export const finishLine = (
   const end = getMouseOver(pos!, stage);
 
   if (end) {
+    end.setAttrs({ strokeWidth: 0 });
     const beginInfo = getLineInfo(begin);
     const endInfo = getLineInfo(end);
     const xya = computedXY(
@@ -108,10 +109,19 @@ export const beginCreateLine = (
   const lay = layer(stage, "line");
   lay.moveToTop();
   const line = createLine(lay, point, opt);
+  let end;
   stage.on("mousemove", (e) => {
     const { x, y } = computedXYByEvent(stage, e.evt);
     if (line) {
       createLineMove(line!, { x, y }, opt);
+      let pos = stage.getPointerPosition();
+      if (end) {
+        end.setAttrs({ strokeWidth: 0 });
+      }
+      end = getMouseOver(pos!, stage);
+      if (end) {
+        end.setAttrs({ stroke: "red", strokeWidth: 1 });
+      }
     }
   });
   return line;

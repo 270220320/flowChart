@@ -39,6 +39,7 @@ class LineAnimate {
   animateEl!: Group | Shape<ShapeConfig>;
   start = () => {};
   stop = () => {};
+  runState = false;
   destroy = () => {};
   opt!: LineAnimateOpt;
   init() {

@@ -37,6 +37,10 @@ export default function (this: LineAnimate) {
     animate.play();
   };
   this.start = () => {
+    if (this.runState) {
+      return;
+    }
+    this.runState = true;
     if (animate) {
       animate.play();
     } else {
@@ -44,9 +48,11 @@ export default function (this: LineAnimate) {
     }
   };
   this.stop = () => {
+    this.runState = false;
     animate.pause();
   };
   this.destroy = () => {
+    this.runState = false;
     animate.pause();
     this.opt.line.setAttrs({
       stroke: lineState[theme][lineInfo.state],

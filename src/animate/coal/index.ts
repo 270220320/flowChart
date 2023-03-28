@@ -69,12 +69,19 @@ class COALANIM {
     }
   }
 
+  runState = false;
+
   start() {
+    if (this.runState) {
+      return;
+    }
+    this.runState = true;
     this.tim = setInterval(() => {
       this.anim();
     }, 220);
   }
   stop() {
+    this.runState = false;
     clearInterval(this.tim);
   }
   destory() {
