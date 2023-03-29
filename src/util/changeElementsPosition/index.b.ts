@@ -16,7 +16,7 @@ export type AlignType =
   | "distributionY"
   | "distributionX"
   | "flipY";
-type AlignOpt = {
+export type AlignOpt = {
   minX: number;
   minY: number;
   maxX: number;
