@@ -10,7 +10,6 @@ export default async (stage: Konva.Stage) => {
         if (parent.getAttrs().componentName === "video") {
           resolve(1);
         }
-        debugger;
         if (attrs.src) {
           const newImage = await createImage(attrs.src);
           imageNode.remove();
