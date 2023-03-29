@@ -8,13 +8,16 @@ export default async (stage: Konva.Stage) => {
         const parent = imageNode.getParent();
         const attrs = imageNode.getAttrs();
         if (parent.getAttrs().componentName === "video") {
-          resolve(false);
+          resolve(1);
         }
-        const newImage = await createImage(attrs.src);
-        imageNode.remove();
-        newImage.setAttrs(attrs);
-        parent.add(newImage);
-        resolve(true);
+        debugger;
+        if (attrs.src) {
+          const newImage = await createImage(attrs.src);
+          imageNode.remove();
+          newImage.setAttrs(attrs);
+          parent.add(newImage);
+        }
+        resolve(1);
       });
     })
   );

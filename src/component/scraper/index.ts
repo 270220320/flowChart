@@ -25,6 +25,7 @@ class Scraper {
     }
   ) {
     this.stage = stage;
+    console.log(info);
     this.createThingGroup(info.thingInfo, info.p);
   }
   name = "scraper";
@@ -41,6 +42,7 @@ class Scraper {
       this.group = this.thingGroup.findOne(".thingImage");
       this.config.width =
         this.group.getClientRect().width / this.stage.scaleX();
+
       this.draw.event();
     } else {
       this.group = new Konva.Group({
@@ -113,6 +115,7 @@ class Scraper {
           height: 26,
           name: "left",
         });
+        img.setAttrs({ src: scraperLeft });
         this.group.add(img);
       };
       imageObj.src = scraperLeft;
@@ -127,6 +130,7 @@ class Scraper {
           height: 26,
           name: "right",
         });
+        img.setAttrs({ src: scraperRight });
         this.group.add(img);
       };
       imageObj2.src = scraperRight;

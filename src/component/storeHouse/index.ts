@@ -53,9 +53,9 @@ class StoreHouse extends Component {
     const clipGroup = new Konva.Group({
       clip: {
         x: 0,
-        y: 50,
+        y: 90,
         width: 90,
-        height: 90 - 50,
+        height: 1,
       },
       name: "clip",
     });
@@ -71,6 +71,7 @@ class StoreHouse extends Component {
         height: 90,
         name: "left",
       });
+      img.setAttrs({ src: storeHouseEmpty });
       storeHouseEle.imgGroup.add(img);
       img.moveDown();
     };
@@ -86,12 +87,12 @@ class StoreHouse extends Component {
         height: 90,
         name: "left",
       });
+      img.setAttrs({ src: storeHouseFull });
       clipGroup.add(img);
       storeHouseEle.imgGroup.add(clipGroup);
       clipGroup.moveUp();
     };
     imageFull.src = storeHouseFull;
-
     return storeHouseEle.thingGroup;
   }
   setLevel = (iu: string, percent: number) => {
@@ -100,7 +101,7 @@ class StoreHouse extends Component {
       (ele) => ele.attrs.name === "thingImage"
     );
     const clip = imgGroup.children.find((ele) => ele.attrs.name === "clip");
-    const val = 90 * percent * 0.01;
+    const val = 90 * percent * 0.01 + 1;
     clip.setAttrs({
       clipY: 90 - val,
       clipHeight: val,

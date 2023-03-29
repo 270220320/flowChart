@@ -25,7 +25,7 @@ import { clearTransFormer } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
 import { Pool } from "./component/pool";
 import reset from "./util/initStage/reset";
-import { StoreHouse, VideoNode } from "./main";
+import { Scraper, StoreHouse, VideoNode } from "./main";
 import { fabric } from "fabric";
 // import { Canvg } from "canvg";
 
