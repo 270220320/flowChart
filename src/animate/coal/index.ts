@@ -10,7 +10,7 @@ interface COALANIM {
   stage: Konva.Stage;
   animGroup: Konva.Group;
   cacheCoal: Konva.Star | Konva.Image;
-  tim: NodeJS.Timer;
+  tim: any;
 }
 
 interface OPT {

@@ -38,7 +38,7 @@ const onSelection = (
 ) => {
   const rect = createSelectionBox(stage, themeType) as Konva.Rect;
   rect.setAttrs(startPoint);
-  let flag: NodeJS.Timer;
+  let flag: any;
   stage.on("mousemove", (e) => {
     if (flag) clearTimeout(flag);
     flag = setTimeout(() => {

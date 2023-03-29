@@ -88,6 +88,7 @@ const align = {
 
 export default (stage: Konva.Stage, type: AlignType) => {
   let { nodes } = getTran(stage);
+  debugger;
   // 层级
   if (
     type === "moveToTop" ||

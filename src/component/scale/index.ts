@@ -155,7 +155,7 @@ class Scale extends Component {
   }
 
   onChange() {
-    let n: NodeJS.Timeout;
+    let n: any;
     const stage = this.editor.getStage();
     stage.on("dragmove", (e) => {
       // 性能有点低, 可以优化.
