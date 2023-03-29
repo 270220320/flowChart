@@ -273,7 +273,7 @@ class INLEDITOR {
     return getIus(thingGroup);
   }
 
-  selectCb;
+  selectCb: onSelectCallBackFun;
   // 当画布元素被选中
   onselect(cb: onSelectCallBackFun) {
     this.selectCb = cb;
