@@ -150,9 +150,10 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         }
         break;
       default:
-      // if (rect) {
-      //   toSelect(stage, getInclude(ie.getStage(), rect), ie.selectCb);
-      // }
+        // rect未置空
+        if (rect) {
+          toSelect(stage, getInclude(ie.getStage(), rect), ie.selectCb);
+        }
     }
     offSelection(ie.getStage());
     ie.setDrawState("default");

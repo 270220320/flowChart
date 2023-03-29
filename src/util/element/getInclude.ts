@@ -24,6 +24,7 @@ export const getInclude = (stage: Konva.Stage, rect: Konva.Rect) => {
         y: area.y + area.height,
       },
     ];
+    debugger;
     if (
       rect.intersects(points[0]) &&
       rect.intersects(points[1]) &&

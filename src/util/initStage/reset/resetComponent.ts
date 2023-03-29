@@ -6,7 +6,6 @@ import INLEDITOR from "../../../index";
 
 export default (ie: INLEDITOR) => {
   const thingLayer = layer(ie.getStage(), "thing");
-  // debugger;
   thingLayer.find(".thingImage").forEach((item) => {
     const { componentName } = item.getAttrs();
     const { thing } = getCustomAttrs(item.parent);
