@@ -1,4 +1,4 @@
-import { BELT, Pool, VideoNode, Scraper } from "@/component";
+import { BELT, Pool, VideoNode, Scraper, StoreHouse } from "@/component";
 import { getCustomAttrs } from "@/util/customAttr";
 import layer from "@/util/layer";
 import Konva from "konva";
@@ -6,6 +6,7 @@ import INLEDITOR from "../../../index";
 
 export default (ie: INLEDITOR) => {
   const thingLayer = layer(ie.getStage(), "thing");
+  // debugger;
   thingLayer.find(".thingImage").forEach((item) => {
     const { componentName } = item.getAttrs();
     const { thing } = getCustomAttrs(item.parent);
@@ -20,8 +21,8 @@ export default (ie: INLEDITOR) => {
       pool.add(thing, undefined, item.parent as Konva.Group);
     }
     if (componentName && componentName === "storeHouse") {
-      const pool: Pool = ie.getComponent("storeHouse");
-      pool.add(thing, undefined, item.parent as Konva.Group);
+      const storeHouse: StoreHouse = ie.getComponent("storeHouse");
+      storeHouse.add(thing, undefined, item.parent as Konva.Group);
     }
     if (componentName && componentName === "video") {
       const video: VideoNode = ie.getComponent("video");
