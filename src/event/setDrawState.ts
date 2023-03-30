@@ -23,8 +23,6 @@ import { createImage } from "@/element";
 import customAddImage from "./ondrop/customAddImage";
 
 const offSelection = (stage: Konva.Stage) => {
-  // 删除 layer
-  removeSelectionBox(stage);
   // 移除mosemove 监听
   stage.off("mousemove");
 };
@@ -118,6 +116,8 @@ export default (ie: INLEDITOR, cb?: () => void) => {
           onSelection(ie.getStage(), { y, x }, ie.getTheme(), (rc) => {
             rect = rc;
           });
+        } else {
+          rect = null;
         }
     }
   });
@@ -152,11 +152,17 @@ export default (ie: INLEDITOR, cb?: () => void) => {
       default:
         // rect未置空
         if (rect) {
-          toSelect(stage, getInclude(ie.getStage(), rect), ie.selectCb);
+          try {
+            const nodes = getInclude(ie, rect);
+            toSelect(stage, nodes, ie.selectCb);
+          } catch (res) {
+            console.log("选中暂不节流");
+          }
         }
     }
+    removeSelectionBox(stage);
+    rect = null;
     offSelection(ie.getStage());
     ie.setDrawState("default");
-    rect = null;
   });
 };

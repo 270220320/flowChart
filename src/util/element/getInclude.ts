@@ -1,10 +1,11 @@
 import Konva from "konva";
 import layer from "../layer";
+import INLEDITOR from "../../";
 
-export const getInclude = (stage: Konva.Stage, rect: Konva.Rect) => {
+export const getInclude = (ie: INLEDITOR, rect: Konva.Rect) => {
+  const rectTem = rect;
   const arr = [];
-  const lay = layer(stage, "thing");
-  lay.children.forEach((node) => {
+  ie.thingLayer.children.forEach((node) => {
     const area = node.getClientRect();
     const points = [
       {
@@ -24,12 +25,12 @@ export const getInclude = (stage: Konva.Stage, rect: Konva.Rect) => {
         y: area.y + area.height,
       },
     ];
-    debugger;
     if (
-      rect.intersects(points[0]) &&
-      rect.intersects(points[1]) &&
-      rect.intersects(points[2]) &&
-      rect.intersects(points[3])
+      rectTem &&
+      rectTem.intersects(points[0]) &&
+      rectTem.intersects(points[1]) &&
+      rectTem.intersects(points[2]) &&
+      rectTem.intersects(points[3])
     ) {
       arr.push(node);
     }

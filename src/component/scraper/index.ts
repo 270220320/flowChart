@@ -25,7 +25,6 @@ class Scraper {
     }
   ) {
     this.stage = stage;
-    console.log(info);
     this.createThingGroup(info.thingInfo, info.p);
   }
   name = "scraper";

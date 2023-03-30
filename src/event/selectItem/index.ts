@@ -110,7 +110,7 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
 
 export default (ie: INLEDITOR) => {
   const stage = ie.getStage();
-
+  // 整体逻辑：如果点击画布直接清掉选择，如果是其他重置或者增加选择
   stage.on("click tap", (e) => {
     const layer = e.target.getLayer();
     // 判断一下当元素类型
@@ -128,7 +128,5 @@ export default (ie: INLEDITOR) => {
       default:
         selectEvent(stage, e);
     }
-
-    layer.draw();
   });
 };
