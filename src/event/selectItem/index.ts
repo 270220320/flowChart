@@ -6,6 +6,7 @@ import INLEDITOR from "@/index";
 import { IRect } from "konva/lib/types";
 import { isComponentChild } from "@/component";
 import { getCustomAttrs } from "@/main";
+import layer from "@/util/layer";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
@@ -15,8 +16,10 @@ const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
     selectTarget.getLayer().name() === "createThingDefaultText"
   ) {
     resNode = selectTarget.getParent();
+  } else {
+    resNode = isComponentChild(selectTarget).node;
   }
-  resNode = isComponentChild(selectTarget).node;
+
   // if (resNode.name() === "thingImage") {
   //   resNode = resNode.parent;
   // }
@@ -83,7 +86,7 @@ export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>, cb?) => {
   resetEvent(stage);
   const Transformers = createTran();
   Transformers.nodes(nodes);
-  nodes[0].getLayer().add(Transformers);
+  layer(stage, "util").add(Transformers);
   cb?.("things", {}, {});
 };
 
@@ -93,7 +96,6 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
   let Transformers = stage.findOne("Transformer") as Konva.Transformer;
   const node = getSelectNode(e.target);
   const nodes: Array<Konva.Node> = [];
-  const layer = e.target.getLayer();
   if (flag) {
     const nodes1 = Transformers.getNodes();
     Transformers.nodes([...nodes1, node]);
@@ -103,7 +105,7 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
     Transformers?.destroy();
     nodes.push(node);
     Transformers = createTran(node.getAttrs().componentName);
-    layer.add(Transformers);
+    layer(stage, "util").add(Transformers);
     Transformers.nodes(nodes);
   }
 };

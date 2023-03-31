@@ -1,5 +1,6 @@
 import Konva from "konva";
 import { getTran } from "../../event/selectItem";
+import { getImgNode } from "../element/getImgNode";
 import { AlignOpt, AlignType } from "./index.b";
 
 export { AlignType };
@@ -132,10 +133,14 @@ export default (stage: Konva.Stage, type: AlignType) => {
     minY = Number.MAX_VALUE,
     maxY = Number.MIN_VALUE,
     maxX = Number.MIN_VALUE;
-  nodes.forEach((element) => {
-    const { x, y } = element.getAbsolutePosition();
-    const MAXX = x + element.width();
-    const MAXY = y + element.height();
+  const imgNodes = [];
+  nodes.forEach((element: Konva.Group) => {
+    // 如果是组转回thingImage
+    const imgEle = getImgNode(element);
+    imgNodes.push(imgEle);
+    const { x, y } = imgEle.getAbsolutePosition();
+    const MAXX = x + imgEle.width();
+    const MAXY = y + imgEle.height();
     if (MAXX > maxX) {
       maxX = MAXX;
     }
@@ -149,7 +154,7 @@ export default (stage: Konva.Stage, type: AlignType) => {
       minY = y;
     }
   });
-  setElPosition[type](nodes, {
+  setElPosition[type](imgNodes, {
     maxX,
     maxY,
     minX,
