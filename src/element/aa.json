@@ -1,0 +1,245 @@
+// 根节点
+{
+  "attrs": { "width": 1178, "height": 801, "background": "#dddddd" },
+  // 设备图层
+  "children": [
+    {
+      "attrs": { "name": "thing", "draggable": true },
+      // 设备集合
+      "children": [
+        {
+          "attrs": {
+            "x": 123,
+            "y": 1,
+            "id": "468033124212023296",
+            "name": "thingGroup",
+            "cdata": {
+              "type": "thingGroup",
+              "thing": {
+                "ic": "C612",
+                "iu": "468033124212023296",
+                "tc": "SCREEN-BOWL_CENTRIFUGE",
+                "img": "/api/thing/v1/photo/thing2927B923004E4FC0909B145A1898CC0F.svg",
+                "key": "0-1-0-0",
+                "sort": 21019,
+                "children": null,
+                "thingType": "device",
+                "instanceName": "离心机_C612",
+                "parentInstanceId": "-1"
+              }
+            },
+            "draggable": true
+          },
+          // 每个设备的图片、文字
+          "children": [
+            {
+              "attrs": {
+                // 横纵坐标
+                "x": 193,
+                "y": 62,
+                "id": "7a29684f-f366-4ba3-94aa-9a3acc50b192",
+                "src": "/api/thing/v1/photo/thing2927B923004E4FC0909B145A1898CC0F.svg",
+                "name": "thingImage",
+                "cdata": { "lineInfo": { "inLineIds": [], "outLineIds": [] } },
+                "myWidth": 180,
+                "myHeight": 70
+              },
+              "className": "Image"
+            },
+            {
+              "attrs": {
+                "x": 268.6240234375,
+                "y": 132,
+                "code": "CODE",
+                "name": "thingDefTextGroup",
+                "cdata": {
+                  "state": "defalut",
+                  "thingTextInfo": { "v": "C612", "code": "CODE" }
+                },
+                "draggable": true
+              },
+              "children": [
+                {
+                  "attrs": {
+                    "code": "CODE",
+                    "fill": "#9CA9C7",
+                    "name": "val",
+                    "text": "C612",
+                    "align": "center",
+                    "height": 24,
+                    "fontSize": 14,
+                    "fontFamily": "Calibri",
+                    "verticalAlign": "middle"
+                  },
+                  "className": "Text"
+                }
+              ],
+              "className": "Group"
+            },
+            {
+              "attrs": {
+                "x": 127,
+                "y": 150,
+                "code": "ID",
+                "name": "thingTextGroup",
+                "cdata": {
+                  "state": "defalut",
+                  "thingTextInfo": {
+                    "v": "468033124212023296",
+                    "code": "ID",
+                    "unit": null,
+                    "label": "实例ID："
+                  }
+                },
+                "draggable": true
+              },
+              "children": [
+                {
+                  "attrs": {
+                    "x": 54.140625,
+                    "id": "282bd380-5522-4f70-a3a7-ae07813b26c2",
+                    "fill": "#2A6BDB",
+                    "name": "rect",
+                    "cdata": {
+                      "lineInfo": { "inLineIds": [], "outLineIds": [] }
+                    },
+                    "width": 137.72265625,
+                    "height": 24,
+                    "stroke": "#1D56A1",
+                    "strokeWidth": 1,
+                    "cornerRadius": 3,
+                    "strokeScaleEnabled": false
+                  },
+                  "className": "Rect"
+                },
+                {
+                  "attrs": {
+                    "fill": "#9CA9C7",
+                    "name": "label",
+                    "text": "实例ID：",
+                    "height": 24,
+                    "fontSize": 14,
+                    "fontFamily": "Calibri",
+                    "verticalAlign": "middle"
+                  },
+                  "className": "Text"
+                },
+                {
+                  "attrs": {
+                    "x": 59.140625,
+                    "fill": "#33DAFF",
+                    "name": "val",
+                    "text": "468033124212023296",
+                    "align": "center",
+                    "height": 24,
+                    "fontSize": 14,
+                    "fontFamily": "Calibri",
+                    "verticalAlign": "middle"
+                  },
+                  "className": "Text"
+                },
+                {
+                  "attrs": {
+                    "x": 196.86328125,
+                    "fill": "#fff",
+                    "name": "unit",
+                    "height": 24,
+                    "opacity": 0.5,
+                    "fontFamily": "Calibri",
+                    "verticalAlign": "middle"
+                  },
+                  "className": "Text"
+                }
+              ],
+              "className": "Group"
+            },
+            {
+              "attrs": {
+                "x": 250,
+                "y": 175.5,
+                "code": "THING_CODE",
+                "name": "thingTextGroup",
+                "cdata": {
+                  "state": "defalut",
+                  "thingTextInfo": {
+                    "v": "SCREEN-BOWL_CENTRIFUGE",
+                    "code": "THING_CODE",
+                    "unit": null,
+                    "label": "物模型编码："
+                  }
+                },
+                "draggable": true
+              },
+              "children": [
+                {
+                  "attrs": {
+                    "x": 84,
+                    "id": "3e9d0907-3b1e-4eed-a61b-cf2e45f590af",
+                    "fill": "#2A6BDB",
+                    "name": "rect",
+                    "cdata": {
+                      "lineInfo": { "inLineIds": [], "outLineIds": [] }
+                    },
+                    "width": 172.9140625,
+                    "height": 24,
+                    "stroke": "#1D56A1",
+                    "strokeWidth": 1,
+                    "cornerRadius": 3,
+                    "strokeScaleEnabled": false
+                  },
+                  "className": "Rect"
+                },
+                {
+                  "attrs": {
+                    "fill": "#9CA9C7",
+                    "name": "label",
+                    "text": "物模型编码：",
+                    "height": 24,
+                    "fontSize": 14,
+                    "fontFamily": "Calibri",
+                    "verticalAlign": "middle"
+                  },
+                  "className": "Text"
+                },
+                {
+                  "attrs": {
+                    "x": 89,
+                    "fill": "#33DAFF",
+                    "name": "val",
+                    "text": "SCREEN-BOWL_CENTRIFUGE",
+                    "align": "center",
+                    "height": 24,
+                    "fontSize": 14,
+                    "fontFamily": "Calibri",
+                    "verticalAlign": "middle"
+                  },
+                  "className": "Text"
+                },
+                {
+                  "attrs": {
+                    "x": 261.9140625,
+                    "fill": "#fff",
+                    "name": "unit",
+                    "height": 24,
+                    "opacity": 0.5,
+                    "fontFamily": "Calibri",
+                    "verticalAlign": "middle"
+                  },
+                  "className": "Text"
+                }
+              ],
+              "className": "Group"
+            }
+          ],
+          "className": "Group"
+        }
+      ],
+      "className": "Layer"
+    },
+    // 线图层
+    { "attrs": { "name": "line" }, "children": [], "className": "Layer" },
+    // 工具图层
+    { "attrs": { "name": "util" }, "children": [], "className": "Layer" }
+  ],
+  "className": "Stage"
+}

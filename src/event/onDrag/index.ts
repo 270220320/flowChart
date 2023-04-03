@@ -12,7 +12,6 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     if (getCustomAttrs(e.target).type !== "control") {
       initSubLine.bind(ie)(stage, e);
     }
-
     // 块关联线随动
     dealRelation(e, ie.getStage());
     if (e.target !== stage && e.target.getClassName() !== "Transformer") {

@@ -1,5 +1,6 @@
 import Konva from "konva";
 import { getTran } from "../../event/selectItem";
+import computedXY from "../computedXY";
 import { getImgNode } from "../element/getImgNode";
 import { AlignOpt, AlignType } from "./index.b";
 
@@ -138,7 +139,11 @@ export default (stage: Konva.Stage, type: AlignType) => {
     // 如果是组转回thingImage
     const imgEle = getImgNode(element);
     imgNodes.push(imgEle);
-    const { x, y } = imgEle.getAbsolutePosition();
+    const { x, y } = computedXY(
+      stage,
+      imgEle.absolutePosition().x,
+      imgEle.absolutePosition().y
+    );
     const MAXX = x + imgEle.width();
     const MAXY = y + imgEle.height();
     if (MAXX > maxX) {

@@ -268,11 +268,16 @@ export const createThingText = (
     },
     advanced: (data: thingTextInfo, cb?: (thingTextGroup: Group) => void) => {
       const { label, v, unit, code } = data;
-      const point = computedXY(
-        stage,
-        thingGroup.getClientRect().x,
-        thingGroup.getClientRect().y + thingGroup.getClientRect().height
-      );
+      const point = {
+        x:
+          (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
+          stage.scaleX(),
+        y:
+          (thingGroup.getClientRect().y -
+            thingGroup.getAbsolutePosition().y +
+            thingGroup.getClientRect().height) /
+          stage.scaleX(),
+      };
       const group = createThingAdvancedText(
         themeType,
         {
