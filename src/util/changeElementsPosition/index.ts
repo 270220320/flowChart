@@ -2,6 +2,7 @@ import Konva from "konva";
 import { getTran } from "../../event/selectItem";
 import computedXY from "../computedXY";
 import { getImgNode } from "../element/getImgNode";
+import { dealRelation } from "../element/relation";
 import { AlignOpt, AlignType } from "./index.b";
 
 export { AlignType };
@@ -34,6 +35,7 @@ const setElPosition: Record<
   moveUp() {},
   moveDown() {},
   top(nodes, { minY }) {
+    111;
     nodes.forEach((element) => {
       const { x } = element.getAbsolutePosition();
       element.setAbsolutePosition({
@@ -164,5 +166,8 @@ export default (stage: Konva.Stage, type: AlignType) => {
     maxY,
     minX,
     minY,
+  });
+  imgNodes.forEach((element) => {
+    dealRelation(element, stage);
   });
 };

@@ -7,13 +7,22 @@ import { getCustomAttrs } from "@/main";
 export default (ie: INLEDITOR, cb?: () => void) => {
   const stage = ie.getStage();
   // 按下移动
-  stage.on("dragmove", (e) => {
+  stage.on("dragmove", (e: any) => {
     // 启动辅助线
     if (getCustomAttrs(e.target).type !== "control") {
       initSubLine.bind(ie)(stage, e);
     }
     // 块关联线随动
-    dealRelation(e, ie.getStage());
+    let target;
+    if (e.target.nodeType === "Shape" || e.target.nodeType === "Image") {
+      target = e.target;
+    } else if (e.target.nodeType === "Group") {
+      target = e.target.children.find((ele) => ele.name() === "thingImage");
+    }
+    if (target) {
+      dealRelation(target, ie.getStage());
+    }
+
     if (e.target !== stage && e.target.getClassName() !== "Transformer") {
       const { nodes } = getTran(stage);
       if (nodes.length === 1 && nodes[0] !== e.target) {
