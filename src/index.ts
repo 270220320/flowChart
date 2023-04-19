@@ -26,7 +26,6 @@ import { exitEditLine } from "./util/line/editLine";
 import { Pool } from "./component/pool";
 import reset from "./util/initStage/reset";
 import { Scraper, StoreHouse, VideoNode } from "./main";
-import { fabric } from "fabric";
 // import { Canvg } from "canvg";
 
 export type DrawState =
