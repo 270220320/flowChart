@@ -88,6 +88,7 @@ export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>, cb?) => {
   Transformers.nodes(nodes);
   layer(stage, "util").add(Transformers);
   cb?.("things", {}, {});
+  return Transformers;
 };
 
 // 框选元素动作

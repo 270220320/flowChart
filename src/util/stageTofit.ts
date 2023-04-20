@@ -1,107 +1,92 @@
-import { clearTransFormer } from "@/event/selectItem";
 import Konva from "konva";
 import layer from "./layer";
 
-/**
- * @description 计算缩放后的坐标
- * @param x
- * @param y
- * @param p
- * @param scale
- * @returns
- */
-export const computedZoomCoord = (
-  x: number,
-  y: number,
-  p: { x: number; y: number },
-  scale: number
-) => {
-  let left = x;
-  let top = y;
-  if (p) {
-    left = left / scale;
-    top = top / scale;
-  }
+const getThingLayerMaxSize = (stage: Konva.Stage) => {
+  // 获取 thingLayer 和 linerLayer 的宽度和高度
+  const thingLayer = layer(stage, "thing").getClientRect();
+  const linerLayer = layer(stage, "line").getClientRect();
+
+  // 获取 stage 的宽度和高度
+  const stageRect = {
+    width: stage.width(),
+    height: stage.height(),
+    ...stage.position(),
+  };
+  // 缩放比例
+  const sacle = stage.scaleX();
+  // 获取 thingLayer 和 linerLayer 的最小 x 和 y
+  const x = Math.min(thingLayer.x, linerLayer.x);
+  const y = Math.min(thingLayer.y, linerLayer.y);
+
+  // 获取thing和line 的最大 x 和 y
+  const maxX = Math.max(
+    thingLayer.x + thingLayer.width,
+    linerLayer.x + linerLayer.width
+  );
+  const maxY = Math.max(
+    thingLayer.y + thingLayer.height,
+    linerLayer.y + linerLayer.height
+  );
+  /**
+   * 1. 获取 thingLayer 和 linerLayer 的最大宽度和高度
+   */
   return {
-    left,
-    top,
+    layer: {
+      x,
+      y,
+      width: maxX - x,
+      height: maxY - y,
+    },
+    stageRect,
+    sacle,
   };
 };
 
-/**
- * @description 居中缩放
- * @param stage
- */
-const tofit = (stage: Konva.Stage) => {
-  // 清除变换器
-  clearTransFormer(stage);
-  // 获取thing层的边界框
-  const thingLayer = layer(stage, "thing");
-
-  // 移动位置
-  const movePosition = (data) => {
-    // 原始layer的位置信息
-    const { x, y, width, height } = data;
-    // 当前舞台的位置信息
-    const p = stage.position();
-    //
-    const sjx = -(x - p.x);
-    const sjy = -(y - p.y);
-
-    const stageMove1 = new Konva.Tween({
-      node: stage,
-      x: sjx + (stage.width() - width * stage.scaleX()) / 2,
-      y: sjy + (stage.height() - height * stage.scaleY()) / 2,
-      // x: sjx + stage.width() * 0.05,
-      // y: sjy + stage.height() * 0.0001,
-      easing: Konva.Easings.EaseIn,
-      duration: 0.5,
-    });
-    stageMove1.play();
+const computedIrect = (stage: Konva.Stage) => {
+  const info = getThingLayerMaxSize(stage);
+  const Irect = {
+    x: (info.layer.x - info.stageRect.x) / stage.scaleX(),
+    y: (info.layer.y - info.stageRect.y) / stage.scaleY(),
+    width: info.layer.width / stage.scaleX(),
+    height: info.layer.height / stage.scaleY(),
   };
 
-  // 获取边界框
-  const { x, y, width, height } = thingLayer.getClientRect();
+  // const rect = new Konva.Rect({
+  //   ...Irect,
+  //   stroke: "red",
+  // });
 
-  // 获取当前缩放比例 保留5位小数
-  const scaleOld = Number(stage.scaleX().toFixed(5));
-  // 计算缩放比例
-  const scale = Number(
-    Math.min(
-      (stage.width() / width) * scaleOld,
-      (stage.height() / height) * scaleOld
-    ).toFixed(5)
-  );
-  const stageMove = new Konva.Tween({
-    node: stage,
-    scaleX: scale,
-    scaleY: scale,
-    easing: Konva.Easings.EaseIn,
-    duration: 0.2,
+  // layer(stage, "util").add(rect);
+  return Irect;
+};
+
+const bl = 1;
+// 缩放到适合屏幕
+export const stageTofit = (stage: Konva.Stage) => {
+  const { layer, stageRect } = getThingLayerMaxSize(stage);
+  const Irect = computedIrect(stage);
+
+  const sjx = -(layer.x - stageRect.x);
+  const sjy = -(layer.y - stageRect.y);
+
+  console.log(stageRect, Irect);
+
+  stage.position({
+    x: sjx,
+    y: sjy,
   });
-
-  stageMove.play();
-  stageMove.onFinish = () => {
-    const data = {
-      scale,
-      x,
-      y,
-      width,
-      height,
-      scaleOld,
-    };
-
-    if (scaleOld !== scale) {
-      const pp = thingLayer.getClientRect();
-      data.x = pp.x;
-      data.y = pp.y;
-    }
-    movePosition(data);
-  };
-
-  stage.batchDraw();
 };
 
 export default (stage: Konva.Stage) => {
-  tofit(stage);
+  // stage.scale({ x: 1, y: 1 });
+
+  const Irect = computedIrect(stage);
+  const scale =
+    Math.min(stage.width() / Irect.width, stage.height() / Irect.height) * bl;
+
+  stage.scale({
+    x: scale,
+    y: scale,
+  });
+  stageTofit(stage);
 };
