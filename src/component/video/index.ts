@@ -1,5 +1,5 @@
 import { Thing } from "@/data/thing";
-import { createComponentThingGoup } from "@/element";
+import { createComponentThingGoup, createImage } from "@/element";
 import { getCustomAttrs } from "@/util";
 import layer from "@/util/layer";
 import { UUID } from "@/util/uuid";
@@ -21,7 +21,7 @@ class VideoNode extends Component {
   width = 150;
   height = 130;
   elements = [];
-  add = (
+  add = async (
     thingInfo: Thing,
     p?: { x: number; y: number },
     isPreview?: boolean,
@@ -29,7 +29,7 @@ class VideoNode extends Component {
   ) => {
     // 拖入
     if (p) {
-      this.draw(thingInfo, thingInfo.img, p);
+      await this.draw(thingInfo, thingInfo.img, p);
       // 反序列化
     } else if (eleGroup && !isPreview) {
       const info = getCustomAttrs(eleGroup);
@@ -39,7 +39,7 @@ class VideoNode extends Component {
       const img = imgGroup.children[0];
       const imageObj = new Image();
       imageObj.src = info.thing.img;
-      img.setAttrs({ image: imageObj });
+      img?.setAttrs({ image: imageObj });
     } else {
       const video = document.createElement("video");
       video.id = thingInfo.iu;
@@ -71,7 +71,11 @@ class VideoNode extends Component {
       document.getElementById(uuid).remove();
     });
   };
-  draw = (thingInfo: Thing, imgUrl: string, p: { x: number; y: number }) => {
+  draw = async (
+    thingInfo: Thing,
+    imgUrl: string,
+    p: { x: number; y: number }
+  ) => {
     const element: VideoEle = {};
     const lay = layer(this.stage, "thing");
     element.imgGroup = new Konva.Group({
@@ -88,20 +92,14 @@ class VideoNode extends Component {
       thingInfo,
       element.imgGroup
     );
-    const imageObj = new Image();
-    let video;
-    imageObj.onload = () => {
-      video = new Konva.Image({
-        x: 0,
-        y: 0,
-        width: this.width,
-        height: this.height,
-        image: imageObj,
-      });
-      // add the shape to the layer
-      element.imgGroup.add(video);
-    };
-    imageObj.src = imgUrl;
+    const image = await createImage(imgUrl);
+    image.setAttrs({
+      x: 0,
+      y: 0,
+      width: this.width,
+      height: this.height,
+    });
+    element.imgGroup.add(image);
   };
 }
 
