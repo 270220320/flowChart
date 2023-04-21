@@ -1,6 +1,7 @@
 import Konva from "konva";
 import layer from "./layer";
 
+// 获取 thingLayer 和 linerLayer 的最大宽度和高度
 const getThingLayerMaxSize = (stage: Konva.Stage) => {
   // 获取 thingLayer 和 linerLayer 的宽度和高度
   const thingLayer = layer(stage, "thing").getClientRect();
@@ -42,6 +43,7 @@ const getThingLayerMaxSize = (stage: Konva.Stage) => {
   };
 };
 
+// 计算 Irect
 const computedIrect = (stage: Konva.Stage) => {
   const info = getThingLayerMaxSize(stage);
   const Irect = {
@@ -51,12 +53,6 @@ const computedIrect = (stage: Konva.Stage) => {
     height: info.layer.height / stage.scaleY(),
   };
 
-  // const rect = new Konva.Rect({
-  //   ...Irect,
-  //   stroke: "red",
-  // });
-
-  // layer(stage, "util").add(rect);
   return Irect;
 };
 
@@ -68,8 +64,6 @@ export const stageTofit = (stage: Konva.Stage) => {
 
   const sjx = -(layer.x - stageRect.x);
   const sjy = -(layer.y - stageRect.y);
-
-  console.log(stageRect, Irect);
 
   stage.position({
     x: sjx,

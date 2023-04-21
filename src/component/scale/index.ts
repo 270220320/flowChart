@@ -175,9 +175,10 @@ class Scale extends Component {
     const scaleX = document.createElement("div");
     const scaleY = document.createElement("div");
     scaleX.id = "scalex";
+    // left: ${scale.thickness}px;
     scaleX.setAttribute(
       "style",
-      `top: 0; left: ${scale.thickness}px; overflow:hidden; right: 0; height: ${scale.thickness}px; position: absolute;z-index: 1;background:${scale.background};`
+      `top: 0;  overflow:hidden; right: 0; height: ${scale.thickness}px; position: absolute;z-index: 1;background:${scale.background};`
     );
     scaleY.setAttribute(
       "style",
