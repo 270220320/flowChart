@@ -16,4 +16,5 @@ export { inleditor };
 
 export * from "./animate/coal";
 
+export * from "./processEditor";
 export default inleditor;

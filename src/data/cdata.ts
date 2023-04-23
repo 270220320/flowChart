@@ -19,6 +19,7 @@ export interface thingTextInfo {
   code?: string;
   label?: string;
   unit?: string;
+  id?: string;
 }
 
 export interface CDATA {

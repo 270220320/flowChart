@@ -7,16 +7,17 @@ import { thingTextInfo } from "../data/cdata";
 import { THINGTEXT } from "../data/dropData";
 import layer from "../util/layer";
 import { getCustomAttrs, setCustomAttrs } from "../util/customAttr";
-import { getTran, toSelect } from "@/event/selectItem";
+import { toSelect } from "@/event/selectItem";
 import { Group } from "konva/lib/Group";
 import computedXY from "@/util/computedXY";
 
-export const createText = (config: TextConfig) =>
+export const createText = (config: TextConfig, id?: string) =>
   new Konva.Text({
     fontFamily: "Calibri",
     fill: "black",
     fontSize: 14,
     verticalAlign: "middle",
+    id,
     ...config,
   });
 
@@ -27,17 +28,20 @@ export const createThingDefaultText = (
   group?: Konva.Group
 ) => {
   const t = theme[themeType];
-  const { v, code } = data;
+
+  const { v, id } = data;
   group = group || createThingTextGroup(data, "thingDefTextGroup", position);
-  const textEl = createText({
-    fill: t.thingText.def.val.fill,
-    fontSize: t.thingText.def.val.size,
-    text: v,
-    align: "center",
-    code,
-    height: t.thingText.advanced.val.rectHeight,
-    name: "val",
-  });
+  const textEl = createText(
+    {
+      fill: t.thingText.def.val.fill,
+      fontSize: t.thingText.def.val.size,
+      text: v,
+      align: "center",
+      height: t.thingText.advanced.val.rectHeight,
+      name: "val",
+    },
+    id
+  );
   group.add(textEl);
   return group;
 };
@@ -87,7 +91,7 @@ export const createThingAdvancedText = (
   position: { x: number; y: number },
   group?: Konva.Group
 ) => {
-  const { label, v, unit } = data;
+  const { label, v, unit, id } = data;
   group = group || createThingTextGroup(data, "thingTextGroup", position);
   const t = theme[themeType];
   const { advanced } = t.thingText;
@@ -99,16 +103,19 @@ export const createThingAdvancedText = (
     height: advanced.val.rectHeight,
     name: "label",
   });
-  const valtext = createText({
-    fill: advanced.val.fill,
-    fontSize: advanced.val.size,
-    text: v,
-    draggable: false,
-    x: labelText.width() + 5,
-    align: "center",
-    height: advanced.val.rectHeight,
-    name: "val",
-  });
+  const valtext = createText(
+    {
+      fill: advanced.val.fill,
+      fontSize: advanced.val.size,
+      text: v,
+      draggable: false,
+      x: labelText.width() + 5,
+      align: "center",
+      height: advanced.val.rectHeight,
+      name: "val",
+    },
+    id
+  );
   const valRect = defaultRect({
     fill: advanced.val.rectFill,
     stroke: advanced.val.rectStroke,
@@ -242,7 +249,7 @@ export const createThingText = (
     return;
   }
   return {
-    def: (text: string, code: string, cb?: (thingTextGroup: Group) => void) => {
+    def: (text: string, id: string, cb?: (thingTextGroup: Group) => void) => {
       const point = computedXY(
         stage,
         thingGroup.getClientRect().x,
@@ -252,7 +259,7 @@ export const createThingText = (
         themeType,
         {
           v: text,
-          code,
+          id,
         },
         {
           x: point.x,
@@ -267,7 +274,7 @@ export const createThingText = (
       cb ? cb(textShape) : null;
     },
     advanced: (data: thingTextInfo, cb?: (thingTextGroup: Group) => void) => {
-      const { label, v, unit, code } = data;
+      const { label, v, unit, code, id } = data;
       const point = {
         x:
           (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
@@ -285,6 +292,7 @@ export const createThingText = (
           v: v,
           unit: unit,
           code,
+          id,
         },
         {
           x: point.x,
@@ -294,9 +302,9 @@ export const createThingText = (
       thingGroup.add(group);
       cb ? cb(group) : null;
     },
-    changeTo: (code: string) => {
+    changeTo: (id: string) => {
       thingGroup.getChildren().forEach((item) => {
-        if (item.attrs.code && item.attrs.code === code) {
+        if (item.attrs.id && item.attrs.id === id) {
           const name = item.name();
           const attrs = getCustomAttrs(item);
           (item as Konva.Group).removeChildren();
@@ -328,9 +336,9 @@ export const createThingText = (
         }
       });
     },
-    changeVal: (code, val) => {
+    changeVal: (id: string, val: string) => {
       thingGroup.getChildren().forEach((item: Konva.Group) => {
-        if (item.attrs.code && item.attrs.code === code) {
+        if (item.attrs.id && item.attrs.id === id) {
           const name = item.name();
           const attrs = getCustomAttrs(item);
           const thingTextInfo = { ...attrs.thingTextInfo, v: val };

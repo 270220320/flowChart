@@ -151,16 +151,10 @@ class INLEDITOR {
   }
 
   // 动态修改物模型的值
-  setVal(iu: string, code: string, val: string) {
+  setVal(id: string, val: string) {
     // 查找物模型
-    const thignGroup = this.thingLayer.findOne(`#${iu}`) as Konva.Group;
-    if (!thignGroup) return;
-    // 筛选code
-    getThingTextGroup(thignGroup).forEach((e) => {
-      if (e.attrs.code && e.attrs.code === code) {
-        setThingTextVal(e, val);
-      }
-    });
+    const thingText = this.thingLayer.findOne(`#${id}`) as Konva.Text;
+    setThingTextVal(thingText.parent as Konva.Group, val);
   }
 
   // 删除thing文字 allOfThem删除全部
