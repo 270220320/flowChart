@@ -9,8 +9,8 @@ import { KonvaEventObject } from "konva/lib/Node";
 import { getMouseOver } from "../";
 import { getCustomAttrs, getLineInfo, setCustomAttrs } from "../customAttr";
 import { UUID } from "../uuid";
-import { getLinePoints } from "./rightAngleLine";
-import { getUsePointUn } from "./line";
+import { getLinePoints, mergeRightAngleLinePoint } from "./rightAngleLine";
+import { getUsePoint, getUsePointUn } from "./line";
 import { LineTheme } from "@/config/line";
 import { lineState } from "../../config";
 import { isComponentChild, isComponentChildren } from "@/component";
@@ -65,6 +65,11 @@ export const finishLine = (
     });
     beginInfo?.outLineIds?.push(line.id());
     endInfo?.inLineIds?.push(line.id());
+    if (lineType.indexOf("rightAngle") >= 0) {
+      const points = getUsePoint(line.attrs.points);
+      const resPoints = mergeRightAngleLinePoint(points);
+      line.setAttrs({ points: getUsePointUn(resPoints) });
+    }
   } else {
     line.remove();
   }
