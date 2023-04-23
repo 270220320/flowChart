@@ -1,4 +1,5 @@
 import inleditor from "./";
+import getLayer from "./util/layer";
 export { createThingDefaultText } from "./element/text";
 export {
   getThingChildPosition,
@@ -17,4 +18,6 @@ export { inleditor };
 export * from "./animate/coal";
 
 export * from "./processEditor";
+
+export { getLayer };
 export default inleditor;
