@@ -129,7 +129,9 @@ class INLEDITOR {
   getDrawState() {
     return this.drawState;
   }
-  setDrawState(state: DrawState, info?: any) {
+
+  // 设置画状态
+  setDrawState(state: DrawState, info?: { type: string; url: string }) {
     this.drawState = state;
     this.drawInfo = info;
     this.stateChangeCb?.(state);
@@ -244,22 +246,6 @@ class INLEDITOR {
     return toImage(this.stage, theme[this.theme].background);
   }
 
-  async toShape() {
-    const SOURCE =
-      "http://192.168.5.190//api/thing/v1/photo/thing48F63632E12A47618E640E119EAB3FCB.svg";
-    // try to draw SVG natively
-    // draw svg with external library
-    // const canvas: any = document.getElementById("can");
-    // const v = await Canvg.from(canvas.getContext("2d"), SOURCE);
-    // v.render();
-    // var image = new Konva.Image({
-    //   image: canvas,
-    //   x: 200,
-    //   width: 150,
-    //   height: 150,
-    // });
-    // layer.add(image);
-  }
   // 通过ID获取已选codes
   getCodeById(iu: string) {
     const thingGroup: Konva.Group = this.stage.findOne("#" + iu);

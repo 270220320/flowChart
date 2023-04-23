@@ -1,18 +1,19 @@
 import { createImage } from "@/element";
-import { fileToBase64 } from "@/util";
+import { fileToBase64, setCustomAttrs } from "@/util";
 import { computedXYByEvent } from "@/util/computedXY";
 import layer from "@/util/layer";
 import Konva from "konva";
 
+// 拖拽或直传url
 export default async (
   stage: Konva.Stage,
   e?: DragEvent | Event,
-  url?: string
+  info?: { type: string; url: string }
 ) => {
   let urls;
 
-  if (url) {
-    urls = [url];
+  if (info) {
+    urls = [info.url];
   } else {
     urls = await fileToBase64((e as DragEvent).dataTransfer.files);
   }
@@ -29,5 +30,8 @@ export default async (
       y: y - height / 2,
     });
     thingLayer.add(image);
+    if (info) {
+      setCustomAttrs(image, { imgCode: info.type });
+    }
   }
 };
