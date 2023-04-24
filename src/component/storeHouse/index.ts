@@ -8,6 +8,9 @@ interface StoreHouse {
   setLevel: (id: string, percent: number) => void;
 }
 class StoreHouse extends ComponentFac {
+  constructor(stage) {
+    super(stage);
+  }
   name = "StoreHouse";
   arr = [];
   add(thingInfo: Thing, p?: { x: number; y: number }, eleGroup?: Konva.Group) {

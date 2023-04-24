@@ -13,6 +13,9 @@ interface Pool {
 class Pool extends ComponentFac {
   name = "Pool";
   pools = [];
+  constructor(stage) {
+    super(stage);
+  }
   add(thingInfo: Thing, p?: { x: number; y: number }, eleGroup?: Konva.Group) {
     // 拖入
     if (p) {

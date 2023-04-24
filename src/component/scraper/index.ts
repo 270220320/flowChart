@@ -27,7 +27,7 @@ class Scraper {
     this.stage = stage;
     this.createThingGroup(info.thingInfo, info.p);
   }
-  name = "scraper";
+  name = "Scraper";
 
   changeState = (
     stage: Konva.Stage,

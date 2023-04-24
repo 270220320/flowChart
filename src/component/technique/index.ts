@@ -10,6 +10,9 @@ interface Compon {
   imgGroup?: Konva.Group;
 }
 class Technique extends ComponentFac {
+  constructor(stage) {
+    super(stage);
+  }
   name = "Technique";
   arr = [];
   add(thingInfo: Thing, p?: { x: number; y: number }, eleGroup?: Konva.Group) {

@@ -9,9 +9,6 @@ interface Scale {
 }
 
 class Scale extends ComponentFac {
-  constructor(opt: ScaleOpt) {
-    super();
-  }
   name = "scale";
   init() {
     this.createDom();

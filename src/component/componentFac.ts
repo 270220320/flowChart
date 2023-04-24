@@ -15,7 +15,7 @@ export class ComponentFac {
   editor!: INLEDITOR;
   version = "0.0.1";
   stage;
-  init(stage) {
+  constructor(stage) {
     this.stage = stage;
   }
   product(

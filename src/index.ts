@@ -78,9 +78,9 @@ class INLEDITOR {
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
       this.use(new Scale({}));
     }
-    this.use(new Pool());
-    this.use(new StoreHouse());
-    this.use(new VideoNode());
+    this.use(new Pool(this.stage));
+    this.use(new StoreHouse(this.stage));
+    this.use(new VideoNode(this.stage));
     this.onStageChange(this);
     if (json) {
       await reset(this);

@@ -12,6 +12,9 @@ interface VideoEle {
 }
 interface VideoNode {}
 class VideoNode extends ComponentFac {
+  constructor(stage) {
+    super(stage);
+  }
   name = "VideoNode";
   width = 150;
   height = 130;
