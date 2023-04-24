@@ -5,19 +5,14 @@ import layer from "@/util/layer";
 import { UUID } from "@/util/uuid";
 import { playOneWebRtcMt } from "@/videoPlay/videoV2";
 import Konva from "konva";
-import { Component } from "../component";
+import { ComponentFac } from "../componentFac";
 interface VideoEle {
   thingGroup?: Konva.Group;
   imgGroup?: Konva.Group;
 }
 interface VideoNode {}
-class VideoNode extends Component {
-  stage;
-  constructor(stage: Konva.Stage) {
-    super();
-    this.stage = stage;
-  }
-  name = "video";
+class VideoNode extends ComponentFac {
+  name = "VideoNode";
   width = 150;
   height = 130;
   elements = [];
@@ -76,21 +71,10 @@ class VideoNode extends Component {
     imgUrl: string,
     p: { x: number; y: number }
   ) => {
-    const element: VideoEle = {};
-    const lay = layer(this.stage, "thing");
-    element.imgGroup = new Konva.Group({
-      ...p,
-      draggable: false,
-      width: this.width,
-      height: this.height,
-      name: "thingImage",
-      componentName: this.name,
-      id: UUID(),
-    });
-    element.thingGroup = createComponentThingGoup(
-      lay,
-      thingInfo,
-      element.imgGroup
+    const element = this.product(
+      p,
+      { width: this.width, height: this.height },
+      thingInfo
     );
     const image = await createImage(imgUrl);
     image.setAttrs({

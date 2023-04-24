@@ -1,10 +1,9 @@
-import { Component } from "../component";
+import { ComponentFac } from "../componentFac";
 
 interface GridOpt {}
-export default class Grid extends Component {
+export default class Grid extends ComponentFac {
   constructor(opt: GridOpt) {
     super();
   }
   name = "grid";
-  init() {}
 }

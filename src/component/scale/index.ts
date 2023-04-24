@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { Component } from "../component";
+import { ComponentFac } from "../componentFac";
 import theme from "../../config/theme";
 
 interface ScaleOpt {}
@@ -8,7 +8,7 @@ interface Scale {
   opt: ScaleOpt;
 }
 
-class Scale extends Component {
+class Scale extends ComponentFac {
   constructor(opt: ScaleOpt) {
     super();
   }
@@ -221,4 +221,4 @@ class Scale extends Component {
   destroy() {}
 }
 
-export default Scale;
+export { Scale };

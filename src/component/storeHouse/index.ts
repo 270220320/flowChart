@@ -1,27 +1,14 @@
 import { Thing } from "@/data/thing";
-import { createComponentThingGoup } from "@/element";
-import layer from "@/util/layer";
-import { getUsePointUn } from "@/util/line/line";
-import { UUID } from "@/util/uuid";
 import Konva from "konva";
-import { Component } from "../component";
+import { ComponentFac } from "../componentFac";
 import storeHouseEmpty from "../../assets/storeHouseEmpty.svg";
 import storeHouseFull from "../../assets/storeHouseFull.svg";
 
-interface StoreHouseEle {
-  thingGroup?: Konva.Group;
-  imgGroup?: Konva.Group;
-}
 interface StoreHouse {
   setLevel: (id: string, percent: number) => void;
 }
-class StoreHouse extends Component {
-  stage;
-  constructor(stage: Konva.Stage) {
-    super();
-    this.stage = stage;
-  }
-  name = "storeHouse";
+class StoreHouse extends ComponentFac {
+  name = "StoreHouse";
   arr = [];
   add(thingInfo: Thing, p?: { x: number; y: number }, eleGroup?: Konva.Group) {
     // 拖入
@@ -33,22 +20,7 @@ class StoreHouse extends Component {
     }
   }
   draw(thingInfo: Thing, p: { x: number; y: number }) {
-    const storeHouseEle: StoreHouseEle = {};
-    const lay = layer(this.stage, "thing");
-    storeHouseEle.imgGroup = new Konva.Group({
-      ...p,
-      draggable: false,
-      width,
-      height,
-      name: "thingImage",
-      componentName: this.name,
-      id: UUID(),
-    });
-    storeHouseEle.thingGroup = createComponentThingGoup(
-      lay,
-      thingInfo,
-      storeHouseEle.imgGroup
-    );
+    const com = this.product(p, { width, height }, thingInfo);
     // 裁剪
     const clipGroup = new Konva.Group({
       clip: {
@@ -72,7 +44,7 @@ class StoreHouse extends Component {
         name: "left",
       });
       img.setAttrs({ src: storeHouseEmpty });
-      storeHouseEle.imgGroup.add(img);
+      com.imgGroup.add(img);
       img.moveDown();
     };
     imageObj.src = storeHouseEmpty;
@@ -89,11 +61,11 @@ class StoreHouse extends Component {
       });
       img.setAttrs({ src: storeHouseFull });
       clipGroup.add(img);
-      storeHouseEle.imgGroup.add(clipGroup);
+      com.imgGroup.add(clipGroup);
       clipGroup.moveUp();
     };
     imageFull.src = storeHouseFull;
-    return storeHouseEle.thingGroup;
+    return com.thingGroup;
   }
   setLevel = (iu: string, percent: number) => {
     const thingGroup = this.stage.findOne("#" + iu);
@@ -111,22 +83,4 @@ class StoreHouse extends Component {
 
 const width = 90;
 const height = 90;
-const points = [
-  {
-    x: 0,
-    y: 0,
-  },
-  {
-    x: 50,
-    y: 0,
-  },
-  {
-    x: 50,
-    y: 50,
-  },
-  {
-    x: 0,
-    y: 50,
-  },
-];
 export { StoreHouse };
