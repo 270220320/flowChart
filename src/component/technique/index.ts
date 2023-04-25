@@ -7,6 +7,7 @@ import { getTran } from "@/event/selectItem";
 import { UUID } from "@/util/uuid";
 import scraperLeft from "../../assets/scraperLeft.svg";
 import scraperRight from "../../assets/scraperRight.svg";
+import { createAnchor } from "@/util/anchor";
 
 interface Technique {
   stage: Konva.Stage;
@@ -157,7 +158,7 @@ class Technique {
       this.group.add(line1);
       this.group.add(line2);
       this.group.add(line3);
-
+      createAnchor();
       setCustomAttrs(this.thingGroup, { state: this.config.theme });
       this.thingGroup.add(this.group);
       this.draw.event();

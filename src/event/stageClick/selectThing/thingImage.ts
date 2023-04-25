@@ -12,7 +12,7 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
     { parent: thingImgParent as any, target: parent },
     {
       iu: thingImgData.thing?.iu,
-      code: getIus(thingImgParent),
+      codes: getIus(thingImgParent),
     }
   );
 };
