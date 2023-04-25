@@ -29,7 +29,7 @@ class BELT {
     this.stage = stage;
     this.createThingGroup(info.thingInfo, info.p);
   }
-  name = "belt";
+  name = "BELT";
 
   createThingGroup(thingInfo: Thing, p?: { x: number; y: number }) {
     if (p) {
