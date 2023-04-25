@@ -19,7 +19,7 @@ export type onSelectCallBackFun = (
 
 export const getIus = (group: Konva.Group) => {
   let arr = [];
-
+  // 111;
   try {
     arr = group
       .find("Group")

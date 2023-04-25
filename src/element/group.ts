@@ -50,11 +50,11 @@ export const createThingTextGroup = (
   position: { x: number; y: number }
 ) => {
   const { x, y } = position;
-  const { code } = data;
+  const { code, id } = data;
   const group = new Konva.Group({
     name: name,
     draggable: true,
-    code,
+    code: id,
     x: x || 0,
     y: y || 0,
   });
