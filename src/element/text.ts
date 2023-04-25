@@ -297,7 +297,6 @@ export const createThingText = (
             thingGroup.getClientRect().height) /
           stage.scaleX(),
       };
-      111;
       const group = createThingAdvancedText(
         themeType,
         {

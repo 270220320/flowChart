@@ -25,7 +25,7 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
           { parent: selfParent, target: e.target },
           {
             iu: thingData.thing!.iu,
-            code: [code2],
+            codes: [code2],
           }
         );
     }

@@ -54,13 +54,14 @@ export const createThingTextGroup = (
   const group = new Konva.Group({
     name: name,
     draggable: true,
-    code: id,
     x: x || 0,
     y: y || 0,
   });
   setCustomAttrs(group, {
     thingTextInfo: data,
     state: "defalut",
+    propertyId: id,
+    propertyCode: code,
   });
   return group;
 };
