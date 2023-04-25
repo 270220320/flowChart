@@ -7,6 +7,7 @@ export interface Thing {
   img: string;
   name: string;
   type?: string;
+  id?: string;
 }
 
 const thing: Thing = {

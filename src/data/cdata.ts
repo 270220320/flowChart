@@ -29,6 +29,7 @@ export interface CDATA {
   lineInfo?: LINEINFO;
   thingTextInfo?: thingTextInfo;
   state?: string | number;
+  showCard?: boolean;
 }
 
 export const cData: CDATA = {};

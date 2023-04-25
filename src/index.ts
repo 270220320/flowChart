@@ -157,18 +157,15 @@ class INLEDITOR {
   }
 
   // 删除thing文字 allOfThem删除全部
-  removeText(iu: string, code: string | SpecialCode.all) {
+  removeText(iu: string, ids: Array<string | SpecialCode.all>) {
     // 查找物模型
     const thignGroup = layer(this.stage, "thing").findOne(
       `#${iu}`
     ) as Konva.Group;
     // 筛选code
-    getThingTextGroup(thignGroup).forEach((e) => {
-      const attrs = e.getAttrs();
-      if (code === "allOfThem" || (attrs.code && attrs.code === code)) {
-        e.remove();
-      }
-    });
+    for (let i of ids) {
+      thignGroup.findOne(`#${i}`).remove();
+    }
   }
 
   // 获取画布上所有物模型的id
