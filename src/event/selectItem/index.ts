@@ -34,7 +34,7 @@ const checkTarget: (selectTarget: Shape<ShapeConfig> | Stage) => TargetType = (
   e
 ) => {
   let type: TargetType = "other";
-  if (e.className === "Line") return "line";
+  if (e.className === "Arrow") return "line";
   return type;
 };
 
@@ -47,7 +47,7 @@ export const createTran = (name?: string) => {
     // centeredScaling: true,
     rotationSnaps: [0, 90, 180, 270],
   };
-  if (name === "belt" || name === "scraper") {
+  if (name === "BELT" || name === "Scraper" || name === "Technique") {
     opt.enabledAnchors = ["middle-right"];
     opt.rotateEnabled = false;
   }
@@ -123,7 +123,6 @@ export default (ie: INLEDITOR) => {
       return;
     }
     const tt = checkTarget(e.target);
-
     switch (tt) {
       case "line":
         isLine();
