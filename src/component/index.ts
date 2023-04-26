@@ -8,6 +8,7 @@ export * from "./pool";
 export * from "./video";
 export * from "./scraper";
 export * from "./storeHouse";
+export * from "./technique";
 
 export const isComponentChild = (node: Konva.Node) => {
   const parent = node.parent;

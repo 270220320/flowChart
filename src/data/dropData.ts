@@ -46,7 +46,7 @@ export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
   for (let text of childText) {
     const iRect = text.getAbsolutePosition();
     const ItemXY = computedXY(stage, iRect.x, iRect.y);
-    const { v, code, label, unit } = getCustomAttrs(text).thingTextInfo;
+    const { v, code, label, unit, id } = getCustomAttrs(text).thingTextInfo;
     arr.push({
       type: text.name() as keyof typeof groupNames,
       position: {
@@ -56,6 +56,7 @@ export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
       info: {
         v,
         code,
+        id,
         label,
         unit,
       },
@@ -63,7 +64,7 @@ export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
   }
   return arr;
 };
-// 设置物模型的文字位置
+// 设置物模型图片的缩放
 export const setThingScale = (
   stage: Konva.Stage,
   iu: string,

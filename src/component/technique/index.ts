@@ -3,35 +3,20 @@ import { createComponentThingGoup } from "@/element";
 import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import layer from "../../util/layer";
 import Konva from "konva";
-import state from "./state";
 import { getTran } from "@/event/selectItem";
 import { UUID } from "@/util/uuid";
 import scraperLeft from "../../assets/scraperLeft.svg";
 import scraperRight from "../../assets/scraperRight.svg";
+import { createAnchors } from "@/util/anchor";
 
-interface Scraper {
+interface Technique {
   stage: Konva.Stage;
   group: Konva.Group;
   thingGroup: Konva.Group;
   rect: Konva.Rect;
 }
 
-export const changeState = (
-  stage: Konva.Stage,
-  stateType: string | number,
-  iu: string
-) => {
-  const thingLayer = layer(stage, "thing");
-  const thingGroup = thingLayer.findOne(`#${iu}`) as Konva.Group;
-  const thingImage = thingGroup.findOne(`.thingImage`) as Konva.Group;
-  const theme = state[stateType];
-  setCustomAttrs(thingGroup, { state: stateType });
-  const middle = thingImage.children.find((ele) => ele.name() === "middle");
-  middle.setAttrs({ fill: theme.middle.color });
-  return thingImage;
-};
-
-class Scraper {
+class Technique {
   constructor(
     stage: Konva.Stage,
     info: {
@@ -42,7 +27,7 @@ class Scraper {
     this.stage = stage;
     this.createThingGroup(info.thingInfo, info.p);
   }
-  name = "Scraper";
+  name = "Technique";
 
   createThingGroup(thingInfo: Thing, p?: { x: number; y: number }) {
     if (p) {
@@ -78,8 +63,8 @@ class Scraper {
     }
   }
   config: any = {
-    width: 192,
-    height: 26,
+    width: 80,
+    height: 20,
     left: 0,
     top: 0,
     theme: 0,
@@ -104,12 +89,17 @@ class Scraper {
           y: 1,
         });
         this.config.theme = getCustomAttrs(this.group).state || 0;
-        const middle = this.group.children.find(
-          (ele) => ele.name() === "middle"
-        );
-        middle.setAttrs({ width: this.config.width - 31 - 42 });
-        const right = this.group.children.find((ele) => ele.name() === "right");
-        right.setAttrs({ x: this.config.width - 42 });
+        this.group.children.forEach((ele) => {
+          if (ele.name() === "middle") {
+            ele.attrs.points[2] = this.config.width;
+          }
+          if (ele.name() === "right") {
+            ele.setAttrs({ x: this.config.width });
+          }
+          if (ele.name() === "text") {
+            ele.setAttrs({ x: this.config.width / 2 });
+          }
+        });
       });
     },
     init: () => {
@@ -117,57 +107,76 @@ class Scraper {
       this.config.callBack(this.group);
     },
     render: async (stateType: number | string) => {
-      const theme = state[stateType || 0];
       // 左
-      let imageObj = new Image();
-      imageObj.onload = () => {
-        const img = new Konva.Image({
-          x: 0,
-          y: 0,
-          image: imageObj,
-          width: 31,
-          height: 26,
-          name: "left",
-        });
-        img.setAttrs({ src: scraperLeft });
-        this.group.add(img);
-      };
-      imageObj.src = scraperLeft;
-      // 右
-      let imageObj2 = new Image();
-      imageObj2.onload = () => {
-        const img = new Konva.Image({
-          x: this.config.width - 42,
-          y: 0,
-          image: imageObj2,
-          width: 42,
-          height: 26,
-          name: "right",
-        });
-        img.setAttrs({ src: scraperRight });
-        this.group.add(img);
-      };
-      imageObj2.src = scraperRight;
-      // 中间
-      this.rect = new Konva.Rect({
-        name: "middle",
-        x: 31,
-        y: 0 + 2,
-        fill: "#D4D9DF",
-        width: this.config.width - 31 - 42,
-        height: 20,
+      const left = new Konva.Line({
+        name: "left",
+        points: [0, 0, 0, 20],
         stroke: "black",
-        strokeWidth: 0.5,
-        draggable: false,
+        strokeWidth: 1,
       });
-      this.group.add(this.rect);
+      // 右
+      const right = new Konva.Line({
+        name: "right",
+        points: [0, 0, 0, 20],
+        x: 80,
+        stroke: "black",
+        strokeWidth: 1,
+      });
+      // 中间
+      const line1 = new Konva.Line({
+        name: "middle",
+        points: [0, 2, 80, 2],
+        stroke: "black",
+        strokeWidth: 4,
+      });
+      const line2 = new Konva.Line({
+        name: "middle",
+        points: [0, 6, 80, 6],
+        stroke: "black",
+        strokeWidth: 1,
+      });
+      const line3 = new Konva.Line({
+        name: "middle",
+        points: [0, 19.5, 80, 19.5],
+        stroke: "black",
+        strokeWidth: 1,
+      });
+      // 文字
+      const text = new Konva.Text({
+        name: "text",
+        x: this.config.width / 2,
+        y: 7,
+        text: "",
+        fontSize: 14,
+        fill: "black",
+      });
+      this.group.add(text);
+      text.offsetX(text.width() / 2);
+
+      this.group.add(left);
+      this.group.add(right);
+      this.group.add(line1);
+      this.group.add(line2);
+      this.group.add(line3);
+
+      createAnchors(this.stage, [
+        { type: "out", point: { x: 0, y: 0 } },
+      ]).forEach((anchor) => {
+        this.group.add(anchor);
+      });
       setCustomAttrs(this.thingGroup, { state: this.config.theme });
       this.thingGroup.add(this.group);
       this.draw.event();
     },
   };
 }
+export const setText = (stage: Konva.Stage, text: string, iu: string) => {
+  const thingLayer = layer(stage, "thing");
+  const thingGroup = thingLayer.findOne(`#${iu}`) as Konva.Group;
+  const thingImage = thingGroup.findOne(`.thingImage`) as Konva.Group;
+  const textNode = thingImage.children.find((ele) => ele.name() === "text");
+  textNode.setAttrs({ text });
+  textNode.offsetX(textNode.width() / 2);
+};
 
-export { Scraper };
-
-export default Scraper;
+export { Technique };

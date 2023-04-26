@@ -1,6 +1,6 @@
 import Konva from "konva";
-import { Component, useComponent } from "./component/component";
-import Scale from "./component/scale";
+import { ComponentFac, useComponent } from "./component/componentFac";
+import { StoreHouse, VideoNode, Scale, Pool } from "./component";
 import theme, { Theme } from "./config/theme";
 import { getThingTextGroup, groupNames } from "./element/group";
 import { changeThingComponentState, changeThingImage } from "./element/image";
@@ -23,10 +23,7 @@ import { updateLineColor } from "./util/line/line";
 import { Thing } from "./data/thing";
 import { clearTransFormer } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
-import { Pool } from "./component/pool";
 import reset from "./util/initStage/reset";
-import { Scraper, StoreHouse, VideoNode } from "./main";
-// import { Canvg } from "canvg";
 
 export type DrawState =
   | "Line"
@@ -44,7 +41,7 @@ interface INLEDITOR {
   [ket: string]: any;
   opt: OPT;
   components: {
-    [ket: string]: Component;
+    [ket: string]: ComponentFac;
   };
 }
 enum SpecialCode {
@@ -160,18 +157,20 @@ class INLEDITOR {
   }
 
   // 删除thing文字 allOfThem删除全部
-  removeText(iu: string, code: string | SpecialCode.all) {
+  removeText(iu: string, ids: Array<string | SpecialCode.all>) {
     // 查找物模型
     const thignGroup = layer(this.stage, "thing").findOne(
       `#${iu}`
     ) as Konva.Group;
     // 筛选code
-    getThingTextGroup(thignGroup).forEach((e) => {
-      const attrs = e.getAttrs();
-      if (code === "allOfThem" || (attrs.code && attrs.code === code)) {
-        e.remove();
-      }
-    });
+    for (let i of ids) {
+      thignGroup.children
+        .find((ele) => {
+          const info = getCustomAttrs(ele).thingTextInfo;
+          return info?.id === i;
+        })
+        ?.remove();
+    }
   }
 
   // 获取画布上所有物模型的id
@@ -211,11 +210,11 @@ class INLEDITOR {
   }
 
   // 注册组件
-  use(component: Component) {
+  use(component: ComponentFac) {
     useComponent(this, component);
   }
 
-  getComponent<T extends Component>(s: string) {
+  getComponent<T extends ComponentFac>(s: string) {
     return (this.components[s] ? this.components[s] : {}) as T;
   }
 

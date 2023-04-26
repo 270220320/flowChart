@@ -35,7 +35,6 @@ const setElPosition: Record<
   moveUp() {},
   moveDown() {},
   top(nodes, { minY }) {
-    111;
     nodes.forEach((element) => {
       const { x } = element.getAbsolutePosition();
       element.setAbsolutePosition({

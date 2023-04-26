@@ -7,12 +7,22 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
   const thingImgParent =
     e.target.getClassName() === "Image" ? parent : parent.getParent();
   const thingImgData = getCustomAttrs(thingImgParent);
+  const codeArr = [];
+  const idArr = [];
+  thingImgParent.find("Group").forEach((item) => {
+    const data = getCustomAttrs(item);
+    if (data.propertyCode) {
+      codeArr.push(data.propertyCode);
+      idArr.push(data.propertyId);
+    }
+  });
   cb(
     "thing",
     { parent: thingImgParent as any, target: parent },
     {
       iu: thingImgData.thing?.iu,
-      code: getIus(thingImgParent),
+      codes: codeArr,
+      ids: idArr,
     }
   );
 };

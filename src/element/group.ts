@@ -24,7 +24,7 @@ export type Child =
 export const createThingGroup = (useThing: Thing) => {
   const group = new Konva.Group({
     draggable: true,
-    id: useThing?.iu,
+    id: useThing?.iu || "",
     name: useThing.type || groupNames.thingGroup,
   });
   setCustomAttrs(group, { thing: useThing, type: groupNames.thingGroup });
@@ -50,17 +50,18 @@ export const createThingTextGroup = (
   position: { x: number; y: number }
 ) => {
   const { x, y } = position;
-  const { code } = data;
+  const { code, id } = data;
   const group = new Konva.Group({
     name: name,
     draggable: true,
-    code,
     x: x || 0,
     y: y || 0,
   });
   setCustomAttrs(group, {
     thingTextInfo: data,
     state: "defalut",
+    propertyId: id,
+    propertyCode: code,
   });
   return group;
 };

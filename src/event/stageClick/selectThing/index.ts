@@ -8,7 +8,6 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
   let parent = e.target.getParent();
   if (parent.getClassName() !== "Layer") {
     const name = parent.name();
-
     switch (name) {
       case "thingGroup":
         isThingGroup(cb, e);
@@ -19,13 +18,15 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
       default:
         const selfParent = e.target.getParent() as any;
         const thingData = getCustomAttrs(parent.getParent());
-        const code2 = parent.getAttr("code");
+        const data = getCustomAttrs(parent);
+
         cb(
           "thingText",
           { parent: selfParent, target: e.target },
           {
             iu: thingData.thing!.iu,
-            code: [code2],
+            codes: [data?.propertyCode],
+            ids: [data?.propertyId],
           }
         );
     }

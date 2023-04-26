@@ -250,6 +250,18 @@ export const createThingText = (
     return;
   }
   return {
+    // 批量添加文字
+    batchAddText(type: "def" | "advanced", data: Array<thingTextInfo>) {
+      for (let i of data) {
+        const { v, id } = i;
+        if (type === "advanced") {
+          // 复杂文字
+          this.advanced(i);
+        } else {
+          this.def(v, id);
+        }
+      }
+    },
     def: (text: string, id: string, cb?: (thingTextGroup: Group) => void) => {
       const point = computedXY(
         stage,

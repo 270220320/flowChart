@@ -1,10 +1,8 @@
 import { Thing } from "@/data/thing";
-import { createComponentThingGoup } from "@/element";
-import layer from "@/util/layer";
 import { getUsePointUn } from "@/util/line/line";
 import { UUID } from "@/util/uuid";
 import Konva from "konva";
-import { Component } from "../component";
+import { ComponentFac } from "../componentFac";
 interface PoolEle {
   thingGroup?: Konva.Group;
   imgGroup?: Konva.Group;
@@ -12,14 +10,12 @@ interface PoolEle {
 interface Pool {
   setLevel: (id: string, percent: number) => void;
 }
-class Pool extends Component {
-  stage;
-  constructor(stage: Konva.Stage) {
-    super();
-    this.stage = stage;
-  }
-  name = "pool";
+class Pool extends ComponentFac {
+  name = "Pool";
   pools = [];
+  constructor(stage) {
+    super(stage);
+  }
   add(thingInfo: Thing, p?: { x: number; y: number }, eleGroup?: Konva.Group) {
     // 拖入
     if (p) {
@@ -30,22 +26,7 @@ class Pool extends Component {
     }
   }
   draw(thingInfo: Thing, p: { x: number; y: number }) {
-    const poolEle: PoolEle = {};
-    const lay = layer(this.stage, "thing");
-    poolEle.imgGroup = new Konva.Group({
-      ...p,
-      draggable: false,
-      width,
-      height,
-      name: "thingImage",
-      componentName: this.name,
-      id: UUID(),
-    });
-    poolEle.thingGroup = createComponentThingGoup(
-      lay,
-      thingInfo,
-      poolEle.imgGroup
-    );
+    const com = this.product(p, { width, height }, thingInfo);
 
     const poly = new Konva.Line({
       id: UUID(),
@@ -64,10 +45,10 @@ class Pool extends Component {
       height: height - thickness,
       fill: "#5ED4EE",
     });
-    poolEle.imgGroup.add(rect);
-    poolEle.imgGroup.add(poly);
+    com.imgGroup.add(rect);
+    com.imgGroup.add(poly);
 
-    return poolEle.thingGroup;
+    return com.thingGroup;
   }
   setLevel = (iu: string, percent: number) => {
     const thingGroup = this.stage.findOne("#" + iu);

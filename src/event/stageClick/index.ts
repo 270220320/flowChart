@@ -12,14 +12,14 @@ export type onSelectCallBackFun = (
   },
   data?: {
     iu?: string;
-    code?: Array<string>;
+    codes?: Array<string>;
+    ids?: Array<string>;
     attrs?: Konva.NodeConfig;
   }
 ) => void;
 
 export const getIus = (group: Konva.Group) => {
   let arr = [];
-
   try {
     arr = group
       .find("Group")
