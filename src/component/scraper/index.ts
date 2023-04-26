@@ -16,6 +16,21 @@ interface Scraper {
   rect: Konva.Rect;
 }
 
+export const changeState = (
+  stage: Konva.Stage,
+  stateType: string | number,
+  iu: string
+) => {
+  const thingLayer = layer(stage, "thing");
+  const thingGroup = thingLayer.findOne(`#${iu}`) as Konva.Group;
+  const thingImage = thingGroup.findOne(`.thingImage`) as Konva.Group;
+  const theme = state[stateType];
+  setCustomAttrs(thingGroup, { state: stateType });
+  const middle = thingImage.children.find((ele) => ele.name() === "middle");
+  middle.setAttrs({ fill: theme.middle.color });
+  return thingImage;
+};
+
 class Scraper {
   constructor(
     stage: Konva.Stage,
@@ -28,21 +43,6 @@ class Scraper {
     this.createThingGroup(info.thingInfo, info.p);
   }
   name = "Scraper";
-
-  changeState = (
-    stage: Konva.Stage,
-    stateType: string | number,
-    iu: string
-  ) => {
-    const thingLayer = layer(stage, "thing");
-    const thingGroup = thingLayer.findOne(`#${iu}`) as Konva.Group;
-    const thingImage = thingGroup.findOne(`.thingImage`) as Konva.Group;
-    const theme = state[stateType];
-    setCustomAttrs(thingGroup, { state: stateType });
-    const middle = thingImage.children.find((ele) => ele.name() === "middle");
-    middle.setAttrs({ fill: theme.middle.color });
-    return thingImage;
-  };
 
   createThingGroup(thingInfo: Thing, p?: { x: number; y: number }) {
     if (p) {
