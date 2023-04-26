@@ -179,13 +179,14 @@ export const createEditableText = (
   const { x, y } = position;
   const textNode = createText({
     ...Text,
+    name: "selfText",
     draggable: true,
     editable: true,
     width: 200,
     x,
     y,
   });
-
+  setCustomAttrs(textNode, { width: 200 });
   thingLayer.add(textNode);
 
   return textNode;
