@@ -18,14 +18,15 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
       default:
         const selfParent = e.target.getParent() as any;
         const thingData = getCustomAttrs(parent.getParent());
+        const data = getCustomAttrs(parent);
 
-        const code2 = parent.getAttr("code");
         cb(
           "thingText",
           { parent: selfParent, target: e.target },
           {
             iu: thingData.thing!.iu,
-            codes: [code2],
+            codes: [data?.propertyCode],
+            ids: [data?.propertyId],
           }
         );
     }

@@ -164,7 +164,12 @@ class INLEDITOR {
     ) as Konva.Group;
     // 筛选code
     for (let i of ids) {
-      thignGroup.children.find((ele) => ele.attrs.code === i)?.remove();
+      thignGroup.children
+        .find((ele) => {
+          const info = getCustomAttrs(ele).thingTextInfo;
+          return info?.id === i;
+        })
+        ?.remove();
     }
   }
 

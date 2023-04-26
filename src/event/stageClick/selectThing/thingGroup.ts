@@ -3,6 +3,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 import { onSelectCallBackFun } from "..";
 
 export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
+  // thinggroup
   let parent = e.target.getParent();
   const data1 = getCustomAttrs(parent);
   const codeArr = [];
