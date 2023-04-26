@@ -199,7 +199,6 @@ class INLEDITOR {
     const image = (thingBox as Konva.Group)?.findOne(
       ".thingImage"
     ) as Konva.Image;
-
     const { state } = getCustomAttrs(thingBox);
     if (state === setStateVal) return;
     if (image.getClassName() !== "Image") {
