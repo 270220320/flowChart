@@ -16,6 +16,7 @@ export default function (this: LineAnimate) {
     stroke: aniLineState[theme][lineInfo.state],
     fill: aniLineState[theme][lineInfo.state],
     strokeWidth: width * 2,
+    dashEnabled: false,
   });
   this.animateEl.setAttrs({
     ...lineAni.dotted[theme],
@@ -58,6 +59,7 @@ export default function (this: LineAnimate) {
       stroke: lineState[theme][lineInfo.state],
       fill: lineState[theme][lineInfo.state],
       strokeWidth: width,
+      dashEnabled: true,
     });
     this.animateEl.remove();
   };

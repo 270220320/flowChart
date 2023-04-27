@@ -59,20 +59,27 @@ export const setThingTextVal = (e: Konva.Group, val: string) => {
   const rect = e.findOne(".rect");
   const unit = e.findOne(".unit");
   if (text) {
-    // 设置value
-    text.setAttrs({
-      text: val,
-    });
+    if (e.name() === "thingDefTextGroup") {
+      const info = getCustomAttrs(e).thingTextInfo;
+      text.setAttrs({
+        text: val + info.unit,
+      });
+    } else {
+      // 设置value
+      text.setAttrs({
+        text: val,
+      });
 
-    if (rect) {
-      rect.setAttrs({
-        width: text.width() + 10,
-      });
-    }
-    if (unit) {
-      unit.setAttrs({
-        x: rect.attrs.x + rect.width() + 5,
-      });
+      if (rect) {
+        rect.setAttrs({
+          width: text.width() + 10,
+        });
+      }
+      if (unit) {
+        unit.setAttrs({
+          x: rect.attrs.x + rect.width() + 5,
+        });
+      }
     }
   }
 
