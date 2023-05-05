@@ -16,7 +16,7 @@ export const createAnchors = (stage, anchors: Anchor[]) => {
       name: anchor.type,
       radius: pointConfig.radius / stage.scaleX(),
       fill: "white",
-      stroke: "lightskyblue",
+      stroke: anchor.type === "out" ? "lightskyblue" : "lightyellow",
       strokeWidth: 0.5,
     });
   });

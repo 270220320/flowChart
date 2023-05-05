@@ -75,6 +75,7 @@ class INLEDITOR {
     // 留存设备画布，避免重复获取，提高性能
     this.thingLayer = layer(this.stage, "thing");
     this.event();
+    new ComponentFac(this.stage);
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
       this.use(new Scale({}));
     }

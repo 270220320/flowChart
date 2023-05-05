@@ -1,4 +1,5 @@
 import Konva from "konva";
+export { ComponentFac } from "./componentFac";
 
 export * from "./belt";
 export * from "./grid";

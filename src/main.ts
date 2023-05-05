@@ -1,4 +1,3 @@
-import inleditor from "./";
 import getLayer from "./util/layer";
 export { createThingDefaultText } from "./element/text";
 export {
@@ -12,7 +11,7 @@ export * from "./util/customAttr";
 export * from "./util";
 export * from "./component";
 export * from "./";
-
+import inleditor from "./";
 export { inleditor };
 
 export * from "./animate/coal";

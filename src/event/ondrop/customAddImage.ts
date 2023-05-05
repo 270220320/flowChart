@@ -11,7 +11,6 @@ export default async (
   info?: { type: string; url: string }
 ) => {
   let urls;
-
   if (info) {
     urls = [info.url];
   } else {
