@@ -10,7 +10,9 @@ interface Scale {
 
 class Scale extends ComponentFac {
   name = "scale";
-  init() {
+  constructor(editor) {
+    super(editor.getStage());
+    this.editor = editor;
     this.createDom();
     this.createStage();
     this.onChange();

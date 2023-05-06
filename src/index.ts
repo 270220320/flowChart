@@ -77,7 +77,7 @@ class INLEDITOR {
     this.event();
     new ComponentFac(this.stage);
     if (this.opt.scale !== "show" && !this.opt.isPreview) {
-      this.use(new Scale({}));
+      this.use(new Scale(this));
     }
     this.use(new Pool(this.stage));
     this.use(new StoreHouse(this.stage));
