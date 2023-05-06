@@ -14,6 +14,7 @@ import { getUsePoint, getUsePointUn } from "./line";
 import { LineTheme } from "@/config/line";
 import { lineState } from "../../config";
 import { isComponentChild, isComponentChildren } from "@/component";
+import { judge } from "../anchor";
 
 // 创建线完成
 export const finishLine = (
@@ -34,7 +35,12 @@ export const finishLine = (
   }
 
   let pos = stage.getPointerPosition();
-  const end = getMouseOver(pos!, stage);
+  let end = getMouseOver(pos!, stage);
+  if (end.attrs.componentName === "Technique") {
+    if (!judge(stage, pos, end)) {
+      end = undefined;
+    }
+  }
 
   if (end) {
     end.setAttrs({ strokeWidth: 0 });

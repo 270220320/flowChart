@@ -97,7 +97,11 @@ export default (ie: INLEDITOR, cb?: () => void) => {
       case "rightAngleDottedLine":
       case "dottedLine":
       case "Line":
-        if (e.target.className === "Rect" || e.target.className === "Image") {
+        if (
+          e.target.className === "Rect" ||
+          e.target.className === "Image" ||
+          e.target.className === "Circle"
+        ) {
           begin = e.target as Konva.Rect;
           line = beginCreateLine(stage, { x, y }, e, {
             theme: ie.getTheme(),

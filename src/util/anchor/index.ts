@@ -1,5 +1,6 @@
 import Konva from "konva";
 import pointConfig from "@/config/point";
+import layer from "../layer";
 
 type Anchor = {
   type: "in" | "out";
@@ -20,4 +21,13 @@ export const createAnchors = (stage, anchors: Anchor[]) => {
       strokeWidth: 0.5,
     });
   });
+};
+
+export const judge = (stage, point, node) => {
+  let ele: Konva.Node = layer(stage, "thing").getIntersection(point);
+  if (ele.name() === "in") {
+    return true;
+  } else {
+    return false;
+  }
 };
