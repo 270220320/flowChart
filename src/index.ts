@@ -4,7 +4,7 @@ import { StoreHouse, VideoNode, Scale, Pool } from "./component";
 import theme, { Theme } from "./config/theme";
 import { getThingTextGroup, groupNames } from "./element/group";
 import { changeThingComponentState, changeThingImage } from "./element/image";
-import { createThingText, setThingTextVal } from "./element/text";
+import { createThingTexts, setThingTextVal } from "./element/text";
 import event from "./event";
 import stageClick, { getIus, onSelectCallBackFun } from "./event/stageClick";
 import changeElementsPosition, {
@@ -76,7 +76,7 @@ class INLEDITOR {
     this.thingLayer = layer(this.stage, "thing");
     this.event();
     new ComponentFac(this.stage);
-    if (this.opt.scale !== "show" && !this.opt.isPreview) {
+    if (this.opt.scale === "show" && !this.opt.isPreview) {
       this.use(new Scale(this));
     }
     this.use(new Pool(this.stage));
@@ -140,7 +140,7 @@ class INLEDITOR {
   }
   // 创建thing文字
   createThingText = (iu: string) => {
-    return createThingText(this.stage, iu, this.theme);
+    return createThingTexts(this.stage, iu, this.theme);
   };
 
   // 修改主题

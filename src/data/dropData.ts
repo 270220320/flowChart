@@ -1,4 +1,4 @@
-import { createThingText } from "@/element/text";
+import { createThingTexts } from "@/element/text";
 import { getCustomAttrs, Theme } from "@/main";
 import computedXY from "@/util/computedXY";
 import layer from "@/util/layer";
@@ -84,7 +84,7 @@ export const setThingChildPosition = (
 ) => {
   const thingLayer = layer(stage, "thing");
   const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
-  const creatext = createThingText(stage, iu, themeType);
+  const creatext = createThingTexts(stage, iu, themeType);
   const { width, height, x, y } = thing.getClientRect();
 
   const cb = (g: Konva.Group, i: THINGTEXTINFO) => {

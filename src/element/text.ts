@@ -243,7 +243,7 @@ export const getThingAdvancedText = (parent: Parent) => {};
 export const changeThingTextTheme = (themeType: Theme) => {};
 
 // 创建文字
-export const createThingText = (
+export const createThingTexts = (
   stage: Konva.Stage,
   iu: string,
   themeType: Theme
@@ -254,74 +254,86 @@ export const createThingText = (
 
   if (!thing) {
     console.warn(`查询错误:${iu}`);
-    return;
+    return {};
   }
+  const def = (
+    text: string,
+    id: string,
+    cb?: (thingTextGroup: Group) => void
+  ) => {
+    const point = computedXY(
+      stage,
+      thingGroup.getClientRect().x,
+      thingGroup.getClientRect().y + thingGroup.getClientRect().height
+    );
+    const textShape = createThingDefaultText(
+      themeType,
+      {
+        v: text,
+        id,
+      },
+      {
+        x: point.x,
+        y: point.y,
+      }
+    );
+    thingGroup.add(textShape);
+
+    textShape.setAttrs({
+      draggable: true,
+    });
+    cb ? cb(textShape) : null;
+  };
+  const advanced = (
+    data: thingTextInfo,
+    cb?: (thingTextGroup: Group) => void
+  ) => {
+    const { label, v, unit, code, id } = data;
+    const point = {
+      x:
+        (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
+        stage.scaleX(),
+      y:
+        (thingGroup.getClientRect().y -
+          thingGroup.getAbsolutePosition().y +
+          thingGroup.getClientRect().height) /
+        stage.scaleX(),
+    };
+    const group = createThingAdvancedText(
+      themeType,
+      {
+        label: label,
+        v: v,
+        unit: unit,
+        code,
+        id,
+      },
+      {
+        x: point.x,
+        y: point.y,
+      }
+    );
+    thingGroup.add(group);
+    cb ? cb(group) : null;
+  };
   return {
+    advanced,
+    def,
     // 批量添加文字
-    batchAddText(type: "def" | "advanced", data: Array<thingTextInfo>) {
-      for (let i of data) {
-        const { v, id } = i;
+    batchAddText: (list) => {
+      for (let i of list) {
+        const { type, value, id } = i;
         if (type === "advanced") {
-          // 复杂文字
-          this.advanced(i);
+          advanced({
+            ...value,
+            id,
+          });
         } else {
-          this.def(v, id);
+          def(value, id);
         }
       }
     },
-    def: (text: string, id: string, cb?: (thingTextGroup: Group) => void) => {
-      const point = computedXY(
-        stage,
-        thingGroup.getClientRect().x,
-        thingGroup.getClientRect().y + thingGroup.getClientRect().height
-      );
-      const textShape = createThingDefaultText(
-        themeType,
-        {
-          v: text,
-          id,
-        },
-        {
-          x: point.x,
-          y: point.y,
-        }
-      );
-      thingGroup.add(textShape);
 
-      textShape.setAttrs({
-        draggable: true,
-      });
-      cb ? cb(textShape) : null;
-    },
-    advanced: (data: thingTextInfo, cb?: (thingTextGroup: Group) => void) => {
-      const { label, v, unit, code, id } = data;
-      const point = {
-        x:
-          (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
-          stage.scaleX(),
-        y:
-          (thingGroup.getClientRect().y -
-            thingGroup.getAbsolutePosition().y +
-            thingGroup.getClientRect().height) /
-          stage.scaleX(),
-      };
-      const group = createThingAdvancedText(
-        themeType,
-        {
-          label: label,
-          v: v,
-          unit: unit,
-          code,
-          id,
-        },
-        {
-          x: point.x,
-          y: point.y,
-        }
-      );
-      thingGroup.add(group);
-      cb ? cb(group) : null;
-    },
     changeTo: (id: string) => {
       thingGroup.getChildren().forEach((item) => {
         if (item.attrs.id && item.attrs.id === id) {
