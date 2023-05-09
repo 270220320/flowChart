@@ -59,6 +59,7 @@ const onRect = (
   const { width, height, x, y } = _.cloneDeep(rect.attrs);
   const shapeLayer = layer(stage, "thing");
   const createDefaultRect = defaultRect({ width, height, x, y }, themeType);
+  createDefaultRect.name("selfShape");
   shapeLayer.add(createDefaultRect);
 };
 

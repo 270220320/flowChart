@@ -18,6 +18,20 @@ export const updateLineColor = (
   });
 };
 
+export const addLineText = (
+  stage: Konva.Stage,
+  line: Konva.Arrow,
+  text: string
+) => {
+  // const lineText = new Konva.Text({
+  //   x: stage.width() / 2,
+  //   y: 15,
+  //   text,
+  //   fontSize: 30,
+  //   fill: 'green'
+  // });
+};
+
 export const changeLineTheme = (stage: Konva.Stage, theme: string) => {
   const lay = layer(stage, "line");
   lay.children.forEach((line: Konva.Arrow) => {
