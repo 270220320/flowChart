@@ -11,7 +11,7 @@ type Anchor = {
 };
 export const createAnchors = (stage, anchors: Anchor[]) => {
   return anchors.map((anchor: Anchor) => {
-    return new Konva.Circle({
+    const circle = new Konva.Circle({
       x: anchor.point.x,
       y: anchor.point.y,
       name: anchor.type,
@@ -20,9 +20,21 @@ export const createAnchors = (stage, anchors: Anchor[]) => {
       stroke: anchor.type === "out" ? "lightskyblue" : "lightyellow",
       strokeWidth: 0.5,
     });
+    circle.hide();
+    return circle;
   });
 };
 
+export const showAnchor = (stage, type) => {
+  stage.find(".out").forEach((node) => {
+    node[type]();
+  });
+  stage.find(".in").forEach((node) => {
+    node[type]();
+  });
+};
+
+// 判断是不是入锚点
 export const judge = (stage, point, node) => {
   let ele: Konva.Node = layer(stage, "thing").getIntersection(point);
   if (ele.name() === "in") {

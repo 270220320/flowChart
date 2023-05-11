@@ -1,9 +1,10 @@
 import Konva from "konva";
-import { getCustomAttrs, getLineInfo } from "../customAttr";
+import { getCustomAttrs, getLineInfo, setCustomAttrs } from "../customAttr";
 import { lineState } from "../../config";
 import layer from "src/util/layer";
 import { LineTheme } from "@/config/line";
 import computedXY from "../computedXY";
+import { getLineMiddle } from "./lineLogic";
 
 export const updateLineColor = (
   key: string,
@@ -23,13 +24,17 @@ export const addLineText = (
   line: Konva.Arrow,
   text: string
 ) => {
-  // const lineText = new Konva.Text({
-  //   x: stage.width() / 2,
-  //   y: 15,
-  //   text,
-  //   fontSize: 30,
-  //   fill: 'green'
-  // });
+  const point: { x: number; y: number } = getLineMiddle(line);
+  const lineText = new Konva.Text({
+    ...point,
+    text,
+    fontSize: 30,
+    fill: "green",
+    name: "lineText",
+  });
+  setCustomAttrs(lineText, { lineId: line.id() });
+  const lay = layer(stage, "line");
+  lay.add(lineText);
 };
 
 export const changeLineTheme = (stage: Konva.Stage, theme: string) => {

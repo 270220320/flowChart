@@ -162,6 +162,10 @@ class Technique {
       createAnchors(this.stage, [
         { type: "out", point: { x: 0, y: 0 } },
         { type: "out", point: { x: this.config.width, y: 0 } },
+        {
+          type: "out",
+          point: { x: this.config.width / 2, y: this.config.height },
+        },
         { type: "in", point: { x: this.config.width / 2, y: 0 } },
       ]).forEach((anchor) => {
         this.group.add(anchor);

@@ -1,4 +1,6 @@
 import Konva from "konva";
+import { computedPointLength, getTotalDistance } from "../distance";
+import { getUsePoint } from "./line";
 
 export const movePartOfLine = (
   points: { x: number; y: number }[],
@@ -82,4 +84,21 @@ export const getInsertIndex = (
     }
   }
   return index + 1;
+};
+// 获取线的中点，暂且为中点所在折线段的中点
+export const getLineMiddle = (line) => {
+  const pointArr = getUsePoint(line.attrs.points);
+  const distance = getTotalDistance(line.attrs.points);
+  let distanceCounter = 0;
+  const res = { x: 0, y: 0 };
+  for (let i = 0; i < pointArr.length; i++) {
+    const distanceCurrent = computedPointLength(pointArr[i], pointArr[i + 1]);
+    distanceCounter += distanceCurrent;
+    if (distanceCounter > distance / 2) {
+      res.x = (pointArr[i].x + pointArr[i + 1].x) / 2;
+      res.y = (pointArr[i].y + pointArr[i + 1].y) / 2;
+      break;
+    }
+  }
+  return res;
 };

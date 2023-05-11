@@ -21,6 +21,7 @@ import { getTran, toSelect } from "./selectItem";
 import { getInclude } from "@/util/element/getInclude";
 import { createImage } from "@/element";
 import customAddImage from "./ondrop/customAddImage";
+import { showAnchor } from "@/util/anchor";
 
 const offSelection = (stage: Konva.Stage) => {
   // 移除mosemove 监听
@@ -81,7 +82,6 @@ export default (ie: INLEDITOR, cb?: () => void) => {
   let line: Konva.Arrow | undefined;
   let begin: Konva.Rect | Konva.Group | null;
   const stage = ie.getStage();
-
   stage.on("mousedown", (e) => {
     const stage = ie.getStage();
     const drawState = ie.getDrawState();
@@ -90,6 +90,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     stage.setAttrs({
       draggable: false,
     });
+
     switch (drawState) {
       case "img":
         customAddImage(stage, e.evt, ie.drawInfo);
@@ -153,6 +154,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
           finishLine(stage, begin!, line!, ie.getDrawState());
           line = undefined;
         }
+        showAnchor(stage, "hide");
         break;
       default:
         // rect未置空

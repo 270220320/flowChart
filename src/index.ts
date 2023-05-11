@@ -24,6 +24,7 @@ import { Thing } from "./data/thing";
 import { clearTransFormer } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
 import reset from "./util/initStage/reset";
+import { showAnchor } from "./util/anchor";
 
 export type DrawState =
   | "Line"
@@ -132,6 +133,14 @@ class INLEDITOR {
   setDrawState(state: DrawState, info?: { type: string; url: string }) {
     this.drawState = state;
     this.drawInfo = info;
+    switch (state) {
+      case "rightAngleLine":
+      case "rightAngleDottedLine":
+      case "dottedLine":
+      case "Line":
+        showAnchor(this.stage, "show");
+        break;
+    }
     this.stateChangeCb?.(state);
   }
 

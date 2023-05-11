@@ -74,7 +74,8 @@ export const finishLine = (
     if (lineType.indexOf("rightAngle") >= 0) {
       const points = getUsePoint(line.attrs.points);
       const resPoints = mergeRightAngleLinePoint(points);
-      line.setAttrs({ points: getUsePointUn(resPoints) });
+      // line.setAttrs({ points: getUsePointUn(resPoints) });
+      line.points(getUsePointUn(resPoints));
     }
   } else {
     line.remove();

@@ -11,6 +11,7 @@ export * from "./util/customAttr";
 export * from "./util";
 export * from "./component";
 export * from "./";
+export { addLineText } from "./util/line/line";
 import inleditor from "./";
 export { inleditor };
 
