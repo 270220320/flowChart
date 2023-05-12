@@ -18,7 +18,7 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
   const idArr = [];
   thingImgParent.find("Group").forEach((item) => {
     const data = getCustomAttrs(item);
-    if (data.propertyCode) {
+    if (data.propertyId) {
       codeArr.push(data.propertyCode);
       idArr.push(data.propertyId);
     }

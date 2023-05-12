@@ -105,7 +105,7 @@ export const createThingAdvancedText = (
   const labelText = createText({
     fill: advanced.label.fill,
     fontSize: advanced.label.size,
-    text: label,
+    text: label + "：",
     draggable: false,
     height: advanced.val.rectHeight,
     name: "label",
@@ -261,11 +261,16 @@ export const createThingTexts = (
     id: string,
     cb?: (thingTextGroup: Group) => void
   ) => {
-    const point = computedXY(
-      stage,
-      thingGroup.getClientRect().x,
-      thingGroup.getClientRect().y + thingGroup.getClientRect().height
-    );
+    const point = {
+      x:
+        (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
+        stage.scaleX(),
+      y:
+        (thingGroup.getClientRect().y -
+          thingGroup.getAbsolutePosition().y +
+          thingGroup.getClientRect().height) /
+        stage.scaleX(),
+    };
     const textShape = createThingDefaultText(
       themeType,
       {
@@ -336,9 +341,9 @@ export const createThingTexts = (
 
     changeTo: (id: string) => {
       thingGroup.getChildren().forEach((item) => {
-        if (item.attrs.id && item.attrs.id === id) {
+        const attrs = getCustomAttrs(item);
+        if (attrs.propertyId && attrs.propertyId === id) {
           const name = item.name();
-          const attrs = getCustomAttrs(item);
           (item as Konva.Group).removeChildren();
 
           setCustomAttrs(item, attrs);
