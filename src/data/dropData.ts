@@ -108,7 +108,7 @@ export const setThingChildPosition = (
   };
   for (let i of arr) {
     if (i.type === "thingDefTextGroup") {
-      creatext.def(i.info.v, i.info.code, (g) => {
+      creatext.def(i.info, (g) => {
         cb(g, i);
       });
     } else {

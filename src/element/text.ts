@@ -62,7 +62,7 @@ export const setThingTextVal = (e: Konva.Group, val: string) => {
     if (e.name() === "thingDefTextGroup") {
       const info = getCustomAttrs(e).thingTextInfo;
       text.setAttrs({
-        text: val + info.unit,
+        text: val + (info.unit || ""),
       });
     } else {
       // 设置value
@@ -256,11 +256,8 @@ export const createThingTexts = (
     console.warn(`查询错误:${iu}`);
     return {};
   }
-  const def = (
-    text: string,
-    id: string,
-    cb?: (thingTextGroup: Group) => void
-  ) => {
+  const def = (data: thingTextInfo, cb?: (thingTextGroup: Group) => void) => {
+    const { label, v, unit, code, id } = data;
     const point = {
       x:
         (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
@@ -274,7 +271,10 @@ export const createThingTexts = (
     const textShape = createThingDefaultText(
       themeType,
       {
-        v: text,
+        label: label,
+        v: v,
+        unit: unit,
+        code,
         id,
       },
       {
@@ -334,7 +334,10 @@ export const createThingTexts = (
             id,
           });
         } else {
-          def(value, id);
+          def({
+            ...value,
+            id,
+          });
         }
       }
     },

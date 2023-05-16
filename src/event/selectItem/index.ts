@@ -124,9 +124,9 @@ export default (ie: INLEDITOR) => {
     }
     const tt = checkTarget(e.target);
     switch (tt) {
-      case "line":
-        isLine();
-        break;
+      // case "line":
+      //   isLine();
+      //   break;
       default:
         selectEvent(stage, e);
     }

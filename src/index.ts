@@ -160,10 +160,17 @@ class INLEDITOR {
   }
 
   // 动态修改物模型的值
-  setVal(id: string, val: string) {
+  setVal(iu: string, propertyId: string, val: string) {
     // 查找物模型
-    const thingText = this.thingLayer.findOne(`#${id}`) as Konva.Text;
-    setThingTextVal(thingText.parent as Konva.Group, val);
+    const thignGroup = this.thingLayer.findOne(`#${iu}`) as Konva.Group;
+    if (!thignGroup) return;
+    // 筛选code
+    getThingTextGroup(thignGroup).forEach((textNode) => {
+      const attrs = getCustomAttrs(textNode);
+      if (attrs.propertyId && attrs.propertyId === propertyId) {
+        setThingTextVal(textNode, val);
+      }
+    });
   }
 
   // 删除thing文字 allOfThem删除全部
