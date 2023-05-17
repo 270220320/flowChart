@@ -330,12 +330,12 @@ class INLEDITOR {
         width: opt.width,
         height: opt.height,
       });
-      if (
-        this.getComponent<Scale>("scale") &&
-        Object.keys(this.getComponent<Scale>("scale")).length !== 0
-      ) {
-        this.getComponent<Scale>("scale").render();
-      }
+      // if (
+      //   this.getComponent<Scale>("scale") &&
+      //   Object.keys(this.getComponent<Scale>("scale")).length !== 0
+      // ) {
+      //   this.getComponent<Scale>("scale").render();
+      // }
     }
     this.stage.draw();
   }
