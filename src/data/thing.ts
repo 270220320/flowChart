@@ -5,6 +5,7 @@ export interface Thing {
   ic: string; // instanceCode
   tc: string;
   img: string;
+  fullImg?: string;
   name: string;
   type?: string;
   id?: string;

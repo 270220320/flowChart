@@ -36,10 +36,13 @@ export const finishLine = (
 
   let pos = stage.getPointerPosition();
   let end = getMouseOver(pos!, stage);
-  if (end.attrs.componentName === "Technique") {
+  if (end?.attrs.componentName === "Technique") {
     if (!judge(stage, pos, end)) {
       end = undefined;
     }
+  }
+  if (begin === end) {
+    end = undefined;
   }
 
   if (end) {
@@ -115,6 +118,9 @@ export const beginCreateLine = (
   //组件
   if (isComponentChildren(e.target)) {
     e.target.parent.parent.setAttrs({ draggable: false });
+  }
+  if (e.target.name() === "selfShape" || e.target.className === "Text") {
+    return;
   }
   e.target.setAttrs({ draggable: false });
 

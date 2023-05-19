@@ -46,11 +46,11 @@ class StoreHouse extends ComponentFac {
         height: 90,
         name: "left",
       });
-      img.setAttrs({ src: storeHouseEmpty });
+      img.setAttrs({ src: thingInfo.img });
       com.imgGroup.add(img);
       img.moveDown();
     };
-    imageObj.src = storeHouseEmpty;
+    imageObj.src = thingInfo.img;
     // 满图片
     let imageFull = new Image();
     imageFull.onload = () => {
@@ -62,12 +62,12 @@ class StoreHouse extends ComponentFac {
         height: 90,
         name: "left",
       });
-      img.setAttrs({ src: storeHouseFull });
+      img.setAttrs({ src: thingInfo.fullImg });
       clipGroup.add(img);
       com.imgGroup.add(clipGroup);
       clipGroup.moveUp();
     };
-    imageFull.src = storeHouseFull;
+    imageFull.src = thingInfo.fullImg;
     return com.thingGroup;
   }
   setLevel = (iu: string, percent: number) => {
