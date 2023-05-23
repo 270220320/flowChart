@@ -29,13 +29,13 @@ export const createThingDefaultText = (
 ) => {
   const t = theme[themeType];
 
-  const { v, id } = data;
+  const { v,unit, id } = data;
   group = group || createThingTextGroup(data, "thingDefTextGroup", position);
   const textEl = createText(
     {
       fill: t.thingText.def.val.fill,
       fontSize: t.thingText.def.val.size,
-      text: v,
+      text: v + (unit || ""),
       align: "center",
       height: t.thingText.advanced.val.rectHeight,
       name: "val",

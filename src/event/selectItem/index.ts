@@ -7,6 +7,7 @@ import { IRect } from "konva/lib/types";
 import { isComponentChild } from "@/component";
 import { getCustomAttrs } from "@/main";
 import layer from "@/util/layer";
+import { getParentThingGroup } from "@/util/element";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
@@ -71,6 +72,11 @@ export const getTran: (stage: Konva.Stage) => {
 // 重置事件中心
 const resetEvent = (stage: Konva.Stage) => {
   const Transformers = stage.findOne("Transformer") as Konva.Transformer;
+  Transformers?.nodes().forEach((node) => {
+    if (node.name() === "thingImage") {
+      node.setAttrs({ draggable: false });
+    }
+  });
   Transformers?.destroy();
 };
 
@@ -91,15 +97,24 @@ export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>, cb?) => {
   return Transformers;
 };
 
-// 框选元素动作
+// 选中单个元素动作
 const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
   const flag = e.evt.shiftKey;
   let Transformers = stage.findOne("Transformer") as Konva.Transformer;
   const node = getSelectNode(e.target);
   const nodes: Array<Konva.Node> = [];
-  if (flag) {
-    const nodes1 = Transformers.getNodes();
-    Transformers.nodes([...nodes1, node]);
+  // shift选中组,暂未去重
+  if (e.evt.shiftKey) {
+    const currentNodes = Transformers.getNodes();
+    const res = [...currentNodes, node].map((node) =>
+      getParentThingGroup(node)
+    );
+    Transformers.nodes(res);
+    Transformers.draw();
+  } else if (e.evt.ctrlKey) {
+    node.setAttrs({ draggable: true });
+    const currentNodes = Transformers.getNodes();
+    Transformers.nodes([...currentNodes, node]);
     Transformers.draw();
   } else {
     // 没有按住shift

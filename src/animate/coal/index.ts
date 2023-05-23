@@ -84,7 +84,7 @@ class COALANIM {
     this.runState = false;
     clearInterval(this.tim);
   }
-  destory() {
+  destroy() {
     this.stop();
     this.animGroup.remove();
   }
