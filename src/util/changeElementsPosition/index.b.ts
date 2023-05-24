@@ -21,6 +21,8 @@ export type AlignOpt = {
   minY: number;
   maxX: number;
   maxY: number;
+  totalX?: number;
+  totalY?: number;
   index: number;
   nodeLength: number;
 };

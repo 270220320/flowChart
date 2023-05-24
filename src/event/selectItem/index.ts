@@ -46,6 +46,7 @@ const isLine = () => {};
 export const createTran = (name?: string) => {
   const opt: any = {
     // centeredScaling: true,
+    rotateEnabled: false,
     rotationSnaps: [0, 90, 180, 270],
   };
   if (name === "BELT" || name === "Scraper" || name === "Technique") {
@@ -105,7 +106,7 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
   const nodes: Array<Konva.Node> = [];
   // shift选中组,暂未去重
   if (e.evt.shiftKey) {
-    const currentNodes = Transformers.getNodes();
+    const currentNodes = Transformers?.getNodes();
     const res = [...currentNodes, node].map((node) =>
       getParentThingGroup(node)
     );
@@ -113,7 +114,7 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
     Transformers.draw();
   } else if (e.evt.ctrlKey) {
     node.setAttrs({ draggable: true });
-    const currentNodes = Transformers.getNodes();
+    const currentNodes = Transformers?.getNodes();
     Transformers.nodes([...currentNodes, node]);
     Transformers.draw();
   } else {

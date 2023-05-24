@@ -24,6 +24,7 @@ const flip = {
 const setElPosition: Record<
   AlignType,
   (
+    stage,
     nodes: Array<Konva.Node>,
     targetVal: Omit<AlignOpt, "nodeLength" | "index">
   ) => void
@@ -34,74 +35,83 @@ const setElPosition: Record<
   moveToBottom() {},
   moveUp() {},
   moveDown() {},
-  top(nodes, { minY }) {
-    nodes.forEach((element) => {
-      const { x } = element.getAbsolutePosition();
-      element.setAbsolutePosition({
-        x,
-        y: minY,
-      });
+  top(stage, nodes, { minY }) {
+    nodes.forEach((element: Konva.Group) => {
+      const imgEle = getImgNode(element);
+      const y = imgEle.absolutePosition().y / stage.scaleY();
+      element.move({ x: 0, y: minY - y });
     });
   },
-  left(nodes, { minX }) {
-    nodes.forEach((element) => {
-      const { y } = element.getAbsolutePosition();
-      element.setAbsolutePosition({
-        x: minX,
-        y,
-      });
+  bottom(stage, nodes, { maxY }) {
+    nodes.forEach((element: Konva.Group) => {
+      const imgEle = getImgNode(element);
+      const MAXY =
+        (imgEle.absolutePosition().y + imgEle.height()) / stage.scaleY();
+      element.move({ x: 0, y: maxY - MAXY });
     });
   },
-  right(nodes, { maxX }) {
-    nodes.forEach((element) => {
-      const { x, y } = element.getAbsolutePosition();
-      const w = element.width();
-      const movex = x + (maxX - (x + w));
+  left(stage, nodes, { minX }) {
+    nodes.forEach((element: Konva.Group) => {
+      const imgEle = getImgNode(element);
+      const x = imgEle.absolutePosition().x / stage.scaleX();
+      element.move({ x: minX - x, y: 0 });
+    });
+  },
+  right(stage, nodes, { maxX }) {
+    nodes.forEach((element: Konva.Group) => {
+      const imgEle = getImgNode(element);
+      const MAXX =
+        (imgEle.absolutePosition().x + imgEle.width()) / stage.scaleX();
+      element.move({ x: maxX - MAXX, y: 0 });
+    });
+  },
 
-      element.setAbsolutePosition({
-        x: movex,
-        y,
+  centerY(stage, nodes, { maxY, minY }) {
+    nodes.forEach((element: Konva.Group) => {
+      const imgEle = getImgNode(element);
+      const y = imgEle.absolutePosition().y / stage.scaleY();
+      element.move({
+        x: 0,
+        y: (minY + maxY) / 2 - y - imgEle.height() / stage.scaleY() / 2,
       });
     });
   },
-  bottom(nodes, { maxY }) {
-    nodes.forEach((element) => {
-      const { x, y } = element.getAbsolutePosition();
-      const h = element.height();
-      const movey = y + (maxY - (y + h));
-
-      element.setAbsolutePosition({
-        x,
-        y: movey,
+  centerX(stage, nodes, { minX, maxX }) {
+    nodes.forEach((element: Konva.Group) => {
+      const imgEle = getImgNode(element);
+      const x = imgEle.absolutePosition().x / stage.scaleX();
+      element.move({
+        x: (minX + maxX) / 2 - x - imgEle.width() / stage.scaleX() / 2,
+        y: 0,
       });
     });
   },
-  centerY(nodes, { maxY, minY }) {
-    nodes.forEach((element) => {
-      const { x, y } = element.getAbsolutePosition();
-      const h = element.height();
-      const target = minY + (maxY - minY) / 2;
-      const movey = y + (target - y - h / 2);
-      element.setAbsolutePosition({
-        x,
-        y: movey,
+  distributionY(stage, nodes, { minY, maxY, totalY }) {
+    const signal = (maxY - minY - totalY) / nodes.length;
+    let counter = 0;
+    nodes.forEach((element: Konva.Group, index: number) => {
+      const imgEle = getImgNode(element);
+      const y = imgEle.absolutePosition().y / stage.scaleY();
+      element.move({
+        x: 0,
+        y: minY + counter + index * signal - y,
       });
+      counter += imgEle.height() / stage.scaleY();
     });
   },
-  centerX(nodes, { minX, maxX }) {
-    nodes.forEach((element) => {
-      const { x, y } = element.getAbsolutePosition();
-      const w = element.width();
-      const target = minX + (maxX - minX) / 2;
-      const movey = x + (target - x - w / 2);
-      element.setAbsolutePosition({
-        x: movey,
-        y,
+  distributionX(stage, nodes, { minX, maxX, totalX }) {
+    const signal = (maxX - minX - totalX) / nodes.length;
+    let counter = 0;
+    nodes.forEach((element: Konva.Group, index: number) => {
+      const imgEle = getImgNode(element);
+      const x = imgEle.absolutePosition().x / stage.scaleX();
+      element.move({
+        x: minX + counter + index * signal - x,
+        y: 0,
       });
+      counter += imgEle.width() / stage.scaleX();
     });
   },
-  distributionY() {},
-  distributionX() {},
 };
 
 export default (stage: Konva.Stage, type: AlignType) => {
@@ -134,19 +144,23 @@ export default (stage: Konva.Stage, type: AlignType) => {
   let minX = Number.MAX_VALUE,
     minY = Number.MAX_VALUE,
     maxY = Number.MIN_VALUE,
-    maxX = Number.MIN_VALUE;
+    maxX = Number.MIN_VALUE,
+    totalX = 0,
+    totalY = 0;
   const imgNodes = [];
-  nodes.forEach((element: Konva.Group) => {
+  nodes.forEach((thingGroup: Konva.Group) => {
     // 如果是组转回thingImage
-    const imgEle = getImgNode(element);
+    const imgEle = getImgNode(thingGroup);
     imgNodes.push(imgEle);
-    const { x, y } = computedXY(
-      stage,
-      imgEle.absolutePosition().x,
-      imgEle.absolutePosition().y
-    );
-    const MAXX = x + imgEle.width();
-    const MAXY = y + imgEle.height();
+
+    const x = imgEle.absolutePosition().x / stage.scaleX();
+    const y = imgEle.absolutePosition().y / stage.scaleY();
+    const MAXX =
+      (imgEle.absolutePosition().x + imgEle.width()) / stage.scaleX();
+    const MAXY =
+      (imgEle.absolutePosition().y + imgEle.height()) / stage.scaleY();
+    totalX += imgEle.width() / stage.scaleX();
+    totalY += imgEle.height() / stage.scaleY();
     if (MAXX > maxX) {
       maxX = MAXX;
     }
@@ -160,11 +174,13 @@ export default (stage: Konva.Stage, type: AlignType) => {
       minY = y;
     }
   });
-  setElPosition[type](imgNodes, {
+  setElPosition[type](stage, nodes, {
     maxX,
     maxY,
     minX,
     minY,
+    totalX,
+    totalY,
   });
   imgNodes.forEach((element) => {
     dealRelation(element, stage);
