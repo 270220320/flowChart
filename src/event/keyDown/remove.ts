@@ -10,7 +10,9 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
   const nodes = Transformers?.getNodes() || [];
   for (let i of nodes) {
     const isThing = i.getParent().hasName(groupNames.thingGroup);
-    const isThingText = i.getParent().hasName(groupNames.thingTextGroup);
+    const isThingText =
+      i.getParent().hasName(groupNames.thingTextGroup) ||
+      i.getParent().hasName(groupNames.thingDefTextGroup);
     Transformers.destroy();
     if ((isThing && i.hasName("thingImage")) || isThingText) {
       i.getParent().remove();

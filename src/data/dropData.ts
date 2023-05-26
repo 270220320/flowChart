@@ -75,7 +75,7 @@ export const setThingScale = (
   const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
   thing.children[0].setAttrs({ scaleX, scaleY });
 };
-// 设置物模型的文字位置
+// 设置物模型的文字位置 !!组件需要延迟调用！！
 export const setThingChildPosition = (
   stage: Konva.Stage,
   iu: string,
@@ -86,7 +86,6 @@ export const setThingChildPosition = (
   const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
   const creatext = createThingTexts(stage, iu, themeType);
   const { width, height, x, y } = thing.getClientRect();
-
   const cb = (g: Konva.Group, i: THINGTEXTINFO) => {
     if (!i.position) {
       const xy = computedXY(

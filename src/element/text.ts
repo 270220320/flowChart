@@ -29,7 +29,7 @@ export const createThingDefaultText = (
 ) => {
   const t = theme[themeType];
 
-  const { v,unit, id } = data;
+  const { v, unit, id } = data;
   group = group || createThingTextGroup(data, "thingDefTextGroup", position);
   const textEl = createText(
     {
