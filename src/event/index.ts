@@ -23,5 +23,5 @@ export default (ie: INLEDITOR) => {
     onDrag(ie);
     onDbclick(ie);
   }
-  onwheel(stage);
+  onwheel(ie);
 };

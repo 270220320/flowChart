@@ -4,7 +4,7 @@ import theme from "@/config/theme";
 import disableMove from "./disableMove";
 
 export default (ie: INLEDITOR, json?: string) => {
-  const { id } = ie.opt;
+  const { id, isPreview } = ie.opt;
   let stage = ie.getStage();
   const dom = document.getElementById(id)!;
   const { offsetWidth, offsetHeight } = dom;
@@ -15,16 +15,17 @@ export default (ie: INLEDITOR, json?: string) => {
   if (json) {
     stage = konva.Node.create(json, id);
     stage.setAttrs({
-      width: offsetWidth,
-      height: offsetHeight,
+      width: 1920,
+      height: 1080,
       background: "#dddddd",
+      draggable: isPreview ? false : true,
     });
     ie.setStage(stage);
   } else {
     stage = new konva.Stage({
       container: id,
-      width: offsetWidth,
-      height: offsetHeight,
+      width: 1920,
+      height: 1080,
       draggable: false,
       background: "#dddddd",
     });

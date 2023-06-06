@@ -1,5 +1,6 @@
 import Konva from "konva";
 import layer from "./layer";
+import INLEDITOR from "..";
 
 // 获取 thingLayer 和 linerLayer 的最大宽度和高度
 const getThingLayerMaxSize = (stage: Konva.Stage) => {
@@ -71,16 +72,25 @@ export const stageTofit = (stage: Konva.Stage) => {
   });
 };
 
-export default (stage: Konva.Stage) => {
+export default (ie: INLEDITOR) => {
+  const { id } = ie.opt;
+  let stage = ie.getStage();
+  const dom = document.getElementById(id)!;
   // stage.scale({ x: 1, y: 1 });
 
-  const Irect = computedIrect(stage);
-  const scale =
-    Math.min(stage.width() / Irect.width, stage.height() / Irect.height) * bl;
-
-  stage.scale({
-    x: scale,
-    y: scale,
+  // const Irect = computedIrect(stage);
+  // const scale =
+  //   Math.min(stage.width() / Irect.width, stage.height() / Irect.height) * bl;
+  const { offsetWidth, offsetHeight } = dom;
+  const field: Konva.Node = stage.find(".field")[0];
+  stage.position({
+    x: 0,
+    y: 0,
   });
-  stageTofit(stage);
+  stage.scale({
+    x: offsetWidth / field.attrs.width,
+    y: offsetHeight / field.attrs.height,
+  });
+  // field.moveToBottom();
+  // stageTofit(stage);
 };

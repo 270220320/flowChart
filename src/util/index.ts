@@ -76,5 +76,4 @@ export const addMapTitle = (
   texta.remove();
   const lay = layer(stage, "thing");
   lay.add(text);
-  stageTofit(stage);
 };

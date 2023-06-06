@@ -32,7 +32,7 @@ export const getIus = (group: Konva.Group) => {
 };
 
 export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
-  stage.on("click", (e) => {
+  stage.on("click tap", (e) => {
     if (e.target !== stage) {
       // 如果是图形或者是文字，那么父级别肯定是layer
       let parent = e.target.getParent() as Konva.Layer | Konva.Group;

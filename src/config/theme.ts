@@ -23,7 +23,7 @@ export const defaultTheme: Theme = "dark";
 const thtmeInfo: Record<Theme, ThemeInfo> = {
   light: {
     scale: ScaleTheme.light,
-    background: "#F0F3FA",
+    background: "#EFF2F6",
     subLine: subLineTheme.light,
     rect: RectTheme.light,
     selection: SelectionTheme.light,

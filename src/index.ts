@@ -25,6 +25,8 @@ import { clearTransFormer } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
 import reset from "./util/initStage/reset";
 import { showAnchor } from "./util/anchor";
+import { addField } from "./util/element/addField";
+import { FieldTheme } from "./config/field";
 
 export type DrawState =
   | "Line"
@@ -75,6 +77,7 @@ class INLEDITOR {
     initStage(this, json);
     // 留存设备画布，避免重复获取，提高性能
     this.thingLayer = layer(this.stage, "thing");
+    addField(this);
     this.event();
     new ComponentFac(this.stage);
     if (this.opt.scale === "show" && !this.opt.isPreview) {
@@ -87,6 +90,9 @@ class INLEDITOR {
     if (json) {
       await reset(this);
     }
+    setTimeout(() => {
+      this.toFit();
+    }, 2000);
   }
   // 设备图层
   thingLayer;
@@ -109,6 +115,14 @@ class INLEDITOR {
   }
   setStage(c: Konva.Stage) {
     this.stage = c;
+  }
+
+  setField(stage, height: number, width: number) {
+    const field: Konva.Node = stage.find(".field")[0];
+    field.setAttrs({
+      height,
+      width,
+    });
   }
 
   protected container: HTMLDivElement;
@@ -156,6 +170,8 @@ class INLEDITOR {
   changeTheme(themeType: Theme, cb?: (stage: Konva.Stage) => {}) {
     this.theme = themeType;
     this.container.style.background = theme[themeType].background;
+    const field: Konva.Node = this.getStage().find(".field")[0];
+    field.setAttrs({ fill: FieldTheme[themeType].fill });
     changeTheme(this.stage, themeType, cb);
   }
 
@@ -288,7 +304,7 @@ class INLEDITOR {
 
   // 适应画布
   toFit() {
-    stageTofit(this.stage);
+    stageTofit(this);
   }
 
   hasChange = false;
