@@ -8,6 +8,9 @@ export default (ie: INLEDITOR, cb?: () => void) => {
   const stage = ie.getStage();
   // 按下移动
   stage.on("dragmove", (e: any) => {
+    if (e.target.name() === "field") {
+      return;
+    }
     // 启动辅助线
     if (getCustomAttrs(e.target).type !== "control") {
       initSubLine.bind(ie)(stage, e);

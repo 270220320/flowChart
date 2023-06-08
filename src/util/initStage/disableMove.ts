@@ -13,5 +13,5 @@ export default (stage: Konva.Stage) => {
     }
   }
   a(stage);
-  stage.draggable(true);
+  stage.draggable(false);
 };

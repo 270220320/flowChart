@@ -160,6 +160,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         // rect未置空
         if (rect) {
           try {
+            // 框选
             const nodes = getInclude(ie, rect);
             toSelect(stage, nodes, ie.selectCb);
           } catch (res) {

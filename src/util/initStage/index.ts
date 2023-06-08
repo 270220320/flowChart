@@ -15,8 +15,6 @@ export default (ie: INLEDITOR, json?: string) => {
   if (json) {
     stage = konva.Node.create(json, id);
     stage.setAttrs({
-      width: 1920,
-      height: 1080,
       background: "#dddddd",
       draggable: isPreview ? false : true,
     });

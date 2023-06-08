@@ -32,7 +32,9 @@ export const getInclude = (ie: INLEDITOR, rect: Konva.Rect) => {
       rectTem.intersects(points[2]) &&
       rectTem.intersects(points[3])
     ) {
+      // if (node.name() !== "field") {
       arr.push(node);
+      // }
     }
   });
   return arr;

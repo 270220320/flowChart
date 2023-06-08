@@ -25,7 +25,7 @@ import { clearTransFormer } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
 import reset from "./util/initStage/reset";
 import { showAnchor } from "./util/anchor";
-import { addField } from "./util/element/addField";
+import { setField } from "./util/element/setField";
 import { FieldTheme } from "./config/field";
 
 export type DrawState =
@@ -77,7 +77,8 @@ class INLEDITOR {
     initStage(this, json);
     // 留存设备画布，避免重复获取，提高性能
     this.thingLayer = layer(this.stage, "thing");
-    addField(this);
+    this.thingLayer.setAttrs({ draggable: false });
+    setField(this);
     this.event();
     new ComponentFac(this.stage);
     if (this.opt.scale === "show" && !this.opt.isPreview) {
@@ -90,9 +91,9 @@ class INLEDITOR {
     if (json) {
       await reset(this);
     }
-    setTimeout(() => {
+    if (this.opt.isPreview) {
       this.toFit();
-    }, 2000);
+    }
   }
   // 设备图层
   thingLayer;

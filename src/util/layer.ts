@@ -14,6 +14,7 @@ export default (stage: Konva.Stage, type: keyof typeof LAYER) => {
   if (!layer) {
     layer = new Konva.Layer({
       name: type,
+      draggable: false,
     });
     stage.add(layer);
   }
