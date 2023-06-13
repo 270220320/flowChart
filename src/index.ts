@@ -91,9 +91,6 @@ class INLEDITOR {
     if (json) {
       await reset(this);
     }
-    if (this.opt.isPreview) {
-      this.toFit();
-    }
   }
   // 设备图层
   thingLayer;

@@ -99,11 +99,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
       case "rightAngleDottedLine":
       case "dottedLine":
       case "Line":
-        if (
-          e.target.className === "Rect" ||
-          e.target.className === "Image" ||
-          e.target.className === "Circle"
-        ) {
+        if (e.target.className === "Image" || e.target.className === "Circle") {
           begin = e.target as Konva.Rect;
           line = beginCreateLine(stage, { x, y }, e, {
             theme: ie.getTheme(),
@@ -118,7 +114,10 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         editMouseDown(e, stage);
         break;
       default:
-        if (e.target.getClassName() === "Stage") {
+        if (
+          e.target.getClassName() === "Stage" ||
+          e.target.name() === "field"
+        ) {
           onSelection(ie.getStage(), { y, x }, ie.getTheme(), (rc) => {
             rect = rc;
           });
@@ -161,6 +160,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         if (rect) {
           try {
             // 框选
+            debugger;
             const nodes = getInclude(ie, rect);
             toSelect(stage, nodes, ie.selectCb);
           } catch (res) {

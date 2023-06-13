@@ -83,14 +83,21 @@ export default (ie: INLEDITOR) => {
   //   Math.min(stage.width() / Irect.width, stage.height() / Irect.height) * bl;
   const { offsetWidth, offsetHeight } = dom;
   const field: Konva.Node = stage.find(".field")[0];
-  stage.position({
-    x: 0,
-    y: 0,
-  });
+  const scale = offsetWidth / field.attrs.width;
   stage.scale({
-    x: offsetWidth / field.attrs.width,
-    y: offsetHeight / field.attrs.height,
+    x: scale,
+    y: scale,
+    // y: offsetHeight / field.attrs.height,
   });
+  stage.position({
+    x: field.x() * scale * -1,
+    y: field.y() * scale * -1,
+  });
+  // stage.position({
+  //   x: 0,
+  //   y: 0,
+  // });
+
   // field.moveToBottom();
   // stageTofit(stage);
 };
