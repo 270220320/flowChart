@@ -11,7 +11,7 @@ export default async (stage: Konva.Stage) => {
           resolve(1);
         }
         if (attrs.src) {
-          const newImage = await createImage(attrs.src);
+          const newImage: Konva.Node | Event = await createImage(attrs.src);
           imageNode.remove();
           newImage.setAttrs(attrs);
           parent.add(newImage);

@@ -110,15 +110,18 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
   const node = getSelectNode(e.target);
   const nodes: Array<Konva.Node> = [];
   // shift选中组,暂未去重
-  if (e.evt.shiftKey) {
-    const currentNodes = Transformers?.getNodes();
+  if (e.evt.shiftKey && Transformers) {
+    const currentNodes = Transformers?.getNodes() || [];
     const res = [...currentNodes, node].map((node) =>
       getParentThingGroup(node)
     );
     Transformers.nodes(res);
     Transformers.draw();
-  } else if (e.evt.ctrlKey) {
-    node.setAttrs({ draggable: true });
+  } else if (e.evt.ctrlKey && Transformers) {
+    if (node.name() !== "field") {
+      node.setAttrs({ draggable: true });
+    }
+
     const currentNodes = Transformers?.getNodes();
     Transformers.nodes([...currentNodes, node]);
     Transformers.draw();

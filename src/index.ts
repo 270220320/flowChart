@@ -271,6 +271,7 @@ class INLEDITOR {
   // 反序列化
   async loadJson(json: string, cb?) {
     await this.init(json);
+
     // createLineTexts(
     //   this.stage,
     //   "f1ca2aaf-36c1-4fdb-a267-6dac1892ad89",
@@ -294,7 +295,7 @@ class INLEDITOR {
   // 当画布元素被选中
   onselect(cb: onSelectCallBackFun) {
     this.selectCb = cb;
-    stageClick(this.stage, cb);
+    stageClick(this.getStage(), cb);
   }
 
   // 获取所有关系

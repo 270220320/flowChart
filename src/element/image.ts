@@ -11,20 +11,39 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
     image.setId(UUID());
     return Promise.resolve(image);
   }
-  return new Promise<Konva.Image>((res, rej) => {
-    Konva.Image.fromURL(img, (darthNode: Konva.Image) => {
-      const { width, height } = darthNode.attrs.image;
-      darthNode.setAttrs({
-        myWidth: width,
-        myHeight: height,
-        src: img,
-        name: "thingImage",
-        id: UUID(),
-      });
-      darthNode.cache();
-      cacheImgList[img] = darthNode;
-      res(cacheImgList[img].clone());
-    });
+  return new Promise<Konva.Image | Event>((res, rej) => {
+    Konva.Image.fromURL(
+      img,
+      (darthNode: Konva.Image) => {
+        const { width, height } = darthNode.attrs.image;
+        darthNode.setAttrs({
+          myWidth: width,
+          myHeight: height,
+          src: img,
+          name: "thingImage",
+          id: UUID(),
+        });
+        darthNode.cache();
+        cacheImgList[img] = darthNode;
+        res(cacheImgList[img].clone());
+      },
+      (err: Event) => {
+        img = "/micro-assets/platform-web/close.png";
+        Konva.Image.fromURL(img, (darthNode: Konva.Image) => {
+          const { width, height } = darthNode.attrs.image;
+          darthNode.setAttrs({
+            myWidth: width,
+            myHeight: height,
+            src: img,
+            name: "thingImage",
+            id: UUID(),
+          });
+          darthNode.cache();
+          cacheImgList[img] = darthNode;
+          res(cacheImgList[img].clone());
+        });
+      }
+    );
   });
 };
 export const changeThingComponentState = (

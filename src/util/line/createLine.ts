@@ -81,7 +81,8 @@ export const finishLine = (
       // line.setAttrs({ points: getUsePointUn(resPoints) });
       line.points(getUsePointUn(resPoints));
     }
-    ie.opt.onCreateLineCb(line.id());
+    const cb = ie.opt.onCreateLineCb;
+    cb?.(line.id());
   } else {
     line.remove();
   }
