@@ -16,8 +16,8 @@ export const setField = (ie: INLEDITOR) => {
       name: "field",
       draggable: false,
       fill: FieldTheme[theme].fill,
-      stroke: "black",
-      strokeWidth: 1,
+      // stroke: "grey",
+      // strokeWidth: 1,
     });
     // add the shape to the layer
     lay.add(rect1);

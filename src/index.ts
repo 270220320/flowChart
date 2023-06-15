@@ -27,6 +27,7 @@ import reset from "./util/initStage/reset";
 import { showAnchor } from "./util/anchor";
 import { setField } from "./util/element/setField";
 import { FieldTheme } from "./config/field";
+import { createLineTexts } from "./element/textForLine";
 
 export type DrawState =
   | "Line"
@@ -57,9 +58,12 @@ export type onDropCb = (
   parent?: Konva.Group
 ) => void;
 
+export type onCreateLineCb = (id: string) => void;
+
 interface OPT {
   id: string;
   onDropCb?: onDropCb;
+  onCreateLineCb?: onCreateLineCb;
   onRemoveCb?: () => void;
   isPreview?: boolean;
   json?: string;
@@ -267,6 +271,11 @@ class INLEDITOR {
   // 反序列化
   async loadJson(json: string, cb?) {
     await this.init(json);
+    // createLineTexts(
+    //   this.stage,
+    //   "f1ca2aaf-36c1-4fdb-a267-6dac1892ad89",
+    //   this.theme
+    // );
     cb ? cb() : "";
   }
 

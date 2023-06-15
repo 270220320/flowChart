@@ -18,11 +18,12 @@ import { judge } from "../anchor";
 
 // 创建线完成
 export const finishLine = (
-  stage: Konva.Stage,
+  ie: INLEDITOR,
   begin: Konva.Node,
   line: Konva.Arrow,
   lineType
 ) => {
+  const stage = ie.getStage();
   // 设备
   if (begin.className === "Image" && begin.parent?.nodeType === "Group") {
     begin.parent?.setAttrs({ draggable: true });
@@ -80,6 +81,7 @@ export const finishLine = (
       // line.setAttrs({ points: getUsePointUn(resPoints) });
       line.points(getUsePointUn(resPoints));
     }
+    ie.opt.onCreateLineCb(line.id());
   } else {
     line.remove();
   }

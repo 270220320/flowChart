@@ -150,7 +150,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
       case "dottedLine":
       case "Line":
         if (line) {
-          finishLine(stage, begin!, line!, ie.getDrawState());
+          finishLine(ie, begin!, line!, ie.getDrawState());
           line = undefined;
         }
         showAnchor(stage, "hide");
@@ -160,7 +160,6 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         if (rect) {
           try {
             // 框选
-            debugger;
             const nodes = getInclude(ie, rect);
             toSelect(stage, nodes, ie.selectCb);
           } catch (res) {

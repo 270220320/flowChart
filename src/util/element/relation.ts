@@ -7,6 +7,7 @@ import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 import computedXY from "../computedXY";
 
 export const dealRelation = (target, stage: Konva.Stage) => {
+  // 待添加线随动逻辑
   const lineInfo = getLineInfo(target)!;
   const point = computedXY(
     stage,

@@ -35,12 +35,12 @@ export const changeThingComponentState = (
   const { thing } = getCustomAttrs(node.parent);
   const { componentName } = node.getAttrs();
 
-  if (componentName && componentName === "belt") {
+  if (componentName && componentName === "BELT") {
     // const belt = new BELT(stage, { thingInfo: thing });
     // belt.render(state as number);
     changeBeltState(stage, state, thing.iu);
   }
-  if (componentName && componentName === "scraper") {
+  if (componentName && componentName === "Scraper") {
     // const belt = new BELT(stage, { thingInfo: thing });
     // belt.render(state as number);
     changeState(stage, state, thing.iu);
