@@ -168,6 +168,10 @@ class INLEDITOR {
   createThingText = (iu: string) => {
     return createThingTexts(this.stage, iu, this.theme);
   };
+  // 创建thing文字
+  createLineText = (iu: string, lineId: string) => {
+    return createLineTexts(this.stage, iu, lineId, this.theme);
+  };
 
   // 修改主题
   changeTheme(themeType: Theme, cb?: (stage: Konva.Stage) => {}) {

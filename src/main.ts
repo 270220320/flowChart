@@ -5,6 +5,7 @@ export {
   setThingChildPosition,
   setThingScale,
 } from "./data/dropData";
+export { createThingGroup } from "./element/group";
 export * from "./config/theme";
 export * from "./util/changeElementsPosition";
 export * from "./util/customAttr";
