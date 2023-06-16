@@ -113,6 +113,19 @@ export default (ie: INLEDITOR, cb?: () => void) => {
       case "editLine":
         editMouseDown(e, stage);
         break;
+
+      case "Rect":
+        if (
+          e.target.getClassName() === "Stage" ||
+          e.target.name() === "field"
+        ) {
+          onSelection(ie.getStage(), { y, x }, ie.getTheme(), (rc) => {
+            rect = rc;
+          });
+        } else {
+          rect = null;
+        }
+        break;
       default:
         if (
           e.target.getClassName() === "Stage" ||
@@ -120,6 +133,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         ) {
           onSelection(ie.getStage(), { y, x }, ie.getTheme(), (rc) => {
             rect = rc;
+            stage.attrs.drawState = "fieldSelect";
           });
         } else {
           rect = null;
@@ -155,17 +169,24 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         }
         showAnchor(stage, "hide");
         break;
+
       default:
-        // rect未置空
-        if (rect) {
-          try {
-            // 框选
-            const nodes = getInclude(ie, rect);
-            toSelect(stage, nodes, ie.selectCb);
-          } catch (res) {
-            console.log("选中暂不节流");
-          }
-        }
+      // if (rect) {
+      // }
+    }
+    // 框选和单选冲突 特殊处理
+    if (stage.attrs.drawState === "fieldSelect") {
+      // rect未置空
+      try {
+        // 框选
+        const nodes = getInclude(ie, rect);
+        toSelect(stage, nodes, ie.selectCb);
+      } catch (res) {
+        console.log("选中暂不节流");
+      }
+      setTimeout(() => {
+        stage.attrs.drawState = undefined;
+      }, 300);
     }
     removeSelectionBox(stage);
     rect = null;

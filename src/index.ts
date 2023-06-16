@@ -39,6 +39,7 @@ export type DrawState =
   | "Text"
   | "img"
   | "dragStage"
+  | "fieldSelect"
   | "default";
 
 interface INLEDITOR {

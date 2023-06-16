@@ -4,7 +4,7 @@ export interface Thing {
   iu: string; // instanceUuid
   ic: string; // instanceCode
   tc: string;
-  img: string;
+  img?: string;
   fullImg?: string;
   name: string;
   type?: string;
