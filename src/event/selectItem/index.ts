@@ -120,6 +120,8 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
   } else if (e.evt.ctrlKey && Transformers) {
     if (node.name() !== "field") {
       node.setAttrs({ draggable: true });
+    } else {
+      node.setAttrs({ draggable: !node.attrs.draggable });
     }
 
     const currentNodes = Transformers?.getNodes();

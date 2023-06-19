@@ -28,6 +28,7 @@ import { showAnchor } from "./util/anchor";
 import { setField } from "./util/element/setField";
 import { FieldTheme } from "./config/field";
 import { createLineTexts } from "./element/textForLine";
+import { removeRelevance } from "./event/keyDown/remove";
 
 export type DrawState =
   | "Line"
@@ -160,7 +161,10 @@ class INLEDITOR {
     }
     this.stateChangeCb?.(state);
   }
-
+  removeNode = (node: Konva.Node) => {
+    node.remove();
+    removeRelevance(node, this.stage);
+  };
   disableStageMove() {
     disableMove(this.stage);
   }

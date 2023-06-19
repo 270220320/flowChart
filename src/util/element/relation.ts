@@ -8,6 +8,9 @@ import computedXY from "../computedXY";
 
 export const dealRelation = (target, stage: Konva.Stage) => {
   // 待添加线随动逻辑
+  const iu = getCustomAttrs(target)?.thing?.iu;
+  const group = stage.find("#" + iu)[0];
+
   const lineInfo = getLineInfo(target)!;
   const point = computedXY(
     stage,
