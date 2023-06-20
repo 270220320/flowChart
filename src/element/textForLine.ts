@@ -256,7 +256,7 @@ export const createLineTexts = (
   lineId: string,
   themeType: Theme
 ) => {
-  const thingGroup = stage.findOne(`#${iu}`) as Konva.Group;
+  const thingGroup = stage.findOne(`#line${iu}`) as Konva.Group;
 
   const line = stage.findOne(`#${lineId}`) as Konva.Group;
 
@@ -281,7 +281,7 @@ export const createLineTexts = (
         y: point.y,
       }
     );
-    thingGroup.add(textShape);
+    thingGroup?.add(textShape);
 
     textShape.setAttrs({
       draggable: true,
@@ -312,7 +312,7 @@ export const createLineTexts = (
         y: point.y,
       }
     );
-    thingGroup.add(group);
+    thingGroup?.add(group);
     cb ? cb(group) : null;
   };
   return {

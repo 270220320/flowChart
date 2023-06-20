@@ -7,7 +7,7 @@ import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 import computedXY from "../computedXY";
 
 export const dealRelation = (target, stage: Konva.Stage) => {
-  // 待添加线随动逻辑
+  // 待添加线的字随动逻辑
   const iu = getCustomAttrs(target)?.thing?.iu;
   const group = stage.find("#" + iu)[0];
 
@@ -19,6 +19,11 @@ export const dealRelation = (target, stage: Konva.Stage) => {
   );
   lineInfo.outLineIds?.forEach((lineId: string) => {
     const line = stage.findOne("#" + lineId);
+    // 线随动前的点
+    const oldPoint = {
+      x: line.attrs.points[0],
+      y: line.attrs.points[1],
+    };
     const { lineInfo } = getCustomAttrs(line) as any;
 
     const x = point.x + lineInfo.fromExcursionX;
@@ -32,6 +37,19 @@ export const dealRelation = (target, stage: Konva.Stage) => {
       line.attrs.points[1] = y;
       line.setAttrs({ points: line.attrs.points });
     }
+    // 线的字随动
+    const distanceChange = {
+      x: line.getAttr("points")[0] - oldPoint.x,
+      y: line.getAttr("points")[1] - oldPoint.y,
+    };
+
+    const iu = getCustomAttrs(line)?.thing?.iu;
+    const group: Konva.Group = stage.find("#line" + iu)[0] as Konva.Group;
+    const location = group?.getAbsolutePosition();
+    group?.setAbsolutePosition({
+      x: location.x + distanceChange.x,
+      y: location.y + distanceChange.y,
+    });
   });
   lineInfo.inLineIds?.forEach((lineId: string) => {
     const line = stage.findOne("#" + lineId);

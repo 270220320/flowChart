@@ -161,9 +161,13 @@ class INLEDITOR {
     }
     this.stateChangeCb?.(state);
   }
-  removeNode = (node: Konva.Node) => {
+  removeNode = (node: Konva.Group) => {
     node.remove();
-    removeRelevance(node, this.stage);
+    node.children.forEach((ele) => {
+      if (ele.name() === "thingImage") {
+        removeRelevance(node, this.stage);
+      }
+    });
   };
   disableStageMove() {
     disableMove(this.stage);
