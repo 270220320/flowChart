@@ -41,10 +41,14 @@ export const dealRelation = (target, stage: Konva.Stage) => {
 
     const iu = getCustomAttrs(line)?.thing?.iu;
     const group: Konva.Group = stage.find("#line" + iu)[0] as Konva.Group;
-    const location = group?.getAbsolutePosition();
-    group?.setAbsolutePosition({
-      x: location.x + distanceChange.x,
-      y: location.y + distanceChange.y,
+    group?.children.forEach((textGroup) => {
+      if (textGroup.className !== "Arrow") {
+        const location = textGroup?.getAbsolutePosition();
+        textGroup?.setAbsolutePosition({
+          x: location.x + distanceChange.x * stage.scaleX(),
+          y: location.y + distanceChange.y * stage.scaleX(),
+        });
+      }
     });
   });
   lineInfo.inLineIds?.forEach((lineId: string) => {

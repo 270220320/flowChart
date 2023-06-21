@@ -250,24 +250,32 @@ export const createThingTexts = (
 ) => {
   const thingGroup = stage.findOne(`#${iu}`) as Konva.Group;
   if (!thingGroup) return {};
-  // const thing = thingGroup.findOne(".thingImage") as Konva.Image;
-
-  // if (!thing) {
-  //   console.warn(`查询错误:${iu}`);
-  //   return {};
-  // }
+  const thing = thingGroup.findOne(".thingImage");
+  let line;
+  if (!thing) {
+    line = thingGroup.children.find((node) => node.className === "Arrow");
+  }
   const def = (data: thingTextInfo, cb?: (thingTextGroup: Group) => void) => {
     const { label, v, unit, code, id } = data;
-    const point = {
-      x:
-        (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
-        stage.scaleX(),
-      y:
-        (thingGroup.getClientRect().y -
-          thingGroup.getAbsolutePosition().y +
-          thingGroup.getClientRect().height) /
-        stage.scaleX(),
-    };
+    let point;
+    if (thing) {
+      point = {
+        x:
+          (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
+          stage.scaleX(),
+        y:
+          (thingGroup.getClientRect().y -
+            thingGroup.getAbsolutePosition().y +
+            thingGroup.getClientRect().height) /
+          stage.scaleX(),
+      };
+    } else {
+      point = {
+        x: line.attrs.points[0],
+        y: line.attrs.points[1] + (thingGroup.children.length - 1) * 25,
+      };
+    }
+
     const textShape = createThingDefaultText(
       themeType,
       {
@@ -294,16 +302,25 @@ export const createThingTexts = (
     cb?: (thingTextGroup: Group) => void
   ) => {
     const { label, v, unit, code, id } = data;
-    const point = {
-      x:
-        (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
-        stage.scaleX(),
-      y:
-        (thingGroup.getClientRect().y -
-          thingGroup.getAbsolutePosition().y +
-          thingGroup.getClientRect().height) /
-        stage.scaleX(),
-    };
+    let point;
+    if (thing) {
+      point = {
+        x:
+          (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
+          stage.scaleX(),
+        y:
+          (thingGroup.getClientRect().y -
+            thingGroup.getAbsolutePosition().y +
+            thingGroup.getClientRect().height) /
+          stage.scaleX(),
+      };
+    } else {
+      point = {
+        x: line.attrs.points[0],
+        y: line.attrs.points[1] + (thingGroup.children.length - 1) * 25,
+      };
+    }
+
     const group = createThingAdvancedText(
       themeType,
       {

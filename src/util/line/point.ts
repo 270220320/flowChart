@@ -16,23 +16,14 @@ export const bindPointEvent = (
   stage: Konva.Stage
 ) => {
   setCustomAttrs(point, { type: "control" });
-  let locationDistance: { x: number; y: number } = { x: 0, y: 0 };
-  // 处理线上字逻辑
-  point.on("dragstart", (e) => {
-    if (controlIndex === 0) {
-      const iu = getCustomAttrs(line)?.thing?.iu;
-      const pointLocation = getUsePoint(line.attrs.points)[0];
-      const group: Konva.Group = stage.find("#line" + iu)[0] as Konva.Group;
-      const groupLocation = group.getAbsolutePosition();
-      locationDistance = {
-        x: groupLocation.x - pointLocation.x,
-        y: groupLocation.y - pointLocation.y,
-      };
-    }
-  });
+  let oldPoint: { x: number; y: number } = { x: 0, y: 0 };
   point.on("dragmove", (e) => {
     const { x, y } = e.target.attrs;
     const points = getUsePoint(line.attrs.points);
+    // 处理线上字逻辑
+    if (controlIndex === 0) {
+      oldPoint = getUsePoint(line.attrs.points)[0];
+    }
     let resPoints: { x: number; y: number }[] = [];
     const lineInfo = getCustomAttrs(line).lineInfo!;
     // 直角线
@@ -50,11 +41,21 @@ export const bindPointEvent = (
     line.setAttrs({ points: arr });
     // 线上字跟随
     if (controlIndex === 0) {
+      const distanceChange = {
+        x: line.getAttr("points")[0] - oldPoint.x,
+        y: line.getAttr("points")[1] - oldPoint.y,
+      };
+
       const iu = getCustomAttrs(line)?.thing?.iu;
       const group: Konva.Group = stage.find("#line" + iu)[0] as Konva.Group;
-      group?.setAbsolutePosition({
-        x: resPoints[0].x + locationDistance.x,
-        y: resPoints[0].y + locationDistance.y,
+      group?.children.forEach((textGroup) => {
+        if (textGroup.className !== "Arrow") {
+          const location = textGroup?.getAbsolutePosition();
+          textGroup?.setAbsolutePosition({
+            x: location.x + distanceChange.x * stage.scaleX(),
+            y: location.y + distanceChange.y * stage.scaleX(),
+          });
+        }
       });
     }
   });

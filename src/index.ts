@@ -184,8 +184,12 @@ class INLEDITOR {
     group.add(line);
   };
   // 创建thing文字
-  createThingText = (iu: string) => {
-    return createThingTexts(this.stage, iu, this.theme);
+  createThingText = (iu: string, type?: "thing" | "line") => {
+    return createThingTexts(
+      this.stage,
+      type !== "thing" ? type + iu : iu,
+      this.theme
+    );
   };
   // 创建thing文字  暂时舍弃
   createLineText = (iu: string, lineId: string) => {
