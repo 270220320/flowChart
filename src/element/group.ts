@@ -21,10 +21,10 @@ export type Child =
   | Konva.Text;
 
 // 创建thing 的组
-export const createThingGroup = (useThing: Thing) => {
+export const createThingGroup = (useThing: Thing, id?: string) => {
   const group = new Konva.Group({
     draggable: true,
-    id: useThing?.iu || "",
+    id: id || useThing?.iu,
     name: useThing.type || groupNames.thingGroup,
   });
   setCustomAttrs(group, { thing: useThing, type: groupNames.thingGroup });

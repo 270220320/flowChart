@@ -250,12 +250,12 @@ export const createThingTexts = (
 ) => {
   const thingGroup = stage.findOne(`#${iu}`) as Konva.Group;
   if (!thingGroup) return {};
-  const thing = thingGroup.findOne(".thingImage") as Konva.Image;
+  // const thing = thingGroup.findOne(".thingImage") as Konva.Image;
 
-  if (!thing) {
-    console.warn(`查询错误:${iu}`);
-    return {};
-  }
+  // if (!thing) {
+  //   console.warn(`查询错误:${iu}`);
+  //   return {};
+  // }
   const def = (data: thingTextInfo, cb?: (thingTextGroup: Group) => void) => {
     const { label, v, unit, code, id } = data;
     const point = {

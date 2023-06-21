@@ -2,7 +2,11 @@ import Konva from "konva";
 import { ComponentFac, useComponent } from "./component/componentFac";
 import { StoreHouse, VideoNode, Scale, Pool } from "./component";
 import theme, { Theme } from "./config/theme";
-import { getThingTextGroup, groupNames } from "./element/group";
+import {
+  getThingTextGroup,
+  groupNames,
+  createThingGroup,
+} from "./element/group";
 import { changeThingComponentState, changeThingImage } from "./element/image";
 import { createThingTexts, setThingTextVal } from "./element/text";
 import event from "./event";
@@ -11,7 +15,7 @@ import changeElementsPosition, {
   AlignType,
 } from "./util/changeElementsPosition";
 import changeTheme from "./util/changeTheme";
-import { getCustomAttrs } from "./util/customAttr";
+import { getCustomAttrs, getLineInfo } from "./util/customAttr";
 import { getRelations, getRelation } from "./util/getRelations";
 import initStage from "./util/initStage";
 import layer from "./util/layer";
@@ -165,7 +169,7 @@ class INLEDITOR {
     node.remove();
     node.children.forEach((ele) => {
       if (ele.name() === "thingImage") {
-        removeRelevance(node, this.stage);
+        removeRelevance(ele, this.stage);
       }
     });
   };
@@ -173,10 +177,17 @@ class INLEDITOR {
     disableMove(this.stage);
   }
   // 创建thing文字
+  createLineGroup = (line, useThing: Thing) => {
+    const group = createThingGroup(useThing, "line" + useThing.iu);
+    const lineLay = layer(this.stage, "line");
+    lineLay.add(group);
+    group.add(line);
+  };
+  // 创建thing文字
   createThingText = (iu: string) => {
     return createThingTexts(this.stage, iu, this.theme);
   };
-  // 创建thing文字
+  // 创建thing文字  暂时舍弃
   createLineText = (iu: string, lineId: string) => {
     return createLineTexts(this.stage, iu, lineId, this.theme);
   };
@@ -321,6 +332,26 @@ class INLEDITOR {
   }
   updateLineColor(key, line) {
     updateLineColor(key, line, this.theme);
+  }
+
+  updateLineOption(
+    line,
+    key,
+    option: { color?: string; type?: "dotted" | "default" }
+  ) {
+    const info = getLineInfo(line);
+    info.state = key;
+    if (option.color) {
+      line.setAttrs({
+        stroke: option.color,
+        fill: option.color,
+      });
+    }
+    if (option.type) {
+      line.setAttrs({
+        dash: option.type === "dotted" ? [15, 8, 15, 8] : undefined,
+      });
+    }
   }
 
   // 适应画布

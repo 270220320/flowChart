@@ -16,7 +16,7 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
     }
   });
   cb(
-    "thing",
+    e.target.className === "Arrow" ? "line" : "thing",
     { parent, target: e.target },
     { iu: data1.thing!.iu, codes: codeArr, ids: idArr }
   );

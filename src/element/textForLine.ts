@@ -256,7 +256,7 @@ export const createLineTexts = (
   lineId: string,
   themeType: Theme
 ) => {
-  const thingGroup = stage.findOne(`#line${iu}`) as Konva.Group;
+  const thingGroup = stage.findOne(`#${iu}`) as Konva.Group;
 
   const line = stage.findOne(`#${lineId}`) as Konva.Group;
 

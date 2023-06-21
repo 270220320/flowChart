@@ -17,9 +17,14 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     }
     // 块关联线随动
     let target;
-    if (e.target.nodeType === "Shape" || e.target.nodeType === "Image") {
+
+    if (
+      e.target.nodeType === "Shape" ||
+      e.target.nodeType === "Image" ||
+      e.target.name() === "thingImage"
+    ) {
       target = e.target;
-    } else if (e.target.nodeType === "Group") {
+    } else if (e.target.name() === "thingGroup") {
       target = e.target.children.find((ele) => ele.name() === "thingImage");
     }
     if (target) {
