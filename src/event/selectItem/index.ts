@@ -50,12 +50,12 @@ export const createTran = (node?: Konva.Node) => {
     // centeredScaling: true,
     rotateEnabled: false,
     rotationSnaps: [0, 90, 180, 270],
+    enabledAnchors: ["top-left", "top-right", "bottom-left", "bottom-right"],
   };
   if (name === "BELT" || name === "Scraper" || name === "Technique") {
     opt.enabledAnchors = ["middle-right"];
     opt.rotateEnabled = false;
-  }
-  if (node?.getAttrs().name === "field") {
+  } else if (node?.getAttrs().name === "field") {
     opt.resizeEnabled = false;
   }
   return new Konva.Transformer(opt);

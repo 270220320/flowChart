@@ -32,15 +32,24 @@ export const setTransferData = () => {};
 
 // 获取物模型的所有文字内容
 export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
-  const thingLayer = layer(stage, "thing");
-  const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
+  const thing = stage.findOne(`#${iu}`) as Konva.Group;
   const childText = thing
     .getChildren()
-    .filter((item) => !item.hasName("thingImage"));
+    .filter(
+      (item) => !item.hasName("thingImage") && item.className !== "Arrow"
+    );
   const childImage = thing
     .getChildren()
     .find((item) => item.hasName("thingImage"));
-  const { x, y } = childImage.getAbsolutePosition();
+  const childLine = thing
+    .getChildren()
+    .find((item) => item.className === "Arrow");
+  const { x, y } = childImage
+    ? childImage.getAbsolutePosition()
+    : {
+        x: childLine.attrs.points[0],
+        y: childLine.attrs.points[1],
+      };
   const thingXY = computedXY(stage, x, y);
   const arr: THINGTEXT = [];
   for (let text of childText) {
@@ -82,8 +91,7 @@ export const setThingChildPosition = (
   themeType: Theme,
   arr: THINGTEXT
 ) => {
-  const thingLayer = layer(stage, "thing");
-  const thing = thingLayer.findOne(`#${iu}`) as Konva.Group;
+  const thing = stage.findOne(`#${iu}`) as Konva.Group;
   const creatext = createThingTexts(stage, iu, themeType);
   const { width, height, x, y } = thing.getClientRect();
   const cb = (g: Konva.Group, i: THINGTEXTINFO) => {

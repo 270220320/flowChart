@@ -182,12 +182,13 @@ class INLEDITOR {
     const lineLay = layer(this.stage, "line");
     lineLay.add(group);
     group.add(line);
+    return group;
   };
   // 创建thing文字
   createThingText = (iu: string, type?: "thing" | "line") => {
     return createThingTexts(
       this.stage,
-      type !== "thing" ? type + iu : iu,
+      type === "thing" || type === undefined ? iu : type + iu,
       this.theme
     );
   };

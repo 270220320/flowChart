@@ -14,7 +14,7 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
       i.getParent().hasName(groupNames.thingTextGroup) ||
       i.getParent().hasName(groupNames.thingDefTextGroup);
     Transformers.destroy();
-    if ((isThing && i.hasName("thingImage")) || isThingText) {
+    if (isThing || isThingText) {
       i.getParent().remove();
     } else {
       // 删除关联关系
@@ -49,6 +49,10 @@ export const removeRelevance = (obj: Konva.Node, stage: Konva.Stage) => {
       (id: string) => {
         const line = stage.findOne("#" + id);
         removeRelevance(line, stage);
+        const isThing = line.getParent().hasName(groupNames.thingGroup);
+        if (isThing) {
+          line.parent.remove();
+        }
         line.remove();
       }
     );
