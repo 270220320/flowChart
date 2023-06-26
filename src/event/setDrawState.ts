@@ -105,7 +105,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
           (e.target.className === "Rect" && e.target.name() !== "field")
         ) {
           begin = e.target as Konva.Rect;
-          line = beginCreateLine(stage, { x, y }, e, {
+          line = beginCreateLine(ie, { x, y }, e, {
             theme: ie.getTheme(),
             drawState: ie.getDrawState(),
           });

@@ -8,7 +8,7 @@ import Konva from "konva";
 export default async (
   stage: Konva.Stage,
   e?: DragEvent | Event,
-  info?: { type: string; url: string }
+  info?: { type?: string; url?: string }
 ) => {
   let urls;
   if (info) {

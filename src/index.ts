@@ -142,7 +142,8 @@ class INLEDITOR {
   }
   // 绘制状态
   protected drawState: DrawState = "default";
-  drawInfo: any;
+  // 私有图片url或者虚线，间隔
+  drawInfo: { type?: string; url?: string; dotted?: number[] };
   protected stateChangeCb: (state: DrawState) => void | undefined;
   onDrawStateChange(cb: (state: DrawState) => {}) {
     this.stateChangeCb = cb;
@@ -333,15 +334,12 @@ class INLEDITOR {
   getRelation(line) {
     return getRelation(line, this.stage);
   }
+  // 修改线颜色，已弃用
   updateLineColor(key, line) {
     updateLineColor(key, line, this.theme);
   }
-
-  updateLineOption(
-    line,
-    key,
-    option: { color?: string; type?: "dotted" | "default" }
-  ) {
+  // 新版修改线样式
+  updateLineOption(line, key, option: { color?: string; dotted?: number[] }) {
     const info = getLineInfo(line);
     info.state = key;
     if (option.color) {
@@ -350,11 +348,9 @@ class INLEDITOR {
         fill: option.color,
       });
     }
-    if (option.type) {
-      line.setAttrs({
-        dash: option.type === "dotted" ? [15, 8, 15, 8] : undefined,
-      });
-    }
+    line.setAttrs({
+      dash: option.dotted,
+    });
   }
 
   // 适应画布

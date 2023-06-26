@@ -45,8 +45,7 @@ export const finishLine = (
   if (begin === end) {
     end = undefined;
   }
-
-  if (end) {
+  if (end && end.name() !== "field") {
     end.setAttrs({ strokeWidth: 0 });
     const beginInfo = getLineInfo(begin);
     const endInfo = getLineInfo(end);
@@ -109,11 +108,12 @@ const createLineMove = (
 
 // 开始创建线
 export const beginCreateLine = (
-  stage: Konva.Stage,
+  ie: INLEDITOR,
   point: { x: number; y: number },
   e: KonvaEventObject<MouseEvent>,
   opt
 ) => {
+  const stage = ie.getStage();
   // 设备
   if (e.target.className === "Image" && e.target.parent?.nodeType === "Group") {
     e.target.parent?.setAttrs({ draggable: false });
@@ -129,7 +129,7 @@ export const beginCreateLine = (
 
   const lay = layer(stage, "line");
   lay.moveToTop();
-  const line = createLine(lay, point, opt);
+  const line = createLine(ie, point, opt);
   let end;
   stage.on("mousemove", (e) => {
     const { x, y } = computedXYByEvent(stage, e.evt);
@@ -150,21 +150,27 @@ export const beginCreateLine = (
 
 // 画出预览线
 export const createLine = (
-  layer: Konva.Layer,
+  ie: INLEDITOR,
   point: { x: number; y: number },
   opt
 ) => {
-  const dotted = opt.drawState.toLowerCase().indexOf("dotted") !== -1;
+  const stage = ie.getStage();
+  const lay = layer(stage, "line");
+  const isDotted = opt.drawState.toLowerCase().indexOf("dotted") !== -1;
+  let dotted = undefined;
+  if (isDotted) {
+    dotted = ie.drawInfo?.dotted || [15, 8, 15, 8];
+  }
   const arrow = new Konva.Arrow({
     id: UUID(),
     points: [point.x, point.y, point.x, point.y],
     ...LineTheme[opt.theme],
     pointerFill: "red",
-    dash: dotted ? [15, 8, 15, 8] : undefined,
+    dash: dotted,
     stroke: lineState[opt.theme][lineState.default],
     fill: lineState[opt.theme][lineState.default],
   });
 
-  layer.add(arrow);
+  lay.add(arrow);
   return arrow;
 };
