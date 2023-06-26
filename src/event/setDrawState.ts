@@ -184,7 +184,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
       try {
         // 框选
         const nodes = getInclude(ie, rect);
-        toSelect(stage, nodes, ie.selectCb);
+        toSelect(ie, nodes, ie.selectCb);
       } catch (res) {
         console.log("选中暂不节流");
       }

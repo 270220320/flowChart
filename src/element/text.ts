@@ -10,6 +10,7 @@ import { getCustomAttrs, setCustomAttrs } from "../util/customAttr";
 import { toSelect } from "@/event/selectItem";
 import { Group } from "konva/lib/Group";
 import computedXY from "@/util/computedXY";
+import INLEDITOR from "..";
 
 export const createText = (config: TextConfig, id?: string) =>
   new Konva.Text({
@@ -244,10 +245,11 @@ export const changeThingTextTheme = (themeType: Theme) => {};
 
 // 创建文字
 export const createThingTexts = (
-  stage: Konva.Stage,
+  ie: INLEDITOR,
   iu: string,
   themeType: Theme
 ) => {
+  const stage = ie.getStage();
   const thingGroup = stage.findOne(`#${iu}`) as Konva.Group;
   if (!thingGroup) return {};
   const thing = thingGroup.findOne(".thingImage");
@@ -389,7 +391,7 @@ export const createThingTexts = (
             });
           }
           item.draw();
-          toSelect(stage, [item]);
+          toSelect(ie, [item]);
         }
       });
     },

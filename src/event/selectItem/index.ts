@@ -44,7 +44,7 @@ const checkTarget: (selectTarget: Shape<ShapeConfig> | Stage) => TargetType = (
 const isLine = () => {};
 
 // 初始化选择框
-export const createTran = (node?: Konva.Node) => {
+export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
   const name = node?.getAttrs().componentName;
   const opt: any = {
     // centeredScaling: true,
@@ -57,8 +57,14 @@ export const createTran = (node?: Konva.Node) => {
     opt.rotateEnabled = false;
   } else if (node?.getAttrs().name === "field") {
     opt.resizeEnabled = false;
+  } else if (node?.className === "Arrow") {
+    opt.draggable = false;
   }
-  return new Konva.Transformer(opt);
+  const tran = new Konva.Transformer(opt);
+  tran.on("transform", () => {
+    ie.opt.onTransform?.();
+  });
+  return tran;
 };
 // 获取 选择框
 export const getTran: (stage: Konva.Stage) => {
@@ -93,10 +99,11 @@ export const clearTransFormer = (stage: Konva.Stage) => {
   stage.draw();
 };
 
-export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>, cb?) => {
+export const toSelect = (ie: INLEDITOR, nodes: Array<Konva.Node>, cb?) => {
   if (nodes.length === 0) return;
+  const stage = ie.getStage();
   resetEvent(stage);
-  const Transformers = createTran();
+  const Transformers = createTran(undefined, ie);
   Transformers.nodes(nodes);
   layer(stage, "util").add(Transformers);
   cb?.("things", {}, {});
@@ -104,8 +111,8 @@ export const toSelect = (stage: Konva.Stage, nodes: Array<Konva.Node>, cb?) => {
 };
 
 // 选中单个元素动作
-const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
-  const flag = e.evt.shiftKey;
+const selectEvent = (ie: INLEDITOR, e: KonvaEventObject<any>) => {
+  const stage = ie.getStage();
   let Transformers = stage.findOne("Transformer") as Konva.Transformer;
   const node = getSelectNode(e.target);
   const nodes: Array<Konva.Node> = [];
@@ -131,7 +138,7 @@ const selectEvent = (stage: Konva.Stage, e: KonvaEventObject<any>) => {
     // 没有按住shift
     Transformers?.destroy();
     nodes.push(node);
-    Transformers = createTran(node);
+    Transformers = createTran(node, ie);
     layer(stage, "util").add(Transformers);
     Transformers.nodes(nodes);
   }
@@ -160,7 +167,7 @@ export default (ie: INLEDITOR) => {
       //   isLine();
       //   break;
       default:
-        selectEvent(stage, e);
+        selectEvent(ie, e);
     }
   });
 };

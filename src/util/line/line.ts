@@ -38,11 +38,11 @@ export const addLineText = (
 };
 
 export const changeLineTheme = (stage: Konva.Stage, theme: string) => {
-  const lay = layer(stage, "line");
-  lay.children.forEach((line: Konva.Arrow) => {
-    const info = getLineInfo(line);
-    updateLineColor(info.state, line, theme);
-  });
+  // const lay = layer(stage, "line");
+  // lay.children.forEach((line: Konva.Arrow) => {
+  //   const info = getLineInfo(line);
+  //   updateLineColor(info.state, line, theme);
+  // });
 };
 
 // 连接到新块修改关系

@@ -31,7 +31,6 @@ import reset from "./util/initStage/reset";
 import { showAnchor } from "./util/anchor";
 import { setField } from "./util/element/setField";
 import { FieldTheme } from "./config/field";
-import { createLineTexts } from "./element/textForLine";
 import { removeRelevance } from "./event/keyDown/remove";
 
 export type DrawState =
@@ -71,6 +70,7 @@ interface OPT {
   onDropCb?: onDropCb;
   onCreateLineCb?: onCreateLineCb;
   onRemoveCb?: () => void;
+  onTransform?: () => void;
   isPreview?: boolean;
   json?: string;
   scale?: "show" | "hide";
@@ -179,6 +179,7 @@ class INLEDITOR {
   // 创建thing文字
   createLineGroup = (line, useThing: Thing) => {
     const group = createThingGroup(useThing, "line" + useThing.iu);
+    group.setAttrs({ draggable: false });
     const lineLay = layer(this.stage, "line");
     lineLay.add(group);
     group.add(line);
@@ -187,14 +188,10 @@ class INLEDITOR {
   // 创建thing文字
   createThingText = (iu: string, type?: "thing" | "line") => {
     return createThingTexts(
-      this.stage,
+      this,
       type === "thing" || type === undefined ? iu : type + iu,
       this.theme
     );
-  };
-  // 创建thing文字  暂时舍弃
-  createLineText = (iu: string, lineId: string) => {
-    return createLineTexts(this.stage, iu, lineId, this.theme);
   };
 
   // 修改主题
@@ -209,10 +206,11 @@ class INLEDITOR {
   // 动态修改物模型的值
   setVal(iu: string, propertyId: string, val: string) {
     // 查找物模型
-    const thignGroup = this.thingLayer.findOne(`#${iu}`) as Konva.Group;
-    if (!thignGroup) return;
+    const thingGroup = (this.stage.findOne(`#${iu}`) ||
+      this.stage.findOne(`#line${iu}`)) as Konva.Group;
+    if (!thingGroup) return;
     // 筛选code
-    getThingTextGroup(thignGroup).forEach((textNode) => {
+    getThingTextGroup(thingGroup).forEach((textNode) => {
       const attrs = getCustomAttrs(textNode);
       if (attrs.propertyId && attrs.propertyId === propertyId) {
         setThingTextVal(textNode, val);
@@ -223,12 +221,12 @@ class INLEDITOR {
   // 删除thing文字 allOfThem删除全部
   removeText(iu: string, ids: Array<string | SpecialCode.all>) {
     // 查找物模型
-    const thignGroup = layer(this.stage, "thing").findOne(
-      `#${iu}`
-    ) as Konva.Group;
+    const thingGroup = (this.stage.findOne(`#${iu}`) ||
+      this.stage.findOne(`#line${iu}`)) as Konva.Group;
+    if (!thingGroup) return;
     // 筛选code
     for (let i of ids) {
-      thignGroup.children
+      thingGroup.children
         .find((ele) => {
           const info = getCustomAttrs(ele).thingTextInfo;
           return info?.id === i;
