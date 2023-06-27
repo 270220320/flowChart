@@ -4,10 +4,12 @@ import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import layer from "../../util/layer";
 import Konva from "konva";
 import state from "./state";
-import { getTran } from "@/event/selectItem";
+import { getTran, toSelect, toSelectOne } from "@/event/selectItem";
 import { UUID } from "@/util/uuid";
 import scraperLeft from "../../assets/scraperLeft.svg";
 import scraperRight from "../../assets/scraperRight.svg";
+import INLEDITOR from "@/index";
+import { getThingImage } from "@/util";
 
 interface Scraper {
   stage: Konva.Stage;
@@ -41,6 +43,7 @@ class Scraper {
   ) {
     this.stage = stage;
     this.createThingGroup(info.thingInfo, info.p);
+    this.config.iu = info.thingInfo.iu;
   }
   name = "Scraper";
 
@@ -56,7 +59,10 @@ class Scraper {
       this.group = this.thingGroup.findOne(".thingImage");
       this.config.width =
         this.group.getClientRect().width / this.stage.scaleX();
-
+      // 赋值缩放比例
+      setCustomAttrs(this.group, {
+        scale: this.config.width / this.config.defaultWidth,
+      });
       this.draw.event();
     } else {
       this.group = new Konva.Group({
@@ -78,11 +84,13 @@ class Scraper {
     }
   }
   config: any = {
+    defaultWidth: 192,
     width: 192,
     height: 26,
     left: 0,
     top: 0,
     theme: 0,
+    iu: undefined,
     callBack: (group: Konva.Group) => {},
   };
   render(stateType: number) {
@@ -98,19 +106,23 @@ class Scraper {
         this.config.width = (width * this.group.scaleX()) / this.stage.scaleX();
         this.config.left = x;
         this.config.top = y;
-
+        // 赋值缩放
+        setCustomAttrs(this.group, {
+          scale: this.config.width / this.config.defaultWidth,
+        });
         this.group.scale({
           x: 1,
           y: 1,
         });
         this.config.theme = getCustomAttrs(this.group).state || 0;
-        const middle = this.group.children.find(
-          (ele) => ele.name() === "middle"
-        );
-        middle.setAttrs({ width: this.config.width - 31 - 42 });
-        const right = this.group.children.find((ele) => ele.name() === "right");
-        right.setAttrs({ x: this.config.width - 42 });
+        this.draw.changeWidth();
       });
+    },
+    changeWidth: () => {
+      const middle = this.group.children.find((ele) => ele.name() === "middle");
+      middle.setAttrs({ width: this.config.width - 31 - 42 });
+      const right = this.group.children.find((ele) => ele.name() === "right");
+      right.setAttrs({ x: this.config.width - 42 });
     },
     init: () => {
       this.draw.render(0);
@@ -167,7 +179,19 @@ class Scraper {
     },
   };
 }
-
+export const setScraperScale = async (
+  ie: INLEDITOR,
+  iu: string,
+  thingGroup,
+  scale: number
+) => {
+  const thingImage = getThingImage(thingGroup);
+  setCustomAttrs(thingImage, { scale });
+  const comClass = ie.componentArr.find((ele) => ele.config.iu === iu);
+  comClass.config.width = comClass.config.defaultWidth * scale;
+  comClass.draw.changeWidth();
+  toSelectOne(ie, thingImage);
+};
 export { Scraper };
 
 export default Scraper;

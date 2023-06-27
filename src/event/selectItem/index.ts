@@ -99,6 +99,16 @@ export const clearTransFormer = (stage: Konva.Stage) => {
   stage.draw();
 };
 
+export const toSelectOne = (ie: INLEDITOR, node: Konva.Node, cb?) => {
+  const stage = ie.getStage();
+  resetEvent(stage);
+  const Transformers = createTran(node, ie);
+  Transformers.nodes([node]);
+  layer(stage, "util").add(Transformers);
+  cb?.("things", {}, {});
+  return Transformers;
+};
+
 export const toSelect = (ie: INLEDITOR, nodes: Array<Konva.Node>, cb?) => {
   if (nodes.length === 0) return;
   const stage = ie.getStage();

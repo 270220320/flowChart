@@ -11,6 +11,7 @@ interface COALANIM {
   animGroup: Konva.Group;
   cacheCoal: Konva.Star | Konva.Image;
   tim: any;
+  movejl: number;
 }
 
 interface OPT {
@@ -78,7 +79,7 @@ class COALANIM {
     this.runState = true;
     this.tim = setInterval(() => {
       this.anim();
-    }, 220);
+    }, 300);
   }
   stop() {
     this.runState = false;

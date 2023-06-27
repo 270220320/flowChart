@@ -17,10 +17,10 @@ export default (ie: INLEDITOR) => {
     const { componentName } = item.getAttrs();
     const { thing } = getCustomAttrs(item.parent);
     if (componentName && componentName === "BELT") {
-      new BELT(ie.getStage(), { thingInfo: thing });
+      ie.componentArr.push(new BELT(ie.getStage(), { thingInfo: thing }));
     }
     if (componentName && componentName === "Scraper") {
-      new Scraper(ie.getStage(), { thingInfo: thing });
+      ie.componentArr.push(new Scraper(ie.getStage(), { thingInfo: thing }));
     }
     if (componentName && componentName === "Technique") {
       new Technique(ie.getStage(), { thingInfo: thing });

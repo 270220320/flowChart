@@ -1,6 +1,13 @@
 import Konva from "konva";
 import { ComponentFac, useComponent } from "./component/componentFac";
-import { StoreHouse, VideoNode, Scale, Pool } from "./component";
+import {
+  StoreHouse,
+  VideoNode,
+  Scale,
+  Pool,
+  setBeltScale,
+  setScraperScale,
+} from "./component";
 import theme, { Theme } from "./config/theme";
 import {
   getThingTextGroup,
@@ -32,6 +39,7 @@ import { showAnchor } from "./util/anchor";
 import { setField } from "./util/element/setField";
 import { FieldTheme } from "./config/field";
 import { removeRelevance } from "./event/keyDown/remove";
+import { getThingImage } from "./util";
 
 export type DrawState =
   | "Line"
@@ -104,6 +112,9 @@ class INLEDITOR {
   }
   // 设备图层
   thingLayer;
+
+  // 皮带刮板组件集合
+  componentArr: any[] = [];
 
   // 主题
   protected theme: Theme = "dark";
@@ -193,6 +204,15 @@ class INLEDITOR {
       type === "thing" || type === undefined ? iu : type + iu,
       this.theme
     );
+  };
+  setComponentScale = (iu: string, scale: number) => {
+    const thingGroup: Konva.Group = this.stage.findOne("#" + iu);
+    const thingImage = getThingImage(thingGroup);
+    if (thingImage.attrs.componentName === "BELT") {
+      setBeltScale(this, iu, thingGroup, scale);
+    } else if (thingImage.attrs.componentName === "Scraper") {
+      setScraperScale(this, iu, thingGroup, scale);
+    }
   };
 
   // 修改主题

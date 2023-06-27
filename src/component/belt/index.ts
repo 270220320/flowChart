@@ -4,8 +4,10 @@ import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import layer from "../../util/layer";
 import Konva from "konva";
 import state from "./state";
-import { getTran } from "@/event/selectItem";
+import { getTran, toSelect, toSelectOne } from "@/event/selectItem";
 import { UUID } from "@/util/uuid";
+import INLEDITOR from "@/index";
+import { getThingImage } from "@/util";
 
 interface BELT {
   stage: Konva.Stage;
@@ -28,6 +30,7 @@ class BELT {
   ) {
     this.stage = stage;
     this.createThingGroup(info.thingInfo, info.p);
+    this.config.iu = info.thingInfo.iu;
   }
   name = "BELT";
 
@@ -44,6 +47,10 @@ class BELT {
       this.group = this.thingGroup.findOne(".thingImage");
       this.config.width =
         this.group.getClientRect().width / this.stage.scaleX();
+      // 赋值缩放比例
+      setCustomAttrs(this.group, {
+        scale: this.config.width / this.config.defaultWidth,
+      });
       this.draw.event();
     } else {
       this.group = new Konva.Group({
@@ -65,12 +72,13 @@ class BELT {
     }
   }
   config: any = {
+    defaultWidth: 180,
     width: 180,
     height: 25,
     left: 0,
     top: 0,
     theme: 0,
-    callBack: (group: Konva.Group) => {},
+    iu: undefined,
   };
   render(stateType: number) {
     this.config.theme = stateType;
@@ -86,7 +94,10 @@ class BELT {
         this.config.width = (width * this.group.scaleX()) / this.stage.scaleX();
         this.config.left = x;
         this.config.top = y;
-
+        // 赋值缩放
+        setCustomAttrs(this.group, {
+          scale: this.config.width / this.config.defaultWidth,
+        });
         this.group.scale({
           x: 1,
           y: 1,
@@ -98,7 +109,6 @@ class BELT {
     },
     init: () => {
       this.draw.render(0);
-      this.config.callBack(this.group);
     },
     render: (stateType: number | string) => {
       const theme = state[stateType || 0];
@@ -266,6 +276,20 @@ export const changeBeltState = (
   setCustomAttrs(thingGroup, { state: stateType });
   thingImage.add(brect, brect1, brect2, circle, circle1);
   return thingImage;
+};
+
+export const setBeltScale = (
+  ie: INLEDITOR,
+  iu: string,
+  thingGroup,
+  scale: number
+) => {
+  const thingImage = getThingImage(thingGroup);
+  setCustomAttrs(thingImage, { scale });
+  const comClass = ie.componentArr.find((ele) => ele.config.iu === iu);
+  comClass.config.width = comClass.config.defaultWidth * scale;
+  comClass.render(comClass.config.theme);
+  toSelectOne(ie, thingImage);
 };
 export { BELT };
 

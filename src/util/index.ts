@@ -80,3 +80,7 @@ export const addMapTitle = (
   const lay = layer(stage, "thing");
   lay.add(text);
 };
+
+export const getThingImage = (thingGroup: Konva.Group) => {
+  return thingGroup.children.find((node) => node.name() === "thingImage");
+};
