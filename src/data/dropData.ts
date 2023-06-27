@@ -1,5 +1,5 @@
 import { createThingTexts } from "@/element/text";
-import { getCustomAttrs, Theme } from "@/main";
+import inleditor, { getCustomAttrs, Theme } from "@/main";
 import computedXY from "@/util/computedXY";
 import layer from "@/util/layer";
 import Konva from "konva";
@@ -86,13 +86,14 @@ export const setThingScale = (
 };
 // 设置物模型的文字位置 !!组件需要延迟调用！！
 export const setThingChildPosition = (
-  stage: Konva.Stage,
+  ie: inleditor,
   iu: string,
   themeType: Theme,
   arr: THINGTEXT
 ) => {
+  const stage = ie.getStage();
   const thing = stage.findOne(`#${iu}`) as Konva.Group;
-  const creatext = createThingTexts(stage, iu, themeType);
+  const creatext = createThingTexts(ie, iu, themeType);
   const { width, height, x, y } = thing.getClientRect();
   const cb = (g: Konva.Group, i: THINGTEXTINFO) => {
     if (!i.position) {

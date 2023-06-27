@@ -36,6 +36,9 @@ export const getMouseOver = (
   if (isComponentChildren(node)) {
     return node.parent;
   }
+  if (node.name() === "field") {
+    node = undefined;
+  }
   return node;
 };
 
