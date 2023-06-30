@@ -4,8 +4,10 @@ import layer from "../layer";
 
 export const turnDrag = (stage: Konva.Stage, state: boolean) => {
   const lay = layer(stage, "thing");
-  lay.setAttrs({ draggable: state });
+  // lay.setAttrs({ draggable: state });
   lay.children?.forEach((ele: Konva.Node) => {
-    ele.setAttrs({ draggable: state });
+    if (ele.name() !== "field") {
+      ele.setAttrs({ draggable: state });
+    }
   });
 };

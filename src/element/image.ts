@@ -6,6 +6,9 @@ import _ from "lodash";
 import { UUID } from "src/util/uuid";
 const cacheImgList: Record<string, Konva.Image> = {};
 export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
+  if (!img || img === "null") {
+    img = "/micro-assets/platform-web/close.png";
+  }
   if (cacheImgList[img]) {
     const image = cacheImgList[img].clone();
     image.setId(UUID());

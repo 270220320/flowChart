@@ -138,15 +138,20 @@ const selectEvent = (ie: INLEDITOR, e: KonvaEventObject<any>) => {
     if (node.name() !== "field") {
       node.setAttrs({ draggable: true });
     } else {
-      node.setAttrs({ draggable: !node.attrs.draggable });
+      node.setAttrs({ draggable: true });
+      setTimeout(() => {
+        node.setAttrs({ draggable: false });
+      }, 3000);
     }
-
     const currentNodes = Transformers?.getNodes();
+    if (currentNodes.length === 1) {
+      currentNodes[0].setAttrs({ draggable: true });
+    }
     Transformers.nodes([...currentNodes, node]);
     Transformers.draw();
   } else {
     // 没有按住shift
-    Transformers?.destroy();
+    resetEvent(stage);
     nodes.push(node);
     Transformers = createTran(node, ie);
     layer(stage, "util").add(Transformers);

@@ -36,6 +36,8 @@ class COALANIM {
     }
   }
 
+  movejl = 0;
+
   async reset(uuid: string, imgUrl: string) {
     this.cacheCoal = await drawCoal(imgUrl);
     this.cacheCoal.cache();
@@ -77,6 +79,11 @@ class COALANIM {
       return;
     }
     this.runState = true;
+    const { width } = this.animEl.getClientRect();
+    const scale = this.stage.scaleX();
+
+    this.movejl = width / scale - 30;
+
     this.tim = setInterval(() => {
       this.anim();
     }, 300);
