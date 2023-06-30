@@ -50,15 +50,27 @@ export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
     // centeredScaling: true,
     rotateEnabled: false,
     rotationSnaps: [0, 90, 180, 270],
-    enabledAnchors: ["top-left", "top-right", "bottom-left", "bottom-right"],
   };
   if (name === "BELT" || name === "Scraper" || name === "Technique") {
     opt.enabledAnchors = ["middle-right"];
     opt.rotateEnabled = false;
-  } else if (node?.getAttrs().name === "field") {
-    opt.resizeEnabled = false;
   } else if (node?.className === "Arrow") {
     opt.draggable = false;
+    opt.resizeEnabled = false;
+  } else if (
+    node?.name() === "thingImage" ||
+    node?.parent?.name() === "thingDefTextGroup" ||
+    node?.name() === "thingTextGroup"
+  ) {
+    opt.enabledAnchors = [
+      "top-left",
+      "top-right",
+      "bottom-left",
+      "bottom-right",
+    ];
+  } else if (node?.name() === "selfText") {
+  } else {
+    opt.resizeEnabled = false;
   }
   const tran = new Konva.Transformer(opt);
   tran.on("transform", () => {

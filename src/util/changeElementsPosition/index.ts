@@ -138,6 +138,7 @@ export default (stage: Konva.Stage, type: AlignType) => {
         node.parent[type]();
       }
     });
+    stage.findOne("#field")?.moveToBottom();
     return;
   }
 
