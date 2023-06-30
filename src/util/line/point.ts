@@ -34,7 +34,27 @@ export const bindPointEvent = (
       });
     } else {
       // 斜线
-      points[controlIndex] = { x, y };
+      // shift
+      if (e.evt.shiftKey) {
+        // 开始点
+        if (controlIndex === 0) {
+          // x远
+          if (Math.abs(x - points[1].x) - Math.abs(y - points[1].y) > 0) {
+            points[controlIndex] = { x, y: points[1].y };
+          } else {
+            points[controlIndex] = { x: points[1].x, y };
+          }
+        } else {
+          if (Math.abs(x - points[0].x) - Math.abs(y - points[0].y) > 0) {
+            points[controlIndex] = { x, y: points[0].y };
+          } else {
+            points[controlIndex] = { x: points[0].x, y };
+          }
+        }
+      } else {
+        points[controlIndex] = { x, y };
+      }
+
       resPoints = points;
     }
     const arr = getUsePointUn(resPoints);

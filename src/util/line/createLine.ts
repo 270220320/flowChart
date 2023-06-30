@@ -91,7 +91,8 @@ export const finishLine = (
 const createLineMove = (
   line: Konva.Arrow,
   point: { x: number; y: number },
-  opt
+  opt,
+  e?
 ) => {
   if (opt.drawState.toLowerCase().indexOf("rightangle") !== -1) {
     const res = getLinePoints(
@@ -100,8 +101,24 @@ const createLineMove = (
     );
     line.points(getUsePointUn(res));
   } else {
-    line.attrs.points[2] = point.x;
-    line.attrs.points[3] = point.y;
+    // shift
+    if (e.evt.shiftKey) {
+      if (
+        Math.abs(point.x - line.attrs.points[0]) -
+          Math.abs(point.y - line.attrs.points[0]) >
+        0
+      ) {
+        line.attrs.points[2] = point.x;
+        line.attrs.points[3] = line.attrs.points[1];
+      } else {
+        line.attrs.points[2] = line.attrs.points[0];
+        line.attrs.points[3] = point.y;
+      }
+    } else {
+      line.attrs.points[2] = point.x;
+      line.attrs.points[3] = point.y;
+    }
+
     line.points(line.attrs.points);
   }
 };
@@ -134,7 +151,7 @@ export const beginCreateLine = (
   stage.on("mousemove", (e) => {
     const { x, y } = computedXYByEvent(stage, e.evt);
     if (line) {
-      createLineMove(line!, { x, y }, opt);
+      createLineMove(line!, { x, y }, opt, e);
       let pos = stage.getPointerPosition();
       if (end) {
         end.setAttrs({ strokeWidth: 0 });
