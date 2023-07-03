@@ -93,6 +93,9 @@ class COALANIM {
   stop() {
     this.runState = false;
     clearInterval(this.tim);
+    this.animGroup.children.forEach((node) => {
+      node.remove();
+    });
   }
   destroy() {
     this.stop();
@@ -121,18 +124,20 @@ class COALANIM {
     tween.play();
     tween.onFinish = () => {
       tween.destroy();
-      const hidek = new Konva.Tween({
-        node,
-        opacity: 0,
-        x: movejl + 10,
-        y: node.getAttr("y") + 3,
-        duration: 0.2,
-      });
-      hidek.play();
-      hidek.onFinish = () => {
-        node.remove();
-        hidek.destroy();
-      };
+      if (this.runState) {
+        const hidek = new Konva.Tween({
+          node,
+          opacity: 0,
+          x: movejl + 10,
+          y: node.getAttr("y") + 3,
+          duration: 0.2,
+        });
+        hidek.play();
+        hidek.onFinish = () => {
+          node.remove();
+          hidek.destroy();
+        };
+      }
     };
   }
 }

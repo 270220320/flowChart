@@ -5,3 +5,11 @@ export const getParentThingGroup = (node) => {
     return getParentThingGroup(node.parent);
   }
 };
+
+export const getParentThingImage = (node) => {
+  if (node.name() === "thingImage") {
+    return node;
+  } else {
+    return getParentThingImage(node.parent);
+  }
+};

@@ -12,6 +12,7 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
       case "thingGroup":
         isThingGroup(cb, e);
         break;
+      case "clip":
       case "thingImage":
         thingImage(cb, e);
         break;

@@ -1,12 +1,10 @@
 import { getCustomAttrs } from "@/util/customAttr";
 import { KonvaEventObject } from "konva/lib/Node";
 import { getIus, onSelectCallBackFun } from "..";
-import { getParentThingGroup } from "@/util/element";
-
-
+import { getParentThingGroup, getParentThingImage } from "@/util/element";
 
 export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
-  let parent = e.target.getParent();
+  const thingImg = getParentThingImage(e.target);
   const thingImgParent = getParentThingGroup(e.target);
   const thingImgData = getCustomAttrs(thingImgParent);
   const codeArr = [];
@@ -20,7 +18,7 @@ export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
   });
   cb(
     "thing",
-    { parent: thingImgParent as any, target: parent },
+    { parent: thingImgParent as any, target: thingImg },
     {
       iu: thingImgData.thing?.iu,
       codes: codeArr,

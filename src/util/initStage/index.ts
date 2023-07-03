@@ -2,6 +2,7 @@ import konva from "konva";
 import INLEDITOR from "@/index";
 import theme from "@/config/theme";
 import disableMove from "./disableMove";
+import { FieldTheme } from "@/config/field";
 
 export default (ie: INLEDITOR, json?: string) => {
   const { id, isPreview } = ie.opt;
@@ -38,10 +39,10 @@ export default (ie: INLEDITOR, json?: string) => {
   container.children[0].setAttribute("id", "myCanvas");
 
   container.tabIndex = 1;
-  container.setAttribute(
-    "style",
-    `background: ${theme[themeType].background}; position: relative;`
-  );
+  const color = isPreview
+    ? FieldTheme[themeType].fill
+    : theme[themeType].background;
+  container.setAttribute("style", `background: ${color}; position: relative;`);
 
   if (ie.opt.isPreview) {
     disableMove(ie.getStage());

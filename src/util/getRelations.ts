@@ -5,7 +5,7 @@ import { getCustomAttrs, getLineInfo } from "./customAttr";
 const findParents = (pid: string, stage) => {
   const arr = [];
   const node = stage.findOne("#" + pid);
-  if (node.hasName("thingImage")) {
+  if (node?.hasName("thingImage")) {
     arr.push(node);
   } else {
     const lineInfo = getLineInfo(node);
