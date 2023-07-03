@@ -1,12 +1,9 @@
+import { createImage } from "@/element";
 import Konva from "konva";
 
 export default (url?: string): Promise<Konva.Star | Konva.Image> => {
   if (url) {
-    return new Promise((res, rej) => {
-      Konva.Image.fromURL(url, (darthNode) => {
-        res(darthNode);
-      });
-    });
+    return createImage(url);
   } else {
     return Promise.resolve(
       new Konva.Star({

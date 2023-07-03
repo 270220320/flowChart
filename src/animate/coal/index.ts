@@ -5,27 +5,29 @@ import Konva from "konva";
 import drawCoal from "./drawCoal";
 
 interface COALANIM {
-  autoPlay: boolean;
-  animEl: Konva.Node;
-  stage: Konva.Stage;
-  animGroup: Konva.Group;
-  cacheCoal: Konva.Star | Konva.Image;
-  tim: any;
-  movejl: number;
+  autoPlay: boolean; // 是否自动播放
+  animEl: Konva.Node; // 动画元素
+  stage: Konva.Stage; // 舞台
+  animGroup: Konva.Group; // 动画组
+  cacheCoal: Konva.Star | Konva.Image; // 缓存煤炭
+  tim: any; // 定时器
+  movejl: number; // 移动距离
+  direction: "left" | "right"; // 煤炭移动方向
 }
 
 interface OPT {
-  stage: Konva.Stage;
-  uuid: string;
-  imgUrl?: string;
-  autoPlay?: boolean;
+  stage: Konva.Stage; // 舞台
+  uuid: string; // 动画元素uuid
+  imgUrl?: string; // 煤炭图片地址
+  autoPlay?: boolean; // 是否自动播放
+  direction?: "left" | "right"; // 煤炭移动方向
 }
 class COALANIM {
   constructor(opt: OPT) {
-    const { autoPlay, stage, uuid, imgUrl } = opt;
+    const { autoPlay, stage, uuid, imgUrl, direction } = opt;
     this.autoPlay = autoPlay || false;
     this.stage = stage;
-
+    this.direction = direction || "left";
     this.init(autoPlay, uuid, imgUrl);
   }
   async init(autoPlay, uuid, imgUrl) {
@@ -97,7 +99,7 @@ class COALANIM {
     this.animGroup.remove();
   }
   anim() {
-    const node = this.cacheCoal.clone();
+    const node = this.cacheCoal.clone() as Konva.Image;
     this.animGroup.add(node);
     const { width } = this.animEl.getClientRect();
     const scale = this.stage.scaleX();
@@ -109,6 +111,7 @@ class COALANIM {
       y: 25 - node.height(),
     });
     const movejl = width / scale - node.width();
+
     const tween = new Konva.Tween({
       node,
       // rotation: 360,
@@ -117,6 +120,7 @@ class COALANIM {
     });
     tween.play();
     tween.onFinish = () => {
+      tween.destroy();
       const hidek = new Konva.Tween({
         node,
         opacity: 0,
@@ -127,6 +131,7 @@ class COALANIM {
       hidek.play();
       hidek.onFinish = () => {
         node.remove();
+        hidek.destroy();
       };
     };
   }
