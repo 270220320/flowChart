@@ -1,11 +1,13 @@
 import Konva from "konva";
 import { createImage } from "@/element/image";
+import { getCustomAttrs } from "@/main";
 
 export default async (stage: Konva.Stage) => {
   await Promise.all(
     stage.find("Image").map((imageNode) => {
       return new Promise(async (resolve) => {
         const parent = imageNode.getParent();
+        imageNode.attrs.src = getCustomAttrs(parent).thing.img;
         const attrs = imageNode.getAttrs();
         if (parent.getAttrs().componentName === "video") {
           resolve(1);

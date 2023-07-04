@@ -136,4 +136,14 @@ export const setThingGroupTheme = (stage: Konva.Stage, themeType: Theme) => {
     });
     // 还需要处理其他样式主题
   });
+  const lineLayer = layer(stage, LAYER.line);
+  getThingGroups(lineLayer).forEach((item) => {
+    getThingTextGroup(item, groupNames.thingTextGroup).forEach((ea) => {
+      setThingTextGroupTheme(ea, themeType);
+    });
+    getThingTextGroup(item, groupNames.thingDefTextGroup).forEach((ea) => {
+      setThingDefTextGroupTheme(ea, themeType);
+    });
+    // 还需要处理其他样式主题
+  });
 };
