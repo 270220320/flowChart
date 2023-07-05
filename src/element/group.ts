@@ -5,11 +5,20 @@ import { Thing } from "../data/thing";
 import { setCustomAttrs } from "../util/customAttr";
 import layer, { LAYER } from "../util/layer";
 
-type groupNames = "thingGroup" | "thingTextGroup" | "thingDefTextGroup";
+type groupNames =
+  | "thingGroup"
+  | "thingTextGroup"
+  | "thingDefTextGroup"
+  | "thingInputGroup"
+  | "thingSwitchGroup"
+  | "thingButtonGroup";
 export const groupNames: Record<groupNames, groupNames> = {
   thingGroup: "thingGroup",
   thingTextGroup: "thingTextGroup",
   thingDefTextGroup: "thingDefTextGroup",
+  thingButtonGroup: "thingButtonGroup",
+  thingInputGroup: "thingInputGroup",
+  thingSwitchGroup: "thingSwitchGroup",
 };
 export type Parent = Konva.Group | Konva.Layer | Konva.Stage;
 export type Child =

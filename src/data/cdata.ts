@@ -20,6 +20,7 @@ export interface thingTextInfo {
   label?: string;
   unit?: string;
   id?: string;
+  btns?: string[];
 }
 
 export interface CDATA {

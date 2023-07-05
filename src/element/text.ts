@@ -1,51 +1,27 @@
 import Konva from "konva";
-import { TextConfig } from "konva/lib/shapes/Text";
-import { defaultRect } from "../element/rect";
 import theme, { Theme } from "../config/theme";
-import { Child, Parent, createThingTextGroup, groupNames } from "./group";
+import { Child, Parent, groupNames } from "./group";
 import { thingTextInfo } from "../data/cdata";
 import { THINGTEXT } from "../data/dropData";
 import layer from "../util/layer";
 import { getCustomAttrs, setCustomAttrs } from "../util/customAttr";
 import { toSelect } from "@/event/selectItem";
 import { Group } from "konva/lib/Group";
-import computedXY from "@/util/computedXY";
 import INLEDITOR from "..";
+import buttonText from "./texts/buttonText";
+import { createThingDefaultText } from "./texts/simpleText";
+import { createThingAdvancedText } from "./texts/complexText";
+import { createText } from "./texts";
+import inputText from "./texts/inputText";
+import switchText from "./texts/switchText";
 
-export const createText = (config: TextConfig, id?: string) =>
-  new Konva.Text({
-    fontFamily: "Calibri",
-    fill: "black",
-    fontSize: 14,
-    verticalAlign: "middle",
-    id,
-    ...config,
-  });
+const createTextFun = {};
+createTextFun[groupNames.thingDefTextGroup] = createThingDefaultText;
+createTextFun[groupNames.thingTextGroup] = createThingAdvancedText;
+createTextFun[groupNames.thingButtonGroup] = buttonText.add;
+createTextFun[groupNames.thingInputGroup] = inputText.add;
+createTextFun[groupNames.thingSwitchGroup] = switchText.add;
 
-export const createThingDefaultText = (
-  themeType: Theme,
-  data: thingTextInfo,
-  position: { x: number; y: number },
-  group?: Konva.Group
-) => {
-  const t = theme[themeType];
-
-  const { v, unit, id } = data;
-  group = group || createThingTextGroup(data, "thingDefTextGroup", position);
-  const textEl = createText(
-    {
-      fill: t.thingText.def.val.fill,
-      fontSize: t.thingText.def.val.size,
-      text: v + (unit || ""),
-      align: "center",
-      height: t.thingText.advanced.val.rectHeight,
-      name: "val",
-    },
-    id
-  );
-  group.add(textEl);
-  return group;
-};
 // 设置默认 thing 文字的主题色
 export const setThingDefaultTextTheme = (ea: Konva.Text, themeType: Theme) => {
   const t = theme[themeType];
@@ -60,12 +36,12 @@ export const setThingTextVal = (e: Konva.Group, val: string) => {
   const rect = e.findOne(".rect");
   const unit = e.findOne(".unit");
   if (text) {
-    if (e.name() === "thingDefTextGroup") {
+    if (e.name() === groupNames.thingDefTextGroup) {
       const info = getCustomAttrs(e).thingTextInfo;
       text.setAttrs({
         text: val + (info.unit || ""),
       });
-    } else {
+    } else if (e.name() === groupNames.thingTextGroup) {
       // 设置value
       text.setAttrs({
         text: val,
@@ -90,65 +66,6 @@ export const setThingTextVal = (e: Konva.Group, val: string) => {
 // 查询默认 thing文字
 export const getThingDefaultTexts: (parent: Parent) => Array<Child> = (e) => {
   return e.find(`.${groupNames.thingDefTextGroup}`);
-};
-
-// 创建复杂的thing文字
-export const createThingAdvancedText = (
-  themeType: Theme,
-  data: thingTextInfo,
-  position: { x: number; y: number },
-  group?: Konva.Group
-) => {
-  const { label, v, unit, id } = data;
-  group = group || createThingTextGroup(data, "thingTextGroup", position);
-  const t = theme[themeType];
-  const { advanced } = t.thingText;
-  const labelText = createText({
-    fill: advanced.label.fill,
-    fontSize: advanced.label.size,
-    text: label + "：",
-    draggable: false,
-    height: advanced.val.rectHeight,
-    name: "label",
-  });
-  const valtext = createText(
-    {
-      fill: advanced.val.fill,
-      fontSize: advanced.val.size,
-      text: v,
-      draggable: false,
-      x: labelText.width() + 5,
-      align: "center",
-      height: advanced.val.rectHeight,
-      name: "val",
-    },
-    id
-  );
-  const valRect = defaultRect({
-    fill: advanced.val.rectFill,
-    stroke: advanced.val.rectStroke,
-    strokeWidth: 1,
-    height: advanced.val.rectHeight,
-    width: valtext.width() + 10,
-    draggable: false,
-    x: labelText.width(),
-    cornerRadius: 3,
-    name: "rect",
-  });
-
-  const unitText = createText({
-    fill: advanced.unit.fill,
-    fontSize: advanced.unit.size,
-    opacity: advanced.unit.opacity,
-    text: unit,
-    x: valRect.attrs.x + valRect.width() + 5,
-    draggable: false,
-    height: advanced.val.rectHeight,
-    name: "unit",
-  });
-
-  group.add(valRect, labelText, valtext, unitText);
-  return group;
 };
 
 // 根据 thing id 插入文字
@@ -257,53 +174,11 @@ export const createThingTexts = (
   if (!thing) {
     line = thingGroup.children.find((node) => node.className === "Arrow");
   }
-  const def = (data: thingTextInfo, cb?: (thingTextGroup: Group) => void) => {
-    const { label, v, unit, code, id } = data;
-    let point;
-    if (thing) {
-      point = {
-        x:
-          (thingGroup.getClientRect().x - thingGroup.getAbsolutePosition().x) /
-          stage.scaleX(),
-        y:
-          (thingGroup.getClientRect().y -
-            thingGroup.getAbsolutePosition().y +
-            thingGroup.getClientRect().height) /
-          stage.scaleX(),
-      };
-    } else {
-      point = {
-        x: line.attrs.points[0],
-        y: line.attrs.points[1] + (thingGroup.children.length - 1) * 25,
-      };
-    }
-
-    const textShape = createThingDefaultText(
-      themeType,
-      {
-        label: label,
-        v: v,
-        unit: unit,
-        code,
-        id,
-      },
-      {
-        x: point.x,
-        y: point.y,
-      }
-    );
-    thingGroup.add(textShape);
-
-    textShape.setAttrs({
-      draggable: true,
-    });
-    cb ? cb(textShape) : null;
-  };
-  const advanced = (
+  const addText = (
     data: thingTextInfo,
+    type,
     cb?: (thingTextGroup: Group) => void
   ) => {
-    const { label, v, unit, code, id } = data;
     let point;
     if (thing) {
       point = {
@@ -322,42 +197,25 @@ export const createThingTexts = (
         y: line.attrs.points[1] + (thingGroup.children.length - 1) * 25,
       };
     }
-
-    const group = createThingAdvancedText(
-      themeType,
-      {
-        label: label,
-        v: v,
-        unit: unit,
-        code,
-        id,
-      },
-      {
-        x: point.x,
-        y: point.y,
-      }
-    );
+    const group = createTextFun[type](themeType, data, {
+      x: point.x,
+      y: point.y,
+    });
     thingGroup.add(group);
     cb ? cb(group) : null;
   };
   return {
-    advanced,
-    def,
+    addText,
     // 批量添加文字
-    batchAddText: (list) => {
+    batchAddText: (list: { type: string; info: thingTextInfo }[]) => {
       for (let i of list) {
-        const { type, value, id } = i;
-        if (type === "advanced") {
-          advanced({
-            ...value,
-            id,
-          });
-        } else {
-          def({
-            ...value,
-            id,
-          });
-        }
+        // 临时 111
+        i.type = groupNames.thingSwitchGroup;
+        i.info = i.value || i.info;
+        // 临时end
+        const { type, info } = i;
+
+        addText(info, type);
       }
     },
 
@@ -379,7 +237,7 @@ export const createThingTexts = (
               item.position() || { x: 0, y: 0 },
               item as Konva.Group
             );
-          } else {
+          } else if (name === "thingTextGroup") {
             createThingDefaultText(
               themeType,
               attrs.thingTextInfo,
@@ -410,9 +268,10 @@ export const createThingTexts = (
               name: groupNames.thingDefTextGroup,
             });
             item.children[0].setAttrs({ text: val });
-          } else {
+          } else if (name === "thingTextGroup") {
             item.children[2].setAttrs({ text: val });
           }
+          // 待添加其他类型
           item.draw();
         }
       });

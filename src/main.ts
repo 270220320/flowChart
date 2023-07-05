@@ -1,5 +1,5 @@
 import getLayer from "./util/layer";
-export { createThingDefaultText } from "./element/text";
+export { createThingDefaultText } from "./element/texts/simpleText";
 export {
   getThingChildPosition,
   setThingChildPosition,

@@ -114,15 +114,5 @@ export const setThingChildPosition = (
       });
     }
   };
-  for (let i of arr) {
-    if (i.type === "thingDefTextGroup") {
-      creatext.def(i.info, (g) => {
-        cb(g, i);
-      });
-    } else {
-      creatext.advanced(i.info, (g) => {
-        cb(g, i);
-      });
-    }
-  }
+  creatext.batchAddText(arr);
 };

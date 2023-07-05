@@ -31,6 +31,7 @@ export default (ie: INLEDITOR) => {
     }
     if (componentName && componentName === "StoreHouse") {
       const storeHouse: StoreHouse = ie.getComponent("StoreHouse");
+      storeHouse.refreshImg(thing, item);
       storeHouse.add(thing, undefined, item.parent as Konva.Group);
     }
     if (componentName && componentName === "VideoNode") {

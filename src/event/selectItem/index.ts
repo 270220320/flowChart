@@ -8,13 +8,14 @@ import { isComponentChild } from "@/component";
 import { getCustomAttrs } from "@/main";
 import layer from "@/util/layer";
 import { getParentThingGroup } from "@/util/element";
+import { groupNames } from "@/element";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
   let resNode;
   if (
-    selectTarget.getParent().name() === "thingTextGroup" ||
-    selectTarget.getLayer().name() === "createThingDefaultText"
+    selectTarget.getParent().name() === groupNames.thingTextGroup ||
+    selectTarget.getLayer().name() === groupNames.thingDefTextGroup
   ) {
     resNode = selectTarget.getParent();
   } else {
