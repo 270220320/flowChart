@@ -15,7 +15,9 @@ const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
   let resNode;
   if (
     selectTarget.getParent().name() === groupNames.thingTextGroup ||
-    selectTarget.getLayer().name() === groupNames.thingDefTextGroup
+    selectTarget.getParent().name() === groupNames.thingInputGroup ||
+    selectTarget.getParent().name() === groupNames.thingSwitchGroup ||
+    selectTarget.getParent().name() === groupNames.thingButtonGroup
   ) {
     resNode = selectTarget.getParent();
   } else {

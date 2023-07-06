@@ -4,7 +4,7 @@ import theme from "@/config/theme";
 import disableMove from "./disableMove";
 import { FieldTheme } from "@/config/field";
 
-export default (ie: INLEDITOR, json?: string) => {
+export default (ie: INLEDITOR, json?: string | null) => {
   const { id, isPreview } = ie.opt;
   let stage = ie.getStage();
   const dom = document.getElementById(id)!;

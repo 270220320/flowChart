@@ -210,7 +210,7 @@ export const createThingTexts = (
     batchAddText: (list: { type: string; info: thingTextInfo }[]) => {
       for (let i of list) {
         // 临时 111
-        i.type = groupNames.thingSwitchGroup;
+        i.type = groupNames.thingInputGroup;
         i.info = i.value || i.info;
         // 临时end
         const { type, info } = i;
@@ -268,9 +268,14 @@ export const createThingTexts = (
               name: groupNames.thingDefTextGroup,
             });
             item.children[0].setAttrs({ text: val });
-          } else if (name === "thingTextGroup") {
+          } else if (name === groupNames.thingTextGroup) {
             item.children[2].setAttrs({ text: val });
+          } else if (name === groupNames.thingSwitchGroup) {
+            switchText.change(item, val, themeType);
+          } else if (name === groupNames.thingInputGroup) {
+            inputText.changeVal(item, val);
           }
+
           // 待添加其他类型
           item.draw();
         }

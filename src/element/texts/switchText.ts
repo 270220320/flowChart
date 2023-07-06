@@ -5,6 +5,26 @@ import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
 import { defaultRect } from "../rect";
 
+const change = (group, val, themeType) => {
+  const t = theme[themeType];
+  const { advanced } = t.thingText;
+  if (val) {
+    const btnRect = group.children.find((ele) => ele.name() === "btnRect");
+    btnRect.setAttrs({ fill: advanced.val.rectFill });
+    const btnText = group.children.find((ele) => ele.name() === "btnText");
+    btnText.setAttrs({ x: btnRect.x() + 5 });
+    const checkRect = group.children.find((ele) => ele.name() === "checkRect");
+    checkRect.setAttrs({ x: btnText.x() + btnText.width() + 5 });
+  } else {
+    const btnRect = group.children.find((ele) => ele.name() === "btnRect");
+    btnRect.setAttrs({ fill: "grey" });
+    const checkRect = group.children.find((ele) => ele.name() === "checkRect");
+    checkRect.setAttrs({ x: btnRect.x() + 5 });
+    const btnText = group.children.find((ele) => ele.name() === "btnText");
+    btnText.setAttrs({ x: checkRect.x() + checkRect.width() + 5 });
+  }
+};
+
 export default {
   add: (
     themeType: Theme,
@@ -15,7 +35,7 @@ export default {
     const { label, v, unit, id } = data;
     group =
       group ||
-      createThingTextGroup(data, groupNames.thingButtonGroup, position);
+      createThingTextGroup(data, groupNames.thingSwitchGroup, position);
     const t = theme[themeType];
     const { advanced } = t.thingText;
     const labelText = createText({
@@ -27,7 +47,7 @@ export default {
       name: "label",
     });
     const btnText = createText({
-      fill: advanced.val.fill,
+      fill: "white",
       fontSize: advanced.val.size,
       text: "自动",
       draggable: false,
@@ -50,8 +70,8 @@ export default {
     });
     const btnRect = defaultRect({
       fill: advanced.val.rectFill,
-      stroke: advanced.val.rectStroke,
-      strokeWidth: 1,
+      // stroke: advanced.val.rectStroke,
+      strokeWidth: 0,
       height: advanced.val.rectHeight,
       width: btnText.width() + checkRect.width() + 15,
       draggable: false,
@@ -62,6 +82,11 @@ export default {
 
     group.add(labelText, btnText, btnRect, checkRect);
     btnText.moveToTop();
+    // 临时
+    change(group, true, themeType);
+    // 临时
+
     return group;
   },
+  change,
 };

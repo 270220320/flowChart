@@ -1,7 +1,7 @@
 import theme, { Theme } from "../../config/theme";
 import { thingTextInfo } from "@/data/cdata";
 import Konva from "konva";
-import { createThingTextGroup } from "../group";
+import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
 import { defaultRect } from "../rect";
 
@@ -14,7 +14,8 @@ export default {
     group?: Konva.Group
   ) => {
     const { label, v, unit, id } = data;
-    group = group || createThingTextGroup(data, "thingTextGroup", position);
+    group =
+      group || createThingTextGroup(data, groupNames.thingInputGroup, position);
     const t = theme[themeType];
     const { advanced } = t.thingText;
     // lebel
@@ -109,5 +110,16 @@ export default {
     );
     btnText.moveUp();
     return group;
+  },
+  changeVal: (group, val) => {
+    const valNode = group.children.find((ele) => ele.name() === "val");
+    valNode.setAttrs({ text: val });
+  },
+  keyIn: (e, item: Konva.Group) => {
+    console.log(e);
+    if (e.key.length === 1) {
+      const input = item.children.find((ele) => ele.name() === "input");
+      debugger;
+    }
   },
 };

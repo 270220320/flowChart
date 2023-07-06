@@ -1,7 +1,7 @@
 import theme, { Theme } from "../../config/theme";
 import { thingTextInfo } from "@/data/cdata";
 import Konva from "konva";
-import { createThingTextGroup } from "../group";
+import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
 
 // 创建复杂的thing文字
@@ -12,7 +12,8 @@ export const createThingAdvancedText = (
   group?: Konva.Group
 ) => {
   const { label, v, unit, id } = data;
-  group = group || createThingTextGroup(data, "thingTextGroup", position);
+  group =
+    group || createThingTextGroup(data, groupNames.thingTextGroup, position);
   const t = theme[themeType];
   const { advanced } = t.thingText;
   const labelText = createText({

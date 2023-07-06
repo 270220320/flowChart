@@ -86,12 +86,12 @@ interface OPT {
 class INLEDITOR {
   constructor(opt: OPT) {
     this.opt = opt;
-    this.init(opt.json);
-    if (opt.isPreview) {
-      layer(this.stage, "line").moveToBottom();
-    }
+    // this.init(opt.json);
+    // if (opt.isPreview) {
+    //   layer(this.stage, "line").moveToBottom();
+    // }
   }
-  protected async init(json?: string) {
+  async init(json?: string | null) {
     initStage(this, json);
     // 留存设备画布，避免重复获取，提高性能
     this.thingLayer = layer(this.stage, "thing");
@@ -317,7 +317,7 @@ class INLEDITOR {
     });
   }
   // 反序列化
-  async loadJson(json: string, cb?) {
+  async loadJson(json?: string | null, cb?) {
     await this.init(json);
 
     // createLineTexts(

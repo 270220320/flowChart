@@ -1,7 +1,7 @@
 import theme, { Theme } from "../../config/theme";
 import { thingTextInfo } from "@/data/cdata";
 import Konva from "konva";
-import { createThingTextGroup } from "../group";
+import { createThingTextGroup, groupNames } from "../group";
 import { createText } from "./";
 
 export const createThingDefaultText = (
@@ -13,7 +13,8 @@ export const createThingDefaultText = (
   const t = theme[themeType];
 
   const { v, unit, id } = data;
-  group = group || createThingTextGroup(data, "thingDefTextGroup", position);
+  group =
+    group || createThingTextGroup(data, groupNames.thingDefTextGroup, position);
   const textEl = createText(
     {
       fill: t.thingText.def.val.fill,
