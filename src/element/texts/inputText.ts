@@ -5,8 +5,7 @@ import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
 import { defaultRect } from "../rect";
 
-// 创建复杂的thing文字
-export default {
+const obj = {
   add: (
     themeType: Theme,
     data: thingTextInfo,
@@ -115,11 +114,50 @@ export default {
     const valNode = group.children.find((ele) => ele.name() === "val");
     valNode.setAttrs({ text: val });
   },
+  focus: (item) => {
+    const input = item.children.find((ele) => ele.name() === "input");
+    const cursor = new Konva.Line({
+      points: [
+        input.x() + input.width() + 2,
+        input.y() + 2,
+        input.x() + input.width() + 2,
+        input.y() + input.height() - 4,
+      ],
+      stroke: "black",
+      strokeWidth: 1,
+      name: "cursor",
+    });
+    cursor.attrs.interval = setInterval(() => {
+      cursor.visible(!cursor.visible());
+    }, 500);
+    item.add(cursor);
+  },
+  blur: (item) => {
+    const cursor = item.children.find((ele) => ele.name() === "cursor");
+    clearInterval(cursor.attrs.interval);
+    cursor?.remove();
+  },
   keyIn: (e, item: Konva.Group) => {
-    console.log(e);
+    const input = item.children.find((ele) => ele.name() === "input");
+    const cursor = item.children.find((ele) => ele.name() === "cursor");
+    let val = input.attrs.text;
     if (e.key.length === 1) {
-      const input = item.children.find((ele) => ele.name() === "input");
-      debugger;
+      input.setAttrs({ text: val + e.key });
+    } else if (e.key === "Backspace") {
+      if (val) {
+        val = val.slice(0, val.length - 1);
+        input.setAttrs({ text: val });
+      }
     }
+    cursor.setAttrs({
+      points: [
+        input.x() + input.width() + 2,
+        input.y() + 2,
+        input.x() + input.width() + 2,
+        input.y() + input.height() - 4,
+      ],
+    });
   },
 };
+// 创建复杂的thing文字
+export default obj;

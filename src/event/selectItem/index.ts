@@ -9,6 +9,7 @@ import { getCustomAttrs } from "@/main";
 import layer from "@/util/layer";
 import { getParentThingGroup } from "@/util/element";
 import { groupNames } from "@/element";
+import inputText from "@/element/texts/inputText";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
@@ -103,6 +104,9 @@ const resetEvent = (stage: Konva.Stage) => {
     if (node.name() === "thingImage") {
       node.setAttrs({ draggable: false });
     }
+    if (node.name() === groupNames.thingInputGroup) {
+      inputText.blur(node);
+    }
   });
   Transformers?.destroy();
 };
@@ -168,6 +172,9 @@ const selectEvent = (ie: INLEDITOR, e: KonvaEventObject<any>) => {
     // 没有按住shift
     resetEvent(stage);
     nodes.push(node);
+    if (node.name() === groupNames.thingInputGroup) {
+      inputText.focus(node);
+    }
     Transformers = createTran(node, ie);
     layer(stage, "util").add(Transformers);
     Transformers.nodes(nodes);
