@@ -231,8 +231,8 @@ class INLEDITOR {
     setTextVal(this.stage, iu, propertyId, val);
   }
 
-  resetText(iu: string, propertyId: string, thingTextInfo: thingTextInfo) {
-    resetTextEle(this, iu, propertyId, thingTextInfo);
+  resetText(iu: string, propertyId: string, info: thingTextInfo, type: string) {
+    resetTextEle(this, iu, propertyId, info, type);
   }
 
   removeText(iu: string, ids: Array<string | SpecialCode.all>) {

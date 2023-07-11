@@ -28,11 +28,12 @@ export default {
     });
     const btnText = createText(
       {
-        fill: advanced.val.fill,
+        fill: "white",
         fontSize: advanced.val.size,
         text: data.btns[0],
         draggable: false,
         x: labelText.width() + 5,
+        y: 1,
         align: "center",
         height: advanced.val.rectHeight,
         name: "btn",
@@ -40,8 +41,8 @@ export default {
       id
     );
     const valRect = defaultRect({
-      fill: advanced.val.rectFill,
-      stroke: advanced.val.rectStroke,
+      fill: "#1D33A2",
+      stroke: "#1D33A2",
       strokeWidth: 1,
       height: advanced.val.rectHeight,
       width: btnText.width() + 10,

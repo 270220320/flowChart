@@ -210,12 +210,7 @@ export const createThingTexts = (
     // 批量添加文字
     batchAddText: (list: { type: GroupNames; info: thingTextInfo }[]) => {
       for (let i of list) {
-        // 临时 111
-        // i.type = groupNames.thingInputGroup;
-        // i.info = i.value || i.info;
-        // 临时end
         const { type, info } = i;
-
         addText(info, type);
       }
     },

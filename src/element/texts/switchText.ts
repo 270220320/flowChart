@@ -10,7 +10,7 @@ const change = (group, thingTextInfo, val, themeType) => {
   const { advanced } = t.thingText;
   if (val) {
     const btnRect = group.children.find((ele) => ele.name() === "btnRect");
-    btnRect.setAttrs({ fill: advanced.val.rectFill });
+    btnRect.setAttrs({ fill: "#1D33A2" });
     const btnText = group.children.find((ele) => ele.name() === "btnText");
     btnText.setAttrs(
       { x: btnRect.x() + 5 },
@@ -58,6 +58,7 @@ export default {
       text: data.switchOpt.checkedLabel,
       draggable: false,
       x: labelText.width() + 5,
+      y: 1,
       align: "center",
       height: advanced.val.rectHeight,
       name: "btnText",
@@ -75,7 +76,7 @@ export default {
       name: "checkRect",
     });
     const btnRect = defaultRect({
-      fill: advanced.val.rectFill,
+      fill: "#1D33A2",
       // stroke: advanced.val.rectStroke,
       strokeWidth: 0,
       height: advanced.val.rectHeight,

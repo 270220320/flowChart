@@ -29,7 +29,8 @@ export const resetTextEle = (
   ie: INLEDITOR,
   iu: string,
   propertyId: string,
-  thingTextInfo: thingTextInfo
+  thingTextInfo: thingTextInfo,
+  type: string
 ) => {
   const stage = ie.getStage();
   // 查找物模型
@@ -41,6 +42,7 @@ export const resetTextEle = (
     const info = getCustomAttrs(textNode);
     if (info.propertyId && info.propertyId === propertyId) {
       info.thingTextInfo = thingTextInfo;
+      textNode.name(type);
       const attr = textNode.attrs;
       textNode.remove();
       const textGroup = util.addText(info.thingTextInfo, attr.name);

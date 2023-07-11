@@ -56,7 +56,7 @@ const obj = {
     const inputText = createText({
       fill: "black",
       fontSize: advanced.val.size,
-      text: "1.1",
+      text: "",
       draggable: false,
       x: unitText.x() + unitText.width() + 10,
       align: "center",
@@ -77,19 +77,20 @@ const obj = {
     });
     // 按钮字
     const btnText = createText({
-      fill: advanced.val.fill,
+      fill: "white",
       fontSize: advanced.val.size,
       text: data.btns[0],
       draggable: false,
       x: inputRect.x() + inputRect.width() + 10,
+      y: 1,
       align: "center",
       height: advanced.val.rectHeight,
       name: "btn",
     });
     // 按钮背景
     const btnRect = defaultRect({
-      fill: advanced.val.rectFill,
-      stroke: advanced.val.rectStroke,
+      fill: "#1D33A2",
+      stroke: "#1D33A2",
       strokeWidth: 1,
       height: advanced.val.rectHeight,
       width: btnText.width() + 10,

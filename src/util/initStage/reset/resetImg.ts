@@ -3,17 +3,22 @@ import { createImage } from "@/element/image";
 import { getCustomAttrs } from "@/main";
 
 export default async (stage: Konva.Stage) => {
-  debugger;
   await Promise.all(
     stage.find("Image").map((imageNode) => {
       return new Promise(async (resolve) => {
-        if (imageNode.name() === "thingImage") {
+        if (
+          imageNode.name() === "thingImage" ||
+          imageNode.name() === "customImage"
+        ) {
           const parent = imageNode.getParent();
-          imageNode.attrs.src = getCustomAttrs(parent).thing.img;
-          const attrs = imageNode.getAttrs();
+          if (imageNode.name() === "thingImage") {
+            imageNode.attrs.src = getCustomAttrs(parent).thing.img;
+          }
           if (parent.getAttrs().componentName === "video") {
             resolve(1);
           }
+          const attrs = imageNode.getAttrs();
+
           if (attrs.src) {
             const newImage: Konva.Node | Event = await createImage(attrs.src);
             imageNode.remove();
