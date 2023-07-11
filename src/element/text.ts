@@ -1,6 +1,6 @@
 import Konva from "konva";
 import theme, { Theme } from "../config/theme";
-import { Child, Parent, groupNames } from "./group";
+import { Child, GroupNames, Parent, groupNames } from "./group";
 import { thingTextInfo } from "../data/cdata";
 import { THINGTEXT } from "../data/dropData";
 import layer from "../util/layer";
@@ -176,7 +176,7 @@ export const createThingTexts = (
   }
   const addText = (
     data: thingTextInfo,
-    type,
+    type: GroupNames,
     cb?: (thingTextGroup: Group) => void
   ) => {
     let point;
@@ -203,15 +203,16 @@ export const createThingTexts = (
     });
     thingGroup.add(group);
     cb ? cb(group) : null;
+    return group;
   };
   return {
     addText,
     // 批量添加文字
-    batchAddText: (list: { type: string; info: thingTextInfo }[]) => {
+    batchAddText: (list: { type: GroupNames; info: thingTextInfo }[]) => {
       for (let i of list) {
         // 临时 111
-        i.type = groupNames.thingInputGroup;
-        i.info = i.value || i.info;
+        // i.type = groupNames.thingInputGroup;
+        // i.info = i.value || i.info;
         // 临时end
         const { type, info } = i;
 
@@ -271,7 +272,7 @@ export const createThingTexts = (
           } else if (name === groupNames.thingTextGroup) {
             item.children[2].setAttrs({ text: val });
           } else if (name === groupNames.thingSwitchGroup) {
-            switchText.change(item, val, themeType);
+            switchText.change(item, thingTextInfo, val, themeType);
           } else if (name === groupNames.thingInputGroup) {
             inputText.changeVal(item, val);
           }

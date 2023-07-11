@@ -5,14 +5,17 @@ import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
 import { defaultRect } from "../rect";
 
-const change = (group, val, themeType) => {
+const change = (group, thingTextInfo, val, themeType) => {
   const t = theme[themeType];
   const { advanced } = t.thingText;
   if (val) {
     const btnRect = group.children.find((ele) => ele.name() === "btnRect");
     btnRect.setAttrs({ fill: advanced.val.rectFill });
     const btnText = group.children.find((ele) => ele.name() === "btnText");
-    btnText.setAttrs({ x: btnRect.x() + 5 });
+    btnText.setAttrs(
+      { x: btnRect.x() + 5 },
+      { text: thingTextInfo.switchOpt.checkedLabel }
+    );
     const checkRect = group.children.find((ele) => ele.name() === "checkRect");
     checkRect.setAttrs({ x: btnText.x() + btnText.width() + 5 });
   } else {
@@ -21,7 +24,10 @@ const change = (group, val, themeType) => {
     const checkRect = group.children.find((ele) => ele.name() === "checkRect");
     checkRect.setAttrs({ x: btnRect.x() + 5 });
     const btnText = group.children.find((ele) => ele.name() === "btnText");
-    btnText.setAttrs({ x: checkRect.x() + checkRect.width() + 5 });
+    btnText.setAttrs(
+      { x: checkRect.x() + checkRect.width() + 5 },
+      { text: thingTextInfo.switchOpt.unCheckedLabel }
+    );
   }
 };
 
@@ -49,7 +55,7 @@ export default {
     const btnText = createText({
       fill: "white",
       fontSize: advanced.val.size,
-      text: "自动",
+      text: data.switchOpt.checkedLabel,
       draggable: false,
       x: labelText.width() + 5,
       align: "center",
@@ -82,9 +88,6 @@ export default {
 
     group.add(labelText, btnText, btnRect, checkRect);
     btnText.moveToTop();
-    // 临时
-    change(group, true, themeType);
-    // 临时
 
     return group;
   },

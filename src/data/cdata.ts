@@ -21,6 +21,12 @@ export interface thingTextInfo {
   unit?: string;
   id?: string;
   btns?: string[];
+  switchOpt?: {
+    checkedLabel: string;
+    checkedValue: string;
+    unCheckedLabel: string;
+    unCheckedValue: string;
+  };
 }
 
 export interface CDATA {

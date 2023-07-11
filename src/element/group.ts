@@ -5,14 +5,14 @@ import { Thing } from "../data/thing";
 import { setCustomAttrs } from "../util/customAttr";
 import layer, { LAYER } from "../util/layer";
 
-type groupNames =
+export type GroupNames =
   | "thingGroup"
   | "thingTextGroup"
   | "thingDefTextGroup"
   | "thingInputGroup"
   | "thingSwitchGroup"
   | "thingButtonGroup";
-export const groupNames: Record<groupNames, groupNames> = {
+export const groupNames: Record<GroupNames, GroupNames> = {
   thingGroup: "thingGroup",
   thingTextGroup: "thingTextGroup",
   thingDefTextGroup: "thingDefTextGroup",
@@ -77,13 +77,16 @@ export const createThingTextGroup = (
 
 // 查询 thingText的租
 export const getThingTextGroup = (
-  stage: Konva.Stage | Konva.Group,
+  out: Konva.Stage | Konva.Group,
   name?: keyof typeof groupNames
 ) => {
-  if (name) return stage.find<Konva.Group>(`.${name}`);
+  if (name) return out.find<Konva.Group>(`.${name}`);
   return [
-    ...stage.find<Konva.Group>(`.${groupNames.thingDefTextGroup}`),
-    ...stage.find<Konva.Group>(`.${groupNames.thingTextGroup}`),
+    ...out.find<Konva.Group>(`.${groupNames.thingDefTextGroup}`),
+    ...out.find<Konva.Group>(`.${groupNames.thingTextGroup}`),
+    ...out.find<Konva.Group>(`.${groupNames.thingInputGroup}`),
+    ...out.find<Konva.Group>(`.${groupNames.thingSwitchGroup}`),
+    ...out.find<Konva.Group>(`.${groupNames.thingButtonGroup}`),
   ];
 };
 

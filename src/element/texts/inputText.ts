@@ -79,7 +79,7 @@ const obj = {
     const btnText = createText({
       fill: advanced.val.fill,
       fontSize: advanced.val.size,
-      text: "下发",
+      text: data.btns[0],
       draggable: false,
       x: inputRect.x() + inputRect.width() + 10,
       align: "center",

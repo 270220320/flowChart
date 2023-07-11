@@ -40,6 +40,8 @@ import { setField } from "./util/element/setField";
 import { FieldTheme } from "./config/field";
 import { removeRelevance } from "./event/keyDown/remove";
 import { getThingImage } from "./util";
+import { removeTextEle, resetTextEle, setTextVal } from "./element/texts/util";
+import { thingTextInfo } from "./data/cdata";
 
 export type DrawState =
   | "Line"
@@ -226,34 +228,15 @@ class INLEDITOR {
 
   // 动态修改物模型的值
   setVal(iu: string, propertyId: string, val: string) {
-    // 查找物模型
-    const thingGroup = (this.stage.findOne(`#${iu}`) ||
-      this.stage.findOne(`#line${iu}`)) as Konva.Group;
-    if (!thingGroup) return;
-    // 筛选code
-    getThingTextGroup(thingGroup).forEach((textNode) => {
-      const attrs = getCustomAttrs(textNode);
-      if (attrs.propertyId && attrs.propertyId === propertyId) {
-        setThingTextVal(textNode, val);
-      }
-    });
+    setTextVal(this.stage, iu, propertyId, val);
   }
 
-  // 删除thing文字 allOfThem删除全部
+  resetText(iu: string, propertyId: string, thingTextInfo: thingTextInfo) {
+    resetTextEle(this, iu, propertyId, thingTextInfo);
+  }
+
   removeText(iu: string, ids: Array<string | SpecialCode.all>) {
-    // 查找物模型
-    const thingGroup = (this.stage.findOne(`#${iu}`) ||
-      this.stage.findOne(`#line${iu}`)) as Konva.Group;
-    if (!thingGroup) return;
-    // 筛选code
-    for (let i of ids) {
-      thingGroup.children
-        .find((ele) => {
-          const info = getCustomAttrs(ele).thingTextInfo;
-          return info?.id === i;
-        })
-        ?.remove();
-    }
+    removeTextEle(this.stage, iu, ids);
   }
 
   // 获取画布上所有物模型的id

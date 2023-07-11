@@ -3,6 +3,7 @@ import { createImage } from "@/element/image";
 import { getCustomAttrs } from "@/main";
 
 export default async (stage: Konva.Stage) => {
+  debugger;
   await Promise.all(
     stage.find("Image").map((imageNode) => {
       return new Promise(async (resolve) => {

@@ -26,16 +26,16 @@ export default {
       height: advanced.val.rectHeight,
       name: "label",
     });
-    const valtext = createText(
+    const btnText = createText(
       {
         fill: advanced.val.fill,
         fontSize: advanced.val.size,
-        text: v,
+        text: data.btns[0],
         draggable: false,
         x: labelText.width() + 5,
         align: "center",
         height: advanced.val.rectHeight,
-        name: "val",
+        name: "btn",
       },
       id
     );
@@ -44,14 +44,14 @@ export default {
       stroke: advanced.val.rectStroke,
       strokeWidth: 1,
       height: advanced.val.rectHeight,
-      width: valtext.width() + 10,
+      width: btnText.width() + 10,
       draggable: false,
       x: labelText.width(),
       cornerRadius: 3,
       name: "rect",
     });
 
-    group.add(valRect, labelText, valtext);
+    group.add(valRect, labelText, btnText);
     return group;
   },
 };

@@ -9,10 +9,8 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
     .find("Transformer")[0] as Konva.Transformer;
   const nodes = Transformers?.getNodes() || [];
   for (let i of nodes) {
-    const isThing = i.getParent().hasName(groupNames.thingGroup);
-    const isThingText =
-      i.getParent().hasName(groupNames.thingTextGroup) ||
-      i.getParent().hasName(groupNames.thingDefTextGroup);
+    const isThing = i.hasName("thingImage");
+    const isThingText = i.getParent().hasName(groupNames.thingDefTextGroup);
     Transformers.destroy();
     if (isThing || isThingText) {
       i.getParent().remove();
