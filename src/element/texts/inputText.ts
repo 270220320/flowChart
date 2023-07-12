@@ -4,6 +4,7 @@ import Konva from "konva";
 import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
 import { defaultRect } from "../rect";
+import { getCustomAttrs } from "@/util";
 
 const obj = {
   add: (
@@ -111,9 +112,17 @@ const obj = {
     btnText.moveUp();
     return group;
   },
-  changeVal: (group, val) => {
-    const valNode = group.children.find((ele) => ele.name() === "val");
-    valNode.setAttrs({ text: val });
+  changeVal: (group, info) => {
+    const value = info.v;
+    const val = group.findOne(".val");
+    const oldWidth = val.width();
+    val.setAttrs({ text: value });
+    const newWidth = val.width();
+    group.children.forEach((ele) => {
+      if (ele.name() !== "label" && ele.name() !== "val") {
+        ele.setAttrs({ x: ele.x() + (newWidth - oldWidth) });
+      }
+    });
   },
   focus: (item) => {
     const input = item.children.find((ele) => ele.name() === "input");
@@ -135,7 +144,7 @@ const obj = {
   },
   blur: (item) => {
     const cursor = item.children.find((ele) => ele.name() === "cursor");
-    clearInterval(cursor.attrs.interval);
+    clearInterval(cursor?.attrs.interval);
     cursor?.remove();
   },
   keyIn: (e, item: Konva.Group) => {

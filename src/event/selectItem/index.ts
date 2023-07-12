@@ -98,16 +98,18 @@ export const getTran: (stage: Konva.Stage) => {
   };
 };
 // 重置事件中心
-const resetEvent = (stage: Konva.Stage) => {
+export const resetEvent = (stage: Konva.Stage) => {
   const Transformers = stage.findOne("Transformer") as Konva.Transformer;
   Transformers?.nodes().forEach((node) => {
     if (node.name() === "thingImage") {
       node.setAttrs({ draggable: false });
     }
-    if (node.name() === groupNames.thingInputGroup) {
-      inputText.blur(node);
-    }
   });
+  const cursors = stage.find(".cursor");
+  cursors.forEach((ele) => {
+    inputText.blur(ele.parent);
+  });
+  Transformers?.remove();
   Transformers?.destroy();
 };
 
@@ -145,6 +147,10 @@ const selectEvent = (ie: INLEDITOR, e: KonvaEventObject<any>) => {
   let Transformers = stage.findOne("Transformer") as Konva.Transformer;
   const node = getSelectNode(e.target);
   const nodes: Array<Konva.Node> = [];
+  const cursors = stage.find(".cursor");
+  cursors.forEach((ele) => {
+    inputText.blur(ele.parent);
+  });
   // shift选中组,暂未去重
   if (e.evt.shiftKey && Transformers) {
     const currentNodes = Transformers?.getNodes() || [];

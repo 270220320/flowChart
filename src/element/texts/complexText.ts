@@ -3,6 +3,17 @@ import { thingTextInfo } from "@/data/cdata";
 import Konva from "konva";
 import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
+import { getCustomAttrs } from "@/util";
+
+const obj = {
+  changeVal: (group, info) => {
+    const value = info.v;
+    const val = group.findOne(".val");
+    const unit = group.children.find((ele) => ele.name() === "unit");
+    val.setAttrs({ text: value });
+    unit.setAttrs({ x: val.x() + val.width() + 5 });
+  },
+};
 
 // 创建复杂的thing文字
 export const createThingAdvancedText = (
@@ -37,24 +48,13 @@ export const createThingAdvancedText = (
     },
     id
   );
-  // const valRect = defaultRect({
-  //   fill: advanced.val.rectFill,
-  //   stroke: advanced.val.rectStroke,
-  //   strokeWidth: 1,
-  //   height: advanced.val.rectHeight,
-  //   width: valtext.width() + 10,
-  //   draggable: false,
-  //   x: labelText.width(),
-  //   cornerRadius: 3,
-  //   name: "rect",
-  // });
 
   const unitText = createText({
     fill: advanced.unit.fill,
     fontSize: advanced.unit.size,
     opacity: advanced.unit.opacity,
     text: unit,
-    x: labelText.width() + valtext.width() + 10 + 5,
+    x: valtext.x() + valtext.width() + 5,
     draggable: false,
     height: advanced.val.rectHeight,
     name: "unit",
@@ -63,3 +63,5 @@ export const createThingAdvancedText = (
   group.add(labelText, valtext, unitText);
   return group;
 };
+
+export default obj;

@@ -1,9 +1,10 @@
 import Konva from "konva";
-import { getThingTextGroup } from "../group";
+import { getThingTextGroup, groupNames } from "../group";
 import { getCustomAttrs } from "@/util";
-import { createThingTexts, setThingTextVal } from "../text";
+import { createThingTexts } from "../text";
 import { thingTextInfo } from "@/data/cdata";
 import INLEDITOR from "@/index";
+import { changeValFuns } from "./funs";
 
 // 动态修改物模型的值
 export const setTextVal = (
@@ -20,7 +21,47 @@ export const setTextVal = (
   getThingTextGroup(thingGroup).forEach((textNode) => {
     const info = getCustomAttrs(textNode);
     if (info.propertyId && info.propertyId === propertyId) {
-      setThingTextVal(textNode, val);
+      info.thingTextInfo.v = val;
+      changeValFuns[textNode.name()](textNode, info.thingTextInfo);
+    }
+  });
+};
+
+export const changeLabelState = (
+  stage: Konva.Stage,
+  iu: string,
+  propertyId: string,
+  state: boolean
+) => {
+  // 查找物模型
+  const thingGroup = (stage.findOne(`#${iu}`) ||
+    stage.findOne(`#line${iu}`)) as Konva.Group;
+  if (!thingGroup) return;
+  // 筛选code
+  getThingTextGroup(thingGroup).forEach((textNode) => {
+    const info = getCustomAttrs(textNode);
+    if (info.propertyId && info.propertyId === propertyId) {
+      const cdata = getCustomAttrs(textNode);
+      if (cdata.thingTextInfo.showLabel === state) return;
+      cdata.thingTextInfo.showLabel = state;
+      const label = textNode.children.find((ele) => ele.name() === "label");
+      if (state) {
+        label.visible(true);
+        const width = label.width() + 5;
+        textNode.children.forEach((ele) => {
+          if (ele.name() !== "label") {
+            ele.setAttrs({ x: ele.x() + width });
+          }
+        });
+      } else {
+        const width = label.width() + 5;
+        textNode.children.forEach((ele) => {
+          if (ele.name() !== "label") {
+            ele.setAttrs({ x: ele.x() - width });
+          }
+        });
+        label.visible(false);
+      }
     }
   });
 };

@@ -12,13 +12,19 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     const stage = ie.getStage();
     const trans = stage.findOne("Transformer") as Konva.Transformer;
     const nodes = trans?.getNodes();
-    if (nodes?.length === 1 && nodes[0].name() === groupNames.thingInputGroup) {
-      inputText.keyIn(e, nodes[0] as Konva.Group);
-    } else if (e.code === "Backspace" || e.code === "Delete") {
+
+    if (e.code === "Delete") {
       exitEditLine(ie.getStage());
       remove(ie, e);
-    }
-    if (e.code === "Space") {
+    } else if (
+      nodes?.length === 1 &&
+      nodes[0].name() === groupNames.thingInputGroup
+    ) {
+      inputText.keyIn(e, nodes[0] as Konva.Group);
+    } else if (e.code === "Backspace") {
+      exitEditLine(ie.getStage());
+      remove(ie, e);
+    } else if (e.code === "Space") {
       const eles = document.getElementById("myCanvas").children;
       Array.from(eles).forEach((element: HTMLElement) => {
         element.style.cursor = "grab";

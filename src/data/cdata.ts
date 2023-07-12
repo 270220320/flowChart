@@ -18,6 +18,7 @@ export interface thingTextInfo {
   v?: string;
   code?: string;
   label?: string;
+  showLabel?: boolean;
   unit?: string;
   id?: string;
   btns?: string[];

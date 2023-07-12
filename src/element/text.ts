@@ -30,39 +30,6 @@ export const setThingDefaultTextTheme = (ea: Konva.Text, themeType: Theme) => {
   });
 };
 
-// 修改thing 文字的val
-export const setThingTextVal = (e: Konva.Group, val: string) => {
-  const text = e.findOne(".val");
-  const rect = e.findOne(".rect");
-  const unit = e.findOne(".unit");
-  if (text) {
-    if (e.name() === groupNames.thingDefTextGroup) {
-      const info = getCustomAttrs(e).thingTextInfo;
-      text.setAttrs({
-        text: val + (info.unit || ""),
-      });
-    } else if (e.name() === groupNames.thingTextGroup) {
-      // 设置value
-      text.setAttrs({
-        text: val,
-      });
-
-      if (rect) {
-        rect.setAttrs({
-          width: text.width() + 10,
-        });
-      }
-      if (unit) {
-        unit.setAttrs({
-          x: rect.attrs.x + rect.width() + 5,
-        });
-      }
-    }
-  }
-
-  // 设置thing属性值
-};
-
 // 查询默认 thing文字
 export const getThingDefaultTexts: (parent: Parent) => Array<Child> = (e) => {
   return e.find(`.${groupNames.thingDefTextGroup}`);
@@ -213,69 +180,6 @@ export const createThingTexts = (
         const { type, info } = i;
         addText(info, type);
       }
-    },
-
-    changeTo: (id: string) => {
-      thingGroup.getChildren().forEach((item) => {
-        const attrs = getCustomAttrs(item);
-        if (attrs.propertyId && attrs.propertyId === id) {
-          const name = item.name();
-          (item as Konva.Group).removeChildren();
-
-          setCustomAttrs(item, attrs);
-          if (name === groupNames.thingDefTextGroup) {
-            item.setAttrs({
-              name: groupNames.thingTextGroup,
-            });
-            createThingAdvancedText(
-              themeType,
-              attrs.thingTextInfo,
-              item.position() || { x: 0, y: 0 },
-              item as Konva.Group
-            );
-          } else if (name === "thingTextGroup") {
-            createThingDefaultText(
-              themeType,
-              attrs.thingTextInfo,
-              item.position() || { x: 0, y: 0 },
-              item as Konva.Group
-            );
-            item.setAttrs({
-              name: groupNames.thingDefTextGroup,
-            });
-          }
-          item.draw();
-          toSelect(ie, [item]);
-        }
-      });
-    },
-    changeVal: (id: string, val: string) => {
-      thingGroup.getChildren().forEach((item: Konva.Group) => {
-        if (item.attrs.id && item.attrs.id === id) {
-          const name = item.name();
-          const attrs = getCustomAttrs(item);
-          const thingTextInfo = { ...attrs.thingTextInfo, v: val };
-          setCustomAttrs(item, {
-            ...attrs,
-            thingTextInfo,
-          });
-          if (name === groupNames.thingDefTextGroup) {
-            item.setAttrs({
-              name: groupNames.thingDefTextGroup,
-            });
-            item.children[0].setAttrs({ text: val });
-          } else if (name === groupNames.thingTextGroup) {
-            item.children[2].setAttrs({ text: val });
-          } else if (name === groupNames.thingSwitchGroup) {
-            switchText.change(item, thingTextInfo, val, themeType);
-          } else if (name === groupNames.thingInputGroup) {
-            inputText.changeVal(item, val);
-          }
-
-          // 待添加其他类型
-          item.draw();
-        }
-      });
     },
   };
 };

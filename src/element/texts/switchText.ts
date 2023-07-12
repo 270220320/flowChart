@@ -4,10 +4,10 @@ import Konva from "konva";
 import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
 import { defaultRect } from "../rect";
+import { getCustomAttrs } from "@/util";
 
-const change = (group, thingTextInfo, val, themeType) => {
-  const t = theme[themeType];
-  const { advanced } = t.thingText;
+const changeVal = (group, thingTextInfo) => {
+  const val = thingTextInfo.v;
   if (val) {
     const btnRect = group.children.find((ele) => ele.name() === "btnRect");
     btnRect.setAttrs({ fill: "#1D33A2" });
@@ -86,11 +86,10 @@ export default {
       cornerRadius: 3,
       name: "btnRect",
     });
-
     group.add(labelText, btnText, btnRect, checkRect);
     btnText.moveToTop();
-
+    changeVal(group, data);
     return group;
   },
-  change,
+  changeVal,
 };

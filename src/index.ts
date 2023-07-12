@@ -9,13 +9,9 @@ import {
   setScraperScale,
 } from "./component";
 import theme, { Theme } from "./config/theme";
-import {
-  getThingTextGroup,
-  groupNames,
-  createThingGroup,
-} from "./element/group";
+import { groupNames, createThingGroup } from "./element/group";
 import { changeThingComponentState, changeThingImage } from "./element/image";
-import { createThingTexts, setThingTextVal } from "./element/text";
+import { createThingTexts } from "./element/text";
 import event from "./event";
 import stageClick, { getIus, onSelectCallBackFun } from "./event/stageClick";
 import changeElementsPosition, {
@@ -32,7 +28,7 @@ import animate from "./animate/line";
 import disableMove from "./util/initStage/disableMove";
 import { updateLineColor } from "./util/line/line";
 import { Thing } from "./data/thing";
-import { clearTransFormer } from "./event/selectItem";
+import { resetEvent } from "./event/selectItem";
 import { exitEditLine } from "./util/line/editLine";
 import reset from "./util/initStage/reset";
 import { showAnchor } from "./util/anchor";
@@ -40,7 +36,12 @@ import { setField } from "./util/element/setField";
 import { FieldTheme } from "./config/field";
 import { removeRelevance } from "./event/keyDown/remove";
 import { getThingImage } from "./util";
-import { removeTextEle, resetTextEle, setTextVal } from "./element/texts/util";
+import {
+  changeLabelState,
+  removeTextEle,
+  resetTextEle,
+  setTextVal,
+} from "./element/texts/util";
 import { thingTextInfo } from "./data/cdata";
 
 export type DrawState =
@@ -231,9 +232,22 @@ class INLEDITOR {
     setTextVal(this.stage, iu, propertyId, val);
   }
 
+  changeLabel = (iu: string, propertyId: string, val: boolean) => {
+    changeLabelState(this.stage, iu, propertyId, val);
+  };
+
   resetText(iu: string, propertyId: string, info: thingTextInfo, type: string) {
     resetTextEle(this, iu, propertyId, info, type);
   }
+
+  resetTexts = (
+    arr: { iu: string; propertyId: string; info: thingTextInfo; type: string }[]
+  ) => {
+    arr.forEach((ele) => {
+      const { iu, propertyId, info, type } = ele;
+      resetTextEle(this, iu, propertyId, info, type);
+    });
+  };
 
   removeText(iu: string, ids: Array<string | SpecialCode.all>) {
     removeTextEle(this.stage, iu, ids);
@@ -290,8 +304,8 @@ class INLEDITOR {
       return { res: false };
     }
     exitEditLine(this.stage);
+    resetEvent(this.stage);
     const json = this.stage.toJSON();
-    clearTransFormer(this.stage);
     return { mapJson: json, image: this.toImage() };
   }
   deleteAllPoint() {
@@ -302,12 +316,6 @@ class INLEDITOR {
   // 反序列化
   async loadJson(json?: string | null, cb?) {
     await this.init(json);
-
-    // createLineTexts(
-    //   this.stage,
-    //   "f1ca2aaf-36c1-4fdb-a267-6dac1892ad89",
-    //   this.theme
-    // );
     cb ? cb() : "";
   }
 
