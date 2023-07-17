@@ -12,6 +12,15 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     const stage = ie.getStage();
     const trans = stage.findOne("Transformer") as Konva.Transformer;
     const nodes = trans?.getNodes();
+    if (ie.opt.isPreview) {
+      if (
+        nodes?.length === 1 &&
+        nodes[0].name() === groupNames.thingInputGroup
+      ) {
+        inputText.keyIn(e, nodes[0] as Konva.Group);
+      }
+      return;
+    }
 
     if (e.code === "Delete") {
       exitEditLine(ie.getStage());

@@ -7,4 +7,5 @@ const changeValFun = {};
 changeValFun[groupNames.thingTextGroup] = complexText.changeVal;
 changeValFun[groupNames.thingInputGroup] = inputText.changeVal;
 changeValFun[groupNames.thingSwitchGroup] = switchText.changeVal;
+changeValFun[groupNames.thingButtonGroup] = () => {};
 export const changeValFuns = changeValFun;

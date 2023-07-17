@@ -7,15 +7,17 @@ import { defaultRect } from "../rect";
 import { getCustomAttrs } from "@/util";
 
 const changeVal = (group, thingTextInfo) => {
-  const val = thingTextInfo.v;
+  const {
+    switchOpt: { checkedLabel, checkedValue, unCheckedLabel },
+    v,
+  } = thingTextInfo;
+  const val = v === checkedLabel || v === checkedValue;
+  console.log(thingTextInfo);
   if (val) {
     const btnRect = group.children.find((ele) => ele.name() === "btnRect");
     btnRect.setAttrs({ fill: "#1D33A2" });
     const btnText = group.children.find((ele) => ele.name() === "btnText");
-    btnText.setAttrs(
-      { x: btnRect.x() + 5 },
-      { text: thingTextInfo.switchOpt.checkedLabel }
-    );
+    btnText.setAttrs({ x: btnRect.x() + 5, text: checkedLabel });
     const checkRect = group.children.find((ele) => ele.name() === "checkRect");
     checkRect.setAttrs({ x: btnText.x() + btnText.width() + 5 });
   } else {
@@ -24,10 +26,10 @@ const changeVal = (group, thingTextInfo) => {
     const checkRect = group.children.find((ele) => ele.name() === "checkRect");
     checkRect.setAttrs({ x: btnRect.x() + 5 });
     const btnText = group.children.find((ele) => ele.name() === "btnText");
-    btnText.setAttrs(
-      { x: checkRect.x() + checkRect.width() + 5 },
-      { text: thingTextInfo.switchOpt.unCheckedLabel }
-    );
+    btnText.setAttrs({
+      x: checkRect.x() + checkRect.width() + 5,
+      text: unCheckedLabel,
+    });
   }
 };
 

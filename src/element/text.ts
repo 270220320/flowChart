@@ -134,7 +134,9 @@ export const createThingTexts = (
   themeType: Theme
 ) => {
   const stage = ie.getStage();
-  const thingGroup = stage.findOne(`#${iu}`) as Konva.Group;
+  const thingGroup = (stage.findOne(`#${iu}`) ||
+    stage.findOne(`#line${iu}`)) as Konva.Group;
+
   if (!thingGroup) return {};
   const thing = thingGroup.findOne(".thingImage");
   let line;

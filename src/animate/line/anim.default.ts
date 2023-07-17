@@ -12,18 +12,16 @@ export default function (this: LineAnimate) {
   const sign = this.opt.direction === "obey" ? -1 : 1;
   const theme = this.opt.ie.getTheme();
   const width = this.opt.line.getAttr("strokeWidth");
+  const dash = this.opt.line.getAttr("dash");
   this.opt.line.setAttrs({
-    stroke: aniLineState[theme][lineInfo.state],
-    fill: aniLineState[theme][lineInfo.state],
+    opacity: 0.5,
     strokeWidth: width * 2,
     dashEnabled: false,
   });
   this.animateEl.setAttrs({
-    ...lineAni.dotted[theme],
-    stroke: lineState[theme][lineInfo.state],
-    fill: lineState[theme][lineInfo.state],
+    // ...lineAni.dotted[theme],
     strokeWidth: width,
-    dash: [15, 8, 15, 8],
+    dash: dash || [15, 8, 15, 8],
   });
   const distance = getTotalDistance(this.opt.line.points());
   const init = (i) => {
@@ -56,8 +54,7 @@ export default function (this: LineAnimate) {
     this.runState = false;
     animate.pause();
     this.opt.line.setAttrs({
-      stroke: lineState[theme][lineInfo.state],
-      fill: lineState[theme][lineInfo.state],
+      opacity: 1,
       strokeWidth: width,
       dashEnabled: true,
     });

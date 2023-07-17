@@ -8,7 +8,8 @@ export default async (stage: Konva.Stage) => {
       return new Promise(async (resolve) => {
         if (
           imageNode.name() === "thingImage" ||
-          imageNode.name() === "customImage"
+          imageNode.name() === "customImage" ||
+          imageNode.parent.attrs.componentName === "Scraper"
         ) {
           const parent = imageNode.getParent();
           if (imageNode.name() === "thingImage") {

@@ -11,15 +11,14 @@ export default (ie: INLEDITOR) => {
   const container = ie.getContainer();
   const stage = ie.getStage();
 
-  if (!ie.opt.isPreview) {
-    setDrawState(ie);
-
-    ondrop(ie, container);
-
+  if (ie.opt.isPreview) {
     selectItem(ie);
-
     keyDown(ie);
-
+  } else {
+    setDrawState(ie);
+    ondrop(ie, container);
+    selectItem(ie);
+    keyDown(ie);
     onDrag(ie);
     onDbclick(ie);
   }

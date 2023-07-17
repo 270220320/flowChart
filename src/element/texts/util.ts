@@ -42,7 +42,7 @@ export const changeLabelState = (
     const info = getCustomAttrs(textNode);
     if (info.propertyId && info.propertyId === propertyId) {
       const cdata = getCustomAttrs(textNode);
-      if (cdata.thingTextInfo.showLabel === state) return;
+      // if (cdata.thingTextInfo.showLabel === state) return;
       cdata.thingTextInfo.showLabel = state;
       const label = textNode.children.find((ele) => ele.name() === "label");
       if (state) {
@@ -65,7 +65,7 @@ export const changeLabelState = (
     }
   });
 };
-
+// 重置文字元素
 export const resetTextEle = (
   ie: INLEDITOR,
   iu: string,
@@ -86,7 +86,12 @@ export const resetTextEle = (
       textNode.name(type);
       const attr = textNode.attrs;
       textNode.remove();
-      const textGroup = util.addText(info.thingTextInfo, attr.name);
+      const textGroup = util.addText(info.thingTextInfo, attr.name, () => {
+        if (!thingTextInfo.showLabel) {
+          changeLabelState(stage, iu, propertyId, false);
+        }
+      });
+
       textGroup.setAttrs(attr);
     }
   });
