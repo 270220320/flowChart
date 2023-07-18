@@ -110,6 +110,7 @@ class COALANIM {
       width: 30,
       height: 14,
     });
+    // 必须分两次赋值
     node.setAttrs({
       y: 25 - node.height(),
     });

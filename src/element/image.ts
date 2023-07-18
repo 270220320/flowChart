@@ -81,13 +81,6 @@ export const changeThingImage = async (
   const newImage = await createImage(src);
   newImage.getAttrs().image.src = src;
   delete data.image;
-  // const XY = computedXY(stage, x, y);
   newImage.setAttrs(data);
-  parent.add(newImage);
-  return new Promise((res) => {
-    newImage.getAttrs().image.onload = () => {
-      parent.getLayer().draw();
-      res(newImage);
-    };
-  });
+  parent?.add(newImage);
 };
