@@ -77,17 +77,13 @@ export const createThingTextGroup = (
 
 // 查询 thingText的租
 export const getThingTextGroup = (
-  out: Konva.Stage | Konva.Group,
+  group: Konva.Group,
   name?: keyof typeof groupNames
 ) => {
-  if (name) return out.find<Konva.Group>(`.${name}`);
-  return [
-    ...out.find<Konva.Group>(`.${groupNames.thingDefTextGroup}`),
-    ...out.find<Konva.Group>(`.${groupNames.thingTextGroup}`),
-    ...out.find<Konva.Group>(`.${groupNames.thingInputGroup}`),
-    ...out.find<Konva.Group>(`.${groupNames.thingSwitchGroup}`),
-    ...out.find<Konva.Group>(`.${groupNames.thingButtonGroup}`),
-  ];
+  if (name) return group.find<Konva.Group>(`.${name}`);
+  return group.children.filter(
+    (ele) => ele.name() !== "thingImage"
+  ) as Konva.Group[];
 };
 
 // 设置复杂thing text 的组主题

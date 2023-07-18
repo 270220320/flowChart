@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { getThingTextGroup, groupNames } from "../group";
+import { getThingTextGroup } from "../group";
 import { getCustomAttrs } from "@/util";
 import { createThingTexts } from "../text";
 import { thingTextInfo } from "@/data/cdata";
@@ -14,13 +14,14 @@ export const setTextVal = (
   val: string
 ) => {
   // 查找物模型
-  const thingGroup = (stage.findOne(`#${iu}`) ||
-    stage.findOne(`#line${iu}`)) as Konva.Group;
-  if (!thingGroup) return;
+  let thingGroup: Konva.Group = stage.findOne(`#${iu}`);
+  if (!thingGroup) {
+    thingGroup = stage.findOne(`#line${iu}`);
+  }
   // 筛选code
-  getThingTextGroup(thingGroup).forEach((textNode) => {
+  thingGroup.children.forEach((textNode) => {
     const info = getCustomAttrs(textNode);
-    if (info.propertyId && info.propertyId === propertyId) {
+    if (info?.propertyId && info.propertyId === propertyId) {
       info.thingTextInfo.v = val;
       changeValFuns[textNode.name()](textNode, info.thingTextInfo);
     }
@@ -79,19 +80,18 @@ export const resetTextEle = (
     stage.findOne(`#line${iu}`)) as Konva.Group;
   if (!thingGroup) return;
   const util = createThingTexts(ie, iu, ie.getTheme());
-  getThingTextGroup(thingGroup).forEach((textNode) => {
+  thingGroup.children.forEach((textNode) => {
     const info = getCustomAttrs(textNode);
-    if (info.propertyId && info.propertyId === propertyId) {
+    if (info?.propertyId && info.propertyId === propertyId) {
       info.thingTextInfo = thingTextInfo;
       textNode.name(type);
       const attr = textNode.attrs;
-      textNode.remove();
+      textNode.destroy();
       const textGroup = util.addText(info.thingTextInfo, attr.name, () => {
         if (!thingTextInfo.showLabel) {
           changeLabelState(stage, iu, propertyId, false);
         }
       });
-
       textGroup.setAttrs(attr);
     }
   });

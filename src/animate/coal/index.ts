@@ -94,12 +94,12 @@ class COALANIM {
     this.runState = false;
     clearInterval(this.tim);
     this.animGroup.children.forEach((node) => {
-      node.remove();
+      node.destroy();
     });
   }
   destroy() {
     this.stop();
-    this.animGroup.remove();
+    this.animGroup.destroy();
   }
   anim() {
     const node = this.cacheCoal.clone() as Konva.Image;
@@ -134,10 +134,12 @@ class COALANIM {
         });
         hidek.play();
         hidek.onFinish = () => {
-          node.remove();
+          node.destroy();
           hidek.destroy();
+          return false;
         };
       }
+      return false;
     };
   }
 }

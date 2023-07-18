@@ -4,7 +4,6 @@ import Konva from "konva";
 import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
 import { defaultRect } from "../rect";
-import { getCustomAttrs } from "@/util";
 
 const changeVal = (group, thingTextInfo) => {
   const {
@@ -12,25 +11,30 @@ const changeVal = (group, thingTextInfo) => {
     v,
   } = thingTextInfo;
   const val = v === checkedLabel || v === checkedValue;
-  console.log(thingTextInfo);
+  let btnRect, btnText, checkRect;
+  group.children.forEach((ele) => {
+    if (ele.name() === "btnRect") {
+      btnRect = ele;
+    } else if (ele.name() === "btnText") {
+      btnText = ele;
+    } else if (ele.name() === "checkRect") {
+      checkRect = ele;
+    }
+  });
+
   if (val) {
-    const btnRect = group.children.find((ele) => ele.name() === "btnRect");
     btnRect.setAttrs({ fill: "#1D33A2" });
-    const btnText = group.children.find((ele) => ele.name() === "btnText");
     btnText.setAttrs({ x: btnRect.x() + 5, text: checkedLabel });
-    const checkRect = group.children.find((ele) => ele.name() === "checkRect");
     checkRect.setAttrs({ x: btnText.x() + btnText.width() + 5 });
   } else {
-    const btnRect = group.children.find((ele) => ele.name() === "btnRect");
-    btnRect.setAttrs({ fill: "grey" });
-    const checkRect = group.children.find((ele) => ele.name() === "checkRect");
+    btnRect.setAttrs({ fill: "#99A0B6" });
     checkRect.setAttrs({ x: btnRect.x() + 5 });
-    const btnText = group.children.find((ele) => ele.name() === "btnText");
     btnText.setAttrs({
       x: checkRect.x() + checkRect.width() + 5,
       text: unCheckedLabel,
     });
   }
+  // group.getLayer().batchDraw();
 };
 
 export default {

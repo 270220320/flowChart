@@ -3,15 +3,22 @@ import { thingTextInfo } from "@/data/cdata";
 import Konva from "konva";
 import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
-import { getCustomAttrs } from "@/util";
 
 const obj = {
   changeVal: (group, info) => {
     const value = info.v;
-    const val = group.findOne(".val");
-    const unit = group.children.find((ele) => ele.name() === "unit");
+    let val, unit;
+    group.children.forEach((ele) => {
+      if (ele.name() === "val") {
+        val = ele;
+      } else if (ele.name() === "unit") {
+        unit = ele;
+      }
+    });
+
     val.setAttrs({ text: value });
     unit.setAttrs({ x: val.x() + val.width() + 5 });
+    // group.getLayer().batchDraw();
   },
 };
 

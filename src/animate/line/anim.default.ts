@@ -1,16 +1,12 @@
-import { getLineInfo } from "@/util/customAttr";
 import { getTotalDistance } from "@/util/distance";
 import Konva from "konva";
 import LineAnimate from ".";
-import { aniLineState, lineAni, lineState } from "../../config";
 
 export default function (this: LineAnimate) {
   this.animateEl = new Konva.Arrow(this.opt.line.getAttrs());
-  const lineInfo = getLineInfo(this.opt.line);
   this.animateLayer.add(this.animateEl);
   let animate;
   const sign = this.opt.direction === "obey" ? -1 : 1;
-  const theme = this.opt.ie.getTheme();
   const width = this.opt.line.getAttr("strokeWidth");
   const dash = this.opt.line.getAttr("dash");
   this.opt.line.setAttrs({
@@ -19,7 +15,6 @@ export default function (this: LineAnimate) {
     dashEnabled: false,
   });
   this.animateEl.setAttrs({
-    // ...lineAni.dotted[theme],
     strokeWidth: width,
     dash: dash || [15, 8, 15, 8],
   });
@@ -31,6 +26,7 @@ export default function (this: LineAnimate) {
       duration: (this.speed * distance) / 500,
       onFinish: () => {
         init(i);
+        return false;
       },
     });
     animate.play();
@@ -58,6 +54,6 @@ export default function (this: LineAnimate) {
       strokeWidth: width,
       dashEnabled: true,
     });
-    this.animateEl.remove();
+    this.animateEl.destroy();
   };
 }

@@ -123,6 +123,7 @@ const obj = {
         ele.setAttrs({ x: ele.x() + (newWidth - oldWidth) });
       }
     });
+    // group.getLayer().batchDraw();
   },
   focus: (item) => {
     const input = item.children.find((ele) => ele.name() === "input");

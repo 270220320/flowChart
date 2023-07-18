@@ -13,7 +13,7 @@ export const setCustomAttrs = (
   data: CDATA
 ) => {
   const cdata = getCustomAttrs(e);
-  e.setAttr("cdata", _.cloneDeep(Object.assign(cdata, data)));
+  e?.setAttr("cdata", _.cloneDeep(Object.assign(cdata, data)));
 };
 
 export const getLineInfo = (e: Konva.Node) => {
@@ -25,7 +25,6 @@ export const getLineInfo = (e: Konva.Node) => {
         inLineIds: [],
       },
     });
-    e.draw();
   }
   const { lineInfo } = getCustomAttrs(e);
   return lineInfo;

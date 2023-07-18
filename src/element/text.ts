@@ -157,13 +157,14 @@ export const createThingTexts = (
         y:
           (thingGroup.getClientRect().y -
             thingGroup.getAbsolutePosition().y +
-            thingGroup.getClientRect().height) /
+            thingGroup.getClientRect().height +
+            5) /
           stage.scaleX(),
       };
     } else {
       point = {
         x: line.attrs.points[0],
-        y: line.attrs.points[1] + (thingGroup.children.length - 1) * 25,
+        y: line.attrs.points[1] + (thingGroup.children.length - 1) * 25 + 5,
       };
     }
     const group = createTextFun[type](themeType, data, {
