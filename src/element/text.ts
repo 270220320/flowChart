@@ -2,7 +2,7 @@ import Konva from "konva";
 import theme, { Theme } from "../config/theme";
 import { Child, GroupNames, Parent, groupNames } from "./group";
 import { thingTextInfo } from "../data/cdata";
-import { THINGTEXT } from "../data/dropData";
+import { THINGTEXT, THINGTEXTINFO } from "../data/dropData";
 import layer from "../util/layer";
 import { getCustomAttrs, setCustomAttrs } from "../util/customAttr";
 import { toSelect } from "@/event/selectItem";
@@ -146,7 +146,8 @@ export const createThingTexts = (
   const addText = (
     data: thingTextInfo,
     type: GroupNames,
-    cb?: (thingTextGroup: Group) => void
+    cb?: (thingTextGroup: Group, i: THINGTEXTINFO) => void,
+    i?: THINGTEXTINFO
   ) => {
     let point;
     if (thing) {
@@ -172,16 +173,19 @@ export const createThingTexts = (
       y: point.y,
     });
     thingGroup.add(group);
-    cb ? cb(group) : null;
+    cb ? cb(group, i) : null;
     return group;
   };
   return {
     addText,
     // 批量添加文字
-    batchAddText: (list: { type: GroupNames; info: thingTextInfo }[]) => {
+    batchAddText: (
+      list: { type: GroupNames; info: thingTextInfo }[],
+      cb: (g: Konva.Group, i: THINGTEXTINFO) => void
+    ) => {
       for (let i of list) {
         const { type, info } = i;
-        addText(info, type);
+        addText(info, type, cb, i);
       }
     },
   };
