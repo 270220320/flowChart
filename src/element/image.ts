@@ -1,4 +1,5 @@
 import { BELT, changeBeltState, changeState } from "@/component";
+import { cData } from "@/data/cdata";
 import computedXY from "@/util/computedXY";
 import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import Konva from "konva";
@@ -74,10 +75,9 @@ export const changeThingImage = async (
   src: string,
   state: string
 ) => {
-  const parent = imageNode.getParent();
+  const parent = imageNode.parent;
   const data = _.cloneDeep(imageNode.getAttrs());
-  setCustomAttrs(parent, { state });
-  imageNode.remove();
+  imageNode.destroy();
   const newImage = await createImage(src);
   newImage.getAttrs().image.src = src;
   delete data.image;

@@ -284,6 +284,8 @@ class INLEDITOR {
       // 组件处理
       changeThingComponentState(this.stage, image, setStateVal);
     } else {
+      const cData = getCustomAttrs(image.parent);
+      cData.state = setStateVal;
       image ? await changeThingImage(image, src, setStateVal as string) : null;
     }
   }
