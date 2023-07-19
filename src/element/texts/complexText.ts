@@ -44,7 +44,7 @@ export const createThingAdvancedText = (
   });
   const valtext = createText(
     {
-      fill: advanced.val.fill,
+      fill: "#3E7EFF",
       fontSize: advanced.val.size,
       text: v,
       draggable: false,

@@ -80,18 +80,25 @@ export const resetTextEle = (
     stage.findOne(`#line${iu}`)) as Konva.Group;
   if (!thingGroup) return;
   const util = createThingTexts(ie, iu, ie.getTheme());
-  thingGroup.children.forEach((textNode) => {
-    const info = getCustomAttrs(textNode);
+  thingGroup.children.forEach((oldTextGroup: Konva.Group) => {
+    const info = getCustomAttrs(oldTextGroup);
     if (info?.propertyId && info.propertyId === propertyId) {
       info.thingTextInfo = thingTextInfo;
-      textNode.name(type);
-      const attr = textNode.attrs;
-      textNode.destroy();
+      const attr = oldTextGroup.attrs;
+      if (attr.name === "thingDefTextGroup") {
+        attr.x = attr.x + oldTextGroup.children[0].x();
+        attr.y = attr.y + oldTextGroup.children[0].y();
+        attr.scaleX = oldTextGroup.children[0].scaleX();
+        attr.scaleY = oldTextGroup.children[0].scaleY();
+      }
+      attr.name = type;
+      oldTextGroup.destroy();
       const textGroup = util.addText(info.thingTextInfo, attr.name, () => {
         if (!thingTextInfo.showLabel) {
           changeLabelState(stage, iu, propertyId, false);
         }
       });
+
       textGroup.setAttrs(attr);
     }
   });

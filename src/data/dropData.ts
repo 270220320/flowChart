@@ -93,7 +93,6 @@ export const setThingChildPosition = (
 ) => {
   const stage = ie.getStage();
   const thing = stage.findOne(`#${iu}`) as Konva.Group;
-  debugger;
   const creatext = createThingTexts(ie, iu, themeType);
   const { width, height, x, y } = thing.getClientRect();
   const cb = (g: Konva.Group, i: THINGTEXTINFO) => {
