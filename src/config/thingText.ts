@@ -47,7 +47,7 @@ export const ThingText: Record<Theme, ThingTextType> = {
     },
     advanced: {
       val: {
-        fill: "#33DAFF",
+        fill: "white",
         size: 14,
         rectFill: "#2A6BDB",
         rectStroke: "#1D56A1",

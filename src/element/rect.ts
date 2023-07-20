@@ -14,6 +14,7 @@ export const createSelectionBox = (stage: Konva.Stage, themeType?: Theme) => {
     strokeScaleEnabled: false,
     ...t.selection,
   });
+
   const layer1 = new Konva.Layer({
     name: "selectionBox",
   });

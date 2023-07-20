@@ -23,15 +23,21 @@ const changeVal = (group, thingTextInfo) => {
   });
 
   if (val) {
-    btnRect.setAttrs({ fill: "#1D33A2" });
     btnText.setAttrs({ x: btnRect.x() + 5, text: checkedLabel });
     checkRect.setAttrs({ x: btnText.x() + btnText.width() + 5 });
+    btnRect.setAttrs({
+      fill: "#1D33A2",
+      width: btnText.width() + checkRect.width() + 15,
+    });
   } else {
-    btnRect.setAttrs({ fill: "#99A0B6" });
     checkRect.setAttrs({ x: btnRect.x() + 5 });
     btnText.setAttrs({
       x: checkRect.x() + checkRect.width() + 5,
       text: unCheckedLabel,
+    });
+    btnRect.setAttrs({
+      fill: "#99A0B6",
+      width: btnText.width() + checkRect.width() + 15,
     });
   }
   // group.getLayer().batchDraw();

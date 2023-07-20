@@ -76,28 +76,15 @@ export default (ie: INLEDITOR) => {
   const { id } = ie.opt;
   let stage = ie.getStage();
   const dom = document.getElementById(id)!;
-  // stage.scale({ x: 1, y: 1 });
-
-  // const Irect = computedIrect(stage);
-  // const scale =
-  //   Math.min(stage.width() / Irect.width, stage.height() / Irect.height) * bl;
   const { offsetWidth, offsetHeight } = dom;
-  const field: Konva.Node = stage.find(".field")[0];
-  const scale = offsetWidth / field.attrs.width;
-  stage.scale({
-    x: scale,
-    y: scale,
-    // y: offsetHeight / field.attrs.height,
+  const field: Konva.Node = stage?.find(".field")[0];
+  const scale = offsetWidth / field?.attrs.width;
+  stage?.scale({
+    x: scale + 0.001,
+    y: scale + 0.001,
   });
-  stage.position({
-    x: field.x() * scale * -1,
-    y: field.y() * scale * -1,
+  stage?.position({
+    x: field.x() * (scale - 0.001) * -1,
+    y: field.y() * (scale - 0.001) * -1,
   });
-  // stage.position({
-  //   x: 0,
-  //   y: 0,
-  // });
-
-  // field.moveToBottom();
-  // stageTofit(stage);
 };
