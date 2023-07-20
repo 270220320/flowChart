@@ -10,6 +10,7 @@ import layer from "@/util/layer";
 import { getParentThingGroup } from "@/util/element";
 import { groupNames } from "@/element";
 import inputText from "@/element/texts/inputText";
+import thing from "@/data/thing";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
@@ -63,8 +64,10 @@ export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
     opt.resizeEnabled = false;
   } else if (
     node?.name() === "thingImage" ||
-    node?.parent?.name() === "thingDefTextGroup" ||
-    node?.name() === "thingTextGroup"
+    node?.name() === groupNames.thingTextGroup ||
+    node?.name() === groupNames.thingInputGroup ||
+    node?.name() === groupNames.thingButtonGroup ||
+    node?.name() === groupNames.thingSwitchGroup
   ) {
     opt.enabledAnchors = [
       "top-left",
