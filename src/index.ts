@@ -78,7 +78,7 @@ export type onCreateLineCb = (id: string) => void;
 
 interface OPT {
   id: string;
-  theme: Theme;
+  theme?: Theme;
   onDropCb?: onDropCb;
   onCreateLineCb?: onCreateLineCb;
   onRemoveCb?: () => void;
@@ -220,7 +220,7 @@ class INLEDITOR {
   // 修改主题
   changeTheme(themeType: Theme, cb?: (stage: Konva.Stage) => {}) {
     this.theme = themeType;
-    if (this.opt.isPreview && themeType === "dark") {
+    if (this.opt.isPreview) {
       this.container.style.background = FieldTheme[themeType].fill;
     } else {
       this.container.style.background = theme[themeType].background;

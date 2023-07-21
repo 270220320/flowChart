@@ -182,7 +182,7 @@ const selectEvent = (ie: INLEDITOR, e: KonvaEventObject<any>) => {
     // 没有按住shift
     resetEvent(stage);
     nodes.push(node);
-    if (node.name() === groupNames.thingInputGroup) {
+    if (ie.opt.isPreview && node.name() === groupNames.thingInputGroup) {
       inputText.focus(node);
       return;
     }
