@@ -79,6 +79,7 @@ export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
   } else {
     opt.resizeEnabled = false;
   }
+
   const tran = new Konva.Transformer(opt);
   tran.on("transform", () => {
     ie.opt.onTransform?.();
@@ -183,7 +184,9 @@ const selectEvent = (ie: INLEDITOR, e: KonvaEventObject<any>) => {
     nodes.push(node);
     if (node.name() === groupNames.thingInputGroup) {
       inputText.focus(node);
+      return;
     }
+
     Transformers = createTran(node, ie);
     layer(stage, "util").add(Transformers);
     Transformers.nodes(nodes);

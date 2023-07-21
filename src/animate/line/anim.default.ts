@@ -38,6 +38,7 @@ export default function (this: LineAnimate) {
         if (this.runState) {
           init(i);
         }
+        return false;
       },
     });
     animate.play();

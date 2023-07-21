@@ -78,6 +78,7 @@ export type onCreateLineCb = (id: string) => void;
 
 interface OPT {
   id: string;
+  theme: Theme;
   onDropCb?: onDropCb;
   onCreateLineCb?: onCreateLineCb;
   onRemoveCb?: () => void;
@@ -88,11 +89,8 @@ interface OPT {
 }
 class INLEDITOR {
   constructor(opt: OPT) {
+    // opt.isPreview = false;
     this.opt = opt;
-    // this.init(opt.json);
-    // if (opt.isPreview) {
-    //   layer(this.stage, "line").moveToBottom();
-    // }
   }
   async init(json?: string | null) {
     initStage(this, json);
@@ -111,6 +109,7 @@ class INLEDITOR {
     this.onStageChange(this);
     if (json) {
       await reset(this);
+      this.stage.attrs.drawState = "default";
     }
   }
   // 设备图层
@@ -221,7 +220,12 @@ class INLEDITOR {
   // 修改主题
   changeTheme(themeType: Theme, cb?: (stage: Konva.Stage) => {}) {
     this.theme = themeType;
-    this.container.style.background = theme[themeType].background;
+    if (this.opt.isPreview && themeType === "dark") {
+      this.container.style.background = FieldTheme[themeType].fill;
+    } else {
+      this.container.style.background = theme[themeType].background;
+    }
+
     const field: Konva.Node = this.getStage().find(".field")[0];
     field.setAttrs({ fill: FieldTheme[themeType].fill });
     changeTheme(this.stage, themeType, cb);

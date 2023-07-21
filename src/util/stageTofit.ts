@@ -84,7 +84,7 @@ export default (ie: INLEDITOR) => {
     y: scale + 0.001,
   });
   stage?.position({
-    x: field.x() * (scale - 0.001) * -1,
-    y: field.y() * (scale - 0.001) * -1,
+    x: field.x() * scale * -1 - 1,
+    y: field.y() * scale * -1 - 1,
   });
 };
