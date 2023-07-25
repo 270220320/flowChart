@@ -13,11 +13,9 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     const trans = stage.findOne("Transformer") as Konva.Transformer;
     const nodes = trans?.getNodes();
     if (ie.opt.isPreview) {
-      if (
-        nodes?.length === 1 &&
-        nodes[0].name() === groupNames.thingInputGroup
-      ) {
-        inputText.keyIn(e, nodes[0] as Konva.Group);
+      const input = stage.findOne(".cursor");
+      if (input) {
+        inputText.keyIn(e, input.parent as Konva.Group);
       }
       return;
     }

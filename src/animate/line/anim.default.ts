@@ -18,7 +18,8 @@ export default function (this: LineAnimate) {
   this.opt.line.cache();
   this.opt.line.filters([Konva.Filters.HSL, Konva.Filters.Enhance]);
   if (this.opt.ie.getTheme() === "dark") {
-    this.opt.line.enhance(-1);
+    this.opt.line.luminance(-0.5);
+    this.opt.line.saturation(-0.3);
   } else {
     this.opt.line.luminance(0.5);
     this.opt.line.saturation(0.3);

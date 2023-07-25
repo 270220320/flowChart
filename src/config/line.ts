@@ -18,11 +18,11 @@ export const LineTheme: Record<Theme, Konva.NodeConfig> = {
   },
 };
 export const lineState = {
-  default: "CORRECT_MEDIUM",
+  default: "CLEAN_COAL",
 
   light: {
     RAW_COAL: "#EA5858",
-    CLEAN_COAL: "#22CC83",
+    CLEAN_COAL: "#3FCC83",
     REJECT: "#6554C0",
     SLURRY: "#A52337",
     DILUTE_MEDIUM: "#9095A2",
@@ -34,7 +34,7 @@ export const lineState = {
   },
   dark: {
     RAW_COAL: "#EA5858",
-    CLEAN_COAL: "#22CC83",
+    CLEAN_COAL: "#3FCC83",
     REJECT: "#6554C0",
     SLURRY: "#A52337",
     DILUTE_MEDIUM: "#9095A2",

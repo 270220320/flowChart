@@ -360,6 +360,7 @@ class INLEDITOR {
     info.state = key;
     if (option.color) {
       line.setAttrs({
+        pointerFill: option.color,
         stroke: option.color,
         fill: option.color,
       });
