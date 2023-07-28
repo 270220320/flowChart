@@ -57,6 +57,7 @@ export const bindPointEvent = (
 
       resPoints = points;
     }
+
     const arr = getUsePointUn(resPoints);
     line.setAttrs({ points: arr });
     // 线上字跟随
@@ -78,6 +79,7 @@ export const bindPointEvent = (
         }
       });
     }
+    stage.batchDraw();
   });
   point.on("dragend", (e: any) => {
     let position;

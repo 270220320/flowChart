@@ -1,20 +1,19 @@
 import Konva from "konva";
 import INLEDITOR from "../..";
-import computedXY, {
-  computedPoint,
-  computedXYByEvent,
-} from "src/util/computedXY";
+import computedXY, { computedXYByEvent } from "src/util/computedXY";
 import layer from "src/util/layer";
 import { KonvaEventObject } from "konva/lib/Node";
 import { getMouseOver } from "../";
-import { getCustomAttrs, getLineInfo, setCustomAttrs } from "../customAttr";
+import { getLineInfo, setCustomAttrs } from "../customAttr";
 import { UUID } from "../uuid";
 import { getLinePoints, mergeRightAngleLinePoint } from "./rightAngleLine";
 import { getUsePoint, getUsePointUn } from "./line";
 import { LineTheme } from "@/config/line";
 import { lineState } from "../../config";
-import { isComponentChild, isComponentChildren } from "@/component";
+import { isComponentChildren } from "@/component";
 import { judge } from "../anchor";
+import { createThingGroup } from "@/element";
+import { addLineBorder } from "./border";
 
 // 创建线完成
 export const finishLine = (
@@ -45,7 +44,7 @@ export const finishLine = (
   if (begin === end) {
     end = undefined;
   }
-  if (end && end.name() !== "field") {
+  if (end && end.name() === "thingImage") {
     end.setAttrs({ strokeWidth: 0 });
     const beginInfo = getLineInfo(begin);
     const endInfo = getLineInfo(end);
@@ -72,13 +71,20 @@ export const finishLine = (
     setCustomAttrs(line, {
       lineInfo: data,
     });
+    const group = createThingGroup({});
+    group.setAttrs({ draggable: false });
+    line.getLayer().add(group);
+    group.add(line);
+    if (lineType.indexOf("dotted") === -1) {
+      addLineBorder(line);
+    }
+
     beginInfo?.outLineIds?.push(line.id());
     endInfo?.inLineIds?.push(line.id());
     if (lineType.indexOf("rightAngle") >= 0) {
       const points = getUsePoint(line.attrs.points);
       const resPoints = mergeRightAngleLinePoint(points);
-      // line.setAttrs({ points: getUsePointUn(resPoints) });
-      line.points(getUsePointUn(resPoints));
+      line.setAttrs({ points: getUsePointUn(resPoints) });
     }
     const cb = ie.opt.onCreateLineCb;
     cb?.(line.id());
@@ -186,6 +192,7 @@ export const createLine = (
     dash: dotted,
     stroke: lineState[opt.theme][lineState.default],
     fill: lineState[opt.theme][lineState.default],
+    name: "line",
   });
 
   lay.add(arrow);

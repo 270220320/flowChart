@@ -12,13 +12,13 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
     const isThing = i.hasName("thingImage");
     const isThingText = i.getParent().hasName(groupNames.thingDefTextGroup);
     Transformers.destroy();
+    removeRelevance(i, ie.getStage());
     if (isThing || isThingText) {
       i.getParent().remove();
     } else {
       // 删除关联关系
       i.remove();
     }
-    removeRelevance(i, ie.getStage());
     ie.opt.onRemoveCb?.();
     ie.getStage().draw();
   }
@@ -36,6 +36,9 @@ export const removeRelevance = (obj: Konva.Node, stage: Konva.Stage) => {
 
     outInfo?.outLineIds?.splice(outInfo.outLineIds.indexOf(lineInfo.from!), 1);
     inInfo?.inLineIds?.splice(inInfo.inLineIds.indexOf(lineInfo.to!), 1);
+    if (obj.parent.name() === "thingGroup") {
+      obj.parent.remove();
+    }
   }
   if (
     obj.className === "Rect" ||

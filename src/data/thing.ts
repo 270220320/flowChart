@@ -1,12 +1,12 @@
 import loadsh from "lodash";
 
 export interface Thing {
-  iu: string; // instanceUuid
-  ic: string; // instanceCode
-  tc: string;
+  iu?: string; // instanceUuid
+  ic?: string; // instanceCode
+  tc?: string;
   img?: string;
   fullImg?: string;
-  name: string;
+  name?: string;
   type?: string;
   id?: string;
 }

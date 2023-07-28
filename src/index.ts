@@ -18,7 +18,7 @@ import changeElementsPosition, {
   AlignType,
 } from "./util/changeElementsPosition";
 import changeTheme from "./util/changeTheme";
-import { getCustomAttrs, getLineInfo } from "./util/customAttr";
+import { getCustomAttrs, getLineInfo, setCustomAttrs } from "./util/customAttr";
 import { getRelations, getRelation } from "./util/getRelations";
 import initStage from "./util/initStage";
 import layer from "./util/layer";
@@ -192,12 +192,18 @@ class INLEDITOR {
   }
   // 创建thing文字
   createLineGroup = (line, useThing: Thing) => {
-    const group = createThingGroup(useThing, "line" + useThing.iu);
-    group.setAttrs({ draggable: false });
-    const lineLay = layer(this.stage, "line");
-    lineLay.add(group);
-    group.add(line);
-    return group;
+    if (line.parent.name() === "thingGroup") {
+      const group = line.parent;
+      setCustomAttrs(group, { thing: useThing });
+      group.id(useThing.iu);
+    } else {
+      const group = createThingGroup(useThing, "line" + useThing.iu);
+      group.setAttrs({ draggable: false });
+      const lineLay = layer(this.stage, "line");
+      lineLay.add(group);
+      group.add(line);
+      return group;
+    }
   };
   // 创建thing文字
   createThingText = (iu: string, type?: "thing" | "line") => {
