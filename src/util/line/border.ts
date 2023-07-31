@@ -42,7 +42,7 @@ export const resetLine = (stage) => {
         group.add(line);
       }
       const info = getCustomAttrs(line);
-      if (info.lineInfo.type.indexOf("dotted") === -1) {
+      if (info.lineInfo.type.toLowerCase().indexOf("dotted") === -1) {
         addLineBorder(line);
       }
     }

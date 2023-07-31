@@ -27,8 +27,7 @@ class COALANIM {
     const { autoPlay, stage, uuid, imgUrl, direction } = opt;
     this.autoPlay = autoPlay || false;
     this.stage = stage;
-    this.direction = direction || "left";
-    // this.direction = "right";
+
     this.init(autoPlay, uuid, imgUrl);
   }
   async init(autoPlay, uuid, imgUrl) {
@@ -53,6 +52,8 @@ class COALANIM {
       new Error("未查询到元素，请检查查询条件.");
       return;
     }
+    const backward = getCustomAttrs(this.animEl).backward;
+    this.direction = backward ? "right" : "left";
     const { width, height } = this.animEl.getClientRect();
     const point = this.animEl.getAbsolutePosition();
     const { x, y } = computedXY(this.stage, point.x, point.y);

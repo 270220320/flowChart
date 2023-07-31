@@ -75,7 +75,7 @@ export const finishLine = (
     group.setAttrs({ draggable: false });
     line.getLayer().add(group);
     group.add(line);
-    if (lineType.indexOf("dotted") === -1) {
+    if (lineType.toLowerCase().indexOf("dotted") === -1) {
       addLineBorder(line);
     }
 

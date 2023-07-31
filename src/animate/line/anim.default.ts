@@ -12,7 +12,7 @@ export default function (this: LineAnimate) {
   const dash = this.opt.line.getAttr("dash");
   const info = getCustomAttrs(this.opt.line);
   // 管道
-  if (info.lineInfo.type.indexOf("dotted") === -1) {
+  if (info.lineInfo.type.toLowerCase().indexOf("dotted") === -1) {
     this.opt.line.visible(false);
   } else {
     this.opt.line.setAttrs({
@@ -67,7 +67,7 @@ export default function (this: LineAnimate) {
   this.destroy = () => {
     this.runState = false;
     animate.pause();
-    if (info.lineInfo.type.indexOf("dotted") === -1) {
+    if (info.lineInfo.type.toLowerCase().indexOf("dotted") === -1) {
       this.opt.line.visible(true);
     } else {
       this.opt.line.luminance(0);

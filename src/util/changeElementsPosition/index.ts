@@ -4,6 +4,7 @@ import computedXY from "../computedXY";
 import { getImgNode } from "../element/getImgNode";
 import { dealRelation } from "../element/relation";
 import { AlignOpt, AlignType } from "./index.b";
+import { getCustomAttrs, setCustomAttrs } from "../customAttr";
 
 export { AlignType };
 
@@ -121,6 +122,15 @@ export default (stage: Konva.Stage, type: AlignType) => {
   // 翻转
   if (type === "flipX" || type === "flipY") {
     nodes.forEach((node) => {
+      if (node.attrs.componentName === "BELT") {
+        if (type === "flipX") {
+          let backward = getCustomAttrs(node).backward;
+          setCustomAttrs(node, {
+            backward: !backward,
+          });
+        }
+        return;
+      }
       flip[type](node);
     });
     return;
