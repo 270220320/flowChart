@@ -28,6 +28,7 @@ class COALANIM {
     this.autoPlay = autoPlay || false;
     this.stage = stage;
     this.direction = direction || "left";
+    // this.direction = "right";
     this.init(autoPlay, uuid, imgUrl);
   }
   async init(autoPlay, uuid, imgUrl) {
@@ -106,21 +107,23 @@ class COALANIM {
     this.animGroup.add(node);
     const { width } = this.animEl.getClientRect();
     const scale = this.stage.scaleX();
+
     node.setAttrs({
       width: 30,
       height: 14,
     });
+    const right = width / scale - node.width();
     // 必须分两次赋值
     node.setAttrs({
       y: 25 - node.height(),
+      x: this.direction === "left" ? 0 : right,
     });
-    const movejl = width / scale - node.width();
 
     const tween = new Konva.Tween({
       node,
       // rotation: 360,
       duration: width / node.width() / scale / 3,
-      x: movejl,
+      x: this.direction === "left" ? right : 0,
     });
     tween.play();
     tween.onFinish = () => {
@@ -129,8 +132,8 @@ class COALANIM {
         const hidek = new Konva.Tween({
           node,
           opacity: 0,
-          x: movejl + 10,
-          y: node.getAttr("y") + 3,
+          // x: movejl + 10,
+          // y: node.getAttr("y") + 3,
           duration: 0.2,
         });
         hidek.play();
