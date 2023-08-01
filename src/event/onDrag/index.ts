@@ -42,6 +42,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
   });
   // 结束拖动
   stage.on("dragend", () => {
+    history;
     // 关闭辅助线
     closeSubLine.bind(ie)();
   });

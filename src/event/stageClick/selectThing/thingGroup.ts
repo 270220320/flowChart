@@ -1,7 +1,6 @@
 import { getCustomAttrs } from "@/util/customAttr";
 import { KonvaEventObject } from "konva/lib/Node";
 import { onSelectCallBackFun } from "..";
-import { Border } from "../../../util/line/border";
 
 export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
   // thinggroup

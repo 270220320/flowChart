@@ -112,6 +112,8 @@ class INLEDITOR {
       this.stage.attrs.drawState = "default";
     }
   }
+  // 操作记录
+  historyArr = [];
   // 设备图层
   thingLayer;
 
@@ -195,7 +197,7 @@ class INLEDITOR {
     if (line.parent.name() === "thingGroup") {
       const group = line.parent;
       setCustomAttrs(group, { thing: useThing });
-      group.id(useThing.iu);
+      group.id("line" + useThing.iu);
     } else {
       const group = createThingGroup(useThing, "line" + useThing.iu);
       group.setAttrs({ draggable: false });

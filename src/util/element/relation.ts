@@ -37,7 +37,7 @@ export const dealRelation = (target, stage: Konva.Stage) => {
       y: line.getAttr("points")[1] - oldPoint.y,
     };
 
-    const iu = getCustomAttrs(line)?.thing?.iu;
+    const iu = getCustomAttrs(line.parent)?.thing?.iu;
     const group: Konva.Group = stage.find("#line" + iu)[0] as Konva.Group;
     group?.children.forEach((textGroup) => {
       if (textGroup.className !== "Arrow") {

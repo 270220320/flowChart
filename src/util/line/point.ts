@@ -66,8 +66,7 @@ export const bindPointEvent = (
         x: line.getAttr("points")[0] - oldPoint.x,
         y: line.getAttr("points")[1] - oldPoint.y,
       };
-
-      const iu = getCustomAttrs(line)?.thing?.iu;
+      const iu = getCustomAttrs(line.parent)?.thing?.iu;
       const group: Konva.Group = stage.find("#line" + iu)[0] as Konva.Group;
       group?.children.forEach((textGroup) => {
         if (textGroup.className !== "Arrow") {
@@ -99,7 +98,7 @@ export const bindPointEvent = (
     }
     // 合并重合的
     lineMouseUp(e, stage);
-    if (newParent) {
+    if (newParent && newParent.name() === "thingImage") {
       connectNewRect(line, controlIndex, newParent, position, stage);
     } else {
       if (controlIndex === 0) {
