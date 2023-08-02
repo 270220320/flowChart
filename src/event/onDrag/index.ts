@@ -42,7 +42,12 @@ export default (ie: INLEDITOR, cb?: () => void) => {
   });
   // 结束拖动
   stage.on("dragend", () => {
-    history;
+    // ie.historyArr[0] = stage.toJSON();
+    stage.batchDraw();
+    if (ie.historyArr.length >= 5) {
+      ie.historyArr.shift();
+    }
+    ie.historyArr.push(stage.toJSON());
     // 关闭辅助线
     closeSubLine.bind(ie)();
   });

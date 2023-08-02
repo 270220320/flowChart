@@ -55,20 +55,14 @@ export const getThingChildPosition = (stage: Konva.Stage, iu: string) => {
   for (let text of childText) {
     const iRect = text.getAbsolutePosition();
     const ItemXY = computedXY(stage, iRect.x, iRect.y);
-    const { v, code, label, unit, id } = getCustomAttrs(text).thingTextInfo;
+    const thingTextInfo = getCustomAttrs(text).thingTextInfo;
     arr.push({
       type: text.name() as keyof typeof groupNames,
       position: {
         x: ItemXY.x - thingXY.x,
         y: ItemXY.y - thingXY.y,
       },
-      info: {
-        v,
-        code,
-        id,
-        label,
-        unit,
-      },
+      info: thingTextInfo,
     });
   }
   return arr;

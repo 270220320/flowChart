@@ -66,8 +66,12 @@ export const createThingAdvancedText = (
     height: advanced.val.rectHeight,
     name: "unit",
   });
+  if (data.showLabel) {
+    group.add(labelText, valtext, unitText);
+  } else {
+    group.add(valtext, unitText);
+  }
 
-  group.add(labelText, valtext, unitText);
   return group;
 };
 

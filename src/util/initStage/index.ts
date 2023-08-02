@@ -3,6 +3,7 @@ import INLEDITOR from "@/index";
 import theme from "@/config/theme";
 import disableMove from "./disableMove";
 import { FieldTheme } from "@/config/field";
+import keyDown from "@/event/keyDown";
 
 export default (ie: INLEDITOR, json?: string | null) => {
   const { id, isPreview } = ie.opt;
@@ -12,6 +13,7 @@ export default (ie: INLEDITOR, json?: string | null) => {
   const themeType = ie.getTheme();
   if (stage) {
     stage.destroy();
+    keyDown(ie, false);
   }
   if (json) {
     stage = konva.Node.create(json, id);
