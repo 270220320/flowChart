@@ -179,17 +179,17 @@ export const createLine = (
 ) => {
   const stage = ie.getStage();
   const lay = layer(stage, "line");
-  const isDotted = opt.drawState.toLowerCase().indexOf("dotted") !== -1;
-  let dotted = undefined;
-  if (isDotted) {
-    dotted = ie.drawInfo?.dotted || [15, 8, 15, 8];
-  }
+  // const isDotted = opt.drawState.toLowerCase().indexOf("dotted") !== -1;
+  // let dotted = undefined;
+  // if (isDotted) {
+  //   dotted = ie.drawInfo?.dotted || [15, 8, 15, 8];
+  // }
   const arrow = new Konva.Arrow({
     id: UUID(),
     points: [point.x, point.y, point.x, point.y],
     ...LineTheme[opt.theme],
     pointerFill: lineState[opt.theme][lineState.default],
-    dash: dotted,
+    // dash: dotted,
     stroke: lineState[opt.theme][lineState.default],
     fill: lineState[opt.theme][lineState.default],
     name: "line",
