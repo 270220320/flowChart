@@ -28,6 +28,27 @@ export const setTextVal = (
   });
 };
 
+export const changeTextLabel = (textGroup, state) => {
+  const label = textGroup.children.find((ele) => ele.name() === "label");
+  if (state) {
+    label.visible(true);
+    const width = label.width() + 5;
+    textGroup.children.forEach((ele) => {
+      if (ele.name() !== "label") {
+        ele.setAttrs({ x: ele.x() + width });
+      }
+    });
+  } else {
+    const width = label.width() + 5;
+    textGroup.children.forEach((ele) => {
+      if (ele.name() !== "label") {
+        ele.setAttrs({ x: ele.x() - width });
+      }
+    });
+    label.visible(false);
+  }
+};
+
 export const changeLabelState = (
   stage: Konva.Stage,
   iu: string,
@@ -45,24 +66,7 @@ export const changeLabelState = (
       const cdata = getCustomAttrs(textNode);
       // if (cdata.thingTextInfo.showLabel === state) return;
       cdata.thingTextInfo.showLabel = state;
-      const label = textNode.children.find((ele) => ele.name() === "label");
-      if (state) {
-        label.visible(true);
-        const width = label.width() + 5;
-        textNode.children.forEach((ele) => {
-          if (ele.name() !== "label") {
-            ele.setAttrs({ x: ele.x() + width });
-          }
-        });
-      } else {
-        const width = label.width() + 5;
-        textNode.children.forEach((ele) => {
-          if (ele.name() !== "label") {
-            ele.setAttrs({ x: ele.x() - width });
-          }
-        });
-        label.visible(false);
-      }
+      changeTextLabel(textNode, state);
     }
   });
 };

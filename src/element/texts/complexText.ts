@@ -3,6 +3,7 @@ import { thingTextInfo } from "@/data/cdata";
 import Konva from "konva";
 import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
+import { changeTextLabel } from "./util";
 
 const obj = {
   changeVal: (group, info) => {
@@ -66,12 +67,11 @@ export const createThingAdvancedText = (
     height: advanced.val.rectHeight,
     name: "unit",
   });
-  if (data.showLabel) {
-    group.add(labelText, valtext, unitText);
-  } else {
-    group.add(valtext, unitText);
-  }
+  group.add(labelText, valtext, unitText);
 
+  if (!data.showLabel) {
+    changeTextLabel(group, data.showLabel);
+  }
   return group;
 };
 
