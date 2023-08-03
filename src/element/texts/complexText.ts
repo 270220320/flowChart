@@ -3,7 +3,7 @@ import { thingTextInfo } from "@/data/cdata";
 import Konva from "konva";
 import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
-import { changeTextLabel } from "./util";
+import { changeTextLabel } from "@/util/element/text";
 
 const obj = {
   changeVal: (group, info) => {

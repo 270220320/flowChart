@@ -5,6 +5,7 @@ import { createThingTexts } from "../text";
 import { thingTextInfo } from "@/data/cdata";
 import INLEDITOR from "@/index";
 import { changeValFuns } from "./funs";
+import { changeTextLabel } from "@/util/element/text";
 
 // 动态修改物模型的值
 export const setTextVal = (
@@ -26,27 +27,6 @@ export const setTextVal = (
       changeValFuns[textNode.name()](textNode, info.thingTextInfo);
     }
   });
-};
-
-export const changeTextLabel = (textGroup, state) => {
-  const label = textGroup.children.find((ele) => ele.name() === "label");
-  if (state) {
-    label.visible(true);
-    const width = label.width() + 5;
-    textGroup.children.forEach((ele) => {
-      if (ele.name() !== "label") {
-        ele.setAttrs({ x: ele.x() + width });
-      }
-    });
-  } else {
-    const width = label.width() + 5;
-    textGroup.children.forEach((ele) => {
-      if (ele.name() !== "label") {
-        ele.setAttrs({ x: ele.x() - width });
-      }
-    });
-    label.visible(false);
-  }
 };
 
 export const changeLabelState = (
