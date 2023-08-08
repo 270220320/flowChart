@@ -20,7 +20,7 @@ export default (
   dom.ondragleave = function (e) {
     e.preventDefault();
   };
-
+  // 撤销待改
   dom.ondrop = (e) => {
     e.preventDefault();
     // 自定义组件拦截+回调

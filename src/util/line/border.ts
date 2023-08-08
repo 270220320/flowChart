@@ -10,6 +10,7 @@ export const addLineBorder = (line: Konva.Arrow) => {
     strokeWidth: 8,
     stroke: "grey",
     name: "border",
+    dashEnabled: false,
   });
   cloneLine.attrs.cdata = {};
   line.parent.add(cloneLine);
