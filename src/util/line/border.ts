@@ -52,7 +52,7 @@ export const addLineBorder = (line: Konva.Line, ie: INLEDITOR) => {
     id: UUID(),
     strokeWidth: 8,
     stroke: LineTheme[ie.getTheme()].borderOuter,
-    name: "borderOut",
+    name: "borderOuter",
     dashEnabled: false,
   });
   borderOut.attrs.cdata = {};
@@ -62,7 +62,7 @@ export const addLineBorder = (line: Konva.Line, ie: INLEDITOR) => {
   const oldSet = line.setAttrs;
   function newSet(config: any) {
     if (config.points) {
-      const borderOut = this.parent.findOne(".borderOut");
+      const borderOut = this.parent.findOne(".borderOuter");
       borderOut.setAttrs({ points: config.points });
       const borderInner = this.parent.findOne(".borderInner");
       borderInner.setAttrs({ points: config.points });
@@ -75,10 +75,9 @@ export const addLineBorder = (line: Konva.Line, ie: INLEDITOR) => {
 export const resetLine = (ie) => {
   const stage = ie.getStage();
   const lineLayer = layer(stage, "line");
-  const lineArr = lineLayer.find("Arrow");
+  const lineArr = [...lineLayer.find("Arrow"), ...lineLayer.find("Line")];
   for (let i = 0; i < lineArr.length; i++) {
     const line: Konva.Arrow = lineArr[i] as Konva.Arrow;
-
     if (line.name().indexOf("border") > -1) {
       line.remove();
     } else {
