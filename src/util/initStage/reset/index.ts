@@ -8,7 +8,7 @@ import { resetLine } from "@/util/line/border";
 export default async (ie: INLEDITOR) => {
   const stage = ie.getStage();
   await resetImg(stage);
-  resetLine(stage);
+  resetLine(ie);
   resetText(stage);
   resetComponent(ie);
 };

@@ -8,10 +8,11 @@ import { editorText } from "@/element/text";
 export default (ie: INLEDITOR) => {
   const stage = ie.getStage();
   layer(stage, "line").on("dblclick", (e) => {
-    if (e.target.className === "Arrow" && e.target.name() !== "border") {
+    if (e.target.className === "Arrow" || e.target.className === "Line") {
       ie.setDrawState("editLine");
       stage.setAttrs({ draggable: false });
-      enterEditLine(e.target as Konva.Arrow, stage);
+      const editLine = e.target.parent.findOne(".line");
+      enterEditLine(editLine as Konva.Arrow, stage);
     }
   });
 

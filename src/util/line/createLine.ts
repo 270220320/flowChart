@@ -76,7 +76,7 @@ export const finishLine = (
     line.getLayer().add(group);
     group.add(line);
     if (lineType.toLowerCase().indexOf("dotted") === -1) {
-      addLineBorder(line);
+      addLineBorder(line, ie);
     }
 
     beginInfo?.outLineIds?.push(line.id());
@@ -125,7 +125,7 @@ const createLineMove = (
       line.attrs.points[3] = point.y;
     }
 
-    line.points(line.attrs.points);
+    line.setAttrs({ points: line.attrs.points });
   }
 };
 
@@ -179,21 +179,24 @@ export const createLine = (
 ) => {
   const stage = ie.getStage();
   const lay = layer(stage, "line");
-  // const isDotted = opt.drawState.toLowerCase().indexOf("dotted") !== -1;
-  // let dotted = undefined;
-  // if (isDotted) {
-  //   dotted = ie.drawInfo?.dotted || [15, 8, 15, 8];
-  // }
-  const arrow = new Konva.Arrow({
+  // 管道是line
+  const isLine = opt.drawState.toLowerCase().indexOf("dotted") === -1;
+
+  const arrow = new Konva[isLine ? "Line" : "Arrow"]({
     id: UUID(),
     points: [point.x, point.y, point.x, point.y],
     ...LineTheme[opt.theme],
     pointerFill: lineState[opt.theme][lineState.default],
-    // dash: dotted,
     stroke: lineState[opt.theme][lineState.default],
     fill: lineState[opt.theme][lineState.default],
     name: "line",
   });
+  if (isLine) {
+    arrow.setAttrs({
+      dash: ie.drawInfo?.dotted || [8, 8, 8, 8],
+      lineJoin: "round",
+    });
+  }
 
   lay.add(arrow);
   return arrow;

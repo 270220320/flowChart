@@ -22,15 +22,15 @@ export const dealRelation = (target, stage: Konva.Stage) => {
 
     const x = point.x + lineInfo.fromExcursionX;
     const y = point.y + lineInfo.fromExcursionY;
+    const points = getUsePoint(line.attrs.points);
     if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
-      const points = getUsePoint(line.attrs.points);
       const pointsRes = setRightAngleLineBeginOrEnd(points, 0, { x, y });
       line.setAttrs({ points: getUsePointUn(pointsRes) });
     } else {
-      line.attrs.points[0] = x;
-      line.attrs.points[1] = y;
-      line.setAttrs({ points: line.attrs.points });
+      points[0] = { x, y };
+      line.setAttrs({ points: getUsePointUn(points) });
     }
+    stage.batchDraw();
     // 线的字随动
     const distanceChange = {
       x: line.getAttr("points")[0] - oldPoint.x,
@@ -40,7 +40,11 @@ export const dealRelation = (target, stage: Konva.Stage) => {
     const iu = getCustomAttrs(line.parent)?.thing?.iu;
     const group: Konva.Group = stage.find("#line" + iu)[0] as Konva.Group;
     group?.children.forEach((textGroup) => {
-      if (textGroup.className !== "Arrow") {
+      if (
+        textGroup.className !== "Arrow" &&
+        textGroup.className !== "Line" &&
+        textGroup.name() !== "line"
+      ) {
         const location = textGroup?.getAbsolutePosition();
         textGroup?.setAbsolutePosition({
           x: location.x + distanceChange.x * stage.scaleX(),
