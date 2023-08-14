@@ -2,6 +2,7 @@ import { createImage } from "@/element";
 import { fileToBase64, setCustomAttrs } from "@/util";
 import { computedXYByEvent } from "@/util/computedXY";
 import layer from "@/util/layer";
+import { UUID } from "@/util/uuid";
 import Konva from "konva";
 
 // 拖拽或直传url
@@ -28,7 +29,12 @@ export default async (
       x: x - width / 2,
       y: y - height / 2,
     });
-    thingLayer.add(image);
+    const group = new Konva.Group({
+      id: UUID(),
+      name: "customImageGroup",
+    });
+    group.add(image);
+    thingLayer.add(group);
     if (info) {
       setCustomAttrs(image, { imgCode: info.type });
     }

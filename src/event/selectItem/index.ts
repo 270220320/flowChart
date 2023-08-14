@@ -186,7 +186,6 @@ const selectEvent = (ie: INLEDITOR, e: KonvaEventObject<any>) => {
       inputText.focus(node);
       return;
     }
-
     Transformers = createTran(node, ie);
     layer(stage, "util").add(Transformers);
     Transformers.nodes(nodes);

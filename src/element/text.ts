@@ -78,7 +78,6 @@ export const createEditableText = (
     x,
     y,
   });
-  setCustomAttrs(textNode, { width: 200 });
   thingLayer.add(textNode);
 
   return textNode;

@@ -144,11 +144,13 @@ export default (stage: Konva.Stage, type: AlignType) => {
     type === "moveDown"
   ) {
     nodes.forEach((node) => {
-      if (node.name() === "thingImage") {
+      if (node.name() === "thingImage" || node.name() === "customImage") {
         node.parent[type]();
+      } else {
+        node[type]();
       }
     });
-    stage.findOne("#field")?.moveToBottom();
+    stage.findOne(".field")?.moveToBottom();
     return;
   }
 

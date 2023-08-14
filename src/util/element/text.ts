@@ -1,5 +1,8 @@
 export const changeTextLabel = (textGroup, state) => {
   const label = textGroup.children.find((ele) => ele.name() === "label");
+  if (state === label.visible()) {
+    return;
+  }
   if (state) {
     label.visible(true);
     const width = label.width() + 5;

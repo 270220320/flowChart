@@ -72,7 +72,6 @@ const customText = (
 ) => {
   const text = createEditableText(stage, startPoint, themeType);
   text.on("transform", (e) => {
-    const { width } = getTran(stage).position;
     text.setAttrs({ width: text.width() * text.scaleX(), scaleX: 1 });
   });
 };
