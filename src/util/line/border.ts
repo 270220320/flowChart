@@ -6,6 +6,7 @@ import { getCustomAttrs, setCustomAttrs } from "../customAttr";
 import { getUsePoint } from "./line";
 import INLEDITOR from "@/index";
 import { LineTheme } from "@/config/line";
+import { setLineWidth } from "./setWidth";
 
 export const addLineBorder = (line: Konva.Line, ie: INLEDITOR) => {
   line.setAttrs({
@@ -97,6 +98,9 @@ export const resetLine = (ie) => {
         line.parent.add(newLine);
         line.destroy();
         addLineBorder(newLine, ie);
+        if (info.lineInfo.width) {
+          setLineWidth(newLine, info.lineInfo.width);
+        }
       }
     }
   }
