@@ -95,7 +95,7 @@ export const finishLine = (
 
 // 创建线过程中移动
 const createLineMove = (
-  line: Konva.Arrow,
+  line: Konva.Arrow | Konva.Line,
   point: { x: number; y: number },
   opt,
   e?
@@ -163,7 +163,7 @@ export const beginCreateLine = (
         end.setAttrs({ strokeWidth: 0 });
       }
       end = getMouseOver(pos!, stage);
-      if (end) {
+      if (end && end.name() === "thingImage") {
         end.setAttrs({ stroke: "red", strokeWidth: 1 });
       }
     }

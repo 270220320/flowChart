@@ -79,7 +79,6 @@ export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
   } else {
     opt.resizeEnabled = false;
   }
-
   const tran = new Konva.Transformer(opt);
   tran.on("transform", () => {
     ie.opt.onTransform?.();
