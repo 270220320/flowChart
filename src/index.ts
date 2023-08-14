@@ -43,6 +43,7 @@ import {
   setTextVal,
 } from "./element/texts/util";
 import { thingTextInfo } from "./data/cdata";
+import { keydown, keyup } from "./event/keyDown";
 
 export type DrawState =
   | "Line"
@@ -112,6 +113,12 @@ class INLEDITOR {
       this.stage.attrs.drawState = "default";
     }
   }
+  keyUp = (e) => {
+    keyup(e, this);
+  };
+  keyDown = (e) => {
+    keydown(e, this);
+  };
   // 操作记录
   historyArr = [];
   // 设备图层

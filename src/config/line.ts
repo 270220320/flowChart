@@ -8,6 +8,8 @@ export const LineTheme: Record<Theme, Konva.NodeConfig> = {
     fill: "green",
     stroke: "green",
     strokeWidth: 4,
+    borderOuter: "#DCE2ED",
+    borderInner: "#F4F6F9",
   },
   dark: {
     pointerLength: 10,
@@ -15,6 +17,8 @@ export const LineTheme: Record<Theme, Konva.NodeConfig> = {
     fill: "black",
     stroke: "black",
     strokeWidth: 4,
+    borderOuter: "#7C87A1",
+    borderInner: "#354468",
   },
 };
 export const lineState = {

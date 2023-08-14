@@ -25,8 +25,9 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
 };
 
 export const removeRelevance = (obj: Konva.Node, stage: Konva.Stage) => {
-  if (obj.className === "Arrow") {
-    const lineInfo = getCustomAttrs(obj).lineInfo!;
+  if (obj.className === "Arrow" || obj.className === "Line") {
+    const line = obj.parent.findOne(".line");
+    const lineInfo = getCustomAttrs(line).lineInfo!;
 
     const rectOut = stage.findOne("#" + lineInfo.from);
     const rectIn = stage.findOne("#" + lineInfo.to);
