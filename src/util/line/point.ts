@@ -69,7 +69,7 @@ export const bindPointEvent = (
       const iu = getCustomAttrs(line.parent)?.thing?.iu;
       const group: Konva.Group = stage.find("#line" + iu)[0] as Konva.Group;
       group?.children.forEach((textGroup) => {
-        if (textGroup.className !== "Arrow") {
+        if (textGroup.className !== "Arrow" && textGroup.className !== "Line") {
           const location = textGroup?.getAbsolutePosition();
           textGroup?.setAbsolutePosition({
             x: location.x + distanceChange.x * stage.scaleX(),

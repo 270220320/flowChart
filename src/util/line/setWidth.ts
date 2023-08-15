@@ -9,7 +9,7 @@ export const setLineWidth = (line: Konva.Node, size: number) => {
     const borderOuter = line.parent.findOne(".borderOuter");
     borderOuter.setAttrs({ strokeWidth: size });
     const borderInner = line.parent.findOne(".borderInner");
-    borderInner.setAttrs({ strokeWidth: size / 2 });
+    borderInner.setAttrs({ strokeWidth: size * 0.75 });
     coreLine.setAttrs({ strokeWidth: size / 4 });
     info.lineInfo.width = size;
   } else {
