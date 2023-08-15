@@ -44,6 +44,7 @@ import {
 } from "./element/texts/util";
 import { thingTextInfo } from "./data/cdata";
 import { keydown, keyup } from "./event/keyDown";
+import { resetLine } from "./util/line/border";
 
 export type DrawState =
   | "Line"
@@ -243,6 +244,7 @@ class INLEDITOR {
 
     const field: Konva.Node = this.getStage().find(".field")[0];
     field.setAttrs({ fill: FieldTheme[themeType].fill });
+    resetLine(this);
     changeTheme(this.stage, themeType, cb);
   }
 

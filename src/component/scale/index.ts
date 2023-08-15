@@ -8,6 +8,7 @@ interface Scale {
   opt: ScaleOpt;
 }
 
+// 刻度尺
 class Scale extends ComponentFac {
   name = "scale";
   constructor(editor) {
