@@ -41,9 +41,29 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     cb ? cb() : null;
   });
   // 结束拖动
-  stage.on("dragend", () => {
-    // ie.historyArr[0] = stage.toJSON();
+  stage.on("dragend", (e: any) => {
+    // 网格吸附
+    let target;
+    if (e.target.name() === "thingGroup" && ie.opt.adsorbent) {
+      target = e.target.children.find((ele) => ele.name() === "thingImage");
+      const sumX = e.target.x() + target.x();
+      const sumY = e.target.y() + target.y();
+      const change = {
+        x: Math.round(sumX / ie.opt.step) * ie.opt.step - sumX,
+        y: Math.round(sumY / ie.opt.step) * ie.opt.step - sumY,
+      };
+
+      e.target.setAttrs({
+        x: e.target.x() + change.x,
+        y: e.target.y() + change.y,
+      });
+    }
+    if (target) {
+      dealRelation(target, ie.getStage());
+    }
+
     stage.batchDraw();
+    // 历史
     if (ie.historyArr.length >= 5) {
       ie.historyArr.shift();
     }

@@ -69,9 +69,6 @@ export const createThingAdvancedText = (
   });
   group.add(labelText, valtext, unitText);
 
-  if (!data.showLabel) {
-    changeTextLabel(group, data.showLabel);
-  }
   return group;
 };
 

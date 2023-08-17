@@ -4,6 +4,7 @@ import Konva from "konva";
 import { createThingTextGroup, groupNames } from "../group";
 import { createText } from ".";
 import { defaultRect } from "../rect";
+import { changeTextLabel } from "@/util/element/text";
 
 export default {
   add: (

@@ -14,6 +14,7 @@ import { createThingAdvancedText } from "./texts/complexText";
 import { createText } from "./texts";
 import inputText from "./texts/inputText";
 import switchText from "./texts/switchText";
+import { changeTextLabel } from "@/util/element/text";
 
 const createTextFun = {};
 createTextFun[groupNames.thingDefTextGroup] = createThingDefaultText;
@@ -172,6 +173,9 @@ export const createThingTexts = (
       y: point.y,
     });
     thingGroup.add(group);
+    if (!data.showLabel) {
+      changeTextLabel(group, data.showLabel);
+    }
     cb ? cb(group, i) : null;
     return group;
   };

@@ -25,28 +25,18 @@ export const lineState = {
   default: "CLEAN_COAL",
 
   light: {
-    RAW_COAL: "#EA5858",
     CLEAN_COAL: "#3FCC83",
-    REJECT: "#6554C0",
-    SLURRY: "#A52337",
-    DILUTE_MEDIUM: "#9095A2",
-    MIDDLINGS: "#FF9214",
-    SLIME: "#729918",
-    CLARIFIED_WATER: "#1CDDEB",
-    CORRECT_MEDIUM: "#354052",
-    AIR: "#D439D4",
   },
   dark: {
-    RAW_COAL: "#EA5858",
     CLEAN_COAL: "#3FCC83",
-    REJECT: "#6554C0",
-    SLURRY: "#A52337",
-    DILUTE_MEDIUM: "#9095A2",
-    MIDDLINGS: "#FF9214",
-    SLIME: "#729918",
-    CLARIFIED_WATER: "#1CDDEB",
-    CORRECT_MEDIUM: "#354052",
-    AIR: "#D439D4",
+  },
+};
+export const gridLineTheme: Record<Theme, Konva.NodeConfig> = {
+  light: {
+    stroke: "#F0F0F0",
+  },
+  dark: {
+    stroke: "#314166",
   },
 };
 export const subLineTheme: Record<Theme, Konva.NodeConfig> = {

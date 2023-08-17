@@ -45,6 +45,7 @@ import {
 import { thingTextInfo } from "./data/cdata";
 import { keydown, keyup } from "./event/keyDown";
 import { resetLine } from "./util/line/border";
+import { addGrid, clearGrid } from "./util/element/grid";
 
 export type DrawState =
   | "Line"
@@ -88,11 +89,15 @@ interface OPT {
   isPreview?: boolean;
   json?: string;
   scale?: "show" | "hide";
+  step?: number;
+  adsorbent?: boolean;
 }
 class INLEDITOR {
   constructor(opt: OPT) {
     // opt.isPreview = false;
     this.opt = opt;
+    this.opt.adsorbent = this.opt.adsorbent === false ? false : true;
+    this.opt.step = this.opt.step || 30;
   }
   async init(json?: string | null) {
     initStage(this, json);
@@ -100,6 +105,10 @@ class INLEDITOR {
     this.thingLayer = layer(this.stage, "thing");
     this.thingLayer.setAttrs({ draggable: false });
     setField(this);
+    if (!this.opt.isPreview) {
+      addGrid(this);
+    }
+
     this.event();
     new ComponentFac(this.stage);
     if (this.opt.scale === "show" && !this.opt.isPreview) {
@@ -245,7 +254,7 @@ class INLEDITOR {
     const field: Konva.Node = this.getStage().find(".field")[0];
     field.setAttrs({ fill: FieldTheme[themeType].fill });
     resetLine(this);
-    changeTheme(this.stage, themeType, cb);
+    changeTheme(this, themeType, cb);
   }
 
   // 动态修改物模型的值
@@ -325,9 +334,12 @@ class INLEDITOR {
     if (source === "auto" && this.stage.findOne("Transformer")) {
       return { res: false };
     }
+
     exitEditLine(this.stage);
     resetEvent(this.stage);
+    clearGrid(this.stage);
     const json = this.stage.toJSON();
+    addGrid(this);
     return { mapJson: json, image: this.toImage() };
   }
   deleteAllPoint() {

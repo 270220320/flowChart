@@ -2,9 +2,10 @@ import Konva from "konva";
 import { getCustomAttrs, getLineInfo, setCustomAttrs } from "../customAttr";
 import { lineState } from "../../config";
 import layer from "src/util/layer";
-import { LineTheme } from "@/config/line";
+import { LineTheme, gridLineTheme } from "@/config/line";
 import computedXY from "../computedXY";
 import { getLineMiddle } from "./lineLogic";
+import INLEDITOR from "@/index";
 
 export const updateLineColor = (
   key: string,
@@ -37,12 +38,13 @@ export const addLineText = (
   lay.add(lineText);
 };
 
-export const changeLineTheme = (stage: Konva.Stage, theme: string) => {
-  // const lay = layer(stage, "line");
-  // lay.children.forEach((line: Konva.Arrow) => {
-  //   const info = getLineInfo(line);
-  //   updateLineColor(info.state, line, theme);
-  // });
+export const changeLineTheme = (ie: INLEDITOR, theme: string) => {
+  const grids = ie.getStage().find(".grid");
+  grids.forEach((line: Konva.Arrow) => {
+    line.setAttrs({
+      stroke: gridLineTheme[ie.getTheme()].stroke,
+    });
+  });
 };
 
 // 连接到新块修改关系
