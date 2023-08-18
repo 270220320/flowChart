@@ -4,7 +4,7 @@ import { dealRelation } from "../../util/element/relation";
 import { clearTransFormer, getTran } from "../selectItem";
 import { getCustomAttrs } from "@/main";
 
-export default (ie: INLEDITOR, cb?: () => void) => {
+export default (ie: INLEDITOR, cb?: (node) => void) => {
   const stage = ie.getStage();
   // 按下移动
   stage.on("dragmove", (e: any) => {
@@ -38,7 +38,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
       }
     }
 
-    cb ? cb() : null;
+    cb ? cb(e.target) : null;
   });
   // 结束拖动
   stage.on("dragend", (e: any) => {

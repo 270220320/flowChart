@@ -34,9 +34,8 @@ export const removeRelevance = (obj: Konva.Node, stage: Konva.Stage) => {
 
     const outInfo = getCustomAttrs(rectOut).lineInfo;
     const inInfo = getCustomAttrs(rectIn).lineInfo;
-
-    outInfo?.outLineIds?.splice(outInfo.outLineIds.indexOf(lineInfo.from!), 1);
-    inInfo?.inLineIds?.splice(inInfo.inLineIds.indexOf(lineInfo.to!), 1);
+    outInfo?.outLineIds?.splice(outInfo.outLineIds.indexOf(line.id()!), 1);
+    inInfo?.inLineIds?.splice(inInfo.inLineIds.indexOf(line.id()!), 1);
     if (obj.parent.name() === "thingGroup") {
       obj.parent.remove();
     }

@@ -22,6 +22,7 @@ import { getInclude } from "@/util/element/getInclude";
 import { createImage } from "@/element";
 import customAddImage from "./ondrop/customAddImage";
 import { showAnchor } from "@/util/anchor";
+import { isComponentChildren } from "@/main";
 
 const offSelection = (stage: Konva.Stage) => {
   // 移除mosemove 监听
@@ -78,7 +79,7 @@ const customText = (
 
 export default (ie: INLEDITOR, cb?: () => void) => {
   let rect: Konva.Rect | null;
-  let line: Konva.Arrow | undefined;
+  let line: Konva.Arrow | Konva.Line | undefined;
   let begin: Konva.Rect | Konva.Group | null;
   const stage = ie.getStage();
   stage.on("mousedown", (e) => {
@@ -98,11 +99,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
       case "rightAngleDottedLine":
       case "dottedLine":
       case "Line":
-        if (
-          e.target.className === "Image" ||
-          e.target.className === "Circle" ||
-          (e.target.className === "Rect" && e.target.name() !== "field")
-        ) {
+        if (e.target.name() === "thingImage" || isComponentChildren(e.target)) {
           begin = e.target as Konva.Rect;
           line = beginCreateLine(ie, { x, y }, e, {
             theme: ie.getTheme(),

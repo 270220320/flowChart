@@ -19,7 +19,7 @@ import { addLineBorder } from "./border";
 export const finishLine = (
   ie: INLEDITOR,
   begin: Konva.Node,
-  line: Konva.Arrow,
+  line: Konva.Arrow | Konva.Line,
   lineType
 ) => {
   const stage = ie.getStage();
@@ -137,6 +137,7 @@ export const beginCreateLine = (
   opt
 ) => {
   const stage = ie.getStage();
+  debugger;
   // 设备
   if (e.target.className === "Image" && e.target.parent?.nodeType === "Group") {
     e.target.parent?.setAttrs({ draggable: false });

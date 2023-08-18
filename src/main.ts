@@ -12,6 +12,7 @@ export * from "./util";
 export * from "./component";
 export * from "./";
 export * from "./util/line/setWidth";
+export * from "./util/element/position";
 export { addLineText } from "./util/line/line";
 import inleditor from "./";
 export { inleditor };

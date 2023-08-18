@@ -76,6 +76,7 @@ export type onDropCb = (
   p: { x: number; y: number },
   parent?: Konva.Group
 ) => void;
+export type onDragCb = (node: Konva.Group) => void;
 
 export type onCreateLineCb = (id: string) => void;
 
@@ -83,6 +84,7 @@ interface OPT {
   id: string;
   theme?: Theme;
   onDropCb?: onDropCb;
+  onDragCb?: onDragCb;
   onCreateLineCb?: onCreateLineCb;
   onRemoveCb?: () => void;
   onTransform?: () => void;
@@ -148,6 +150,12 @@ class INLEDITOR {
     event(this);
   }
 
+  resetGrid(step: number) {
+    this.opt.step = step;
+    clearGrid(this.stage);
+    addGrid(this);
+  }
+
   protected stage: Konva.Stage;
 
   getStage() {
@@ -188,6 +196,7 @@ class INLEDITOR {
   setDrawState(state: DrawState, info?: { type: string; url: string }) {
     this.drawState = state;
     this.drawInfo = info;
+    exitEditLine(this.stage);
     switch (state) {
       case "rightAngleLine":
       case "rightAngleDottedLine":

@@ -19,7 +19,7 @@ export default (ie: INLEDITOR) => {
     ondrop(ie, container);
     selectItem(ie);
     keyDown(ie);
-    onDrag(ie);
+    onDrag(ie, ie.opt.onDragCb);
     onDbclick(ie);
   }
   onwheel(ie);
