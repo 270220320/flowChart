@@ -28,6 +28,7 @@ export const addGrid = (ie: INLEDITOR) => {
       points: [x + i, y, x + i, y2],
       stroke: gridLineTheme[ie.getTheme()].stroke,
       strokeWidth: 1,
+      draggable: false,
       name: "grid",
     });
     utilLay.add(line);
@@ -38,6 +39,7 @@ export const addGrid = (ie: INLEDITOR) => {
       points: [x, y + i, x2, y + i],
       stroke: gridLineTheme[ie.getTheme()].stroke,
       strokeWidth: 1,
+      draggable: false,
       name: "grid",
     });
     utilLay.add(line);
