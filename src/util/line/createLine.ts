@@ -24,10 +24,12 @@ export const finishLine = (
 ) => {
   const stage = ie.getStage();
   // 设备
+  debugger;
   if (begin.className === "Image" && begin.parent?.nodeType === "Group") {
     begin.parent?.setAttrs({ draggable: true });
     //组件
-  } else if (isComponentChildren(begin)) {
+  }
+  if (isComponentChildren(begin)) {
     begin.parent.parent.setAttrs({ draggable: true });
     begin = begin.parent;
   } else {
@@ -137,7 +139,6 @@ export const beginCreateLine = (
   opt
 ) => {
   const stage = ie.getStage();
-  debugger;
   // 设备
   if (e.target.className === "Image" && e.target.parent?.nodeType === "Group") {
     e.target.parent?.setAttrs({ draggable: false });

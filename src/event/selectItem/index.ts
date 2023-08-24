@@ -75,7 +75,11 @@ export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
       "bottom-left",
       "bottom-right",
     ];
-  } else if (node?.name() === "selfText" || node?.name() === "customImage") {
+  } else if (
+    node?.name() === "selfText" ||
+    node?.name() === "customImage" ||
+    node?.name() === "selfShape"
+  ) {
   } else {
     opt.resizeEnabled = false;
   }
@@ -206,6 +210,7 @@ export default (ie: INLEDITOR) => {
     const layer = e.target.getLayer();
     // 判断一下当元素类型
     if (
+      e.target.name() === "grid" ||
       getCustomAttrs(e.target).type === "control" ||
       stage.attrs.drawState === "fieldSelect"
     )
