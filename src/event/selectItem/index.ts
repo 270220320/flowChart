@@ -183,12 +183,14 @@ const selectEvent = (ie: INLEDITOR, e: KonvaEventObject<any>) => {
     Transformers.draw();
   } else {
     // 没有按住shift
+
     resetEvent(stage);
     nodes.push(node);
     if (ie.opt.isPreview && node.name() === groupNames.thingInputGroup) {
       inputText.focus(node);
       return;
     }
+
     Transformers = createTran(node, ie);
     layer(stage, "util").add(Transformers);
     Transformers.nodes(nodes);

@@ -3,6 +3,7 @@ import Konva from "konva";
 import { ComponentFac } from "../componentFac";
 import storeHouseEmpty from "../../assets/storeHouseEmpty.svg";
 import storeHouseFull from "../../assets/storeHouseFull.svg";
+import { UUID } from "@/util/uuid";
 
 interface StoreHouse {
   setLevel: (id: string, percent: number) => void;
@@ -24,7 +25,7 @@ class StoreHouse extends ComponentFac {
   }
   refreshImg = (thingInfo, thingImage) => {
     thingImage.children.forEach((ele) => {
-      ele.remove();
+      ele.destroy();
     });
     // 裁剪
     const clipGroup = new Konva.Group({
@@ -33,6 +34,7 @@ class StoreHouse extends ComponentFac {
         y: 90,
         width: 90,
         height: 1,
+        id: UUID(),
       },
       name: "clip",
     });
@@ -66,6 +68,7 @@ class StoreHouse extends ComponentFac {
       });
       img.setAttrs({ src: thingInfo.fullImg });
       clipGroup.add(img);
+      thingImage.children.find((ele) => ele.name() === "clip")?.destroy();
       thingImage.add(clipGroup);
       clipGroup.moveUp();
     };
