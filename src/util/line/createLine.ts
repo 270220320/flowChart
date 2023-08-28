@@ -194,7 +194,7 @@ export const createLine = (
   });
   if (isLine) {
     arrow.setAttrs({
-      dash: ie.drawInfo?.dotted || [8, 8, 8, 8],
+      dash: ie.drawInfo?.dotted || [8],
       lineJoin: "round",
     });
   }

@@ -10,8 +10,7 @@ export default function (this: LineAnimate) {
     pipeAni.bind(this)();
     return;
   }
-
-  this.animateEl = new Konva.Arrow(this.opt.line.getAttrs());
+  this.animateEl = new Konva[this.opt.line.className](this.opt.line.getAttrs());
   this.animateLayer.add(this.animateEl);
   let animate;
   const sign = this.opt.direction === "obey" ? -1 : 1;

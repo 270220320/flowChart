@@ -12,7 +12,7 @@ export const addLineBorder = (line: Konva.Line, ie: INLEDITOR) => {
   line.setAttrs({
     pointerWidth: 0,
     strokeWidth: 2,
-    dash: line.attrs.dash || [8, 8, 8, 8],
+    dash: line.attrs.dash || [8],
   });
   // const border = new Konva.Shape({
   //   id: UUID(),
