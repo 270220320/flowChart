@@ -176,6 +176,10 @@ export const createThingTexts = (
     if (!data.showLabel) {
       changeTextLabel(group, data.showLabel);
     }
+    if (data.color) {
+      const valNode = group.children.find((ele) => ele.name() === "val");
+      valNode?.setAttrs({ fill: data.color });
+    }
     cb ? cb(group, i) : null;
     return group;
   };

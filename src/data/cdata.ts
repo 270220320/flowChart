@@ -17,6 +17,7 @@ export interface LINEINFO {
 }
 export interface thingTextInfo {
   v?: string;
+  color?: string;
   code?: string;
   label?: string;
   showLabel?: boolean;

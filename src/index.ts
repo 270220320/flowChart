@@ -88,6 +88,7 @@ interface OPT {
   onCreateLineCb?: onCreateLineCb;
   onRemoveCb?: () => void;
   onTransform?: () => void;
+  onSelectCb?: onSelectCallBackFun;
   isPreview?: boolean;
   json?: string;
   scale?: "show" | "hide";
@@ -267,8 +268,8 @@ class INLEDITOR {
   }
 
   // 动态修改物模型的值
-  setVal(iu: string, propertyId: string, val: string) {
-    setTextVal(this.stage, iu, propertyId, val);
+  setVal(iu: string, propertyId: string, val: string, color?: string) {
+    setTextVal(this.stage, iu, propertyId, val, color);
   }
 
   changeLabel = (iu: string, propertyId: string, val: boolean) => {
@@ -371,13 +372,6 @@ class INLEDITOR {
   getCodeById(iu: string) {
     const thingGroup: Konva.Group = this.stage.findOne("#" + iu);
     return getIus(thingGroup);
-  }
-
-  selectCb: onSelectCallBackFun;
-  // 当画布元素被选中
-  onselect(cb: onSelectCallBackFun) {
-    this.selectCb = cb;
-    stageClick(this.getStage(), cb);
   }
 
   // 获取所有关系

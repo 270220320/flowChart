@@ -3,6 +3,7 @@ import { Shape, ShapeConfig } from "konva/lib/Shape";
 import selectStage from "./selectStage";
 import shapeText from "./shapeText";
 import selectThing from "./selectThing";
+import INLEDITOR from "@/index";
 
 export type onSelectCallBackFun = (
   type: "thing" | "shape" | "thingText" | "stage" | string,
@@ -31,7 +32,8 @@ export const getIus = (group: Konva.Group) => {
   return arr;
 };
 
-export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
+export default (ie: INLEDITOR) => {
+  const stage = ie.getStage();
   stage.on("click tap", (e) => {
     if (e.target !== stage) {
       // 如果是图形或者是文字，那么父级别肯定是layer
@@ -39,10 +41,10 @@ export default (stage: Konva.Stage, cb: onSelectCallBackFun) => {
       // 如果是父级不是layer那就有可能是thing或者是thingText
       if (!parent) return;
 
-      shapeText(cb, e);
-      selectThing(cb, e);
+      shapeText(ie.opt.onSelectCb, e);
+      selectThing(ie.opt.onSelectCb, e);
     } else {
-      selectStage(cb, e);
+      selectStage(ie.opt.onSelectCb, e);
     }
   });
 };

@@ -12,7 +12,8 @@ export const setTextVal = (
   stage: Konva.Stage,
   iu: string,
   propertyId: string,
-  val: string
+  val: string,
+  color?: string
 ) => {
   // 查找物模型
   let thingGroup: Konva.Group = stage.findOne(`#${iu}`);
@@ -20,11 +21,15 @@ export const setTextVal = (
     thingGroup = stage.findOne(`#line${iu}`);
   }
   // 筛选code
-  thingGroup.children.forEach((textNode) => {
+  thingGroup.children.forEach((textNode: Konva.Group) => {
     const info = getCustomAttrs(textNode);
     if (info?.propertyId && info.propertyId === propertyId) {
       info.thingTextInfo.v = val;
       changeValFuns[textNode.name()](textNode, info.thingTextInfo);
+      if (color) {
+        const valNode = textNode.children.find((ele) => ele.name() === "val");
+        valNode.setAttrs({ fill: color });
+      }
     }
   });
 };

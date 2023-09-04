@@ -29,19 +29,6 @@ export default async (stage: Konva.Stage) => {
             parent.add(newImage);
           }
         }
-        // if (imageNode.parent?.parent?.attrs.componentName === "StoreHouse") {
-        //   const parent = imageNode.getParent();
-        //   imageNode.attrs.src = getCustomAttrs(
-        //     parent.parent.parent
-        //   ).thing.fullImg;
-        //   const attrs = imageNode.getAttrs();
-        //   if (attrs.src) {
-        //     const newImage: Konva.Node | Event = await createImage(attrs.src);
-        //     imageNode.remove();
-        //     newImage.setAttrs(attrs);
-        //     parent.add(newImage);
-        //   }
-        // }
         resolve(1);
       });
     })
