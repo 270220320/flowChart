@@ -141,7 +141,7 @@ export const createThingTexts = (
   const thing = thingGroup.findOne(".thingImage");
   let line;
   if (!thing) {
-    line = thingGroup.children.find((node) => node.className === "Arrow");
+    line = thingGroup.children.find((node) => node.name() === "line");
   }
   const addText = (
     data: thingTextInfo,

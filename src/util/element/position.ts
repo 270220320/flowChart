@@ -12,8 +12,8 @@ export const setNodePosition = (node, position: { x?: number; y?: number }) => {
       y: (position.y || y) - y,
     };
     node.setAttrs({
-      x: node.attrs.x + change.x,
-      y: node.attrs.y + change.y,
+      x: node.x() + change.x,
+      y: node.y() + change.y,
     });
     if (node.name() === "thingGroup") {
       dealRelation(target, node.getStage());
@@ -32,6 +32,7 @@ export const getNodePosition = (node) => {
     );
     const x = node.x() + target.x();
     const y = node.y() + target.y();
+
     return { x, y };
   } else {
     return { x: node.attrs.x, y: node.attrs.y };
