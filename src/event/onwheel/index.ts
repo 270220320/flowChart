@@ -9,7 +9,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     if (ie.opt.isPreview) {
       return;
     }
-    changeZoom(e.evt.deltaY, ie.getStage());
+    changeZoom(e.evt.deltaY, ie);
     resetNodeSize(ie.getStage());
     cb ? cb() : null;
   });

@@ -19,7 +19,6 @@ import { Theme } from "../config/theme";
 import { createEditableText } from "../element/text";
 import { getTran, toSelect } from "./selectItem";
 import { getInclude } from "@/util/element/getInclude";
-import { createImage } from "@/element";
 import customAddImage from "./ondrop/customAddImage";
 import { showAnchor } from "@/util/anchor";
 import { isComponentChildren } from "@/main";

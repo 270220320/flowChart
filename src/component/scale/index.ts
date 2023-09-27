@@ -63,8 +63,8 @@ class Scale extends ComponentFac {
     const zoom = stage.scaleX();
     const { x, y } = stage.position();
     const scaleTheme = theme[themeType].scale; // 主题
-    const fiveScale = 5;
-    const maxw = 50;
+    const fiveScale = 10;
+    const maxw = 100;
     this.scaleLayerX.removeChildren();
     this.scaleLayerY.removeChildren();
     const { linesx, linesy } = this.computedSXY(
@@ -109,11 +109,14 @@ class Scale extends ComponentFac {
     const xwww = width;
     for (let i = -xwww; i < xwww; i++) {
       const x = i * fiveScale;
+
       if (x % maxw == 0) {
+        // 大刻度
         const cloneLine = cl.clone({ points: [x, 2, x, thickness] });
-        const cloneText = ct.clone({ x: x + 2, text: i });
+        const cloneText = ct.clone({ x: x + 2, text: i * 10 });
         linesx.push(cloneLine, cloneText);
       } else {
+        // 小刻度
         const cloneLine = cl.clone({
           points: [x, thickness / 1.5, x, thickness],
           strokeWidth: 0.5,
@@ -127,7 +130,7 @@ class Scale extends ComponentFac {
     for (let i = -ywww; i < ywww; i++) {
       const y = i * fiveScale;
       if (y % maxw == 0) {
-        const text = ct.clone({ y, x: 2, text: i });
+        const text = ct.clone({ y, x: 2, text: i * 10 });
         text.setAttrs({
           y: y + text.width() + 2,
           rotation: -90,
@@ -178,11 +181,11 @@ class Scale extends ComponentFac {
     // left: ${scale.thickness}px;
     scaleX.setAttribute(
       "style",
-      `top: 0;  overflow:hidden; right: 0; height: ${scale.thickness}px; position: absolute;z-index: 1;background:${scale.background};`
+      `top: 0; overflow: hidden; left: 0px; right: 0;height: ${scale.thickness}px; position: absolute; z-index: 1;background:${scale.background};`
     );
     scaleY.setAttribute(
       "style",
-      `top: ${scale.thickness}px; left: 0; overflow:hidden; bottom: 0; width: ${scale.thickness}px; position: absolute; z-index: 1; background:${scale.background};`
+      `top: 0px; left: 0; overflow:hidden; bottom: 0; width: ${scale.thickness}px; position: absolute; z-index: 1; background:${scale.background};`
     );
     scaleY.id = "scaleY";
     dom?.appendChild(scaleX);

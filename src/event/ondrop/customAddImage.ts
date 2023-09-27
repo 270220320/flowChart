@@ -20,7 +20,7 @@ export default async (
 
   const thingLayer = layer(stage, "thing");
   for (let i of urls) {
-    const image = await createImage(i);
+    const image = await createImage(i, thingLayer);
     image.draggable(true);
     image.name("customImage");
     const { width, height } = image.getAttrs().image;

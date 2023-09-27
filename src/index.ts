@@ -326,7 +326,7 @@ class INLEDITOR {
     } else {
       const cData = getCustomAttrs(image.parent);
       cData.state = setStateVal;
-      image ? await changeThingImage(image, src, setStateVal as string) : null;
+      image ? await changeThingImage(image, src, this.thingLayer) : null;
     }
   }
 

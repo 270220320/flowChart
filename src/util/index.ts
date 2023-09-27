@@ -3,7 +3,6 @@ import { MapTitleTheme } from "@/config";
 import { Theme } from "@/main";
 import Konva from "konva";
 import layer from "./layer";
-import stageTofit from "./stageTofit";
 export * from "./customAttr";
 export const fileToBase64 = (files: FileList) => {
   const promises = [];

@@ -6,10 +6,10 @@ import { UUID } from "src/util/uuid";
 import "../assets/gifler.js";
 
 const cacheImgList: Record<string, Konva.Image> = {};
-export const createImage: (img: string, parent) => Promise<Konva.Image> = (
-  img,
-  parent: Konva.Node
-) => {
+export const createImage: (
+  img: string,
+  layer?: Konva.Layer
+) => Promise<Konva.Image> = (img, layer?: Konva.Layer) => {
   if (!img || img === "null") {
     img = "/micro-assets/platform-web/close.png";
   }
@@ -29,7 +29,7 @@ export const createImage: (img: string, parent) => Promise<Konva.Image> = (
         // update canvas that we are using for Konva.Image
         ctx.drawImage(frame.buffer, 0, 0);
         // redraw the layer
-        parent.getLayer().draw();
+        layer?.draw();
       }
 
       (window as any).gifler(img).frames(canvas, onDrawFrame);
@@ -40,7 +40,6 @@ export const createImage: (img: string, parent) => Promise<Konva.Image> = (
         name: "thingImage",
         id: UUID(),
       });
-      // parent.getLayer().add(image);
       res(image);
     } else {
       Konva.Image.fromURL(
@@ -101,12 +100,12 @@ export const changeThingComponentState = (
 export const changeThingImage = async (
   imageNode: Konva.Image,
   src: string,
-  state: string
+  layer: Konva.Layer
 ) => {
   const parent = imageNode.parent;
   const data = _.cloneDeep(imageNode.getAttrs());
   imageNode.destroy();
-  const newImage = await createImage(src);
+  const newImage = await createImage(src, layer);
   newImage.getAttrs().image.src = src;
   delete data.image;
   newImage.setAttrs(data);

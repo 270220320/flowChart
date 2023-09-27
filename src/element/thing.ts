@@ -24,7 +24,7 @@ export const createThingImageGroup = async (
 ) => {
   const group = createThingGroup(useThing);
   const { img } = useThing;
-  const image = await createImage(img, parent);
+  const image = await createImage(img, parent.getLayer());
 
   const { width, height } = image.attrs.image;
   image.setAttrs({
