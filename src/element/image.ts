@@ -1,12 +1,15 @@
 import { BELT, changeBeltState, changeState } from "@/component";
-import { cData } from "@/data/cdata";
-import computedXY from "@/util/computedXY";
 import { getCustomAttrs, setCustomAttrs } from "@/util/customAttr";
 import Konva from "konva";
 import _ from "lodash";
 import { UUID } from "src/util/uuid";
+import "../assets/gifler.js";
+
 const cacheImgList: Record<string, Konva.Image> = {};
-export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
+export const createImage: (img: string, parent) => Promise<Konva.Image> = (
+  img,
+  parent: Konva.Node
+) => {
   if (!img || img === "null") {
     img = "/micro-assets/platform-web/close.png";
   }
@@ -16,24 +19,33 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
     return Promise.resolve(image);
   }
   return new Promise<Konva.Image | Event>((res, rej) => {
-    Konva.Image.fromURL(
-      img,
-      (darthNode: Konva.Image) => {
-        const { width, height } = darthNode.attrs.image;
-        darthNode.setAttrs({
-          myWidth: width,
-          myHeight: height,
-          src: img,
-          name: "thingImage",
-          id: UUID(),
-        });
-        darthNode.cache();
-        cacheImgList[img] = darthNode;
-        res(cacheImgList[img].clone());
-      },
-      (err: Event) => {
-        img = "/micro-assets/platform-web/close.png";
-        Konva.Image.fromURL(img, (darthNode: Konva.Image) => {
+    if (img.indexOf(".gif") >= 0) {
+      const canvas = document.createElement("canvas");
+      // use external library to parse and draw gif animation
+      function onDrawFrame(ctx, frame) {
+        // update canvas size
+        canvas.width = frame.width;
+        canvas.height = frame.height;
+        // update canvas that we are using for Konva.Image
+        ctx.drawImage(frame.buffer, 0, 0);
+        // redraw the layer
+        parent.getLayer().draw();
+      }
+
+      (window as any).gifler(img).frames(canvas, onDrawFrame);
+      const image = new Konva.Image({
+        // myWidth: 200,
+        // myHeight: 100,
+        image: canvas,
+        name: "thingImage",
+        id: UUID(),
+      });
+      // parent.getLayer().add(image);
+      res(image);
+    } else {
+      Konva.Image.fromURL(
+        img,
+        (darthNode: Konva.Image) => {
           const { width, height } = darthNode.attrs.image;
           darthNode.setAttrs({
             myWidth: width,
@@ -45,9 +57,25 @@ export const createImage: (img: string) => Promise<Konva.Image> = (img) => {
           darthNode.cache();
           cacheImgList[img] = darthNode;
           res(cacheImgList[img].clone());
-        });
-      }
-    );
+        },
+        (err: Event) => {
+          img = "/micro-assets/platform-web/close.png";
+          Konva.Image.fromURL(img, (darthNode: Konva.Image) => {
+            const { width, height } = darthNode.attrs.image;
+            darthNode.setAttrs({
+              myWidth: width,
+              myHeight: height,
+              src: img,
+              name: "thingImage",
+              id: UUID(),
+            });
+            darthNode.cache();
+            cacheImgList[img] = darthNode;
+            res(cacheImgList[img].clone());
+          });
+        }
+      );
+    }
   });
 };
 export const changeThingComponentState = (

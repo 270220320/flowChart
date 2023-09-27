@@ -35,6 +35,6 @@ export const getNodePosition = (node) => {
 
     return { x, y };
   } else {
-    return { x: node.attrs.x, y: node.attrs.y };
+    return { x: node.attrs.x || 0, y: node.attrs.y || 0 };
   }
 };
