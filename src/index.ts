@@ -46,6 +46,10 @@ import { thingTextInfo } from "./data/cdata";
 import { keydown, keyup } from "./event/keyDown";
 import { resetLine } from "./util/line/border";
 import { addGrid, clearGrid } from "./util/element/grid";
+import {
+  resetImageToOne,
+  resetOneToImage,
+} from "./util/initStage/reset/resetOneToOne";
 
 export type DrawState =
   | "Line"
@@ -439,7 +443,14 @@ class INLEDITOR {
   changeElementsPosition(type: AlignType) {
     changeElementsPosition(this.getStage(), type);
   }
-
+  // 获取所有关系
+  resetOneToImageFun(thing, id) {
+    return resetOneToImage(thing, id, this);
+  }
+  // 获取关系
+  resetImageToOneFun(componentName, thing, id) {
+    return resetImageToOne(componentName, thing, id, this);
+  }
   render(opt?: { width: number; height: number }) {
     if (opt) {
       this.stage.setAttrs({

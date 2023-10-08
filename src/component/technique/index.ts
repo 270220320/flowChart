@@ -36,7 +36,7 @@ class Technique {
     }
     const thingLayer = layer(this.stage, "thing");
     const thingGroup = thingLayer.findOne(`#${thingInfo.iu}`);
-    if (thingGroup) {
+    if (!p) {
       this.thingGroup = thingGroup as Konva.Group;
       this.group = this.thingGroup.findOne(".thingImage");
       this.config.width =

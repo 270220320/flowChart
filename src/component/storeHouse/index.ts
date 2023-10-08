@@ -17,7 +17,9 @@ class StoreHouse extends ComponentFac {
   add(thingInfo: Thing, p?: { x: number; y: number }, eleGroup?: Konva.Group) {
     // 拖入
     if (p) {
-      this.arr.push(this.draw(thingInfo, p));
+      const thinggroup = this.draw(thingInfo, p);
+      this.arr.push(thinggroup);
+      return thinggroup;
       // 反序列化
     } else if (eleGroup) {
       this.arr.push(eleGroup);
