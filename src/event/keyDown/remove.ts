@@ -25,6 +25,7 @@ export default (ie: INLEDITOR, e: KeyboardEvent) => {
     }
     ie.opt.onRemoveCb?.();
     ie.getStage().draw();
+    ie.saveHistory();
   }
 };
 

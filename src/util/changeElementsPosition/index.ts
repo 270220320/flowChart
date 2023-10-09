@@ -1,10 +1,10 @@
 import Konva from "konva";
 import { getTran } from "../../event/selectItem";
-import computedXY from "../computedXY";
 import { getImgNode } from "../element/getImgNode";
 import { dealRelation } from "../element/relation";
 import { AlignOpt, AlignType } from "./index.b";
 import { getCustomAttrs, setCustomAttrs } from "../customAttr";
+import INLEDITOR from "@/index";
 
 export { AlignType };
 
@@ -115,7 +115,8 @@ const setElPosition: Record<
   },
 };
 
-export default (stage: Konva.Stage, type: AlignType) => {
+export default (ie: INLEDITOR, type: AlignType) => {
+  const stage = ie.getStage();
   const { Transformers } = getTran(stage);
   const nodes = Transformers.nodes();
 
@@ -133,16 +134,13 @@ export default (stage: Konva.Stage, type: AlignType) => {
       }
       flip[type](node);
     });
-    return;
-  }
-
-  // 层级
-  if (
+  } else if (
     type === "moveToTop" ||
     type === "moveToBottom" ||
     type === "moveUp" ||
     type === "moveDown"
   ) {
+    // 层级
     nodes.forEach((node) => {
       if (node.name() === "thingImage" || node.name() === "customImage") {
         node.parent[type]();
@@ -151,51 +149,51 @@ export default (stage: Konva.Stage, type: AlignType) => {
       }
     });
     stage.findOne(".field")?.moveToBottom();
-    return;
+  } else {
+    let minX = Number.MAX_VALUE,
+      minY = Number.MAX_VALUE,
+      maxY = Number.MIN_VALUE,
+      maxX = Number.MIN_VALUE,
+      totalX = 0,
+      totalY = 0;
+    const imgNodes = [];
+    nodes.forEach((thingGroup: Konva.Group) => {
+      // 如果是组转回thingImage
+      const imgEle = getImgNode(thingGroup);
+      imgNodes.push(imgEle);
+
+      const x = imgEle.absolutePosition().x / stage.scaleX();
+      const y = imgEle.absolutePosition().y / stage.scaleY();
+      const MAXX =
+        (imgEle.absolutePosition().x + imgEle.width()) / stage.scaleX();
+      const MAXY =
+        (imgEle.absolutePosition().y + imgEle.height()) / stage.scaleY();
+      totalX += imgEle.width() / stage.scaleX();
+      totalY += imgEle.height() / stage.scaleY();
+      if (MAXX > maxX) {
+        maxX = MAXX;
+      }
+      if (MAXY > maxY) {
+        maxY = MAXY;
+      }
+      if (x < minX) {
+        minX = x;
+      }
+      if (minY > y) {
+        minY = y;
+      }
+    });
+    setElPosition[type](stage, nodes, {
+      maxX,
+      maxY,
+      minX,
+      minY,
+      totalX,
+      totalY,
+    });
+    imgNodes.forEach((element) => {
+      dealRelation(element, stage);
+    });
   }
-
-  let minX = Number.MAX_VALUE,
-    minY = Number.MAX_VALUE,
-    maxY = Number.MIN_VALUE,
-    maxX = Number.MIN_VALUE,
-    totalX = 0,
-    totalY = 0;
-  const imgNodes = [];
-  nodes.forEach((thingGroup: Konva.Group) => {
-    // 如果是组转回thingImage
-    const imgEle = getImgNode(thingGroup);
-    imgNodes.push(imgEle);
-
-    const x = imgEle.absolutePosition().x / stage.scaleX();
-    const y = imgEle.absolutePosition().y / stage.scaleY();
-    const MAXX =
-      (imgEle.absolutePosition().x + imgEle.width()) / stage.scaleX();
-    const MAXY =
-      (imgEle.absolutePosition().y + imgEle.height()) / stage.scaleY();
-    totalX += imgEle.width() / stage.scaleX();
-    totalY += imgEle.height() / stage.scaleY();
-    if (MAXX > maxX) {
-      maxX = MAXX;
-    }
-    if (MAXY > maxY) {
-      maxY = MAXY;
-    }
-    if (x < minX) {
-      minX = x;
-    }
-    if (minY > y) {
-      minY = y;
-    }
-  });
-  setElPosition[type](stage, nodes, {
-    maxX,
-    maxY,
-    minX,
-    minY,
-    totalX,
-    totalY,
-  });
-  imgNodes.forEach((element) => {
-    dealRelation(element, stage);
-  });
+  ie.saveHistory();
 };

@@ -49,10 +49,14 @@ export const keyup = (e, ie) => {
     ie.setDrawState("default");
   } else if (e.ctrlKey && e.code === "KeyZ") {
     // 撤销
-    if (ie.historyArr.length >= 2) {
-      ie.historyArr.pop();
-      ie.init(ie.historyArr[ie.historyArr.length - 1]);
-    }
+    ie.undoManager.undo();
+    // if (ie.historyArr.length >= 2) {
+    //   ie.historyArr.pop();
+    //   ie.init(ie.historyArr[ie.historyArr.length - 1]);
+    // }
+  } else if (e.ctrlKey && e.code === "KeyY") {
+    // 撤销
+    ie.undoManager.redo();
   }
 };
 export default (ie: INLEDITOR, bind?: boolean) => {

@@ -1364,6 +1364,11 @@ typescript@^4.9.4:
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.9.4.tgz"
   integrity sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==
 
+undo-manager@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmmirror.com/undo-manager/-/undo-manager-1.1.1.tgz#a0017cf4e2bea3427997c94d23125ebde20a010b"
+  integrity sha512-2YitjSKYyYVJi4Gs5+uJmcju/tCPTJvSMSQxvXVRNjRzQPMYu0aX7TSevo8OV5dc+GrIzSlYU7fZsvta/T1cCw==
+
 update-browserslist-db@^1.0.10:
   version "1.0.10"
   resolved "https://registry.npmmirror.com/update-browserslist-db/-/update-browserslist-db-1.0.10.tgz#0f54b876545726f17d00cd9a2561e6dade943ff3"

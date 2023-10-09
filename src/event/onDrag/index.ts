@@ -64,10 +64,7 @@ export default (ie: INLEDITOR, cb?: (node) => void) => {
 
     stage.batchDraw();
     // 历史
-    if (ie.historyArr.length >= 5) {
-      ie.historyArr.shift();
-    }
-    ie.historyArr.push(stage.toJSON());
+    ie.saveHistory();
     // 关闭辅助线
     closeSubLine.bind(ie)();
   });

@@ -4,6 +4,7 @@ import { resetNodeSize } from "./resetNodeSize";
 import INLEDITOR from "@/index";
 
 export default (ie: INLEDITOR, cb?: () => void) => {
+  let timer = null;
   ie.getStage().on("wheel", (e) => {
     e.evt.preventDefault();
     if (ie.opt.isPreview) {
@@ -12,5 +13,9 @@ export default (ie: INLEDITOR, cb?: () => void) => {
     changeZoom(e.evt.deltaY, ie);
     resetNodeSize(ie.getStage());
     cb ? cb() : null;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      ie.saveHistory();
+    }, 1000);
   });
 };

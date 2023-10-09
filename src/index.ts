@@ -1,4 +1,5 @@
 import Konva from "konva";
+import UndoManager from "undo-manager";
 import { ComponentFac, useComponent } from "./component/componentFac";
 import {
   StoreHouse,
@@ -105,6 +106,9 @@ class INLEDITOR {
     this.opt = opt;
     this.opt.adsorbent = this.opt.adsorbent === false ? false : true;
     this.opt.step = this.opt.step || 30;
+    this.undoManager = new UndoManager();
+    // this.undoManager.setCallback(() => {
+    // });
   }
   async init(json?: string | null) {
     initStage(this, json);
@@ -136,8 +140,30 @@ class INLEDITOR {
   keyDown = (e) => {
     keydown(e, this);
   };
+  undoManager;
   // 操作记录
   historyArr = [];
+  saveHistory = () => {
+    const json = this.stage.toJSON();
+    this.historyArr.push(json);
+    this.undoManager.add({
+      undo: () => {
+        if (this.historyArr.length <= 1) {
+          return;
+        }
+        this.historyArr.pop();
+        this.init(this.historyArr[this.historyArr.length - 1]);
+      },
+      redo: () => {
+        this.historyArr.push(json);
+        this.init(this.historyArr[this.historyArr.length - 1]);
+      },
+    });
+    // if (this.historyArr.length >= 5) {
+    //   this.historyArr.shift();
+    // }
+    // this.historyArr.push(this.stage.toJSON());
+  };
   // 设备图层
   thingLayer;
 
@@ -441,7 +467,7 @@ class INLEDITOR {
     });
   };
   changeElementsPosition(type: AlignType) {
-    changeElementsPosition(this.getStage(), type);
+    changeElementsPosition(this, type);
   }
   // 获取所有关系
   resetOneToImageFun(thing, id) {
