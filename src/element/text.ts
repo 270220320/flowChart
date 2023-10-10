@@ -194,7 +194,6 @@ export const createThingTexts = (
         const { type, info } = i;
         addText(info, type, cb, i);
       }
-      ie.saveHistory();
     },
   };
 };

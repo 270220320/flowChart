@@ -13,8 +13,9 @@ export const bindPointEvent = (
   point: Konva.Circle,
   controlIndex: number,
   line: Konva.Arrow,
-  stage: Konva.Stage
+  ie: INLEDITOR
 ) => {
+  const stage = ie.getStage();
   setCustomAttrs(point, { type: "control" });
   let oldPoint: { x: number; y: number } = { x: 0, y: 0 };
   point.on("dragmove", (e) => {
@@ -121,8 +122,7 @@ export const bindPointEvent = (
         lineInfo.toExcursionY = position.y - xy.y;
       }
     }
-    // stage.draw();
-    enterEditLine(line, stage);
+    enterEditLine(line, ie);
   });
 };
 
@@ -140,6 +140,7 @@ export const addPoint = (
     fill: "white",
     stroke: "lightskyblue",
     strokeWidth: 0.5,
+    name: "controlPoint",
   });
   utilLayer.add(circle);
   return circle;

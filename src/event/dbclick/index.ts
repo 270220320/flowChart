@@ -12,7 +12,7 @@ export default (ie: INLEDITOR) => {
       ie.setDrawState("editLine");
       stage.setAttrs({ draggable: false });
       const editLine = e.target.parent.findOne(".line");
-      enterEditLine(editLine as Konva.Arrow, stage);
+      enterEditLine(editLine as Konva.Arrow, ie);
     }
   });
 

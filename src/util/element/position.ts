@@ -30,8 +30,8 @@ export const getNodePosition = (node) => {
     const target = node.children.find(
       (ele) => ele.name() === "thingImage" || ele.name() === "customImage"
     );
-    const x = node.x() + target.x();
-    const y = node.y() + target.y();
+    const x = node.x() + target?.x();
+    const y = node.y() + target?.y();
 
     return { x, y };
   } else {

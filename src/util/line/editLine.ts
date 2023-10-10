@@ -14,7 +14,7 @@ let clickIndex: number;
 // 退出线编辑状态
 export const exitEditLine = (stage: Konva.Stage) => {
   turnDrag(stage, true);
-  controls.forEach((point) => {
+  stage.find(".controlPoint").forEach((point) => {
     point.remove();
   });
   editLine?.off("mouseenter");
@@ -23,7 +23,8 @@ export const exitEditLine = (stage: Konva.Stage) => {
   editLine = undefined;
 };
 // 进入线编辑状态
-export const enterEditLine = (line: Konva.Arrow, stage: Konva.Stage) => {
+export const enterEditLine = (line: Konva.Arrow, ie: INLEDITOR) => {
+  const stage = ie.getStage();
   if (line === editLine) {
     // return;
     exitEditLine(stage);
@@ -49,8 +50,8 @@ export const enterEditLine = (line: Konva.Arrow, stage: Konva.Stage) => {
   });
   controls.push(pBegin, pEnd);
   const points = getUsePoint(editLine.attrs.points);
-  bindPointEvent(pBegin, 0, editLine, stage);
-  bindPointEvent(pEnd, points.length - 1, editLine, stage);
+  bindPointEvent(pBegin, 0, editLine, ie);
+  bindPointEvent(pEnd, points.length - 1, editLine, ie);
 };
 // 线编辑点击线
 const lineMouseDown = (e: any, stage: Konva.Stage) => {

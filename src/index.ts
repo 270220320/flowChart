@@ -51,6 +51,7 @@ import {
   resetImageToOne,
   resetOneToImage,
 } from "./util/initStage/reset/resetOneToOne";
+import { undoReset } from "./util/history";
 
 export type DrawState =
   | "Line"
@@ -94,6 +95,7 @@ interface OPT {
   onRemoveCb?: () => void;
   onTransform?: () => void;
   onSelectCb?: onSelectCallBackFun;
+  onUndoCb?: () => void;
   isPreview?: boolean;
   json?: string;
   scale?: "show" | "hide";
@@ -102,13 +104,10 @@ interface OPT {
 }
 class INLEDITOR {
   constructor(opt: OPT) {
-    // opt.isPreview = false;
     this.opt = opt;
     this.opt.adsorbent = this.opt.adsorbent === false ? false : true;
     this.opt.step = this.opt.step || 30;
     this.undoManager = new UndoManager();
-    // this.undoManager.setCallback(() => {
-    // });
   }
   async init(json?: string | null) {
     initStage(this, json);
@@ -147,22 +146,18 @@ class INLEDITOR {
     const json = this.stage.toJSON();
     this.historyArr.push(json);
     this.undoManager.add({
-      undo: () => {
+      undo: async () => {
         if (this.historyArr.length <= 1) {
           return;
         }
         this.historyArr.pop();
-        this.init(this.historyArr[this.historyArr.length - 1]);
+        undoReset(this);
       },
-      redo: () => {
+      redo: async () => {
         this.historyArr.push(json);
-        this.init(this.historyArr[this.historyArr.length - 1]);
+        undoReset(this);
       },
     });
-    // if (this.historyArr.length >= 5) {
-    //   this.historyArr.shift();
-    // }
-    // this.historyArr.push(this.stage.toJSON());
   };
   // 设备图层
   thingLayer;
@@ -320,7 +315,7 @@ class INLEDITOR {
   };
 
   removeText(iu: string, ids: Array<string | SpecialCode.all>) {
-    removeTextEle(this.stage, iu, ids);
+    removeTextEle(this, iu, ids);
   }
 
   // 获取画布上所有物模型的id

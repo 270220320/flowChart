@@ -98,10 +98,11 @@ enum SpecialCode {
 }
 // 删除thing文字 allOfThem删除全部
 export const removeTextEle = (
-  stage: Konva.Stage,
+  ie: INLEDITOR,
   iu: string,
   ids: Array<string | SpecialCode.all>
 ) => {
+  const stage = ie.getStage();
   // 查找物模型
   const thingGroup = (stage.findOne(`#${iu}`) ||
     stage.findOne(`#line${iu}`)) as Konva.Group;
@@ -115,4 +116,5 @@ export const removeTextEle = (
       })
       ?.remove();
   }
+  ie.saveHistory();
 };

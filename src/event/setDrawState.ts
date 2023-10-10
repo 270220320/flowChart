@@ -152,6 +152,7 @@ export default (ie: INLEDITOR, cb?: () => void) => {
         if (checkKeepEdit(e)) {
           lineMouseUp(e, stage);
           stage.off("mousemove");
+          ie.saveHistory();
           return;
         } else {
           exitEditLine(stage);
