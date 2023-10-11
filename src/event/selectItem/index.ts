@@ -11,6 +11,7 @@ import { getParentThingGroup } from "@/util/element";
 import { groupNames } from "@/element";
 import inputText from "@/element/texts/inputText";
 import thing from "@/data/thing";
+import { UUID } from "@/util/uuid";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
@@ -51,8 +52,9 @@ const isLine = () => {};
 // 初始化选择框
 export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
   const name = node?.getAttrs().componentName;
+
   const opt: any = {
-    // centeredScaling: true,
+    id: UUID(),
     rotateEnabled: false,
     rotationSnaps: [0, 90, 180, 270],
   };

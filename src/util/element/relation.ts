@@ -4,7 +4,11 @@ import { getUsePoint, getUsePointUn } from "../line/line";
 import { setRightAngleLineBeginOrEnd } from "../line/rightAngleLine";
 import computedXY from "../computedXY";
 
-export const dealRelation = (target, stage: Konva.Stage) => {
+export const dealRelation = (
+  target,
+  stage: Konva.Stage,
+  nodes?: Konva.Node[]
+) => {
   const lineInfo = getLineInfo(target)!;
   const point = computedXY(
     stage,
@@ -22,20 +26,31 @@ export const dealRelation = (target, stage: Konva.Stage) => {
 
     const x = point.x + lineInfo.fromExcursionX;
     const y = point.y + lineInfo.fromExcursionY;
+    const distanceChange = {
+      x: x - oldPoint.x,
+      y: y - oldPoint.y,
+    };
+
     const points = getUsePoint(line.attrs.points);
     if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
+      console.log(nodes);
+      if (nodes) {
+        const to = nodes.find((ele: Konva.Node) => ele.id() === lineInfo.to);
+        if (to) {
+          points.forEach((ele, index) => {
+            ele.x += distanceChange.x;
+            ele.y += distanceChange.y;
+          });
+        }
+      }
       const pointsRes = setRightAngleLineBeginOrEnd(points, 0, { x, y });
       line.setAttrs({ points: getUsePointUn(pointsRes) });
     } else {
       points[0] = { x, y };
       line.setAttrs({ points: getUsePointUn(points) });
     }
-    stage.batchDraw();
+    stage.draw();
     // 线的字随动
-    const distanceChange = {
-      x: line.getAttr("points")[0] - oldPoint.x,
-      y: line.getAttr("points")[1] - oldPoint.y,
-    };
 
     const iu = getCustomAttrs(line.parent)?.thing?.iu;
     const group: Konva.Group = stage.find("#line" + iu)[0] as Konva.Group;

@@ -15,7 +15,7 @@ export const setLineWidth = (
     borderOuter.setAttrs({ strokeWidth: size });
     const borderInner = line.parent.findOne(".borderInner");
     borderInner.setAttrs({ strokeWidth: size * 0.75 });
-    coreLine.setAttrs({ strokeWidth: size / 4 });
+    coreLine.setAttrs({ strokeWidth: size * 0.4 });
     info.lineInfo.width = size;
     const proportion = size / 8;
     const dash = basicDash || [8];

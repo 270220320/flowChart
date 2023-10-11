@@ -3,9 +3,21 @@ import { closeSubLine, initSubLine } from "./subline";
 import { dealRelation } from "../../util/element/relation";
 import { clearTransFormer, getTran } from "../selectItem";
 import { getCustomAttrs } from "@/main";
+import Konva from "konva";
+import layer from "@/util/layer";
 
 export default (ie: INLEDITOR, cb?: (node) => void) => {
-  const stage = ie.getStage();
+  const stage: Konva.Stage = ie.getStage();
+  let imgs;
+  stage.on("dragstart", (e: any) => {
+    const transformer: Konva.Transformer = stage.findOne("Transformer");
+    const nodes = transformer?.getNodes();
+    if (nodes?.length > 1) {
+      imgs = nodes.map((group: Konva.Group) =>
+        group.children.find((node: Konva.Node) => node.name() === "thingImage")
+      );
+    }
+  });
   // 按下移动
   stage.on("dragmove", (e: any) => {
     if (e.target.name() === "field") {
@@ -26,6 +38,24 @@ export default (ie: INLEDITOR, cb?: (node) => void) => {
       target = e.target;
     } else if (e.target.name() === "thingGroup") {
       target = e.target.children.find((ele) => ele.name() === "thingImage");
+    }
+    const transformer: Konva.Transformer = stage.findOne("Transformer");
+    const nodes = transformer?.getNodes();
+    if (nodes?.length > 1) {
+      if (e.target.getClassName() === "Transformer") {
+        console.log(e);
+        nodes.forEach((ele: Konva.Group) => {
+          const img = ele.children.find(
+            (ele: Konva.Node) => ele.name() === "thingImage"
+          );
+          dealRelation(img, ie.getStage(), imgs);
+        });
+      } else {
+        const have = nodes.find((ele) => target.parent.id() === ele.id());
+        if (have) {
+          return;
+        }
+      }
     }
     if (target) {
       dealRelation(target, ie.getStage());
@@ -61,7 +91,6 @@ export default (ie: INLEDITOR, cb?: (node) => void) => {
     if (target) {
       dealRelation(target, ie.getStage());
     }
-
     stage.batchDraw();
     // 历史
     ie.saveHistory();
