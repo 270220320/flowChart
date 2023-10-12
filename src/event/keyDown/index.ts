@@ -5,6 +5,8 @@ import Konva from "konva";
 import remove from "./remove";
 import { groupNames } from "@/element";
 import inputText from "@/element/texts/inputText";
+import { UUID } from "@/util/uuid";
+import selectItem, { toSelectOne } from "../selectItem";
 
 export const keydown = (e, ie) => {
   const stage = ie.getStage();
@@ -50,13 +52,36 @@ export const keyup = (e, ie) => {
   } else if (e.ctrlKey && e.code === "KeyZ") {
     // 撤销
     ie.undoManager.undo();
-    // if (ie.historyArr.length >= 2) {
-    //   ie.historyArr.pop();
-    //   ie.init(ie.historyArr[ie.historyArr.length - 1]);
-    // }
   } else if (e.ctrlKey && e.code === "KeyY") {
     // 撤销
     ie.undoManager.redo();
+  } else if (e.ctrlKey && e.code === "KeyC") {
+    const transformers = ie.getStage().findOne("Transformer");
+    const nodes = transformers?.getNodes();
+    if (nodes.length >= 1) {
+      ie.storage = [];
+      nodes.forEach((ele) => {
+        if (
+          ele.name() === "selfShape" ||
+          ele.name() === "customImage" ||
+          ele.name() === "selfText"
+        ) {
+          ie.storage.push(ele);
+        }
+      });
+    }
+  } else if (e.ctrlKey && e.code === "KeyV") {
+    ie.storage.forEach((node: Konva.Node, index: number) => {
+      const clone = node.clone();
+      clone.setAttrs({
+        id: UUID(),
+        x: node.x() + 30,
+        y: node.y() + 30,
+      });
+      ie.thingLayer.add(clone);
+      ie.storage[index] = clone;
+      toSelectOne(ie, clone);
+    });
   }
 };
 export default (ie: INLEDITOR, bind?: boolean) => {

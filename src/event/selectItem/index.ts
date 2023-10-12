@@ -12,6 +12,7 @@ import { groupNames } from "@/element";
 import inputText from "@/element/texts/inputText";
 import thing from "@/data/thing";
 import { UUID } from "@/util/uuid";
+import { getNodeSize } from "@/util/element/size";
 
 // 获取需要 框选的元素们
 const getSelectNode = (selectTarget: Shape<ShapeConfig> | Stage) => {
@@ -86,7 +87,18 @@ export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
     opt.resizeEnabled = false;
   }
   const tran = new Konva.Transformer(opt);
-  tran.on("transform", () => {
+  tran.on("transform", (e) => {
+    if (e.target.name() === "selfShape" || e.target.name() === "customImage") {
+      const width = e.target.attrs.width * e.target.attrs.scaleX;
+      const height = e.target.attrs.height * e.target.attrs.scaleY;
+      e.target.setAttrs({
+        width,
+        height,
+        scaleX: 1,
+        scaleY: 1,
+      });
+    }
+
     ie.opt.onTransform?.();
   });
   return tran;
@@ -196,6 +208,7 @@ const selectEvent = (ie: INLEDITOR, e: KonvaEventObject<any>) => {
     Transformers = createTran(node, ie);
     layer(stage, "util").add(Transformers);
     Transformers.nodes(nodes);
+    // getNodeSize(node);
   }
 };
 

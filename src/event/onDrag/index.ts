@@ -43,7 +43,6 @@ export default (ie: INLEDITOR, cb?: (node) => void) => {
     const nodes = transformer?.getNodes();
     if (nodes?.length > 1) {
       if (e.target.getClassName() === "Transformer") {
-        console.log(e);
         nodes.forEach((ele: Konva.Group) => {
           const img = ele.children.find(
             (ele: Konva.Node) => ele.name() === "thingImage"

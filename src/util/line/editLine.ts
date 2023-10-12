@@ -87,6 +87,13 @@ const getPointIndex = (arr: Konva.Circle[], circle: Konva.Circle) => {
 export const editMouseDown = (e: any, stage: Konva.Stage) => {
   if (e.target === editLine) {
     lineMouseDown(e, stage);
+  } else if (e.target.className === "Line" || e.target.className === "Arrow") {
+    const edit = e.target.parent.children.find(
+      (node: Konva.Node) => node.id() === editLine.id()
+    );
+    if (edit) {
+      lineMouseDown(e, stage);
+    }
   }
 };
 // 线编辑状态抬起鼠标

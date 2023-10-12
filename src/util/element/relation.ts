@@ -33,7 +33,6 @@ export const dealRelation = (
 
     const points = getUsePoint(line.attrs.points);
     if (lineInfo.type.toLowerCase().indexOf("rightangle") !== -1) {
-      console.log(nodes);
       if (nodes) {
         const to = nodes.find((ele: Konva.Node) => ele.id() === lineInfo.to);
         if (to) {

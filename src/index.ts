@@ -139,6 +139,7 @@ class INLEDITOR {
   keyDown = (e) => {
     keydown(e, this);
   };
+  storage = [];
   undoManager;
   // 操作记录
   historyArr = [];
@@ -406,10 +407,6 @@ class INLEDITOR {
   // 获取关系
   getRelation(line) {
     return getRelation(line, this.stage);
-  }
-  // 修改线颜色，已弃用
-  updateLineColor(key, line) {
-    updateLineColor(key, line, this.theme);
   }
   // 新版修改线样式
   updateLineOption(line, key, option: { color?: string; dotted?: number[] }) {
