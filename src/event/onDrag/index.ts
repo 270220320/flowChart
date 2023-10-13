@@ -8,14 +8,20 @@ import layer from "@/util/layer";
 
 export default (ie: INLEDITOR, cb?: (node) => void) => {
   const stage: Konva.Stage = ie.getStage();
-  let imgs;
+  let imgs = [];
   stage.on("dragstart", (e: any) => {
     const transformer: Konva.Transformer = stage.findOne("Transformer");
     const nodes = transformer?.getNodes();
     if (nodes?.length > 1) {
-      imgs = nodes.map((group: Konva.Group) =>
-        group.children.find((node: Konva.Node) => node.name() === "thingImage")
-      );
+      nodes.forEach((group: Konva.Group) => {
+        if (group.name() === "thingGroup") {
+          imgs.push(
+            group.children.find(
+              (node: Konva.Node) => node.name() === "thingImage"
+            )
+          );
+        }
+      });
     }
   });
   // 按下移动
@@ -44,10 +50,12 @@ export default (ie: INLEDITOR, cb?: (node) => void) => {
     if (nodes?.length > 1) {
       if (e.target.getClassName() === "Transformer") {
         nodes.forEach((ele: Konva.Group) => {
-          const img = ele.children.find(
-            (ele: Konva.Node) => ele.name() === "thingImage"
-          );
-          dealRelation(img, ie.getStage(), imgs);
+          if (ele.name() === "thingGroup") {
+            const img = ele.children.find(
+              (ele: Konva.Node) => ele.name() === "thingImage"
+            );
+            dealRelation(img, ie.getStage(), imgs);
+          }
         });
       } else {
         const have = nodes.find((ele) => target.parent.id() === ele.id());
@@ -90,10 +98,22 @@ export default (ie: INLEDITOR, cb?: (node) => void) => {
     if (target) {
       dealRelation(target, ie.getStage());
     }
+
     stage.batchDraw();
-    // 历史
-    ie.saveHistory();
     // 关闭辅助线
     closeSubLine.bind(ie)();
+    // 历史
+    const transformer: Konva.Transformer = stage.findOne("Transformer");
+    const nodes = transformer?.getNodes();
+    if (nodes?.length >= 1) {
+      if (e.target.getClassName() !== "Transformer") {
+        const have = nodes.find((ele) => e.target.id() === ele.id());
+        if (have) {
+          return;
+        }
+      }
+    }
+    ie.saveHistory();
+    imgs = [];
   });
 };

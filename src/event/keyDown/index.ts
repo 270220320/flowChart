@@ -81,6 +81,7 @@ export const keyup = (e, ie) => {
       ie.thingLayer.add(clone);
       ie.storage[index] = clone;
       toSelectOne(ie, clone);
+      ie.saveHistory();
     });
   }
 };
