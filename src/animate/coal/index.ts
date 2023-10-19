@@ -87,10 +87,22 @@ class COALANIM {
     const scale = this.stage.scaleX();
 
     this.movejl = width / scale - 30;
-
-    this.tim = setInterval(() => {
-      this.anim();
-    }, 300);
+    this.addCoal();
+    this.anim();
+  }
+  addCoal() {
+    const { width } = this.animEl.getClientRect();
+    for (let i = width / -30 - 1; i <= width / 30 + 1; i++) {
+      const node = this.cacheCoal.clone() as Konva.Image;
+      node.setAttrs({
+        width: 30,
+        height: 14,
+      });
+      node.setAttrs({
+        x: 30 * i,
+      });
+      this.animGroup.add(node);
+    }
   }
   stop() {
     this.runState = false;
@@ -104,47 +116,24 @@ class COALANIM {
     this.animGroup.destroy();
   }
   anim() {
-    const node = this.cacheCoal.clone() as Konva.Image;
-    this.animGroup.add(node);
     const { width } = this.animEl.getClientRect();
     const scale = this.stage.scaleX();
 
-    node.setAttrs({
-      width: 30,
-      height: 14,
-    });
-    const right = width / scale - node.width();
-    // 必须分两次赋值
-    node.setAttrs({
-      y: 25 - node.height(),
-      x: this.direction === "left" ? 0 : right,
-    });
-
+    const right = this.animGroup.x() + width / scale;
+    debugger;
     const tween = new Konva.Tween({
-      node,
+      node: this.animGroup,
       // rotation: 360,
-      duration: width / node.width() / scale / 3,
+      duration: 2,
       x: this.direction === "left" ? right : 0,
     });
     tween.play();
     tween.onFinish = () => {
-      tween.destroy();
       if (this.runState) {
-        const hidek = new Konva.Tween({
-          node,
-          opacity: 0,
-          // x: movejl + 10,
-          // y: node.getAttr("y") + 3,
-          duration: 0.2,
-        });
-        hidek.play();
-        hidek.onFinish = () => {
-          node.destroy();
-          hidek.destroy();
-          return false;
-        };
+        this.animGroup.x(this.animEl.x());
+        this.anim();
       }
-      return false;
+      tween.destroy();
     };
   }
 }
