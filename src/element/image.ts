@@ -23,13 +23,15 @@ export const createImage: (
       const canvas = document.createElement("canvas");
       // use external library to parse and draw gif animation
       function onDrawFrame(ctx, frame) {
-        // update canvas size
-        canvas.width = frame.width;
-        canvas.height = frame.height;
-        // update canvas that we are using for Konva.Image
-        ctx.drawImage(frame.buffer, 0, 0);
-        // redraw the layer
-        layer?.draw();
+        if (!layer.attrs.stopGif) {
+          // update canvas size
+          canvas.width = frame.width;
+          canvas.height = frame.height;
+          // update canvas that we are using for Konva.Image
+          ctx.drawImage(frame.buffer, 0, 0);
+          // redraw the layer
+          layer?.draw();
+        }
       }
 
       (window as any).gifler(img).frames(canvas, onDrawFrame);
