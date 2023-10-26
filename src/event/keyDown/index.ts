@@ -7,6 +7,7 @@ import { groupNames } from "@/element";
 import inputText from "@/element/texts/inputText";
 import { UUID } from "@/util/uuid";
 import selectItem, { toSelectOne } from "../selectItem";
+import { dealRelation } from "@/util/element/relation";
 
 export const keydown = (e, ie) => {
   const stage = ie.getStage();
@@ -42,6 +43,7 @@ export const keydown = (e, ie) => {
   }
 };
 export const keyup = (e, ie) => {
+  debugger;
   if (e.code === "Space") {
     const eles = document.getElementById("myCanvas").children;
     Array.from(eles).forEach((element: HTMLElement) => {
@@ -49,6 +51,50 @@ export const keyup = (e, ie) => {
     });
     ie.getStage().setAttrs({ draggable: false });
     ie.setDrawState("default");
+  } else if (e.code === "ArrowUp") {
+    const transformers = ie.getStage().findOne("Transformer");
+    const nodes = transformers?.getNodes();
+    if (nodes.length >= 1) {
+      nodes.forEach((ele) => {
+        ele.y(ele.y() - 1);
+        if (ele.name() === "thingImage") {
+          dealRelation(ele, ie.getStage());
+        }
+      });
+    }
+  } else if (e.code === "ArrowDown") {
+    const transformers = ie.getStage().findOne("Transformer");
+    const nodes = transformers?.getNodes();
+    if (nodes.length >= 1) {
+      nodes.forEach((ele) => {
+        ele.y(ele.y() + 1);
+        if (ele.name() === "thingImage") {
+          dealRelation(ele, ie.getStage());
+        }
+      });
+    }
+  } else if (e.code === "ArrowLeft") {
+    const transformers = ie.getStage().findOne("Transformer");
+    const nodes = transformers?.getNodes();
+    if (nodes.length >= 1) {
+      nodes.forEach((ele) => {
+        ele.x(ele.x() - 1);
+        if (ele.name() === "thingImage") {
+          dealRelation(ele, ie.getStage());
+        }
+      });
+    }
+  } else if (e.code === "ArrowRight") {
+    const transformers = ie.getStage().findOne("Transformer");
+    const nodes = transformers?.getNodes();
+    if (nodes.length >= 1) {
+      nodes.forEach((ele) => {
+        ele.x(ele.x() + 1);
+        if (ele.name() === "thingImage") {
+          dealRelation(ele, ie.getStage());
+        }
+      });
+    }
   } else if (e.ctrlKey && e.code === "KeyZ") {
     // 撤销
     ie.undoManager.undo();

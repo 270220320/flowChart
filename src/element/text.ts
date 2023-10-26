@@ -177,8 +177,12 @@ export const createThingTexts = (
       changeTextLabel(group, data.showLabel);
     }
     if (data.color) {
+      // 文字颜色
       const valNode = group.children.find((ele) => ele.name() === "val");
       valNode?.setAttrs({ fill: data.color });
+      // 按钮颜色
+      const rectNode = group.children.find((ele) => ele.name() === "rect");
+      rectNode?.setAttrs({ fill: data.color });
     }
     cb ? cb(group, i) : null;
     return group;

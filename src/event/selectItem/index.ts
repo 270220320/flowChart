@@ -89,8 +89,8 @@ export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
   const tran = new Konva.Transformer(opt);
   tran.on("transform", (e) => {
     if (e.target.name() === "selfShape" || e.target.name() === "customImage") {
-      const width = e.target.attrs.width * e.target.attrs.scaleX;
-      const height = e.target.attrs.height * e.target.attrs.scaleY;
+      const width = e.target.width() * e.target.attrs.scaleX;
+      const height = e.target.height() * e.target.attrs.scaleY;
       e.target.setAttrs({
         width,
         height,
