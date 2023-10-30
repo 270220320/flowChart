@@ -43,7 +43,6 @@ export const keydown = (e, ie) => {
   }
 };
 export const keyup = (e, ie) => {
-  debugger;
   if (e.code === "Space") {
     const eles = document.getElementById("myCanvas").children;
     Array.from(eles).forEach((element: HTMLElement) => {

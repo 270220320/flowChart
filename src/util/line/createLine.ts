@@ -160,7 +160,7 @@ export const beginCreateLine = (
     if (line) {
       createLineMove(line!, { x, y }, opt, e);
       let pos = stage.getPointerPosition();
-      if (end) {
+      if (end && end.name() === "thingImage") {
         end.setAttrs({ strokeWidth: 0 });
       }
       end = getMouseOver(pos!, stage);
