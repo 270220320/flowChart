@@ -78,11 +78,9 @@ export const createTran = (node: Konva.Node, ie: INLEDITOR) => {
       "bottom-left",
       "bottom-right",
     ];
-  } else if (
-    node?.name() === "selfText" ||
-    node?.name() === "customImage" ||
-    node?.name() === "selfShape"
-  ) {
+  } else if (node?.name() === "selfText") {
+    opt.enabledAnchors = ["middle-left", "middle-right"];
+  } else if (node?.name() === "customImage" || node?.name() === "selfShape") {
   } else {
     opt.resizeEnabled = false;
   }
