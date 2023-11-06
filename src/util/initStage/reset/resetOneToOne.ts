@@ -1,5 +1,5 @@
 import { createThingImageGroup } from "@/element";
-import { BELT, Scraper, StoreHouse, Technique } from "@/main";
+import { BELT, Scraper, StoreHouse, Technique, getCustomAttrs } from "@/main";
 import Konva from "konva";
 
 export const resetOneToImage = async (thing, id, ie) => {
@@ -26,12 +26,13 @@ export const resetOneToImage = async (thing, id, ie) => {
   node.remove();
 };
 
-export const resetImageToOne = (componentName, thing, id, ie) => {
+export const resetImageToOne = (componentName, id, ie) => {
   const stage = ie.getStage();
   const node: Konva.Group = ie.thingLayer.findOne("#" + id);
   let attrs;
   let texts = [];
   let thingGroup;
+  let customAttr = getCustomAttrs(node);
   node.children.forEach((child: Konva.Node) => {
     if (child.name() === "thingImage") {
       attrs = child.attrs;
@@ -41,7 +42,7 @@ export const resetImageToOne = (componentName, thing, id, ie) => {
   });
   if (componentName && componentName === "BELT") {
     const belt = new BELT(stage, {
-      thingInfo: thing,
+      thingInfo: customAttr.thing,
       p: node.position(),
     });
     ie.componentArr.push(belt);
@@ -49,7 +50,7 @@ export const resetImageToOne = (componentName, thing, id, ie) => {
   }
   if (componentName && componentName === "Scraper") {
     const scraper = new Scraper(stage, {
-      thingInfo: thing,
+      thingInfo: customAttr.thing,
       p: node.position(),
     });
     ie.componentArr.push(scraper);
@@ -57,14 +58,14 @@ export const resetImageToOne = (componentName, thing, id, ie) => {
   }
   if (componentName && componentName === "Technique") {
     const technique = new Technique(stage, {
-      thingInfo: thing,
+      thingInfo: customAttr.thing,
       p: node.position(),
     });
     thingGroup = technique.thingGroup;
   }
   if (componentName && componentName === "StoreHouse") {
     const storeHouse: StoreHouse = ie.getComponent("StoreHouse");
-    thingGroup = storeHouse.add(thing, node.position());
+    thingGroup = storeHouse.add(customAttr.thing, node.position());
   }
   thingGroup.children[0].setAttrs({ ...attrs });
   texts.forEach((ele) => {

@@ -129,10 +129,10 @@ class StoreHouse extends ComponentFac {
     const imgGroup = thingGroup.children.find(
       (ele) => ele.attrs.name === "thingImage"
     );
-    const clip = imgGroup.children.find((ele) => ele.attrs.name === "clip");
-    clip.moveUp();
+    const clip = imgGroup?.children?.find((ele) => ele.attrs.name === "clip");
+    clip?.moveUp();
     const val = 90 * percent * 0.01 + 1;
-    clip.setAttrs({
+    clip?.setAttrs({
       clipY: 90 - val,
       clipHeight: val,
     });

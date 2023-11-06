@@ -461,13 +461,13 @@ class INLEDITOR {
   changeElementsPosition(type: AlignType) {
     changeElementsPosition(this, type);
   }
-  // 获取所有关系
+  // 切换成图片
   resetOneToImageFun(thing, id) {
     return resetOneToImage(thing, id, this);
   }
-  // 获取关系
-  resetImageToOneFun(componentName, thing, id) {
-    return resetImageToOne(componentName, thing, id, this);
+  // 图片切换成其他
+  resetImageToOneFun(componentName, id) {
+    return resetImageToOne(componentName, id, this);
   }
   render(opt?: { width: number; height: number }) {
     if (opt) {
