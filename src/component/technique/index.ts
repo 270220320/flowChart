@@ -47,8 +47,6 @@ class Technique {
       this.group = new Konva.Group({
         width: this.config.width,
         height: this.config.height,
-        x: this.config.left || 0,
-        y: this.config.top || 0,
         draggable: false,
         name: "thingImage",
         componentName: this.name,
@@ -59,6 +57,10 @@ class Technique {
         thingInfo,
         this.group
       );
+      this.thingGroup.setAttrs({
+        x: this.config.left || 0,
+        y: this.config.top || 0,
+      });
       this.draw.init();
     }
   }

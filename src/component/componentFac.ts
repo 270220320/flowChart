@@ -26,7 +26,6 @@ export class ComponentFac {
     const editorCom: EditorCom = {};
     const lay = layer(this.stage, "thing");
     editorCom.imgGroup = new Konva.Group({
-      ...position,
       ...size,
       draggable: false,
       name: "thingImage",
@@ -38,6 +37,7 @@ export class ComponentFac {
       thingInfo,
       editorCom.imgGroup
     );
+    editorCom.thingGroup.setAttrs({ x: position.x, y: position.y });
     return editorCom;
   }
 }
