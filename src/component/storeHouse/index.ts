@@ -29,17 +29,6 @@ class StoreHouse extends ComponentFac {
     thingImage.children.forEach((ele) => {
       ele.destroy();
     });
-    // 裁剪
-    const clipGroup = new Konva.Group({
-      clip: {
-        x: 0,
-        y: 90,
-        width: 90,
-        height: 1,
-        id: UUID(),
-      },
-      name: "clip",
-    });
 
     // 图片
     let imageObj = new Image();
@@ -48,8 +37,8 @@ class StoreHouse extends ComponentFac {
         x: 0,
         y: 0,
         image: imageObj,
-        width: 90,
-        height: 90,
+        width: imageObj.width,
+        height: imageObj.height,
         name: "empty",
       });
       img.setAttrs({ src: thingInfo.img });
@@ -64,11 +53,23 @@ class StoreHouse extends ComponentFac {
         x: 0,
         y: 0,
         image: imageFull,
-        width: 90,
-        height: 90,
+        width: imageFull.width,
+        height: imageFull.height,
         name: "full",
       });
       img.setAttrs({ src: thingInfo.fullImg });
+
+      // 裁剪
+      const clipGroup = new Konva.Group({
+        clip: {
+          x: 0,
+          y: imageFull.height,
+          width: imageFull.width,
+          height: 1,
+          id: UUID(),
+        },
+        name: "clip",
+      });
       clipGroup.add(img);
       thingImage.children.find((ele) => ele.name() === "clip")?.destroy();
       thingImage.add(clipGroup);
@@ -78,17 +79,6 @@ class StoreHouse extends ComponentFac {
   };
   draw(thingInfo: Thing, p: { x: number; y: number }) {
     const com = this.product(p, { width, height }, thingInfo);
-    // 裁剪
-    const clipGroup = new Konva.Group({
-      clip: {
-        x: 0,
-        y: 90,
-        width: 90,
-        height: 1,
-      },
-      name: "clip",
-    });
-
     // 图片
     let imageObj = new Image();
     imageObj.onload = () => {
@@ -96,8 +86,8 @@ class StoreHouse extends ComponentFac {
         x: 0,
         y: 0,
         image: imageObj,
-        width: 90,
-        height: 90,
+        width: imageObj.width,
+        height: imageObj.height,
         name: "left",
       });
       img.setAttrs({ src: thingInfo.img });
@@ -112,11 +102,22 @@ class StoreHouse extends ComponentFac {
         x: 0,
         y: 0,
         image: imageFull,
-        width: 90,
-        height: 90,
+        width: imageFull.width,
+        height: imageFull.height,
         name: "left",
       });
       img.setAttrs({ src: thingInfo.fullImg });
+
+      // 裁剪
+      const clipGroup = new Konva.Group({
+        clip: {
+          x: 0,
+          y: imageFull.height,
+          width: imageFull.width,
+          height: 1,
+        },
+        name: "clip",
+      });
       clipGroup.add(img);
       com.imgGroup.add(clipGroup);
       clipGroup.moveUp();
@@ -130,10 +131,11 @@ class StoreHouse extends ComponentFac {
       (ele) => ele.attrs.name === "thingImage"
     );
     const clip = imgGroup?.children?.find((ele) => ele.attrs.name === "clip");
+    const img = clip.children[0];
     clip?.moveUp();
-    const val = 90 * percent * 0.01 + 1;
+    const val = img.height() * percent * 0.01 + 1;
     clip?.setAttrs({
-      clipY: 90 - val,
+      clipY: img.height() - val,
       clipHeight: val,
     });
   };
