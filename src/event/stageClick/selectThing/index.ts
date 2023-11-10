@@ -6,7 +6,7 @@ import thingImage from "./thingImage";
 
 export default (cb: onSelectCallBackFun, e: KonvaEventObject<MouseEvent>) => {
   let parent = e.target.getParent();
-  if (parent.getClassName() !== "Layer") {
+  if (parent.getClassName() !== "Layer" && cb) {
     const name = parent.name();
     switch (name) {
       case "thingGroup":
