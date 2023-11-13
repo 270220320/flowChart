@@ -4,7 +4,6 @@
   "scripts": {
     "build": "rollup --config rollup.config.js",
     "dev": "rollup --config rollup.config.js -w",
-    "devSite": "rollup --config rollup.config.site.js -w",
     "site": "vite ./site"
   },
   "devDependencies": {
